@@ -38,7 +38,7 @@ deploy:
       repo: wwh-techcamp-2018/team8-AOA2
       branch: master
 
-    - provider: codedeploy
+  - provider: codedeploy
     access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
     secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
     bucket: 20180814aoa2team8 # S3 버킷
