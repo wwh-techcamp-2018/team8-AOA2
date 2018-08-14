@@ -18,4 +18,17 @@ script: "./gradlew clean build"
 notifications:
   email:
     recipients:
-      - tech_ytk@woowahan.com 
+      - tech_ytk@woowahan.com
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
+    secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
+    bucket: 20180814aoa2team8
+    region: ap-northeast-2
+    skip_cleanup: true
+    acl: public_read
+    wait-until-deployed: true
+    on:
+      repo: wwh-techcamp-2018/team8-AOA2
+      branch: master
