@@ -20,6 +20,11 @@ notifications:
     recipients:
       - tech_ytk@woowahan.com
 
+before_deploy:
+  - zip -r aoa2-application *
+  - mkdir -p deploy
+  - mv aoa2-application.zip deploy/aoa2-application.zip
+
 deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
