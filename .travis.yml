@@ -37,3 +37,17 @@ deploy:
     on:
       repo: wwh-techcamp-2018/team8-AOA2
       branch: master
+
+    - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
+    secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
+    bucket: 20180814aoa2team8 # S3 버킷
+    key: aoa2-application.zip # 빌드 파일을 압축해서 전달
+    bundle_type: zip
+    application: Team8-AOA2-Deployer # 웹 콘솔에서 등록한 CodeDeploy 어플리케이션
+    deployment_group: Woowahan-techcamp-2018 # 웹 콘솔에서 등록한 CodeDeploy 배포 그룹
+    region: ap-northeast-2
+    wait-until-deployed: true
+    on:
+      repo: wwh-techcamp-2018/team8-AOA2
+      branch: master
