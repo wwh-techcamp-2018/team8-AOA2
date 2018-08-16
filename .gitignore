@@ -1,40 +1,21 @@
-*.java.hsp
-*.sonarj
-*.sw*
 .DS_Store
+.gradle
+/build/
+!gradle/wrapper/gradle-wrapper.jar
+/out/
+/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
 .settings
 .springBeans
-bin
-build.sh
-integration-repo
-ivy-cache
-jxl.log
-jmx.log
-derby.log
-spring-test/test-output/
-.gradle
-argfile*
-pom.xml
-activemq-data/
+bin/
 
-classes/
-/build
-buildSrc/build
-/spring-*/build
-/src/asciidoc/build
-target/
-
-# Eclipse artifacts, including WTP generated manifests
-.classpath
-.project
-spring-*/src/main/java/META-INF/MANIFEST.MF
-
-# IDEA artifacts and output dirs
+### IntelliJ IDEA ###
+.idea
+*.iws
 *.iml
 *.ipr
-*.iws
-.idea
-out
-test-output
-atlassian-ide-plugin.xml
-.gradletasknamecache
