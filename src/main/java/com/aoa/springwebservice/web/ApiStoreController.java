@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -23,7 +24,7 @@ public class ApiStoreController {
     StoreService storeService;
 
     @PostMapping("")
-    public ResponseEntity<Void> create(InputStoreDTO inputStoreDTO){
+    public ResponseEntity<Void> create(@Valid InputStoreDTO inputStoreDTO){
         log.debug("inputDTO : {}", inputStoreDTO);
         //todo store 생성실패 상황 고려
         Store store = storeService.createStore(inputStoreDTO);
