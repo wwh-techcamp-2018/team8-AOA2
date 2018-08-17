@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+{{> link}}
+<style>
+
+
+</style>
+<body>
+{{> header}}
+<main>
+    <div class="container">
+        <div class="row">
+            <ul>
+                <li>
+                    <div class="input-title col s12 l2">
+                        업체명
+                    </div>
+                    <div class="input-field col s12 l10">
+                        <input class="input_counter" id="input_store" type="text" data-length="20">
+                        <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
+                        <label for="input_store">업체명</label>
+                    </div>
+                </li>
+                <li>
+                    <div class="input-title col s12 l2">
+                        서비스명
+                    </div>
+                    <div class="input-field col s12 l10 ">
+                        <input class="input_counter" id="input_service" type="text" data-length="30">
+                        <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
+                        <label for="input_service">서비스명</label>
+                    </div>
+                </li>
+                <li>
+                    <div class="input-title col s12 l2 ">
+                        대표자명
+                    </div>
+                    <div class="input-field col s12 l10">
+                        <input class="input_counter" id="input_owner" type="text" data-length="5">
+                        <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
+                        <label for="input_owner">대표자명</label>
+                    </div>
+                </li>
+                <li>
+                    <div class="input-title col s12 l2">
+                        대표이미지
+                    </div>
+                    <div class="input-field col s12  l10">
+                        <form action="#">
+                            <div class="file-field input-field">
+                                <div class="btn" >
+                                    <span>파일선택</span>
+                                    <input type="file">
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input id="file_path" class="file-path validate" type="text" disabled>
+                                    <label for="file_path">첨부파일</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </li>
+                <li>
+                    <div class="input-title col s12 l2">
+                        주소
+                    </div>
+                    <div class="input-field col s5 l3 ">
+                        <input id="input_address_postcode" type="text" placeholder="우편번호" disabled>
+                    </div>
+                    <div class="input-field col s4 l3">
+                        <a class="waves-effect waves-light btn-small" onclick="sample4_execDaumPostcode()">우편번호 찾기</a>
+                    </div>
+                    <div class="input-field-nonmsg col s12 l10 offset-l2">
+                        <input id="input_address_main" type="text" placeholder="도로명주소" disabled>
+                    </div>
+                    <div class="input-field col s12 l10 offset-l2">
+                        <input class="input_counter" id="input_address_sub" type="text" data-length="10">
+                        <label for="input_address_sub">상세주소</label>
+                        <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="input-title col s12 l2">
+                        핸드폰번호
+                    </div>
+                    <div class="col s12 l10">
+                        <div class="row">
+                            <div class="input-field col s3 l2">
+                                <input id="input_phone_first" type="text" data-length="3">
+                                <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
+                            </div>
+                            <div class="input-title col s1 l1">
+                                -
+                            </div>
+                            <div class="input-field col s3 l2">
+                                <input id="input_phone_second" type="text" data-length="4">
+                                <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
+                            </div>
+                            <div class="input-title col s1 l1">
+                                -
+                            </div>
+                            <div class="input-field col s3 l2">
+                                <input id="input_phone_third" type="text" data-length="4">
+                                <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="input-title col s12 l2">
+                        홍보문구
+                    </div>
+                    <div class="input-field col s12 l10">
+                        <textarea id="input_description" class="materialize-textarea input_counter" data-length="300"></textarea>
+                        <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
+                        <label for="input_description">홍보문구</label>
+                    </div>
+                </li>
+            </ul>
+            <button class="col s3 l2 offset-s9 offset-l10 btn waves-effect waves-light" type="submit" name="action">등록
+                <i class="material-icons right">send</i>
+            </button>
+
+        </div>
+
+
+    </div>
+</main>
+</body>
+{{> footer}}
+<script>
+    
+    document.addEventListener('DOMContentLoaded',() => {
+        const counter = document.querySelectorAll('.input_counter');
+        M.CharacterCounter.init(counter);
+    });
+
+</script>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script>
+    const sample4_execDaumPostcode = () => {
+        new daum.Postcode({
+            oncomplete: (data) => {
+                let fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+                let extraRoadAddr = ''; // 도로명 조합형 주소 변수
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraRoadAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                    extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if(extraRoadAddr !== ''){
+                    extraRoadAddr = ' (' + extraRoadAddr + ')';
+                }
+                // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+                if(fullRoadAddr !== ''){
+                    fullRoadAddr += extraRoadAddr;
+                }
+                document.getElementById('input_address_postcode').value = data.zonecode; //5자리 새우편번호 사용
+                document.getElementById('input_address_main').value = fullRoadAddr;
+
+                if(data.autoRoadAddress) {
+                    const expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                    document.getElementById('guide').innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                } else if(data.autoJibunAddress) {
+                    const expJibunAddr = data.autoJibunAddress;
+                    document.getElementById('guide').innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                } else {
+                    document.getElementById('guide').innerHTML = '';
+                }
+            }
+        }).open();
+    }
+</script>
+</html>
