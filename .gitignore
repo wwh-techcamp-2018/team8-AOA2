@@ -21,3 +21,4 @@ bin/
 *.ipr
 
 ### local ###
+uploads/

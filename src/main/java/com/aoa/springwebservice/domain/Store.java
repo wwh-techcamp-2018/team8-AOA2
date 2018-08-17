@@ -11,38 +11,36 @@ import javax.validation.constraints.Pattern;
 @Entity
 public class Store{
 
-    public static final String PHONE_NUMBER = "^01(?:0|1|[6-9])(?:\\d{3}|\\d{4})\\d{4}$";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     //todo length 등 다른 조건들
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 40)
     private String storeName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 60)
     private String serviceDescription;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private String ownerName;
 
-    @Column(nullable = true)
+    @Column(nullable = true, length = 300)
     private String imgURL;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 5)
     private String postCode;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String address;
 
-    @Column(nullable = true)
+    @Column(nullable = true, length = 40)
     private String addressDetail;
 
-    @Column(nullable = false)
-    @Pattern(regexp = PHONE_NUMBER)
+    @Column(nullable = false, length = 11)
     private String phoneNumber;
 
-    @Column(nullable = true)
+    @Column(nullable = true, length = 600)
     private String description;
 
     @Builder
@@ -57,7 +55,6 @@ public class Store{
         this.phoneNumber = phoneNumber;
         this.description = description;
     }
-
     //    public static Store builderDefault(String storeName, String ownerName, String postCode, String address, String phoneNumber) {
 //        this.storeName = storeName;
 //        this.ownerName = ownerName;

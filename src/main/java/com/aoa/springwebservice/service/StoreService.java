@@ -14,6 +14,9 @@ public class StoreService {
     @Autowired
     StoreRepository storeRepository;
 
+    @Autowired
+    FileStorageService fileStorageService;
+
     public Store createStore(InputStoreDTO storeDTO){
         return storeRepository.save(storeDTO.toDomain(somethingConvert(storeDTO)));
     }
@@ -24,6 +27,6 @@ public class StoreService {
 
 
     public String somethingConvert(InputStoreDTO storeDTO) {
-        return "hi";
+        return fileStorageService.storeFile(storeDTO.getImageFile());
     }
 }
