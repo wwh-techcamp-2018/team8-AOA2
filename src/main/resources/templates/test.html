@@ -14,159 +14,215 @@
 {{> header}}
 <main>
     <div class="container">
-        <div class="row">
-            <ul>
-                <li>
-                    <div class="input-title col s12 l2">
-                        업체명
-                    </div>
-                    <div class="input-field col s12 l10">
-                        <input class="input_counter not-empty" id="input_store" type="text" data-length="20">
-                        <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
-                        <label for="input_store">업체명</label>
-                    </div>
-                </li>
-                <li>
-                    <div class="input-title col s12 l2">
-                        서비스명
-                    </div>
-                    <div class="input-field col s12 l10 ">
-                        <input class="input_counter not-empty" id="input_service" type="text" data-length="30">
-                        <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
-                        <label for="input_service">서비스명</label>
-                    </div>
-                </li>
-                <li>
-                    <div class="input-title col s12 l2 ">
-                        대표자명
-                    </div>
-                    <div class="input-field col s12 l10">
-                        <input class="input_counter not-empty" id="input_owner" type="text" data-length="5">
-                        <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
-                        <label for="input_owner">대표자명</label>
-                    </div>
-                </li>
-                <li>
-                    <div class="input-title col s12 l2">
-                        대표이미지
-                    </div>
-                    <div class="input-field col s12  l10">
-                        <form action="#">
+        <form>
+            <div class="row">
+                <ul>
+                    <li>
+                        <div class="input-title col s12 l2">
+                            업체명
+                        </div>
+                        <div class="input-field col s12 l10">
+                            <input class="input_counter not-empty" id="input_store" name="storeName" type="text"
+                                   data-length="20" data-regrex="^[가-힣]*$">
+                            <span class="helper-text" data-error="wrong" data-success="right">20자 이하로 적어주십시오</span>
+                            <label for="input_store">업체명</label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="input-title col s12 l2">
+                            서비스명
+                        </div>
+                        <div class="input-field col s12 l10 ">
+                            <input class="input_counter not-empty" id="input_service" name="serviceDescription"
+                                   type="text" data-length="30">
+                            <span class="helper-text" data-error="wrong" data-success="right">30자 이하로 적어주십시오</span>
+                            <label for="input_service">서비스명</label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="input-title col s12 l2 ">
+                            대표자명
+                        </div>
+                        <div class="input-field col s12 l10">
+                            <input class="input_counter not-empty" id="input_owner" name="ownerName" type="text"
+                                   data-length="5">
+                            <span class="helper-text" data-error="wrong" data-success="right">5자 이하로 적어주십시오</span>
+                            <label for="input_owner">대표자명</label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="input-title col s12 l2">
+                            대표이미지
+                        </div>
+                        <div class="input-field col s12  l10">
+                            <!-- <form action="#"> -->
                             <div class="file-field input-field">
-                                <div class="btn" >
+                                <div class="btn">
                                     <span>파일선택</span>
                                     <input type="file">
                                 </div>
                                 <div class="file-path-wrapper">
-                                    <input id="file_path" class="file-path validate" type="text">
+                                    <input id="file_path" class="file-path validate" name="imgFile" type="text"
+                                           readonly="readonly">
                                     <label for="file_path">첨부파일</label>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                </li>
-                <li>
-                    <div class="input-title col s12 l2">
-                        주소
-                    </div>
-                    <div class="input-field col s5 l3 ">
-                        <input id="input_address_postcode" type="text" placeholder="우편번호" disabled>
-                    </div>
-                    <div class="input-field col s4 l3">
-                        <a class="waves-effect waves-light btn-small" onclick="sample4_execDaumPostcode()">우편번호 찾기</a>
-                    </div>
-                    <div class="input-field-nonmsg col s12 l10 offset-l2">
-                        <input id="input_address_main" type="text" placeholder="도로명주소" disabled>
-                    </div>
-                    <div class="input-field col s12 l10 offset-l2">
-                        <input class="input_counter" id="input_address_sub" type="text" data-length="10">
-                        <label for="input_address_sub">상세주소</label>
-                        <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="input-title col s12 l2">
-                        핸드폰번호
-                    </div>
-                    <div class="col s12 l10">
-                        <div class="row">
-                            <div class="input-field col s3 l2">
-                                <input class="not-empty" id="input_phone_first" type="text" data-length="3">
-                                <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
-                            </div>
-                            <div class="input-title col s1 l1">
-                                -
-                            </div>
-                            <div class="input-field col s3 l2">
-                                <input class="not-empty" id="input_phone_second" type="text" data-length="4">
-                                <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
-                            </div>
-                            <div class="input-title col s1 l1">
-                                -
-                            </div>
-                            <div class="input-field col s3 l2">
-                                <input class="not-empty" id="input_phone_third" type="text" data-length="4">
-                                <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
+                            <!-- </form> -->
+                        </div>
+                    </li>
+                    <li>
+                        <div class="input-title col s12 l2">
+                            주소
+                        </div>
+                        <div class="input-field col s5 l3 ">
+                            <input id="input_address_postcode" name="postCode" type="text" name="postCode" placeholder="우편번호"
+                                   readonly="readonly">
+                        </div>
+                        <div class="input-field col s4 l3">
+                            <a class="waves-effect waves-light btn-small" onclick="sample4_execDaumPostcode()">우편번호
+                                찾기</a>
+                        </div>
+                        <div class="input-field-nonmsg col s12 l10 offset-l2">
+                            <input id="input_address_main" name="address" class="not-empty" name="address" type="text"
+                                   placeholder="도로명주소" readonly="readonly">
+                        </div>
+                        <div class="input-field col s12 l10 offset-l2">
+                            <input class="input_counter" id="input_address_sub" name="addressDetail" type="text"
+                                   data-length="10">
+                            <label for="input_address_sub">상세주소</label>
+                            <span class="helper-text" data-error="wrong" data-success="right" 10자 이하로 적어주십시오</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="input-title col s12 l2">
+                            핸드폰번호
+                        </div>
+                        <div class="col s12 l10">
+                            <div class="row">
+                                <input type="hidden" name="phoneNumber">
+                                <div class="input-field col s3 l2">
+                                    <input name="phoneNumber_1" class="not-empty phoneNumber" type="text"
+                                           data-length="3">
+                                    <span class="helper-text" data-error="wrong"
+                                          data-success="right">3자 이하로 적어주십시오</span>
+                                </div>
+                                <div class="input-title col s1 l1">
+                                    -
+                                </div>
+                                <div class="input-field col s3 l2">
+                                    <input name="phoneNumber_2" class="not-empty phoneNumber" type="text"
+                                           data-length="4">
+                                    <span class="helper-text" data-error="wrong"
+                                          data-success="right">4자 이하로 적어주십시오</span>
+                                </div>
+                                <div class="input-title col s1 l1">
+                                    -
+                                </div>
+                                <div class="input-field col s3 l2">
+                                    <input name="phoneNumber_3" class="not-empty phoneNumber" type="text"
+                                           data-length="4">
+                                    <span class="helper-text" data-error="wrong"
+                                          data-success="right">4자 이하로 적어주십시오</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="input-title col s12 l2">
-                        홍보문구
-                    </div>
-                    <div class="input-field col s12 l10">
-                        <textarea id="input_description" class="materialize-textarea input_counter" data-length="300"></textarea>
-                        <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
-                        <label for="input_description">홍보문구</label>
-                    </div>
-                </li>
-            </ul>
-            <button class="col s3 l2 offset-s9 offset-l10 btn waves-effect waves-light" type="submit" name="action">등록
-                <i class="material-icons right">send</i>
-            </button>
+                    </li>
+                    <li>
+                        <div class="input-title col s12 l2">
+                            홍보문구
+                        </div>
+                        <div class="input-field col s12 l10">
+                            <textarea id="input_description" name="description"
+                                      class="materialize-textarea input_counter" data-length="300"></textarea>
+                            <span class="helper-text" data-error="wrong" data-success="right">300자 이하로 적어주십시오</span>
+                            <label for="input_description">홍보문구</label>
+                        </div>
+                    </li>
+                </ul>
+                <button id="submitBtn" class="col s3 l2 offset-s9 offset-l10 btn waves-effect waves-light"
+                        type="button">등록
+                    <i class="material-icons right">send</i>
+                </button>
 
-        </div>
+            </div>
 
-
+        </form>
     </div>
 </main>
 </body>
 {{> footer}}
-<script src="/js/test.js"></script>
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
-    const sample4_execDaumPostcode = () => {
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var counter = document.querySelectorAll('.input_counter');
+        M.CharacterCounter.init(counter);
+        // $All('input').forEach( e => e.value= 'dddddd');
+
+        $('#submitBtn').addEventListener('click', (event) => {
+            //check validation
+            if (!validated())
+                return;
+            //set phone number
+            $('input[name=phoneNumber]').value = Array.from($All('.phoneNumber')).reduce((accum, cur) => accum + String(cur.value), '');
+
+            //todo  에러 처리
+            const inputDTO = generateJsonObject($('form'));
+            fetchAsync({url: '/api/stores', method: 'post', body: inputDTO})
+                .then((data) => {
+                    console.log(data);
+                });
+        });
+    });
+
+
+</script>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="/js/test.js"></script>
+<script>
+    //todo 포스트코드 선택시 창 닫기, 창 크기 조절하기
+    function sample4_execDaumPostcode() {
         new daum.Postcode({
-            oncomplete: (data) => {
-                let fullRoadAddr = data.roadAddress; // 도로명 주소 변수
-                let extraRoadAddr = ''; // 도로명 조합형 주소 변수
+            oncomplete: function (data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+                var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+
                 // 법정동명이 있을 경우 추가한다. (법정리는 제외)
                 // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
                     extraRoadAddr += data.bname;
                 }
                 // 건물명이 있고, 공동주택일 경우 추가한다.
-                if(data.buildingName !== '' && data.apartment === 'Y'){
+                if (data.buildingName !== '' && data.apartment === 'Y') {
                     extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
                 }
                 // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                if(extraRoadAddr !== ''){
+                if (extraRoadAddr !== '') {
                     extraRoadAddr = ' (' + extraRoadAddr + ')';
                 }
                 // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
-                if(fullRoadAddr !== ''){
+                if (fullRoadAddr !== '') {
                     fullRoadAddr += extraRoadAddr;
                 }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
                 document.getElementById('input_address_postcode').value = data.zonecode; //5자리 새우편번호 사용
                 document.getElementById('input_address_main').value = fullRoadAddr;
+                document.getElementById('sample4_jibunAddress').value = data.jibunAddress;
 
-                if(data.autoRoadAddress) {
-                    const expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+                if (data.autoRoadAddress) {
+                    //예상되는 도로명 주소에 조합형 주소를 추가한다.
+                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
                     document.getElementById('guide').innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
-                } else if(data.autoJibunAddress) {
-                    const expJibunAddr = data.autoJibunAddress;
+
+                } else if (data.autoJibunAddress) {
+                    var expJibunAddr = data.autoJibunAddress;
                     document.getElementById('guide').innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+
                 } else {
                     document.getElementById('guide').innerHTML = '';
                 }
