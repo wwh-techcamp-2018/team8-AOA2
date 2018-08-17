@@ -36,6 +36,6 @@ public class ApiMenuController {
 
         menuRepository.save(menu);
 
-        return "";
+        return "/result/success";
     }
 }

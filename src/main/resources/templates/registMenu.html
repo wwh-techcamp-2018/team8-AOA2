@@ -49,7 +49,7 @@
                             <input id="input_menu_img" type="file">
                         </div>
                         <div class="file-path-wrapper">
-                            <input id="file_path" class="file-path validate" type="text" disabled>
+                            <input id="file_path" class="file-path validate" type="text">
                             <label for="file_path">첨부파일</label>
                         </div>
                     </div>
@@ -68,7 +68,6 @@
 </body>
 {{> footer}}
 <script>
-
     function createMenu(event){
         event.preventDefault();
 
@@ -91,9 +90,11 @@
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/api/menu', true);
 
-        xhr.onload = function (param_1, param_2) {
-            console.log(param_1);
-            console.log(param_2);
+        xhr.onload = function (progressEvent) {
+            const status = progressEvent.target.status;
+            if(status === 200) {
+               document.location = progressEvent.target.response;
+            }
         };
 
         xhr.send(formData);
@@ -108,7 +109,6 @@
         inputMenuBtn.addEventListener('click', createMenu);
         M.CharacterCounter.init(counter);
     });
-
 </script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 </html>
