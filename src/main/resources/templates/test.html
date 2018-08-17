@@ -59,10 +59,10 @@
                             <div class="file-field input-field">
                                 <div class="btn">
                                     <span>파일선택</span>
-                                    <input type="file">
+                                    <input type="file" name="imageFile">
                                 </div>
                                 <div class="file-path-wrapper">
-                                    <input id="file_path" class="file-path validate" name="imgFile" type="text"
+                                    <input id="file_path" class="file-path validate" type="text"
                                            readonly="readonly">
                                     <label for="file_path">첨부파일</label>
                                 </div>
@@ -156,7 +156,6 @@
     document.addEventListener('DOMContentLoaded', function () {
         var counter = document.querySelectorAll('.input_counter');
         M.CharacterCounter.init(counter);
-        // $All('input').forEach( e => e.value= 'dddddd');
 
         $('#submitBtn').addEventListener('click', (event) => {
             //check validation
@@ -165,15 +164,39 @@
             //set phone number
             $('input[name=phoneNumber]').value = Array.from($All('.phoneNumber')).reduce((accum, cur) => accum + String(cur.value), '');
 
-            //todo  에러 처리
-            const inputDTO = generateJsonObject($('form'));
-            fetchAsync({url: '/api/stores', method: 'post', body: inputDTO})
-                .then((data) => {
-                    console.log(data);
-                });
+            // //todo  에러 처리
+            // const inputDTO = generateJsonObject($('form'));
+            // fetchAsync({url: '/api/stores', method: 'post', body: inputDTO})
+            //     .then((data) => {
+            //         console.log(data);
+            //     });
+            createStore();
+
         });
     });
+    function createStore(){
+        let formData = new FormData();
+        serializeArray($('form')).forEach( e => formData.append(e.name, e.value));
+        const fileElem = $('input[type=file]');
+        const file = fileElem.files[0];
 
+        if(!file.type.match('image.*')){
+            return;
+        }
+        formData.append(fileElem.name, file, file.name);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/api/stores', true);
+
+        xhr.onload = function (progressEvent) {
+            const status = progressEvent.target.status;
+            if(status === 200) {
+                document.location = progressEvent.target.response;
+            }
+        };
+
+        xhr.send(formData);
+    }
 
 </script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>

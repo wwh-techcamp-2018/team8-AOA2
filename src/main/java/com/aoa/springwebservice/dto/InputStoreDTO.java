@@ -15,7 +15,8 @@ import javax.validation.constraints.Size;
 public class InputStoreDTO {
     public static final String PHONE_NUMBER = "^01(?:0|1|[6-9])(?:\\d{3}|\\d{4})\\d{4}$";
     public static final String NAME = "^[가-힣]*$";
-
+    public static final String PHONE_NUMBER_1 = "^01(?:0|1|[6-9])$";
+    public static final String Number = "[0-9]*";
     @NotNull
     @Size(max = 20, message = "길이가 맞지 않습니다")
     //todo length, pattern 등 다른 조건들
@@ -46,6 +47,21 @@ public class InputStoreDTO {
     @Size(max = 20, message = "길이가 맞지 않습니다")
     @Pattern(regexp = PHONE_NUMBER, message = "입력양식이 맞지 않습니다")
     private String phoneNumber;
+
+    @NotNull
+    @Size(max = 3, message = "길이가 맞지 않습니다")
+    @Pattern(regexp = PHONE_NUMBER_1, message = "입력양식이 맞지 않습니다")
+    private String phoneNumber_1;
+
+    @NotNull
+    @Size(min = 3, max = 4,message = "길이가 맞지 않습니다")
+    @Pattern(regexp = Number, message = "입력양식이 맞지 않습니다")
+    private String phoneNumber_2;
+
+    @NotNull
+    @Size(min = 4, max = 4, message = "길이가 맞지 않습니다")
+    @Pattern(regexp = Number, message = "입력양식이 맞지 않습니다")
+    private String phoneNumber_3;
 
     @Nullable
     @Size(max = 300, message = "길이가 맞지 않습니다")
