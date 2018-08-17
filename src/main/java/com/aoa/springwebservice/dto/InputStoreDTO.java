@@ -13,7 +13,6 @@ import javax.validation.constraints.Size;
 @Getter @Setter @NoArgsConstructor
 
 public class InputStoreDTO {
-    public static final String PHONE_NUMBER = "^01(?:0|1|[6-9])(?:\\d{3}|\\d{4})\\d{4}$";
     public static final String NAME = "^[가-힣]*$";
     public static final String PHONE_NUMBER_1 = "^01(?:0|1|[6-9])$";
     public static final String Number = "[0-9]*";
@@ -44,17 +43,12 @@ public class InputStoreDTO {
     private String addressDetail;
 
     @NotNull
-    @Size(max = 20, message = "길이가 맞지 않습니다")
-    @Pattern(regexp = PHONE_NUMBER, message = "입력양식이 맞지 않습니다")
-    private String phoneNumber;
-
-    @NotNull
     @Size(max = 3, message = "길이가 맞지 않습니다")
     @Pattern(regexp = PHONE_NUMBER_1, message = "입력양식이 맞지 않습니다")
     private String phoneNumber_1;
 
     @NotNull
-    @Size(min = 3, max = 4,message = "길이가 맞지 않습니다")
+    @Size(min = 3, max = 4, message = "길이가 맞지 않습니다")
     @Pattern(regexp = Number, message = "입력양식이 맞지 않습니다")
     private String phoneNumber_2;
 
@@ -69,16 +63,17 @@ public class InputStoreDTO {
 
     @Nullable
     private MultipartFile imageFile;
-
     @Builder
-    public InputStoreDTO(@NotNull String storeName, @NotNull String serviceDescription, @NotNull String ownerName, @NotNull String postCode, @NotNull String address, String addressDetail, @NotNull String phoneNumber, String description, MultipartFile imageFile) {
+    public InputStoreDTO(String storeName, String serviceDescription, String ownerName, String postCode, String address, String addressDetail, String phoneNumber_1, String phoneNumber_2, String phoneNumber_3, String description, MultipartFile imageFile) {
         this.storeName = storeName;
         this.serviceDescription = serviceDescription;
         this.ownerName = ownerName;
         this.postCode = postCode;
         this.address = address;
         this.addressDetail = addressDetail;
-        this.phoneNumber = phoneNumber;
+        this.phoneNumber_1 = phoneNumber_1;
+        this.phoneNumber_2 = phoneNumber_2;
+        this.phoneNumber_3 = phoneNumber_3;
         this.description = description;
         this.imageFile = imageFile;
     }
@@ -91,7 +86,7 @@ public class InputStoreDTO {
                 .postCode(postCode)
                 .address(address)
                 .addressDetail(addressDetail)
-                .phoneNumber(phoneNumber)
+                .phoneNumber(phoneNumber_1.concat(phoneNumber_2).concat(phoneNumber_3))
                 .description(description)
                 .imgURL(imgUrl).build();
     }

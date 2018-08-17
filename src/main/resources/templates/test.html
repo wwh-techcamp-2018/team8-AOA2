@@ -99,7 +99,7 @@
                         </div>
                         <div class="col s12 l10">
                             <div class="row">
-                                <input type="hidden" name="phoneNumber">
+                                <!--<input type="hidden" name="phoneNumber">-->
                                 <div class="input-field col s3 l2">
                                     <input name="phoneNumber_1" class="not-empty phoneNumber" type="text"
                                            data-length="3">
@@ -162,7 +162,7 @@
             if (!validated())
                 return;
             //set phone number
-            $('input[name=phoneNumber]').value = Array.from($All('.phoneNumber')).reduce((accum, cur) => accum + String(cur.value), '');
+           //$('input[name=phoneNumber]').value = Array.from($All('.phoneNumber')).reduce((accum, cur) => accum + String(cur.value), '');
 
             // //todo  에러 처리
             // const inputDTO = generateJsonObject($('form'));
