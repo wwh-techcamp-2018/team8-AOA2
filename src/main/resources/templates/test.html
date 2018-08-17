@@ -21,7 +21,7 @@
                         업체명
                     </div>
                     <div class="input-field col s12 l10">
-                        <input class="input_counter" id="input_store" type="text" data-length="20">
+                        <input class="input_counter not-empty" id="input_store" type="text" data-length="20">
                         <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
                         <label for="input_store">업체명</label>
                     </div>
@@ -31,7 +31,7 @@
                         서비스명
                     </div>
                     <div class="input-field col s12 l10 ">
-                        <input class="input_counter" id="input_service" type="text" data-length="30">
+                        <input class="input_counter not-empty" id="input_service" type="text" data-length="30">
                         <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
                         <label for="input_service">서비스명</label>
                     </div>
@@ -41,7 +41,7 @@
                         대표자명
                     </div>
                     <div class="input-field col s12 l10">
-                        <input class="input_counter" id="input_owner" type="text" data-length="5">
+                        <input class="input_counter not-empty" id="input_owner" type="text" data-length="5">
                         <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
                         <label for="input_owner">대표자명</label>
                     </div>
@@ -91,21 +91,21 @@
                     <div class="col s12 l10">
                         <div class="row">
                             <div class="input-field col s3 l2">
-                                <input id="input_phone_first" type="text" data-length="3">
+                                <input class="not-empty" id="input_phone_first" type="text" data-length="3">
                                 <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
                             </div>
                             <div class="input-title col s1 l1">
                                 -
                             </div>
                             <div class="input-field col s3 l2">
-                                <input id="input_phone_second" type="text" data-length="4">
+                                <input class="not-empty" id="input_phone_second" type="text" data-length="4">
                                 <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
                             </div>
                             <div class="input-title col s1 l1">
                                 -
                             </div>
                             <div class="input-field col s3 l2">
-                                <input id="input_phone_third" type="text" data-length="4">
+                                <input class="not-empty" id="input_phone_third" type="text" data-length="4">
                                 <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
                             </div>
                         </div>
@@ -133,14 +133,7 @@
 </main>
 </body>
 {{> footer}}
-<script>
-    
-    document.addEventListener('DOMContentLoaded',() => {
-        const counter = document.querySelectorAll('.input_counter');
-        M.CharacterCounter.init(counter);
-    });
-
-</script>
+<script src="/js/test.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
     const sample4_execDaumPostcode = () => {
