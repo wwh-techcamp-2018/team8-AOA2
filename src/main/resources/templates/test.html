@@ -22,8 +22,8 @@
                             업체명
                         </div>
                         <div class="input-field col s12 l10">
-                            <input class="input_counter not-empty" id="input_store" name="storeName" type="text"
-                                   data-length="20" data-regrex="^[가-힣]*$">
+                            <input class="input_counter validate" type="text" id="input_store" name="storeName" type="text"
+                                   data-length="20" data-regex="^[가-힣]*$" required>
                             <span class="helper-text" data-error="wrong" data-success="right">20자 이하로 적어주십시오</span>
                             <label for="input_store">업체명</label>
                         </div>
@@ -33,8 +33,8 @@
                             서비스명
                         </div>
                         <div class="input-field col s12 l10 ">
-                            <input class="input_counter not-empty" id="input_service" name="serviceDescription"
-                                   type="text" data-length="30">
+                            <input class="input_counter validate"  type="text" required id="input_service" name="serviceDescription"
+                                   type="text" data-length="30" required>
                             <span class="helper-text" data-error="wrong" data-success="right">30자 이하로 적어주십시오</span>
                             <label for="input_service">서비스명</label>
                         </div>
@@ -44,8 +44,8 @@
                             대표자명
                         </div>
                         <div class="input-field col s12 l10">
-                            <input class="input_counter not-empty" id="input_owner" name="ownerName" type="text"
-                                   data-length="5">
+                            <input class="input_counter validate" id="input_owner" name="ownerName" type="text"
+                                   data-length="5" data-min-length="2" required>
                             <span class="helper-text" data-error="wrong" data-success="right">5자 이하로 적어주십시오</span>
                             <label for="input_owner">대표자명</label>
                         </div>
@@ -62,7 +62,7 @@
                                     <input type="file" name="imageFile">
                                 </div>
                                 <div class="file-path-wrapper">
-                                    <input id="file_path" class="file-path validate" type="text"
+                                    <input id="file_path" class="file-path" type="text"
                                            readonly="readonly">
                                     <label for="file_path">첨부파일</label>
                                 </div>
@@ -75,20 +75,20 @@
                             주소
                         </div>
                         <div class="input-field col s5 l3 ">
-                            <input id="input_address_postcode" name="postCode" type="text" name="postCode" placeholder="우편번호"
-                                   readonly="readonly">
+                            <input id="input_address_postcode" name="postCode" class="validate" type="text" placeholder="우편번호"
+                                   readonly="readonly" required>
                         </div>
                         <div class="input-field col s4 l3">
                             <a class="waves-effect waves-light btn-small" onclick="sample4_execDaumPostcode()">우편번호
                                 찾기</a>
                         </div>
                         <div class="input-field-nonmsg col s12 l10 offset-l2">
-                            <input id="input_address_main" name="address" class="not-empty" name="address" type="text"
-                                   placeholder="도로명주소" readonly="readonly">
+                            <input id="input_address_main" name="address" class="validate" name="address" type="text"
+                                   placeholder="도로명주소" readonly="readonly" data-length="50" required>
                         </div>
                         <div class="input-field col s12 l10 offset-l2">
-                            <input class="input_counter" id="input_address_sub" name="addressDetail" type="text"
-                                   data-length="10">
+                            <input class="input_counter validate" id="input_address_sub" name="addressDetail" type="text"
+                                   data-length="20">
                             <label for="input_address_sub">상세주소</label>
                             <span class="helper-text" data-error="wrong" data-success="right" 10자 이하로 적어주십시오</span>
                         </div>
@@ -99,10 +99,9 @@
                         </div>
                         <div class="col s12 l10">
                             <div class="row">
-                                <!--<input type="hidden" name="phoneNumber">-->
                                 <div class="input-field col s3 l2">
-                                    <input name="phoneNumber_1" class="not-empty phoneNumber" type="text"
-                                           data-length="3">
+                                    <input name="phoneNumber_1" class="validate" type="text"
+                                           data-length="3" data-regex="^01(?:0|1|[6-9])$" required>
                                     <span class="helper-text" data-error="wrong"
                                           data-success="right">3자 이하로 적어주십시오</span>
                                 </div>
@@ -110,19 +109,19 @@
                                     -
                                 </div>
                                 <div class="input-field col s3 l2">
-                                    <input name="phoneNumber_2" class="not-empty phoneNumber" type="text"
-                                           data-length="4">
+                                    <input name="phoneNumber_2" class="validate" type="text"
+                                           data-length="4" data-min-length="3" data-regex="^[0-9]*$" required>
                                     <span class="helper-text" data-error="wrong"
-                                          data-success="right">4자 이하로 적어주십시오</span>
+                                          data-success="right" >4자 이하로 적어주십시오</span>
                                 </div>
                                 <div class="input-title col s1 l1">
                                     -
                                 </div>
                                 <div class="input-field col s3 l2">
-                                    <input name="phoneNumber_3" class="not-empty phoneNumber" type="text"
-                                           data-length="4">
+                                    <input name="phoneNumber_3" class="validate" type="text"
+                                           data-length="4" data-min-length="4" data-regex="^[0-9]*$" required>
                                     <span class="helper-text" data-error="wrong"
-                                          data-success="right">4자 이하로 적어주십시오</span>
+                                          data-success="right" >4자 이하로 적어주십시오</span>
                                 </div>
                             </div>
                         </div>
@@ -133,7 +132,7 @@
                         </div>
                         <div class="input-field col s12 l10">
                             <textarea id="input_description" name="description"
-                                      class="materialize-textarea input_counter" data-length="300"></textarea>
+                                      class="materialize-textarea input_counter validate" data-length="300"></textarea>
                             <span class="helper-text" data-error="wrong" data-success="right">300자 이하로 적어주십시오</span>
                             <label for="input_description">홍보문구</label>
                         </div>
@@ -158,18 +157,8 @@
         M.CharacterCounter.init(counter);
 
         $('#submitBtn').addEventListener('click', (event) => {
-            //check validation
-            if (!validated())
+            if (!validateForm($('form')))
                 return;
-            //set phone number
-           //$('input[name=phoneNumber]').value = Array.from($All('.phoneNumber')).reduce((accum, cur) => accum + String(cur.value), '');
-
-            // //todo  에러 처리
-            // const inputDTO = generateJsonObject($('form'));
-            // fetchAsync({url: '/api/stores', method: 'post', body: inputDTO})
-            //     .then((data) => {
-            //         console.log(data);
-            //     });
             createStore();
 
         });
@@ -178,13 +167,13 @@
         let formData = new FormData();
         serializeArray($('form')).forEach( e => formData.append(e.name, e.value));
         const fileElem = $('input[type=file]');
-        const file = fileElem.files[0];
-
-        if(!file.type.match('image.*')){
-            return;
+        if(fileElem.files.length == 1  && fileElem.files[0].type.match('image.*')) {
+            const file = fileElem.files[0];
+            // if (!file.type.match('image.*')) {
+            //     return;
+            // }
+            formData.append(fileElem.name, file, file.name);
         }
-        formData.append(fileElem.name, file, file.name);
-
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/api/stores', true);
 
@@ -197,7 +186,27 @@
 
         xhr.send(formData);
     }
+    // invalid (length)
+    //
+    const validateForm = (formEl) => {
+        if (!formEl)
+            return false;
+        var res = true;
+        const requiredInputs = Array.from ($All(':required', formEl));
 
+        requiredInputs.forEach( e => {
+            if(e.value.isEmpty()){
+                addClass(e, 'invalid');
+            }
+        });
+
+        if($('.invalid', formEl)) {
+            $('.invalid',formEl).focus();
+            return false;
+        }
+        return true;
+
+    };
 </script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="/js/test.js"></script>
@@ -232,8 +241,8 @@
                 }
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('input_address_postcode').value = data.zonecode; //5자리 새우편번호 사용
-                document.getElementById('input_address_main').value = fullRoadAddr;
+                $('input[name=postCode]').value = data.zonecode; //5자리 새우편번호 사용
+                $('input[name=address]').value = fullRoadAddr;
                 document.getElementById('sample4_jibunAddress').value = data.jibunAddress;
 
                 // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.

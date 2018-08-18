@@ -1,9 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     $('input#input_text, textarea#textarea2').characterCounter();
 });
-document.addEventListener('DOMContentLoaded', function () {
-    $('input#input_text, textarea#textarea2').characterCounter();
-});
 
 function validated() {
     if ($('.invalid')) {
