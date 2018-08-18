@@ -6935,6 +6935,10 @@ $jscomp.polyfill = function (e, r, p, m) {
         var minLenAttr = parseInt(object.attr('data-min-length')) || 0;
         var len = object[0].value.length;
 
+        var hasRegex = object.attr('data-regex') !== null;
+        var regex = new RegExp(object.attr('data-regex'));
+        var str = object[0].value;
+
         if (len === 0 && object[0].validity.badInput === false && !object.is(':required')) {
             if (object.hasClass('validate')) {
                 object.removeClass('valid');
@@ -6943,28 +6947,15 @@ $jscomp.polyfill = function (e, r, p, m) {
         } else {
             if (object.hasClass('validate')) {
                 // Check for character counter attributes
-                if (object.is(':valid') && hasLength && len <= lenAttr && len >= minLenAttr || object.is(':valid') && !hasLength) {
+                if(object.is(':valid')
+                    && (!hasLength || hasLength && len <= lenAttr && len >= minLenAttr)
+                    && (!hasRegex || hasRegex &&  str.match(regex))){
                     object.removeClass('invalid');
                     object.addClass('valid');
-                } else {
-                    object.removeClass('valid');
-                    object.addClass('invalid');
+                }else {
+                        object.removeClass('valid');
+                        object.addClass('invalid');
                 }
-            }
-        }
-        //todo refactor duplicates
-        var hasRegex = object.attr('data-regex') !== null;
-        var regex = new RegExp(object.attr('data-regex'));
-        var str = object[0].value;
-
-        if (object.hasClass('validate')) {
-            // Check for character counter attributes
-            if (object.is(':valid') && hasRegex &&  str.match(regex) || object.is(':valid') && !hasRegex) {
-                object.removeClass('invalid');
-                object.addClass('valid');
-            } else {
-                object.removeClass('valid');
-                object.addClass('invalid');
             }
         }
     };
