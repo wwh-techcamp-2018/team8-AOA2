@@ -9,25 +9,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
 @RequestMapping("/api/stores")
-@Slf4j
+
 public class ApiStoreController {
+    static final Logger log = LoggerFactory.getLogger(ApiStoreController.class);
     @Autowired
     StoreService storeService;
 
     @PostMapping("")
-    public ResponseEntity<Void> create(@Valid InputStoreDTO inputStoreDTO){
+    public String create(@Valid InputStoreDTO inputStoreDTO){
         log.debug("inputDTO : {}", inputStoreDTO);
         //todo store 생성실패 상황 고려
         Store store = storeService.createStore(inputStoreDTO);
-        return ResponseEntity.created(URI.create("/")).build();
+        return "/result/success";
     }
 }
