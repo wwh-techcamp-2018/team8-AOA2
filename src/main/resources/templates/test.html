@@ -23,7 +23,7 @@
                         </div>
                         <div class="input-field col s12 l10">
                             <input class="input_counter not-empty validate" type="text" id="input_store" name="storeName" type="text"
-                                   data-length="20" data-regrex="^[가-힣]*$">
+                                   data-length="20" data-regex="^[가-힣]*$" required>
                             <span class="helper-text" data-error="wrong" data-success="right">20자 이하로 적어주십시오</span>
                             <label for="input_store">업체명</label>
                         </div>
@@ -75,20 +75,20 @@
                             주소
                         </div>
                         <div class="input-field col s5 l3 ">
-                            <input id="input_address_postcode" name="postCode" type="text" name="postCode" placeholder="우편번호"
-                                   readonly="readonly" data-length="5" data-min-length="5">
+                            <input id="input_address_postcode validate" name="postCode" type="text" name="postCode" placeholder="우편번호"
+                                   readonly="readonly" data-length="5" data-min-length="5" required>
                         </div>
                         <div class="input-field col s4 l3">
                             <a class="waves-effect waves-light btn-small" onclick="sample4_execDaumPostcode()">우편번호
                                 찾기</a>
                         </div>
                         <div class="input-field-nonmsg col s12 l10 offset-l2">
-                            <input id="input_address_main" name="address" class="not-empty" name="address" type="text"
-                                   placeholder="도로명주소" readonly="readonly">
+                            <input id="input_address_main validate" name="address" class="not-empty" name="address" type="text"
+                                   placeholder="도로명주소" readonly="readonly" data-length="50" required>
                         </div>
                         <div class="input-field col s12 l10 offset-l2">
-                            <input class="input_counter" id="input_address_sub" name="addressDetail" type="text"
-                                   data-length="10">
+                            <input class="input_counter validate" id="input_address_sub" name="addressDetail" type="text"
+                                   data-length="20">
                             <label for="input_address_sub">상세주소</label>
                             <span class="helper-text" data-error="wrong" data-success="right" 10자 이하로 적어주십시오</span>
                         </div>
@@ -99,10 +99,9 @@
                         </div>
                         <div class="col s12 l10">
                             <div class="row">
-                                <!--<input type="hidden" name="phoneNumber">-->
                                 <div class="input-field col s3 l2">
-                                    <input name="phoneNumber_1" class="not-empty phoneNumber" type="text"
-                                           data-length="3">
+                                    <input name="phoneNumber_1 validate" class="not-empty validate" type="text"
+                                           data-length="3" data-regex="^01(?:0|1|[6-9])$" required>
                                     <span class="helper-text" data-error="wrong"
                                           data-success="right" data-length="3" data-min-length="3">3자 이하로 적어주십시오</span>
                                 </div>
@@ -110,8 +109,8 @@
                                     -
                                 </div>
                                 <div class="input-field col s3 l2">
-                                    <input name="phoneNumber_2" class="not-empty phoneNumber" type="text"
-                                           data-length="4">
+                                    <input name="phoneNumber_2 validate" class="not-empty validate" type="text"
+                                           data-length="4" data-regex="^[0-9]*$" required>
                                     <span class="helper-text" data-error="wrong"
                                           data-success="right" data-length="4" data-min-length="3">4자 이하로 적어주십시오</span>
                                 </div>
@@ -119,8 +118,8 @@
                                     -
                                 </div>
                                 <div class="input-field col s3 l2">
-                                    <input name="phoneNumber_3" class="not-empty phoneNumber" type="text"
-                                           data-length="4">
+                                    <input name="phoneNumber_3 validate" class="not-empty validate" type="text"
+                                           data-length="4" data-regex="^[0-9]*$" required>
                                     <span class="helper-text" data-error="wrong"
                                           data-success="right" data-length="4" data-min-length="4">4자 이하로 적어주십시오</span>
                                 </div>
@@ -133,7 +132,7 @@
                         </div>
                         <div class="input-field col s12 l10">
                             <textarea id="input_description" name="description"
-                                      class="materialize-textarea input_counter" data-length="300"></textarea>
+                                      class="materialize-textarea input_counter validate" data-length="300"></textarea>
                             <span class="helper-text" data-error="wrong" data-success="right">300자 이하로 적어주십시오</span>
                             <label for="input_description">홍보문구</label>
                         </div>
