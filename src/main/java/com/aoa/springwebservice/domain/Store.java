@@ -3,12 +3,18 @@ package com.aoa.springwebservice.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Getter @NoArgsConstructor
 @Entity
+@ToString
 public class Store{
 
 
@@ -43,6 +49,10 @@ public class Store{
     @Column(nullable = true, length = 600)
     private String description;
 
+    // Todo Cascade issue 다른 옵션도 적용해야 할 수도 있음
+    @OneToMany(mappedBy = "store", cascade = {CascadeType.MERGE})
+    private List<Menu> menus = new ArrayList<>();
+
     @Builder
     public Store(String storeName, String serviceDescription, String ownerName, String imgURL, String postCode, String address, String addressDetail, String phoneNumber, String description) {
         this.storeName = storeName;
@@ -55,11 +65,28 @@ public class Store{
         this.phoneNumber = phoneNumber;
         this.description = description;
     }
-    //    public static Store builderDefault(String storeName, String ownerName, String postCode, String address, String phoneNumber) {
-//        this.storeName = storeName;
-//        this.ownerName = ownerName;
-//        this.postCode = postCode;
-//        this.address = address;
-//        this.phoneNumber = phoneNumber;
-//    }
+
+    public void addMenu(Menu menu) {
+        if(menu != null && !hasMenu(menu))
+            menus.add(menu);
+    }
+
+    public boolean hasMenu(Menu menu) {
+        return menus.contains(menu);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        //todo User 추가되면 Store의 unique 제약조건 다시 생각
+        Store store = (Store) o;
+        return Objects.equals(storeName, store.storeName);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(storeName);
+    }
 }

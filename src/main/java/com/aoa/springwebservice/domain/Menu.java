@@ -1,8 +1,13 @@
 package com.aoa.springwebservice.domain;
 
-import javax.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Entity
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity @Getter @ToString
 public class Menu {
 
     @Id
@@ -18,6 +23,10 @@ public class Menu {
     private String description;
 
     private String imageUrl;
+
+    @ManyToOne
+    @ToString.Exclude
+    private Store store;
 
     public Menu(){
 
@@ -70,6 +79,28 @@ public class Menu {
         this.imageUrl = imageUrl;
     }
 
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Menu menu = (Menu) o;
+        return price == menu.price &&
+                Objects.equals(name, menu.name) &&
+                Objects.equals(description, menu.description) &&
+                Objects.equals(imageUrl, menu.imageUrl) &&
+                Objects.equals(store, menu.store);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name, store);
+    }
+
     @Override
     public String toString() {
         return "Menu{" +
@@ -80,4 +111,5 @@ public class Menu {
                 ", imageUrl='" + imageUrl + '\'' +
                 '}';
     }
+
 }
