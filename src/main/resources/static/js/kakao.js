@@ -23,7 +23,6 @@ const getInfo = (authObj) => {
                 $('#user-id').value = res.id;
                 modal.open();
             } else {
-                console.log("id : " + res.id);
                 let obj = {};
                 obj['userId'] = res.id;
                 fetch('/users/login', {
@@ -32,7 +31,7 @@ const getInfo = (authObj) => {
                     body: JSON.stringify(obj),
                     credentials: 'same-origin'
                 })
-                    .then(displaySuccess);
+                    .then(response => response.json()).then(displaySuccess);
             }
         }
     });
@@ -55,7 +54,7 @@ $('#submitBtn').addEventListener('click', (event) => {
                 body: JSON.stringify(formData),
                 credentials: 'same-origin'
             })
-                .then(displaySuccess);
+                .then(response => response.json()).then(displaySuccess);
         }
     });
 
@@ -63,7 +62,7 @@ $('#submitBtn').addEventListener('click', (event) => {
 
 });
 function displaySuccess(response) {
-    console.log(response);
+    document.location = response.data;
 }
 
 $('#logoutBtn').addEventListener('click', (event) => {

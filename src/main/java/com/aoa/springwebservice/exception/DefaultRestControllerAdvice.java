@@ -22,4 +22,10 @@ public class DefaultRestControllerAdvice {
     public String fileStorageExceptionHandler(FileStorageException exception) {
         return exception.getMessage();
     }
+
+    @ExceptionHandler(UnAuthorizedException.class)
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    public String unAuthorized(UnAuthorizedException exception) {
+        return exception.getMessage();
+    }
 }
