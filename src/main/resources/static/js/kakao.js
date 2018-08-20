@@ -31,7 +31,7 @@ const getInfo = (authObj) => {
                     body: JSON.stringify(obj),
                     credentials: 'same-origin'
                 })
-                    .then(response => response.json()).then(displaySuccess);
+                    .then(response => response.json()).then(redirectPage);
             }
         }
     });
@@ -54,14 +54,14 @@ $('#submitBtn').addEventListener('click', (event) => {
                 body: JSON.stringify(formData),
                 credentials: 'same-origin'
             })
-                .then(response => response.json()).then(displaySuccess);
+                .then(response => response.json()).then(redirectPage);
         }
     });
 
     modal.close();
 
 });
-function displaySuccess(response) {
+function redirectPage(response) {
     document.location = response.data;
 }
 
@@ -69,6 +69,15 @@ $('#logoutBtn').addEventListener('click', (event) => {
     Kakao.API.request({
         url: '/v1/user/logout',
         success: (res) => {
+            let obj = {};
+            obj['userId'] = res.id;
+            fetch('/users/logout', {
+                method: 'post',
+                headers: {"content-type": "application/json"},
+                body: JSON.stringify(obj),
+                credentials: 'same-origin'
+            })
+                .then(response => response.json()).then(redirectPage);
             alert("로그아웃 성공");
         },
         fail: (res) => {

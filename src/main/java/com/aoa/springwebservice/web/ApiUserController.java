@@ -48,4 +48,12 @@ public class ApiUserController {
         return new RestResponse("/result/success");
     }
 
+    @PostMapping("/logout")
+    public RestResponse logout(@RequestBody User user, HttpSession session) {
+        log.debug("user : {}", user);
+        User loginUser = userRepository.findByUserId(user.getUserId()).orElseThrow(() -> new EntityNotFoundException());
+        HttpSessionUtils.removeUserSession(session);
+        return new RestResponse("/login");
+    }
+
 }
