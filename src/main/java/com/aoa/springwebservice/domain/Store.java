@@ -50,7 +50,7 @@ public class Store{
     private String description;
 
     // Todo Cascade issue 다른 옵션도 적용해야 할 수도 있음
-    @OneToMany(mappedBy = "store", cascade = {CascadeType.MERGE})
+    @OneToMany(mappedBy = "store", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Menu> menus = new ArrayList<>();
 
     @Builder
@@ -67,8 +67,10 @@ public class Store{
     }
 
     public void addMenu(Menu menu) {
-        if(menu != null && !hasMenu(menu))
+        if(menu != null && !hasMenu(menu)) {
+            menu.setStore(this);
             menus.add(menu);
+        }
     }
 
     public boolean hasMenu(Menu menu) {

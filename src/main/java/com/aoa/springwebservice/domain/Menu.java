@@ -1,13 +1,14 @@
 package com.aoa.springwebservice.domain;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Objects;
 
-@Entity @Getter @ToString
+@Entity
+@Getter
+@ToString
 public class Menu {
 
     @Id
@@ -24,11 +25,12 @@ public class Menu {
 
     private String imageUrl;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_menu_store"), nullable = false)
     @ToString.Exclude
     private Store store;
 
-    public Menu(){
+    public Menu() {
 
     }
 
