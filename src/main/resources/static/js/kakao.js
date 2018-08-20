@@ -2,7 +2,8 @@ Kakao.init('b61fe85153207d259015754ef56d69ab');
 
 var instances = M.Modal.init($("#get-info-modal"));
 
-var test = M.Modal.getInstance($("#get-info-modal"));
+var modal = M.Modal.getInstance($("#get-info-modal"));
+
 Kakao.Auth.createLoginButton({
     container: '#kakao-login-btn',
     success: function(authObj) {
@@ -10,7 +11,6 @@ Kakao.Auth.createLoginButton({
     },
     fail: function(err) {
         console.log(JSON.stringify(err));
-        alert(JSON.stringify(err));
     }
 });
 
@@ -19,51 +19,44 @@ const getInfo = (authObj) => {
     Kakao.API.request({
         url: '/v2/user/me',
         success: function(res) {
-            console.log("Auth Obj : " + JSON.stringify(authObj));
             console.log("id : " + res.id);
-            console.log(res);
-            console.log("email : " + res.kaccount_email);
-            console.log("properties : " + res.properties);
-            console.log(res.properties);
-            console.log("access_token : " + authObj.access_token);
             if (!res.has_signed_up) {
-                test.open();
+                modal.open();
+                $('#user-id').text = res.id;
             }
         }
     });
 }
 
 $('#submitBtn').addEventListener('click', (event) => {
-    let formData = new FormData();
-    serializeArray($('form')).forEach(e => formData.append(e.name, e.value));
-    console.log(formData);
-
+    let formData = {};
+    serializeArray($('form')).forEach(e => obj[e.name] = e.value);
     Kakao.API.request({
         url: '/v1/user/signup',
         data: {
             properties: {
-
                 email: $("#user-email").value
             }
         },
         success: () => {
-            Kakao.API.request({
-                url: '/v2/api/talk/memo/send',
-                data: {
-                    template_id: 11791
-                },
-                success: (res) => {
-                    console.log(res);
-                    console.log("success");
-                }
-            });
+            fetch('/users/signup', {
+                method: 'post',
+                headers: {"content-type": "application/json"},
+                body: JSON.stringify(formData),
+                credentials: 'same-origin'
+            })
+                .then(displaySuccess);
         }
     });
-    test.close();
+
+    modal.close();
 
 });
+function displaySuccess(response) {
+    console.log(response);
+}
 
-$('#siginoutBtn').addEventListener('click', (event) => {
+$('#signOutBtn').addEventListener('click', (event) => {
     Kakao.API.request({
         url: '/v1/user/unlink',
         success: (res) => {
@@ -74,4 +67,4 @@ $('#siginoutBtn').addEventListener('click', (event) => {
             alert("에러입니다.");
         }
     });
-});
+})

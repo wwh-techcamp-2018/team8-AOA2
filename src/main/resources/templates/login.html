@@ -7,51 +7,24 @@
 </head>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+<link href="/css/common.css" type="text/css" rel="stylesheet" />
 
 <body>
-<link href="/css/common.css" type="text/css" rel="stylesheet" />
-<header>
-    <nav>
-        <div class="nav-wrapper">
-            <a href="#!" class="brand-logo">예약</a>
-            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-            <ul class="right hide-on-med-and-down">
-                <li><a href="sass.html"><i class="material-icons">home</i></a></li>
-            </ul>
-        </div>
-    </nav>
-    <ul class="sidenav sidenav-fixed" id="mobile-demo">
-        <li class="title" class="flow-text">나의 가게</li>
-        <ul>
-            <li class="subtitle">가게정보</li>
-            <div class="divider"></div>
-            <li class="menu"><a href="#">가게정보 등록</a></li>
-            <li class="menu"><a href="#">가게정보 수정</a></li>
-        </ul>
-        <ul>
-            <li class="subtitle">메뉴관리</li>
-            <div class="divider"></div>
-            <li class="menu"><a href="#">메뉴 등록</a></li>
-            <li class="menu"><a href="#">메뉴 조회</a></li>
-        </ul>
-        <ul>
-            <li class="subtitle">예약관리</li>
-            <div class="divider"></div>
-            <li class="menu"><a href="#">예약 등록</a></li>
-            <li class="menu"><a href="#">예약정보 조회</a></li>
-        </ul>
-    </ul>
-</header>
-<main>
-    <div class="container">
-        <a id="kakao-login-btn"></a>
-        <a href="http://developers.kakao.com/logout"></a>
-        <button id="siginoutBtn" class="col s3 l2 offset-s9 offset-l10 btn waves-effect waves-light"
-                type="button">탈퇴
+<div class="container">
+    <img class="responsive-img center-block" style="width: 250px;" src="https://i.imgur.com/ax0NCsK.gif" />
+    <h5 class="indigo-text center">Please, login into your account</h5>
 
-        </button>
+    <div class="z-depth-1 grey lighten-4 row" style="padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+        <div class="col s12">
+            <div class="row">
+                <div class="center-block">
+                    <a id="kakao-login-btn"></a>
+                    <button id="signOutBtn" type="button">탈퇴</button>
+                </div>
+            </div>
+        </div>
     </div>
-</main>
+</div>
 <div id="get-info-modal" class="modal">
     <div class="modal-content">
         <form>
@@ -62,6 +35,21 @@
                     </div>
                     <div class="input-field col s12 l9">
                         <input id="user-email" type="text" name="email">
+                    </div>
+                    <div class="input-title col s12 l3">
+                        이름
+                    </div>
+                    <div class="input-field col s12 l9">
+                        <input id="user-name" type="text" name="name">
+                    </div>
+                    <div class="input-title col s12 l3">
+                        전화번호
+                    </div>
+                    <div class="input-field col s12 l9">
+                        <input id="user-phoneNumber" type="text" name="phoneNumber">
+                    </div>
+                    <div class="input-field col s12 l9">
+                        <input id="user-id" type="hidden" name="userId">
                     </div>
                 </div>
             </div>
