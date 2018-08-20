@@ -56,21 +56,21 @@
                 </div>
             </div>
 
-            <button id="input_menu_btn" type="button" class="col s3 l2 offset-s9 offset-l10 btn waves-effect waves-light">등록
+            <button id="input_menu_btn" type="button" class="col s3 l2 offset-s9 offset-l10 btn waves-effect waves-light" data-url="/api/stores/{{store.id}}/menus/">등록
                 <i class="material-icons right">send</i>
             </button>
 
         </div>
 
 
-    </div>
+    </div> {{store}}
 </main>
 </body>
 {{> footer}}
 <script>
     function createMenu(event){
         event.preventDefault();
-
+        const url = event.target.getAttribute('data-url');
         const nameElem = document.querySelector('#input_menu_name');
         const priceElem = document.querySelector('#input_menu_price');
         const descriptionElem = document.querySelector('#input_menu_description');
@@ -88,7 +88,7 @@
         formData.append('description', priceElem.value);
 
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/api/menu', true);
+        xhr.open('POST', url , true);
 
         xhr.onload = function (progressEvent) {
             const status = progressEvent.target.status;
