@@ -34,10 +34,6 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public boolean matchEmail(String email) {
-        return this.email.equals(email);
-    }
-
     @Override
     public String toString() {
         return "User{" +

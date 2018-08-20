@@ -19,10 +19,20 @@ const getInfo = (authObj) => {
     Kakao.API.request({
         url: '/v2/user/me',
         success: function(res) {
-            console.log("id : " + res.id);
             if (!res.has_signed_up) {
+                $('#user-id').value = res.id;
                 modal.open();
-                $('#user-id').text = res.id;
+            } else {
+                console.log("id : " + res.id);
+                let obj = {};
+                obj['userId'] = res.id;
+                fetch('/users/login', {
+                    method: 'post',
+                    headers: {"content-type": "application/json"},
+                    body: JSON.stringify(obj),
+                    credentials: 'same-origin'
+                })
+                    .then(displaySuccess);
             }
         }
     });
@@ -30,7 +40,7 @@ const getInfo = (authObj) => {
 
 $('#submitBtn').addEventListener('click', (event) => {
     let formData = {};
-    serializeArray($('form')).forEach(e => obj[e.name] = e.value);
+    serializeArray($('form')).forEach(e => formData[e.name] = e.value);
     Kakao.API.request({
         url: '/v1/user/signup',
         data: {
@@ -56,11 +66,24 @@ function displaySuccess(response) {
     console.log(response);
 }
 
-$('#signOutBtn').addEventListener('click', (event) => {
+$('#logoutBtn').addEventListener('click', (event) => {
+    Kakao.API.request({
+        url: '/v1/user/logout',
+        success: (res) => {
+            alert("로그아웃 성공");
+        },
+        fail: (res) => {
+            console.log(res);
+            alert("에러입니다.");
+        }
+    });
+})
+
+$('#signoutBtn').addEventListener('click', (event) => {
     Kakao.API.request({
         url: '/v1/user/unlink',
         success: (res) => {
-            alert("탈퇴성공");
+            alert("앱 탈퇴 성공");
         },
         fail: (res) => {
             console.log(res);
