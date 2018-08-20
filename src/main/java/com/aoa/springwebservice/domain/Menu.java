@@ -35,10 +35,15 @@ public class Menu {
     }
 
     public Menu(String name, int price, String description, String imageUrl) {
+        this(name, price, description, imageUrl, null);
+    }
+
+    public Menu(String name, int price, String description, String imageUrl, Store store) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.store = store;
     }
 
     public long getId() {
@@ -114,4 +119,7 @@ public class Menu {
                 '}';
     }
 
+    public boolean isEqualStore(Store store) {
+        return this.store.equals(store);
+    }
 }

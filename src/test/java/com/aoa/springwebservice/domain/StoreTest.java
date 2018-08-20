@@ -1,5 +1,6 @@
 package com.aoa.springwebservice.domain;
 
+import com.aoa.springwebservice.domain.support.MenuDTO;
 import org.junit.Test;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -19,10 +20,10 @@ public class StoreTest {
                 .address("ADDRESS")
                 .build();
 
-        Menu menu = new Menu("test", 1, "가게관점createMenu", "/");
+        MenuDTO menuDTO = new MenuDTO("test", 1, "가게관점createMenu", "/");
+        Menu menu = menuDTO.toDomain(store);
 
-        store.addMenu(menu);
-
+        assertThat(store.addMenu(menu)).isTrue();
         assertThat(store.hasMenu(menu)).isTrue();
     }
 }

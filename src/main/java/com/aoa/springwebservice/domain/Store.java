@@ -66,11 +66,12 @@ public class Store{
         this.description = description;
     }
 
-    public void addMenu(Menu menu) {
-        if(menu != null && !hasMenu(menu)) {
-            menu.setStore(this);
+    public boolean addMenu(Menu menu) {
+        if(menu != null && menu.isEqualStore(this) && !hasMenu(menu)) {
             menus.add(menu);
+            return true;
         }
+        return false;
     }
 
     public boolean hasMenu(Menu menu) {

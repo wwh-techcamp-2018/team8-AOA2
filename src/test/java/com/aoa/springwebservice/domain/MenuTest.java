@@ -1,5 +1,6 @@
 package com.aoa.springwebservice.domain;
 
+import com.aoa.springwebservice.domain.support.MenuDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,7 +55,8 @@ public class MenuTest {
                 .address("ADDRESS")
                 .build();
         store = storeRepository.save(store);
-        Menu menu = new Menu("test", 1, "가게관점createMenu", "/");
+        MenuDTO menuDTO = new MenuDTO("test", 1, "가게관점createMenu", "/");
+        Menu menu = menuDTO.toDomain(store);
         log.debug("store before add menu : {}", store);
         store.addMenu(menu);
         log.debug("store after add menu : {}", store);
