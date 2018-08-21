@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -31,12 +32,8 @@ public class Menu {
 
     private String imageUrl;
 
-    private int maxCount;
-
-    private int personalMaxCount;
-
     @Embedded
-    private MaxCount maxCountClass;
+    private MaxCount maxCount;
 
     @ManyToOne(optional = false)
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_menu_store"), nullable = false)
@@ -94,24 +91,9 @@ public class Menu {
         isUsed = NOT_USED;
     }
 
-    public void changeTodayMenu(int maxCount, int personalMaxCount){
-        //todo 여기다가도 maxCount, personalMaxCount 를 하는 게 좋을 수도
-        if (maxCount < personalMaxCount) {
-            throw new IllegalArgumentException();
-        }
+    public void changeTodayMenu(MaxCount maxCount){
         this.maxCount = maxCount;
-        this.personalMaxCount = personalMaxCount;
-
        //hint this.maxCount = new MaxCount(, );
         isUsed = USED;
-    }
-}
-
-class MaxCount {
-    MaxCount(int maxCount, int personalMaxCount) {
-        if (maxCount < personalMaxCount) {
-            throw new IllegalArgumentException();
-        }
-
     }
 }

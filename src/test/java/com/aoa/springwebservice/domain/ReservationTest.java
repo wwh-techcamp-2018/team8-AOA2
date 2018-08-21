@@ -1,6 +1,6 @@
 package com.aoa.springwebservice.domain;
 
-import com.aoa.springwebservice.dto.ReservatioDTO;
+import com.aoa.springwebservice.dto.ReservationDTO;
 import com.aoa.springwebservice.dto.ReservationFormDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -28,14 +28,14 @@ public class ReservationTest {
         store.addMenu(Menu.builder().store(store).name("test1").description("test1").price(1).id(1L).build());
         store.addMenu(Menu.builder().store(store).name("test2").description("test2").price(2).id(2L).build());
 
-        List<ReservatioDTO> reservatioDTOS = Arrays.asList(
-                ReservatioDTO.builder().maxCount(3).personalMaxCount(3).menuId(1L).build()
-                , ReservatioDTO.builder().maxCount(3).personalMaxCount(3).menuId(2L).build());
+        List<ReservationDTO> reservationDTOS = Arrays.asList(
+                ReservationDTO.builder().maxCount(3).personalMaxCount(3).menuId(1L).build()
+                , ReservationDTO.builder().maxCount(3).personalMaxCount(3).menuId(2L).build());
 
         ReservationFormDTO reservationFormDTO = ReservationFormDTO.builder()
                 .hourToClose(11)
                 .minuteToClose(0)
-                .reservatioDTOs(reservatioDTOS)
+                .reservationDTOs(reservationDTOS)
                 .build();
 
         List<Reservation> reservations = reservationFormDTO.generateReservations(store);

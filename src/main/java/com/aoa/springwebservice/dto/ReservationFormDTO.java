@@ -26,14 +26,14 @@ public class ReservationFormDTO {
     @Min(0) @Max(59)
     private int minuteToClose;
 
-    private List<ReservatioDTO> reservatioDTOs = new ArrayList<>();
+    private List<ReservationDTO> reservationDTOs = new ArrayList<>();
 
     @Builder
-    public ReservationFormDTO(String openDate, @Min(0) @Max(24) int hourToClose, @Min(0) @Max(59) int minuteToClose, List<ReservatioDTO> reservatioDTOs) {
+    public ReservationFormDTO(String openDate, @Min(0) @Max(24) int hourToClose, @Min(0) @Max(59) int minuteToClose, List<ReservationDTO> reservationDTOs) {
         this.openDate = openDate;
         this.hourToClose = hourToClose;
         this.minuteToClose = minuteToClose;
-        this.reservatioDTOs = reservatioDTOs;
+        this.reservationDTOs = reservationDTOs;
     }
 
     public LocalDateTime generateTimeToClose() {
@@ -42,7 +42,7 @@ public class ReservationFormDTO {
     }
 
     public List<Reservation> generateReservations(Store store) {
-        return reservatioDTOs.stream().map(x -> x.toDomain(store)).collect(Collectors.toList());
+        return reservationDTOs.stream().map(x -> x.toDomain(store)).collect(Collectors.toList());
     }
 
 

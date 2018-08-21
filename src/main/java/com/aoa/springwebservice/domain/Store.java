@@ -60,6 +60,7 @@ public class Store{
     @Transient
     private boolean isOpen;
 
+    @OneToMany(mappedBy = "store", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Reservation> currentReservations = new ArrayList<>();
 
     @Builder
@@ -101,22 +102,22 @@ public class Store{
 
         return Objects.hash(storeName);
     }
-
-    public boolean updateReservation(List<Reservation> reservations, LocalDateTime timeToClose) {
-        if(isOpen && !validateReservations(reservations)) return false;
-
-        this.timeToClose = timeToClose;
+    public void inactivateMenus(){
         menus.stream()
                 .filter(menu -> menu.isUsed())
                 .forEach(menu -> menu.notUsed());
+    }
+    public boolean updateReservation(List<Reservation> reservations, LocalDateTime timeToClose) {
+        if(isOpen) return false; //&& !validateReservations(reservations)) return false;
 
+        this.timeToClose = timeToClose;
+        inactivateMenus();
         reservations.forEach(reservation -> reservation.update());
-
         // todo Cascade 이슈 생길 수도 있음, JPA 붙이고 확인 필요
         currentReservations = reservations;
         return true;
     }
-
+/*
     private boolean validateReservations(List<Reservation> reservations){
 
         //todo 검사조건 추가
@@ -127,6 +128,6 @@ public class Store{
 
         return true;
     }
-
+*/
 
 }

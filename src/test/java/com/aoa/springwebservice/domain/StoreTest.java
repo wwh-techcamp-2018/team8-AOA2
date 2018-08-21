@@ -1,18 +1,18 @@
 package com.aoa.springwebservice.domain;
 
 import com.aoa.springwebservice.domain.support.MenuDTO;
-import com.aoa.springwebservice.dto.ReservatioDTO;
+import com.aoa.springwebservice.dto.ReservationDTO;
 import com.aoa.springwebservice.dto.ReservationFormDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-
+@Slf4j
 public class StoreTest {
 
     private Store store;
@@ -51,21 +51,21 @@ public class StoreTest {
 
     @Test
     public void createReservation(){
-        List<ReservatioDTO> reservatioDTOS = Arrays.asList(
-                ReservatioDTO.builder().maxCount(3).personalMaxCount(3).menuId(1L).build()
-                , ReservatioDTO.builder().maxCount(3).personalMaxCount(3).menuId(2L).build());
+        List<ReservationDTO> reservationDTOS = Arrays.asList(
+                ReservationDTO.builder().maxCount(3).personalMaxCount(3).menuId(1L).build()
+                , ReservationDTO.builder().maxCount(3).personalMaxCount(3).menuId(2L).build());
 
         ReservationFormDTO reservationFormDTO = ReservationFormDTO.builder()
                 .hourToClose(11)
                 .minuteToClose(0)
-                .reservatioDTOs(reservatioDTOS)
+                .reservationDTOs(reservationDTOS)
                 .build();
 
         List<Reservation> reservations = reservationFormDTO.generateReservations(store);
         LocalDateTime timeToClose = reservationFormDTO.generateTimeToClose();
 
         store.updateReservation(reservations, timeToClose);
-
+        log.debug("Store {} ", store);
         /*
             // param) reservations 날짜 세팅된 애들
 
