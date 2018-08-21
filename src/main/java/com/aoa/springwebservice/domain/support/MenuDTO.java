@@ -1,6 +1,7 @@
 package com.aoa.springwebservice.domain.support;
 
 import com.aoa.springwebservice.domain.Menu;
+import com.aoa.springwebservice.domain.Store;
 
 import java.io.Serializable;
 
@@ -10,6 +11,16 @@ public class MenuDTO implements Serializable {
     protected int price;
     protected String description;
     protected String imageUrl;
+
+    public MenuDTO() {
+    }
+
+    public MenuDTO(String name, int price, String description, String imageUrl) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.imageUrl = imageUrl;
+    }
 
     public String getName() {
         return name;
@@ -43,8 +54,12 @@ public class MenuDTO implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public Menu toDomain(){
+    public Menu toDomain() {
         return new Menu(name, price, description, imageUrl);
+    }
+
+    public Menu toDomain(Store store) {
+        return new Menu(name, price, description, imageUrl, store);
     }
 
     @Override
