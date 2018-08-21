@@ -25,7 +25,7 @@ const getInfo = (authObj) => {
             } else {
                 let obj = {};
                 obj['userId'] = res.id;
-                fetch('/users/login', {
+                fetch('/api/users/login', {
                     method: 'post',
                     headers: {"content-type": "application/json"},
                     body: JSON.stringify(obj),
@@ -48,7 +48,7 @@ $('#submitBtn').addEventListener('click', (event) => {
             }
         },
         success: () => {
-            fetch('/users/signup', {
+            fetch('/api/users/signup', {
                 method: 'post',
                 headers: {"content-type": "application/json"},
                 body: JSON.stringify(formData),
@@ -71,7 +71,7 @@ $('#logoutBtn').addEventListener('click', (event) => {
         success: (res) => {
             let obj = {};
             obj['userId'] = res.id;
-            fetch('/users/logout', {
+            fetch('/api/users/logout', {
                 method: 'post',
                 headers: {"content-type": "application/json"},
                 body: JSON.stringify(obj),

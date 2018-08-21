@@ -24,7 +24,7 @@ import java.net.URI;
 
 @Slf4j
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class ApiUserController {
 
     @Autowired

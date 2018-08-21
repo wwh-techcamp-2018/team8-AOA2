@@ -6,21 +6,25 @@
     <title>Title</title>
 </head>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link href="/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
-<link href="/css/common.css" type="text/css" rel="stylesheet" />
+<link href="/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="/css/common.css" type="text/css" rel="stylesheet"/>
 
 <body>
 <div class="container">
-    <img class="responsive-img center-block" style="width: 250px;" src="https://i.imgur.com/ax0NCsK.gif" />
+    <img class="responsive-img center-block" style="width: 250px;" src="./images/logo.png"/>
     <h5 class="indigo-text center">Please, login into your account</h5>
-
-    <div class="z-depth-1 grey lighten-4 row" style="padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
-        <div class="col s12">
+    <div class="row">
+        <div class="z-depth-1 grey lighten-4 col s4 offset-s4"
+             style="padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
             <div class="row">
-                <div class="center-block">
+                <div class="col s10 offset-s1" style="padding: 0px;">
                     <a id="kakao-login-btn"></a>
-                    <button id="logoutBtn" type="button">로그아웃</button>
-                    <button id="signoutBtn" type="button">탈퇴</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s10 offset-s1" style="padding: 0px;">
+                    <button id="logoutBtn" class="btn" type="button">로그아웃</button>
+                    <button id="signoutBtn" class="btn" type="button">탈퇴</button>
                 </div>
             </div>
         </div>
