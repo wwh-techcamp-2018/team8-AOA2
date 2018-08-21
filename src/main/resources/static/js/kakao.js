@@ -37,65 +37,76 @@ const getInfo = (authObj) => {
     });
 }
 
-$('#submitBtn').addEventListener('click', (event) => {
-    let formData = {};
-    serializeArray($('form')).forEach(e => formData[e.name] = e.value);
-    Kakao.API.request({
-        url: '/v1/user/signup',
-        data: {
-            properties: {
-                email: $("#user-email").value
+document.addEventListener('DOMContentLoaded', function () {
+    var counter = document.querySelectorAll('.input_counter');
+    M.CharacterCounter.init(counter);
+
+    $('#submitBtn').addEventListener('click', (event) => {
+
+        const form = $('form');
+        if (!validateForm(form))
+            return;
+
+        let formData = {};
+        serializeArray(form).forEach(e => formData[e.name] = e.value);
+        Kakao.API.request({
+            url: '/v1/user/signup',
+            data: {
+                properties: {
+                    email: $("#user-email").value
+                }
+            },
+            success: () => {
+                fetch('/api/users/signup', {
+                    method: 'post',
+                    headers: {"content-type": "application/json"},
+                    body: JSON.stringify(formData),
+                    credentials: 'same-origin'
+                })
+                    .then(response => response.json()).then(redirectPage);
             }
-        },
-        success: () => {
-            fetch('/api/users/signup', {
-                method: 'post',
-                headers: {"content-type": "application/json"},
-                body: JSON.stringify(formData),
-                credentials: 'same-origin'
-            })
-                .then(response => response.json()).then(redirectPage);
-        }
+        });
+
+        modal.close();
+
     });
 
-    modal.close();
+    $('#logoutBtn').addEventListener('click', (event) => {
+        Kakao.API.request({
+            url: '/v1/user/logout',
+            success: (res) => {
+                let obj = {};
+                obj['userId'] = res.id;
+                fetch('/api/users/logout', {
+                    method: 'post',
+                    headers: {"content-type": "application/json"},
+                    body: JSON.stringify(obj),
+                    credentials: 'same-origin'
+                })
+                    .then(response => response.json()).then(redirectPage);
+                alert("로그아웃 성공");
+            },
+            fail: (res) => {
+                console.log(res);
+                alert("에러입니다.");
+            }
+        });
+    })
 
+    $('#signoutBtn').addEventListener('click', (event) => {
+        Kakao.API.request({
+            url: '/v1/user/unlink',
+            success: (res) => {
+                alert("앱 탈퇴 성공");
+            },
+            fail: (res) => {
+                console.log(res);
+                alert("에러입니다.");
+            }
+        });
+    })
 });
+
 function redirectPage(response) {
     document.location = response.data;
 }
-
-$('#logoutBtn').addEventListener('click', (event) => {
-    Kakao.API.request({
-        url: '/v1/user/logout',
-        success: (res) => {
-            let obj = {};
-            obj['userId'] = res.id;
-            fetch('/api/users/logout', {
-                method: 'post',
-                headers: {"content-type": "application/json"},
-                body: JSON.stringify(obj),
-                credentials: 'same-origin'
-            })
-                .then(response => response.json()).then(redirectPage);
-            alert("로그아웃 성공");
-        },
-        fail: (res) => {
-            console.log(res);
-            alert("에러입니다.");
-        }
-    });
-})
-
-$('#signoutBtn').addEventListener('click', (event) => {
-    Kakao.API.request({
-        url: '/v1/user/unlink',
-        success: (res) => {
-            alert("앱 탈퇴 성공");
-        },
-        fail: (res) => {
-            console.log(res);
-            alert("에러입니다.");
-        }
-    });
-})

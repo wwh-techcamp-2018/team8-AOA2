@@ -1,5 +1,6 @@
 package com.aoa.springwebservice.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,6 +28,7 @@ public class User {
     @Column(nullable = false)
     private String phoneNumber;
 
+    @Builder
     public User(String userId, String name, String email, String phoneNumber) {
         this.userId = userId;
         this.name = name;

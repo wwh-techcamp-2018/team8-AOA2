@@ -3,6 +3,7 @@ package com.aoa.springwebservice.web;
 import com.aoa.springwebservice.RestResponse;
 import com.aoa.springwebservice.domain.User;
 import com.aoa.springwebservice.domain.UserRepository;
+import com.aoa.springwebservice.dto.UserInputDTO;
 import com.aoa.springwebservice.exception.UnAuthorizedException;
 import com.aoa.springwebservice.security.HttpSessionUtils;
 import com.aoa.springwebservice.service.UserService;
@@ -31,8 +32,8 @@ public class ApiUserController {
     private UserService userService;
 
     @PostMapping("/signup")
-    public RestResponse create(@RequestBody User user, HttpSession session) {
-        log.debug("user : {}", user);
+    public RestResponse create(@RequestBody UserInputDTO user, HttpSession session) {
+        log.debug("userInputDTO : {}", user);
         HttpSessionUtils.setUserSession(session, userService.create(user));
 
         return new RestResponse("/result/success");
@@ -40,7 +41,7 @@ public class ApiUserController {
     }
 
     @PostMapping("/login")
-    public RestResponse login(@RequestBody User user, HttpSession session) {
+    public RestResponse login(@RequestBody UserInputDTO user, HttpSession session) {
         log.debug("user : {}", user);
         HttpSessionUtils.setUserSession(session, userService.login(user));
 
@@ -48,7 +49,7 @@ public class ApiUserController {
     }
 
     @PostMapping("/logout")
-    public RestResponse logout(@RequestBody User user, HttpSession session) {
+    public RestResponse logout(@RequestBody UserInputDTO user, HttpSession session) {
         log.debug("user : {}", user);
         userService.logout(user);
         HttpSessionUtils.removeUserSession(session);

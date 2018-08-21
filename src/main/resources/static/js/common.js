@@ -77,3 +77,26 @@ const numberToLocaleString = (number) => {
 const localeStringToNumber = (string) => {
     return Number(string.replace(/[,원]/gi, ""));
 };
+
+//when using validation form
+const validateForm = (formEl) => {
+    if (!formEl)
+        return false;
+    const requiredInputs = Array.from ($All(':required', formEl));
+
+    requiredInputs.forEach( e => {
+        if(e.value.isEmpty()){
+            addClass(e, 'invalid');
+        }
+    });
+
+    if($('.invalid', formEl)) {
+        $('.invalid',formEl).focus();
+        return false;
+    }
+    return true;
+};
+
+String.prototype.isEmpty = function () {
+    return (this.length === 0 || !this.trim());
+}

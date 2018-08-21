@@ -39,19 +39,44 @@
                         이메일
                     </div>
                     <div class="input-field col s12 l9">
-                        <input id="user-email" type="text" name="email">
+                        <input id="user-email" class="validate" data-regex="^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$" type="text" name="email" required>
                     </div>
                     <div class="input-title col s12 l3">
                         이름
                     </div>
                     <div class="input-field col s12 l9">
-                        <input id="user-name" type="text" name="name">
+                        <input id="user-name" class="input_counter validate" type="text" name="name" data-length="5" data-min-length="2" required>
                     </div>
-                    <div class="input-title col s12 l3">
-                        전화번호
+                    <div class="input-title col s12 l2">
+                        핸드폰번호
                     </div>
-                    <div class="input-field col s12 l9">
-                        <input id="user-phoneNumber" type="text" name="phoneNumber">
+                    <div class="col s12 l10">
+                        <div class="row">
+                            <div class="input-field col s3 l2">
+                                <input name="phoneNumber_1" class="validate" type="text"
+                                       data-length="3" data-regex="^01(?:0|1|[6-9])$" required>
+                                <span class="helper-text" data-error="wrong"
+                                      data-success="right">3자 이하로 적어주십시오</span>
+                            </div>
+                            <div class="input-title col s1 l1">
+                                -
+                            </div>
+                            <div class="input-field col s3 l2">
+                                <input name="phoneNumber_2" class="validate" type="text"
+                                       data-length="4" data-min-length="3" data-regex="^[0-9]*$" required>
+                                <span class="helper-text" data-error="wrong"
+                                      data-success="right" >4자 이하로 적어주십시오</span>
+                            </div>
+                            <div class="input-title col s1 l1">
+                                -
+                            </div>
+                            <div class="input-field col s3 l2">
+                                <input name="phoneNumber_3" class="validate" type="text"
+                                       data-length="4" data-min-length="4" data-regex="^[0-9]*$" required>
+                                <span class="helper-text" data-error="wrong"
+                                      data-success="right" >4자 이하로 적어주십시오</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="input-field col s12 l9">
                         <input id="user-id" type="hidden" name="userId">
