@@ -60,7 +60,7 @@ public class UserInputDTO {
         return User.builder().uuid(uuid)
                 .name(name)
                 .email(email)
-                .phoneNumber(phoneNumber_1 + "-" + phoneNumber_2 + "-" + phoneNumber_3)
+                .phoneNumber(phoneNumber_1 + phoneNumber_2 + phoneNumber_3)
                 .build();
 
     }

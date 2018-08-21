@@ -25,13 +25,7 @@ const getInfo = (authObj) => {
             } else {
                 let obj = {};
                 obj['uuid'] = res.id;
-                fetch('/api/users/login', {
-                    method: 'post',
-                    headers: {"content-type": "application/json"},
-                    body: JSON.stringify(obj),
-                    credentials: 'same-origin'
-                })
-                    .then(response => response.json()).then(redirectPage);
+                fetchManager('/api/users/login', obj);
             }
         }
     });
@@ -42,71 +36,78 @@ document.addEventListener('DOMContentLoaded', function () {
     M.CharacterCounter.init(counter);
 
     $('#submitBtn').addEventListener('click', (event) => {
-
-        const form = $('form');
-        if (!validateForm(form))
-            return;
-
-        let formData = {};
-        serializeArray(form).forEach(e => formData[e.name] = e.value);
-        Kakao.API.request({
-            url: '/v1/user/signup',
-            data: {
-                properties: {
-                    email: $("#user-email").value
-                }
-            },
-            success: () => {
-                fetch('/api/users/signup', {
-                    method: 'post',
-                    headers: {"content-type": "application/json"},
-                    body: JSON.stringify(formData),
-                    credentials: 'same-origin'
-                })
-                    .then(response => response.json()).then(redirectPage);
-            }
-        });
-
+        kakaoSignUp();
         modal.close();
-
     });
 
     $('#logoutBtn').addEventListener('click', (event) => {
-        Kakao.API.request({
-            url: '/v1/user/logout',
-            success: (res) => {
-                let obj = {};
-                obj['uuid'] = res.id;
-                fetch('/api/users/logout', {
-                    method: 'post',
-                    headers: {"content-type": "application/json"},
-                    body: JSON.stringify(obj),
-                    credentials: 'same-origin'
-                })
-                    .then(response => response.json()).then(redirectPage);
-                alert("로그아웃 성공");
-            },
-            fail: (res) => {
-                console.log(res);
-                alert("에러입니다.");
-            }
-        });
-    })
+        kakaoLogout();
+    });
 
     $('#signoutBtn').addEventListener('click', (event) => {
-        Kakao.API.request({
-            url: '/v1/user/unlink',
-            success: (res) => {
-                alert("앱 탈퇴 성공");
-            },
-            fail: (res) => {
-                console.log(res);
-                alert("에러입니다.");
-            }
-        });
-    })
+        kakaoUnlink();
+    });
 });
 
 function redirectPage(response) {
     document.location = response.data;
+}
+
+function fetchManager(url, obj) {
+    fetch(url, {
+        method: 'post',
+        headers: {"content-type": "application/json"},
+        body: JSON.stringify(obj),
+        credentials: 'same-origin'
+    })
+        .then(response => response.json()).then(redirectPage);
+}
+
+function kakaoSignUp () {
+    const form = $('form');
+    if (!validateForm(form))
+        return;
+
+    let formData = {};
+    serializeArray(form).forEach(e => formData[e.name] = e.value);
+    Kakao.API.request({
+        url: '/v1/user/signup',
+        data: {
+            properties: {
+                email: $("#user-email").value
+            }
+        },
+        success: () => {
+            fetchManager('/api/users/signup', formData);
+        }
+    });
+
+}
+
+function kakaoLogout() {
+    Kakao.API.request({
+        url: '/v1/user/logout',
+        success: (res) => {
+            let obj = {};
+            obj['uuid'] = res.id;
+            fetchManager('/api/users/logout', obj);
+            console.log("로그아웃 성공");
+        },
+        fail: (res) => {
+            console.log(res);
+        }
+    });
+}
+
+function kakaoUnlink() {
+    Kakao.API.request({
+        url: '/v1/user/unlink',
+        success: (res) => {
+            console.log("앱 탈퇴 성공");
+        },
+        fail: (res) => {
+            console.log(res);
+            console.log("에러입니다.");
+        }
+    });
 }

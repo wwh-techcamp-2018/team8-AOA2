@@ -78,14 +78,24 @@ const localeStringToNumber = (string) => {
     return Number(string.replace(/[,원]/gi, ""));
 };
 
+/*
+String.prototype.isEmpty = function () {
+    return (this.length === 0 || !this.trim());
+}
+*/
+
 //when using validation form
+const isEmpty = (str) => {
+    return (str.length === 0 || !str.trim());
+}
+
 const validateForm = (formEl) => {
     if (!formEl)
         return false;
     const requiredInputs = Array.from ($All(':required', formEl));
 
     requiredInputs.forEach( e => {
-        if(e.value.isEmpty()){
+        if(isEmpty(e.value)){
             addClass(e, 'invalid');
         }
     });
@@ -96,7 +106,3 @@ const validateForm = (formEl) => {
     }
     return true;
 };
-
-String.prototype.isEmpty = function () {
-    return (this.length === 0 || !this.trim());
-}
