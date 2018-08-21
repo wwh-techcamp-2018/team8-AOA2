@@ -32,7 +32,3 @@ const fetchAsync = ({url, method, body}) => (
             return res.json();
         })
 );
-
-String.prototype.isEmpty = function () {
-    return (this.length === 0 || !this.trim());
-}

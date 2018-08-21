@@ -6,21 +6,25 @@
     <title>Title</title>
 </head>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link href="/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
-<link href="/css/common.css" type="text/css" rel="stylesheet" />
+<link href="/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="/css/common.css" type="text/css" rel="stylesheet"/>
 
 <body>
 <div class="container">
-    <img class="responsive-img center-block" style="width: 250px;" src="https://i.imgur.com/ax0NCsK.gif" />
+    <img class="responsive-img center-block" style="width: 250px;" src="./images/logo.png"/>
     <h5 class="indigo-text center">Please, login into your account</h5>
-
-    <div class="z-depth-1 grey lighten-4 row" style="padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
-        <div class="col s12">
+    <div class="row">
+        <div class="z-depth-1 grey lighten-4 col s4 offset-s4"
+             style="padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
             <div class="row">
-                <div class="center-block">
+                <div class="col s10 offset-s1" style="padding: 0px;">
                     <a id="kakao-login-btn"></a>
-                    <button id="logoutBtn" type="button">로그아웃</button>
-                    <button id="signoutBtn" type="button">탈퇴</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s10 offset-s1" style="padding: 0px;">
+                    <button id="logoutBtn" class="btn" type="button">로그아웃</button>
+                    <button id="signoutBtn" class="btn" type="button">탈퇴</button>
                 </div>
             </div>
         </div>
@@ -35,22 +39,49 @@
                         이메일
                     </div>
                     <div class="input-field col s12 l9">
-                        <input id="user-email" type="text" name="email">
+                        <input id="user-email" class="validate" data-regex="^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$" type="text" name="email" required>
+                        <span class="helper-text" data-error="wrong" data-success="right">이메일 양식에 맞게 입력하세요</span>
                     </div>
                     <div class="input-title col s12 l3">
                         이름
                     </div>
                     <div class="input-field col s12 l9">
-                        <input id="user-name" type="text" name="name">
+                        <input id="user-name" class="input_counter validate" type="text" name="name" data-length="5" data-min-length="2" required>
+                        <span class="helper-text" data-error="wrong" data-success="right">5자 이하로 입력해주세요.</span>
                     </div>
-                    <div class="input-title col s12 l3">
-                        전화번호
+                    <div class="input-title col s12 l2">
+                        핸드폰번호
+                    </div>
+                    <div class="col s12 l10">
+                        <div class="row">
+                            <div class="input-field col s3 l2">
+                                <input name="phoneNumber_1" class="validate" type="text"
+                                       data-length="3" data-regex="^01(?:0|1|[6-9])$" required>
+                                <span class="helper-text" data-error="wrong"
+                                      data-success="right">3자 이하로 적어주십시오</span>
+                            </div>
+                            <div class="input-title col s1 l1">
+                                -
+                            </div>
+                            <div class="input-field col s3 l2">
+                                <input name="phoneNumber_2" class="validate" type="text"
+                                       data-length="4" data-min-length="3" data-regex="^[0-9]*$" required>
+                                <span class="helper-text" data-error="wrong"
+                                      data-success="right" >4자 이하로 적어주십시오</span>
+                            </div>
+                            <div class="input-title col s1 l1">
+                                -
+                            </div>
+                            <div class="input-field col s3 l2">
+                                <input name="phoneNumber_3" class="validate" type="text"
+                                       data-length="4" data-min-length="4" data-regex="^[0-9]*$" required>
+                                <span class="helper-text" data-error="wrong"
+                                      data-success="right" >4자 이하로 적어주십시오</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="input-field col s12 l9">
-                        <input id="user-phoneNumber" type="text" name="phoneNumber">
-                    </div>
-                    <div class="input-field col s12 l9">
-                        <input id="user-id" type="hidden" name="userId">
+                        <input id="user-id" type="hidden" name="uuid">
                     </div>
                 </div>
             </div>

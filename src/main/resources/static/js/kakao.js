@@ -24,22 +24,52 @@ const getInfo = (authObj) => {
                 modal.open();
             } else {
                 let obj = {};
-                obj['userId'] = res.id;
-                fetch('/users/login', {
-                    method: 'post',
-                    headers: {"content-type": "application/json"},
-                    body: JSON.stringify(obj),
-                    credentials: 'same-origin'
-                })
-                    .then(response => response.json()).then(redirectPage);
+                obj['uuid'] = res.id;
+                fetchManager('/api/users/login', obj);
             }
         }
     });
 }
 
-$('#submitBtn').addEventListener('click', (event) => {
+document.addEventListener('DOMContentLoaded', function () {
+    var counter = document.querySelectorAll('.input_counter');
+    M.CharacterCounter.init(counter);
+
+    $('#submitBtn').addEventListener('click', (event) => {
+        kakaoSignUp();
+        modal.close();
+    });
+
+    $('#logoutBtn').addEventListener('click', (event) => {
+        kakaoLogout();
+    });
+
+    $('#signoutBtn').addEventListener('click', (event) => {
+        kakaoUnlink();
+    });
+});
+
+function redirectPage(response) {
+    document.location = response.data;
+}
+
+function fetchManager(url, obj) {
+    fetch(url, {
+        method: 'post',
+        headers: {"content-type": "application/json"},
+        body: JSON.stringify(obj),
+        credentials: 'same-origin'
+    })
+        .then(response => response.json()).then(redirectPage);
+}
+
+function kakaoSignUp () {
+    const form = $('form');
+    if (!validateForm(form))
+        return;
+
     let formData = {};
-    serializeArray($('form')).forEach(e => formData[e.name] = e.value);
+    serializeArray(form).forEach(e => formData[e.name] = e.value);
     Kakao.API.request({
         url: '/v1/user/signup',
         data: {
@@ -48,54 +78,36 @@ $('#submitBtn').addEventListener('click', (event) => {
             }
         },
         success: () => {
-            fetch('/users/signup', {
-                method: 'post',
-                headers: {"content-type": "application/json"},
-                body: JSON.stringify(formData),
-                credentials: 'same-origin'
-            })
-                .then(response => response.json()).then(redirectPage);
+            fetchManager('/api/users/signup', formData);
         }
     });
 
-    modal.close();
-
-});
-function redirectPage(response) {
-    document.location = response.data;
 }
 
-$('#logoutBtn').addEventListener('click', (event) => {
+function kakaoLogout() {
     Kakao.API.request({
         url: '/v1/user/logout',
         success: (res) => {
             let obj = {};
-            obj['userId'] = res.id;
-            fetch('/users/logout', {
-                method: 'post',
-                headers: {"content-type": "application/json"},
-                body: JSON.stringify(obj),
-                credentials: 'same-origin'
-            })
-                .then(response => response.json()).then(redirectPage);
-            alert("로그아웃 성공");
+            obj['uuid'] = res.id;
+            fetchManager('/api/users/logout', obj);
+            console.log("로그아웃 성공");
         },
         fail: (res) => {
             console.log(res);
-            alert("에러입니다.");
         }
     });
-})
+}
 
-$('#signoutBtn').addEventListener('click', (event) => {
+function kakaoUnlink() {
     Kakao.API.request({
         url: '/v1/user/unlink',
         success: (res) => {
-            alert("앱 탈퇴 성공");
+            console.log("앱 탈퇴 성공");
         },
         fail: (res) => {
             console.log(res);
-            alert("에러입니다.");
+            console.log("에러입니다.");
         }
     });
-})
+}
