@@ -3,6 +3,8 @@ package com.aoa.springwebservice.service;
 import com.aoa.springwebservice.exception.FileStorageException;
 import com.aoa.springwebservice.property.FileStorageProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,17 +17,16 @@ import java.nio.file.StandardCopyOption;
 @Slf4j
 @Service
 public class FileStorageService {
-
     private final Path fileStorageLocation;
 
-    private final StringBuilder baseUrl;
+    private String baseUrl;
 
     @Autowired
     public FileStorageService(FileStorageProperties fileStorageProperties) {
         this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
 
-        this.baseUrl = new StringBuilder(fileStorageProperties.getBaseMenuUrl());
+        this.baseUrl = fileStorageProperties.getBaseMenuUrl();
 
         try {
             Files.createDirectories(this.fileStorageLocation);
@@ -43,15 +44,13 @@ public class FileStorageService {
             if(fileName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
-
             //
             if(!fileName.isEmpty()) {
                 // Copy file to the target location (Replacing existing file with the same name)
                 Path targetLocation = this.fileStorageLocation.resolve(fileName);
                 Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             }
-
-            return baseUrl.append(fileName).toString();
+            return baseUrl + fileName;
         } catch (Exception ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }

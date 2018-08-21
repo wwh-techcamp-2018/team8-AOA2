@@ -13,6 +13,24 @@ const generateJsonObject = form => (
     }, {})
 );
 
+const fetchAsync = async ({url, method, body}) => {
+    const res = await fetch(url, {
+        method,
+        body: JSON.stringify(body),
+        headers: {'content-type': 'application/json'},
+        credentials: 'same-origin'
+    });
+    const test = await res.json();
+    console.log(test);
+    console.log(res);
+    if(!res.ok){
+        return;
+    }
+    return test;
+};
+
+
+
 const serializeArray = form => {
     let field, l, s = [];
     if (typeof form == 'object' && form.nodeName == 'FORM') {
