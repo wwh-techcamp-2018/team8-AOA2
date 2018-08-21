@@ -31,14 +31,14 @@ public abstract class AcceptanceTest {
     }
 
     public TestRestTemplate basicAuthTemplate(User loginUser) {
-        return template.withBasicAuth(loginUser.getUserId(), DEFAULT_LOGIN_USER_PW);
+        return template.withBasicAuth(loginUser.getUuid(), DEFAULT_LOGIN_USER_PW);
     }
 
     protected User defaultUser() {
-        return findByUserId(DEFAULT_LOGIN_USER_ID);
+        return findByUuid(DEFAULT_LOGIN_USER_ID);
     }
 
-    protected User findByUserId(String userId) {
-        return userRepository.findByUserId(userId).get();
+    protected User findByUuid(String uuid) {
+        return userRepository.findByUuid(uuid).get();
     }
 }

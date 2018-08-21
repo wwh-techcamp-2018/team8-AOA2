@@ -24,7 +24,7 @@ const getInfo = (authObj) => {
                 modal.open();
             } else {
                 let obj = {};
-                obj['userId'] = res.id;
+                obj['uuid'] = res.id;
                 fetch('/api/users/login', {
                     method: 'post',
                     headers: {"content-type": "application/json"},
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
             url: '/v1/user/logout',
             success: (res) => {
                 let obj = {};
-                obj['userId'] = res.id;
+                obj['uuid'] = res.id;
                 fetch('/api/users/logout', {
                     method: 'post',
                     headers: {"content-type": "application/json"},

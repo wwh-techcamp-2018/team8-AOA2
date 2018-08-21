@@ -17,7 +17,7 @@ public class User {
     private long id;
 
     @Column(nullable = false)
-    private String userId;
+    private String uuid;
 
     @Column(nullable = false)
     private String name;
@@ -29,8 +29,8 @@ public class User {
     private String phoneNumber;
 
     @Builder
-    public User(String userId, String name, String email, String phoneNumber) {
-        this.userId = userId;
+    public User(String uuid, String name, String email, String phoneNumber) {
+        this.uuid = uuid;
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -40,7 +40,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", userId='" + userId + '\'' +
+                ", uuid='" + uuid + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +

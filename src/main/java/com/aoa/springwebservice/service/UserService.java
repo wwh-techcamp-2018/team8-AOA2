@@ -6,7 +6,6 @@ import com.aoa.springwebservice.dto.UserInputDTO;
 import com.aoa.springwebservice.exception.UnAuthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -23,12 +22,12 @@ public class UserService {
         return userRepository.save(user.toEntity());
     }
 
-    public User login(UserInputDTO user){
+    public User login(User user){
         log.debug("login : {}", user);
-        return userRepository.findByUserId(user.getUserId()).orElseThrow(() -> new UnAuthorizedException("로그인이 필요합니다"));
+        return userRepository.findByUuid(user.getUuid()).orElseThrow(() -> new UnAuthorizedException("로그인이 필요합니다"));
     }
 
-    public User logout(UserInputDTO user) {
-        return userRepository.findByUserId(user.getUserId()).orElseThrow(() -> new EntityNotFoundException());
+    public User logout(User user) {
+        return userRepository.findByUuid(user.getUuid()).orElseThrow(() -> new EntityNotFoundException());
     }
 }

@@ -41,7 +41,7 @@ public class ApiUserController {
     }
 
     @PostMapping("/login")
-    public RestResponse login(@RequestBody UserInputDTO user, HttpSession session) {
+    public RestResponse login(@RequestBody User user, HttpSession session) {
         log.debug("user : {}", user);
         HttpSessionUtils.setUserSession(session, userService.login(user));
 
@@ -49,7 +49,7 @@ public class ApiUserController {
     }
 
     @PostMapping("/logout")
-    public RestResponse logout(@RequestBody UserInputDTO user, HttpSession session) {
+    public RestResponse logout(@RequestBody User user, HttpSession session) {
         log.debug("user : {}", user);
         userService.logout(user);
         HttpSessionUtils.removeUserSession(session);
