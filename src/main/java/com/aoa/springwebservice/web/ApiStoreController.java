@@ -29,4 +29,5 @@ public class ApiStoreController {
         Store store = storeService.createStore(inputStoreDTO);
         return "/result/success";
     }
+
 }
