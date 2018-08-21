@@ -6,11 +6,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.persistence.EntityNotFoundException;
+
 @RestControllerAdvice
 @RequestMapping("/api")
 public class DefaultRestControllerAdvice {
 
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler({RuntimeException.class, EntityNotFoundException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String defaultExceptionHandler(RuntimeException exception) {
         exception.printStackTrace();

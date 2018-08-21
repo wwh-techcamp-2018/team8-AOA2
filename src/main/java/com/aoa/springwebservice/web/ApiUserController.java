@@ -5,6 +5,7 @@ import com.aoa.springwebservice.domain.User;
 import com.aoa.springwebservice.domain.UserRepository;
 import com.aoa.springwebservice.exception.UnAuthorizedException;
 import com.aoa.springwebservice.security.HttpSessionUtils;
+import com.aoa.springwebservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -27,13 +28,12 @@ import java.net.URI;
 public class ApiUserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @PostMapping("/signup")
     public RestResponse create(@RequestBody User user, HttpSession session) {
         log.debug("user : {}", user);
-        User loginUser = userRepository.save(user);
-        HttpSessionUtils.setUserSession(session, loginUser);
+        HttpSessionUtils.setUserSession(session, userService.create(user));
 
         return new RestResponse("/result/success");
 
@@ -42,8 +42,7 @@ public class ApiUserController {
     @PostMapping("/login")
     public RestResponse login(@RequestBody User user, HttpSession session) {
         log.debug("user : {}", user);
-        User loginUser = userRepository.findByUserId(user.getUserId()).orElseThrow(() -> new UnAuthorizedException("로그인이 필요합니다"));
-        HttpSessionUtils.setUserSession(session, loginUser);
+        HttpSessionUtils.setUserSession(session, userService.login(user));
 
         return new RestResponse("/result/success");
     }
@@ -51,8 +50,9 @@ public class ApiUserController {
     @PostMapping("/logout")
     public RestResponse logout(@RequestBody User user, HttpSession session) {
         log.debug("user : {}", user);
-        User loginUser = userRepository.findByUserId(user.getUserId()).orElseThrow(() -> new EntityNotFoundException());
+        userService.logout(user);
         HttpSessionUtils.removeUserSession(session);
+
         return new RestResponse("/login");
     }
 
