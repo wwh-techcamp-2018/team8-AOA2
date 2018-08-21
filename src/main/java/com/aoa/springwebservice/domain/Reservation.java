@@ -17,12 +17,12 @@ public class Reservation {
     @Builder
     public Reservation(Menu menu, Store store, int maxCount, int personalMaxCount, LocalDate openDate) {
         this.menu = menu;
-        menu.changeTodayMenu(, );
+      //hint  menu.changeTodayMenu(, );
         this.store = store;
         this.maxCount = maxCount;
         this.personalMaxCount = personalMaxCount;
         this.openDate = openDate;
-        store.addReservation(this);
+       //hint store.addReservation(this);
     }
 
     public void update() {

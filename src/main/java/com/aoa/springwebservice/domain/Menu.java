@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import java.util.Objects;
 
 @Entity
@@ -37,7 +36,7 @@ public class Menu {
     private int personalMaxCount;
 
     @Embedded
-    private MaxCount maxCount;
+    private MaxCount maxCountClass;
 
     @ManyToOne(optional = false)
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_menu_store"), nullable = false)
@@ -103,7 +102,7 @@ public class Menu {
         this.maxCount = maxCount;
         this.personalMaxCount = personalMaxCount;
 
-        this.maxCount = new MaxCount(, );
+       //hint this.maxCount = new MaxCount(, );
         isUsed = USED;
     }
 }
