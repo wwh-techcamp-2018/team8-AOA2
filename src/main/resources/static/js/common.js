@@ -1,17 +1,17 @@
 const $ = (selector, context = document) => (
     context.querySelector(selector)
-)
+);
 
 const $All = (selector, context = document) => (
     context.querySelectorAll(selector)
-)
+);
 
 const generateJsonObject = form => (
     serializeArray(form).reduce((accum, cur) => {
         accum[cur.name]= cur.value;
         return accum;
     }, {})
-)
+);
 
 const serializeArray = form => {
     let field, l, s = [];
@@ -33,7 +33,7 @@ const serializeArray = form => {
         }
     }
     return s;
-}
+};
 
 //cross-browser
 const hasClass = (el, className)=>{
@@ -41,12 +41,13 @@ const hasClass = (el, className)=>{
         return el.classList.contains(className)
     else
         return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))
-}
+};
+
 const addClass = (el, className)=>{
     if (el.classList)
         el.classList.add(className)
     else if (!hasClass(el, className)) el.className += " " + className
-}
+};
 
 const removeClass = (el, className)=>{
     if (el.classList)
@@ -55,7 +56,8 @@ const removeClass = (el, className)=>{
         var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
         el.className=el.className.replace(reg, ' ')
     }
-}
+};
+
 const toggleClass = (elem, className)=>{
     var newClass = ' ' + elem.className.replace( /[\t\r\n]/g, ' ' ) + ' ';
     if (hasClass(elem, className)) {
@@ -66,4 +68,12 @@ const toggleClass = (elem, className)=>{
     } else {
         elem.className += ' ' + className;
     }
-}
+};
+
+const numberToLocaleString = (number) => {
+    return number.toLocaleString();
+};
+
+const localeStringToNumber = (string) => {
+    return Number(string.replace(/[,원]/gi, ""));
+};
