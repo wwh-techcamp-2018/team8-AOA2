@@ -2,6 +2,7 @@ package com.aoa.springwebservice.service;
 
 import com.aoa.springwebservice.domain.Store;
 import com.aoa.springwebservice.domain.StoreRepository;
+import com.aoa.springwebservice.domain.User;
 import com.aoa.springwebservice.dto.InputStoreDTO;
 import com.aoa.springwebservice.dto.OutputStoreDTO;
 import jdk.internal.util.xml.impl.Input;
@@ -29,4 +30,9 @@ public class StoreService {
     public String somethingConvert(InputStoreDTO storeDTO) {
         return fileStorageService.storeFile(storeDTO.getImageFile());
     }
+
+    public boolean hasStore(User user) {
+        return storeRepository.findByUserId(user.getId()).isPresent();
+    }
+
 }

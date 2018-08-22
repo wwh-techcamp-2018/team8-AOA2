@@ -27,10 +27,10 @@ import java.util.ArrayList;
 @Slf4j
 public class DefaultControllerAdvice {
 
-    @ExceptionHandler(RuntimeException.class)
-    public String handleRuntimeException(RuntimeException exception) {
-        log.debug("handleRuntimeException {} ", exception.getMessage());
-        return "/error";
-    }
+//    @ExceptionHandler(RuntimeException.class)
+//    public String handleRuntimeException(RuntimeException exception) {
+//        log.debug("handleRuntimeException {} ", exception.getMessage());
+//        return "/error";
+//    }
 
 }

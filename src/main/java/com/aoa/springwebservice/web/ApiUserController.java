@@ -36,7 +36,7 @@ public class ApiUserController {
         log.debug("userInputDTO : {}", user);
         HttpSessionUtils.setUserSession(session, userService.create(user));
 
-        return new RestResponse("/result/success");
+        return new RestResponse("/admin");
 
     }
 
@@ -45,7 +45,7 @@ public class ApiUserController {
         log.debug("user : {}", user);
         HttpSessionUtils.setUserSession(session, userService.login(user));
 
-        return new RestResponse("/result/success");
+        return new RestResponse("/admin");
     }
 
     @PostMapping("/logout")
