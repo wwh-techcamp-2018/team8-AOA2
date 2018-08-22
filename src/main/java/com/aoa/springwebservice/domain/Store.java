@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -17,6 +18,9 @@ import java.util.Objects;
 @Entity
 @ToString
 public class Store{
+
+    private static final boolean OPEN = true;
+    private static final boolean CLOSE = false;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,9 +63,10 @@ public class Store{
     // todo (현재 시각이랑 timeToClose 랑 비교) +(currentReservations 갯수?)해서 오픈상태 동기화 어떻게 해줄지
     @Transient
     private boolean isOpen;
-
-    @OneToMany(mappedBy = "store", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    private List<Reservation> currentReservations = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "store", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+//    @Where(clause = "isActivated = " + OPEN)
+//    private List<Reservation> currentReservations = new ArrayList<>();
 
     @Builder
     public Store(String storeName, String serviceDescription, String ownerName, String imgURL, String postCode, String address, String addressDetail, String phoneNumber, String description) {
@@ -108,26 +113,28 @@ public class Store{
                 .forEach(menu -> menu.notUsed());
     }
     public boolean updateReservation(List<Reservation> reservations, LocalDateTime timeToClose) {
-        if(isOpen) return false; //&& !validateReservations(reservations)) return false;
+        if(isOpen()) return false; //&& !validateReservations(reservations)) return false;
 
         this.timeToClose = timeToClose;
         inactivateMenus();
-        reservations.forEach(reservation -> reservation.update());
+        reservations.forEach(reservation -> reservation.changeToBeActivated());
         // todo Cascade 이슈 생길 수도 있음, JPA 붙이고 확인 필요
         currentReservations = reservations;
         return true;
     }
-/*
-    private boolean validateReservations(List<Reservation> reservations){
 
-        //todo 검사조건 추가
-        if(reservations.stream()
-                .filter(reservation -> reservation.isValidToOpen())
-                .findAny().isPresent())
-            return false;
-
-        return true;
+    public boolean isOpen(){
+        if(isOpen)
+            updateOpenStatus();
+        return isOpen;
     }
-*/
+
+    @PostLoad
+    public void updateOpenStatus(){
+        if(timeToClose.isAfter(LocalDateTime.now()))
+            isOpen = OPEN;
+        isOpen = CLOSE;
+        currentReservations.forEach(reservation -> reservation.changeToBeDeactivated());
+    }
 
 }
