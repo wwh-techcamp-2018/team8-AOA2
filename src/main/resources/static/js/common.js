@@ -13,6 +13,24 @@ const generateJsonObject = form => (
     }, {})
 );
 
+const fetchAsync = async ({url, method, body}) => {
+    const res = await fetch(url, {
+        method,
+        body: JSON.stringify(body),
+        headers: {'content-type': 'application/json'},
+        credentials: 'same-origin'
+    });
+    const test = await res.json();
+    console.log(test);
+    console.log(res);
+    if(!res.ok){
+        return;
+    }
+    return test;
+};
+
+
+
 const serializeArray = form => {
     let field, l, s = [];
     if (typeof form == 'object' && form.nodeName == 'FORM') {
@@ -76,4 +94,33 @@ const numberToLocaleString = (number) => {
 
 const localeStringToNumber = (string) => {
     return Number(string.replace(/[,원]/gi, ""));
+};
+
+/*
+String.prototype.isEmpty = function () {
+    return (this.length === 0 || !this.trim());
+}
+*/
+
+//when using validation form
+const isEmpty = (str) => {
+    return (str.length === 0 || !str.trim());
+}
+
+const validateForm = (formEl) => {
+    if (!formEl)
+        return false;
+    const requiredInputs = Array.from ($All(':required', formEl));
+
+    requiredInputs.forEach( e => {
+        if(isEmpty(e.value)){
+            addClass(e, 'invalid');
+        }
+    });
+
+    if($('.invalid', formEl)) {
+        $('.invalid',formEl).focus();
+        return false;
+    }
+    return true;
 };

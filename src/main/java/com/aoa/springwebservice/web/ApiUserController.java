@@ -3,6 +3,7 @@ package com.aoa.springwebservice.web;
 import com.aoa.springwebservice.RestResponse;
 import com.aoa.springwebservice.domain.User;
 import com.aoa.springwebservice.domain.UserRepository;
+import com.aoa.springwebservice.dto.UserInputDTO;
 import com.aoa.springwebservice.exception.UnAuthorizedException;
 import com.aoa.springwebservice.security.HttpSessionUtils;
 import com.aoa.springwebservice.service.UserService;
@@ -24,15 +25,15 @@ import java.net.URI;
 
 @Slf4j
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class ApiUserController {
 
     @Autowired
     private UserService userService;
 
     @PostMapping("/signup")
-    public RestResponse create(@RequestBody User user, HttpSession session) {
-        log.debug("user : {}", user);
+    public RestResponse create(@RequestBody UserInputDTO user, HttpSession session) {
+        log.debug("userInputDTO : {}", user);
         HttpSessionUtils.setUserSession(session, userService.create(user));
 
         return new RestResponse("/result/success");
