@@ -20,6 +20,9 @@ public class PageController {
     @Autowired
     StoreService storeService;
 
+    @Autowired
+    StoreRepository storeRepository;
+
     @GetMapping("/admin")
     public String show(@LoginUser User loginUser) {
         if(storeService.hasStore(loginUser))
@@ -27,7 +30,7 @@ public class PageController {
 
         return "/admin/store/fail";
     }
-    @GetMapping("reservations")
+    @GetMapping("/reservations")
     public String openReservation(Model model){
         //todo store 존재 확인, store isOpen 확인
         Store tempStore = storeRepository.findById(1L).get();
