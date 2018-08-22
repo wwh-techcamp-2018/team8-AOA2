@@ -132,4 +132,8 @@ public class Store{
     public void deactivate() {
         isOpen = CLOSE;
     }
+
+    public void activate(List<Reservation> reservations, LocalDateTime timeToClose){
+        isOpen = OPEN;
+    }
 }

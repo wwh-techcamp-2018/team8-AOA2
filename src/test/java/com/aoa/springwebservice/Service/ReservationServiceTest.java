@@ -74,10 +74,10 @@ public class ReservationServiceTest {
                 .build();
         LocalDateTime timeToClose = reservationFormDTO.generateTimeToClose();
         store.deactivate();
-//
-//        List<Reservation> reservations = reservationFormDTO.generateReservations(store);
+
+        List<Reservation> reservations = reservationFormDTO.generateReservations(store);
 //        reservations.forEach(reservation -> reservation.regist());
-//        store.activate(reservations, timeToClose);
+        store.activate(reservations, timeToClose);
 
         assertThat(reservationRepository.findAllByStore(store).size()).isEqualTo(reservationDTOs.size());
     }
