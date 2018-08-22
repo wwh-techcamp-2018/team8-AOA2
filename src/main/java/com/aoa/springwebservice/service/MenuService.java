@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +37,18 @@ public class MenuService {
 
     public List<MenuOutputDTO> findAllMenuInStore(long storeId) {
         Store store = storeRepository.findById(storeId).get();
-        List<Menu> menuList = menuRepository.findAllByStore(store);
-        List<MenuOutputDTO> menuOutputDTOList = new ArrayList<>();
-        menuList.stream().forEach(e -> menuOutputDTOList.add(MenuOutputDTO.createMenuOutputDTO(e)));
-        return menuOutputDTOList;
+//        log.debug("store : {}", store);
+//        List<Menu> menuList = menuRepository.findAllByStore(store);
+//        List<MenuOutputDTO> menuOutputDTOList = new ArrayList<>();
+//        menuList.stream().forEach(e -> menuOutputDTOList.add(MenuOutputDTO.createMenuOutputDTO(e)));
+        return store.getMenuOutputDTOList();
+    }
+
+    public Menu deleteMenu(long menuId) {
+        Menu menu = menuRepository.findById(menuId).get();
+        menu.deleteMenu();
+        menuRepository.save(menu);
+        return menu;
     }
 
 }

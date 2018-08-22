@@ -1,5 +1,6 @@
 package com.aoa.springwebservice.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -25,9 +26,12 @@ public class Menu {
 
     private String imageUrl;
 
+    private boolean deleted;
+
     @ManyToOne(optional = false)
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_menu_store"), nullable = false)
     @ToString.Exclude
+    @JsonIgnore
     private Store store;
 
     public Menu() {
@@ -44,6 +48,7 @@ public class Menu {
         this.description = description;
         this.imageUrl = imageUrl;
         this.store = store;
+        this.deleted = false;
     }
 
     public long getId() {
@@ -121,5 +126,10 @@ public class Menu {
 
     public boolean isEqualStore(Store store) {
         return this.store.equals(store);
+    }
+
+    public void deleteMenu() {
+        this.deleted = true;
+        return;
     }
 }

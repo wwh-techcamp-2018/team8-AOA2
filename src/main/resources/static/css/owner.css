@@ -21,8 +21,10 @@
 }
 
 .img-box {
-    padding : 20px !important;
+    padding : 1% !important;
 }
+
+
 
 .price-box {
     max-height:40%;
@@ -84,4 +86,44 @@
 
 .loading-wrapper {
     margin: 100px;
+}
+
+@media only screen and (max-width: 992px) {
+    .img-box {
+        padding : 0 !important;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .title-box {
+        width: 100%;
+        max-height: 20%;
+        font-size: 4vw;
+        font-weight: bold;
+        margin : 0;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .price {
+        width: 80%;
+        font-size:4vw;
+        font-weight: bold;
+        color:#2bbbad;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .won {
+        width: 20%;
+        font-size:2vw;
+        font-weight: bold;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .price-box {
+        max-height:40%;
+        margin : 0;
+    }
 }

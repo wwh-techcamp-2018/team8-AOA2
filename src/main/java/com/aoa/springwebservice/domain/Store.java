@@ -1,10 +1,12 @@
 package com.aoa.springwebservice.domain;
 
+import com.aoa.springwebservice.domain.support.MenuOutputDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -51,6 +53,7 @@ public class Store{
 
     // Todo Cascade issue 다른 옵션도 적용해야 할 수도 있음
     @OneToMany(mappedBy = "store", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @Where(clause = "deleted = false")
     private List<Menu> menus = new ArrayList<>();
 
     @Builder
@@ -91,5 +94,11 @@ public class Store{
     public int hashCode() {
 
         return Objects.hash(storeName);
+    }
+
+    public List<MenuOutputDTO> getMenuOutputDTOList() {
+        List<MenuOutputDTO> menuDTOs = new ArrayList<>();
+        this.menus.stream().forEach(e -> menuDTOs.add(MenuOutputDTO.createMenuOutputDTO(e)));
+        return menuDTOs;
     }
 }

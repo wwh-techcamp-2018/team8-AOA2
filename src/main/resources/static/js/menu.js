@@ -1,6 +1,6 @@
-const menuBoxHTML = ({imgUrl, name, description, price, btnName}) => {
+const menuBoxHTML = ({id, imgUrl, name, description, price, btnName}) => {
     const stringPrice = numberToLocaleString(price);
-    return `<li class="collection-item" >
+    return `<li class="collection-item" data-id="${id}">
                     <div class="valign-wrapper">
                         <div class="col s3 img-box">
                             <img class="responsive-img" src="${imgUrl}">
@@ -12,11 +12,11 @@ const menuBoxHTML = ({imgUrl, name, description, price, btnName}) => {
                             <div class="col s12 description-text grey-text">
                                 ${description}
                             </div>
-                            <div class="col s6 l4 price-box">
+                            <div class="col s8 l9 price-box">
                                 <span class="price">${stringPrice}</span>
                                 <span class="won">원</span>
                             </div>
-                            <button class="col s4 l3 offset-s2 offset-l5 btn waves-effect waves-light"
+                            <button class="col s4 l3  btn waves-effect waves-light"
                                     type="button">${btnName}
                             </button>
 
@@ -41,16 +41,41 @@ document.addEventListener('DOMContentLoaded', async ()  =>{
     //Ajax로 데이터 볼러와야함.
     addMenuForm(1);
 
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems);
+
     $('.collection').addEventListener('click', (event) => {
         if(event.target.classList.contains("btn")){
-            const forRemove = event.target.closest('.collection-item');
-            addClass(forRemove, "off");
-            setTimeout(() => {
-                forRemove.remove();
-            },500);
+            deleteMenu(event.target.closest(".collection-item"));
         }
     });
+
+    $('.test').addEventListener('click', async (event) => {
+        instances[0].open();
+        const menuData = await fetchAsync({
+            url : "/api/owner/1/menu",
+            method: "GET"
+        });
+        $('.loading-wrapper').remove();
+        if(menuData.length === 0) {
+            $('.collection', $('.modal')).insertAdjacentHTML('beforeend', nonMenu());
+            return;
+        }
+        appendHtmlFromData(menuData, menuBoxHTML, $('.collection', $('.modal')), '추가하기');
+    })
 });
+
+const deleteMenu = async (removeMenuNode) => {
+
+    const menu = await fetchAsync({
+        url : "/api/owner/menu/" + removeMenuNode.attributes["data-id"].value,
+        method: "DELETE"
+    });
+    addClass(removeMenuNode, "off");
+    setTimeout(() => {
+        removeMenuNode.remove();
+    },500);
+}
 
 const addMenuForm = async (storeId) => {
     const menuData = await fetchAsync({
@@ -60,6 +85,7 @@ const addMenuForm = async (storeId) => {
     $('.loading-wrapper').remove();
     if(menuData.length === 0) {
         $('.collection').insertAdjacentHTML('beforeend', nonMenu());
+        return;
     }
     appendHtmlFromData(menuData, menuBoxHTML, $('.collection'), '삭제하기');
 };
