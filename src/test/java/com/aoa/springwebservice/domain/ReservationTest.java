@@ -3,6 +3,8 @@ package com.aoa.springwebservice.domain;
 import com.aoa.springwebservice.dto.ReservationDTO;
 import com.aoa.springwebservice.dto.ReservationFormDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.SoftAssertions;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -13,9 +15,15 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 @Slf4j
 public class ReservationTest {
 
-    @Test
-    public void test_ReservationFormDTO_generateReservations() {
-        Store store = Store.builder()
+    private SoftAssertions softly;
+    private Store store;
+    private List<ReservationDTO> reservationDTOs;
+    private ReservationFormDTO reservationFormDTO;
+
+    @Before
+    public void setUp(){
+        softly = new SoftAssertions();
+        store = Store.builder()
                 .description("DESC")
                 .imgURL("img")
                 .ownerName("주인")
@@ -28,21 +36,30 @@ public class ReservationTest {
         store.addMenu(Menu.builder().store(store).name("test1").description("test1").price(1).id(1L).build());
         store.addMenu(Menu.builder().store(store).name("test2").description("test2").price(2).id(2L).build());
 
-        List<ReservationDTO> reservationDTOS = Arrays.asList(
+        reservationDTOs = Arrays.asList(
                 ReservationDTO.builder().maxCount(3).personalMaxCount(3).menuId(1L).build()
                 , ReservationDTO.builder().maxCount(3).personalMaxCount(3).menuId(2L).build());
 
-        ReservationFormDTO reservationFormDTO = ReservationFormDTO.builder()
+        reservationFormDTO = ReservationFormDTO.builder()
                 .hourToClose(11)
                 .minuteToClose(0)
-                .reservationDTOs(reservationDTOS)
+                .reservationDTOs(reservationDTOs)
                 .build();
+    }
 
+    @Test
+    public void test_ReservationFormDTO_generateReservations() {
         List<Reservation> reservations = reservationFormDTO.generateReservations(store);
-
-        for(Reservation reservation : reservations){
-            log.debug("reservation {}", reservation);
-            assertThat(store.getMenus()).contains(reservation.getMenu());
-        }
+        softly.assertThat(reservations
+                .stream()
+                .filter(reservation -> reservation.getStore() == null))
+                .as("Store 다 넣어줬는지")
+                .isEmpty();
+        softly.assertThat(reservations
+                .stream()
+                .filter(reservation -> !store.hasMenu(reservation.getMenu())))
+                .as("Store에 있는 Menu 중에 다 넣어줬는지")
+                .isEmpty();
+        softly.assertAll();
     }
 }
