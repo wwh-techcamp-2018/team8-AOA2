@@ -8,6 +8,7 @@ import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,7 +17,6 @@ import java.util.Objects;
 @Entity
 @ToString
 public class Store{
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,9 +49,19 @@ public class Store{
     @Column(nullable = true, length = 600)
     private String description;
 
+    // Todo 제약사항 추가
+    private LocalDateTime timeToClose;
+
     // Todo Cascade issue 다른 옵션도 적용해야 할 수도 있음
     @OneToMany(mappedBy = "store", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Menu> menus = new ArrayList<>();
+
+    // todo (현재 시각이랑 timeToClose 랑 비교) +(currentReservations 갯수?)해서 오픈상태 동기화 어떻게 해줄지
+    @Transient
+    private boolean isOpen;
+
+    @OneToMany(mappedBy = "store", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private List<Reservation> currentReservations = new ArrayList<>();
 
     @Builder
     public Store(String storeName, String serviceDescription, String ownerName, String imgURL, String postCode, String address, String addressDetail, String phoneNumber, String description) {
@@ -92,4 +102,32 @@ public class Store{
 
         return Objects.hash(storeName);
     }
+    public void inactivateMenus(){
+        menus.stream()
+                .filter(menu -> menu.isUsed())
+                .forEach(menu -> menu.notUsed());
+    }
+    public boolean updateReservation(List<Reservation> reservations, LocalDateTime timeToClose) {
+        if(isOpen) return false; //&& !validateReservations(reservations)) return false;
+
+        this.timeToClose = timeToClose;
+        inactivateMenus();
+        reservations.forEach(reservation -> reservation.update());
+        // todo Cascade 이슈 생길 수도 있음, JPA 붙이고 확인 필요
+        currentReservations = reservations;
+        return true;
+    }
+/*
+    private boolean validateReservations(List<Reservation> reservations){
+
+        //todo 검사조건 추가
+        if(reservations.stream()
+                .filter(reservation -> reservation.isValidToOpen())
+                .findAny().isPresent())
+            return false;
+
+        return true;
+    }
+*/
+
 }

@@ -1,15 +1,22 @@
 package com.aoa.springwebservice.domain;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Getter
+@Setter
 @ToString
 public class Menu {
+
+    private static final boolean NOT_USED = false;
+    private static final boolean USED = true;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +32,15 @@ public class Menu {
 
     private String imageUrl;
 
+    @Embedded
+    private MaxCount maxCount;
+
     @ManyToOne(optional = false)
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_menu_store"), nullable = false)
     @ToString.Exclude
     private Store store;
+
+    private boolean isUsed;
 
     public Menu() {
 
@@ -39,56 +51,19 @@ public class Menu {
     }
 
     public Menu(String name, int price, String description, String imageUrl, Store store) {
-        this.name = name;
-        this.price = price;
-        this.description = description;
-        this.imageUrl = imageUrl;
-        this.store = store;
+        this(0, name, price, description, imageUrl, store);
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
+    @Builder
+    public Menu(long id, String name, int price, String description, String imageUrl, Store store) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
         this.name = name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
         this.price = price;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public void setStore(Store store) {
         this.store = store;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -108,18 +83,17 @@ public class Menu {
         return Objects.hash(name, store);
     }
 
-    @Override
-    public String toString() {
-        return "Menu{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", description='" + description + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                '}';
-    }
-
     public boolean isEqualStore(Store store) {
         return this.store.equals(store);
+    }
+
+    public void notUsed(){
+        isUsed = NOT_USED;
+    }
+
+    public void changeTodayMenu(MaxCount maxCount){
+        this.maxCount = maxCount;
+       //hint this.maxCount = new MaxCount(, );
+        isUsed = USED;
     }
 }
