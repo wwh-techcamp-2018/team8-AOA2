@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+{{> link}}
+<link href="/css/owner.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<body>
+{{> header}}
+<main>
+    <div class="container">
+        <form>
+        <div class="row">
+            <div class="section">
+                <h5><span id="today"></span>일의 예약 오픈 </h5>
+            </div>
+            <div class="divider"></div>
+            <div class="section" id="hourSection">
+                <div class="valign-wrapper">
+                    <div class="col s4 center">
+                        <h6> 예약 마감 시간 </h6>
+                    </div>
+                    <div class="col s6 input-field ">
+                        <input id="reservationOpenTime" type="text" name="timeToClose" class="timepicker" placeholder="{{timeToClose}}">
+                    </div>
+                    <div class="col s2"></div>
+                </div>
+            </div>
+            <div class="divider"></div>
+        </div>
+        <div class="row">
+            <h5>메뉴</h5>
+            <ul class="collection" style="border: none;">
+
+            </ul>
+            <div class="col s12">
+                <button class="btn waves-effect waves-light btn-large left" type="button" id="loadMenuBtn">메뉴 추가</button>
+                <button class="btn waves-effect waves-light btn-large right" type="button" id="openReservationBtn">예약 등록</button>
+
+            </div>
+        </div>
+
+        </form>
+    </div>
+</main>
+</body>
+{{> footer}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    addMenuForm(1);
+    $('#today').innerHTML = formatDate(new Date());
+         M.updateTextFields();
+        var elems = document.querySelectorAll('.timepicker');
+        var instances = M.Timepicker.init(elems, {
+        'onSelect' : (hour, minute)=> console.log(hour, minute),
+        'defaultTime': '{{timeToClose}}',
+         'autoClose' :true,
+         'twelveHour': false });
+    $('.collection').addEventListener('click', (event) => {
+            if(event.target.classList.contains("btn")){
+                const forRemove = event.target.closest('.collection-item');
+                addClass(forRemove, "off");
+                setTimeout(() => {
+                    forRemove.remove();
+                },500);
+            }
+        });
+     $('#openReservationBtn').addEventListener('click', fetchOpenReservation);
+     $('#loadMenuBtn').addEventListener('click', loadMenuModal);
+    });
+    const fetchOpenReservation = ()=>{
+    debugger;
+    let data = {'hourToClose' : $('input[name=timeToClose]').M_Timepicker.hours || {{hourToClose}},
+     'minuteToClose': $('input[name=timeToClose]').M_Timepicker.minutes || {{minuteToClose}} }
+    data.reservationDTOs = Array.from($All('.collection-item')).reduce( (accum, cur) => {
+    const dto = { 'menuId' : $('input[name=menuId]', cur).value , 'maxCount' : $('input[name=maxCount]', cur).value, 'personalMaxCount': $('input[name=personalMaxCount]', cur).value}
+    accum.push( dto);
+    return accum; }, []);
+    fetchAsync({url:"/api/stores/1/reservations/temp", method:'post', body: data})
+    }
+    const loadMenuModal = (event) =>{
+    };
+    const formatDate = (date) => {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [year, month, day].join('-');
+    };
+
+    const addMenuForm = async (storeId) => {
+        const menuData = await fetchAsync({
+            url : "/api/owner/"+storeId+"/menus/active",
+            method: "GET"
+        });
+        //$('.loading-wrapper').remove();
+        if(menuData.length === 0) {
+            $('.collection').insertAdjacentHTML('beforeend', nonMenu());
+        }
+        appendHtmlFromData(menuData, menuBoxHTML, $('.collection'), '삭제하기');
+        M.Range.init($All("input[type=range]"))
+    };
+
+    const appendHtmlFromData = (dataArr, templateFunc, parentElement, btnName) => {
+        const html = dataArr.reduce( (accum, cur) => {
+            cur.btnName = btnName;
+            return accum + templateFunc(cur);
+        }, '');
+        parentElement.insertAdjacentHTML('beforeend', html);
+    };
+    const menuBoxHTML = ({imgUrl, name, description, price, btnName}) => {
+    const stringPrice = numberToLocaleString(price);
+    return `<li class="collection-item" >
+                    <input type="hidden" name="menuId" min="0" max="100" value="1"/>
+                    <div class="valign-wrapper">
+                        <div class="col s3 img-box">
+                            <img class="responsive-img" src="${imgUrl}">
+                        </div>
+                        <div class="col s9">
+                            <div class="col s12 title-box">
+                                ${name}
+                            </div>
+                            <div class="col s12 description-text grey-text">
+                                ${description}
+                            </div>
+                            <div class="col s12 valign-wrapper">
+                                 <div class="col s8">
+                                    <div class="col s3"><span> 최대 수량 </span></div>
+                                     <div class="col s9">
+                                      <p class="range-field">
+                                         <input type="range" name="maxCount" min="0" max="100" />
+                                      </p>
+                                      </div>
+                                      <div class="col s3"><span>  인당 최대 예약가능 수량 </span></div>
+                                     <div class="col s9">
+                                      <p class="range-field">
+                                         <input type="range" name="personalMaxCount" min="0" max="100" />
+                                      </p>
+                                  </div>
+
+
+                                  </div>
+                                <div class="col s3 offset-s1">
+                                    <button class="btn waves-effect waves-light" type="button" style="min-width: 100px;">${btnName}</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </li>`
+};
+
+
+
+
+</script>
+</html>
