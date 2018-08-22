@@ -43,6 +43,10 @@ public class MenuService {
 //        menuList.stream().forEach(e -> menuOutputDTOList.add(MenuOutputDTO.createMenuOutputDTO(e)));
         return store.getMenuOutputDTOList();
     }
+    public List<MenuOutputDTO> findActiveMenuInStore(long storeId) {
+        Store store = storeRepository.findById(storeId).get();
+        return store.getUsedMenuOutputDTOList();
+    }
 
     public Menu deleteMenu(long menuId) {
         Menu menu = menuRepository.findById(menuId).get();

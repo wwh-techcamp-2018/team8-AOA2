@@ -5,6 +5,7 @@ import com.aoa.springwebservice.domain.MenuRepository;
 import com.aoa.springwebservice.domain.support.MenuDTO;
 import com.aoa.springwebservice.domain.support.MenuDTOToUpload;
 import com.aoa.springwebservice.domain.support.MenuOutputDTO;
+import com.aoa.springwebservice.dto.ReservationFormDTO;
 import com.aoa.springwebservice.service.FileStorageService;
 import com.aoa.springwebservice.service.MenuService;
 import lombok.extern.slf4j.Slf4j;
@@ -44,8 +45,12 @@ public class ApiMenuController {
     }
 
     @DeleteMapping(path = "/owner/menu/{menuId}")
-    public ResponseEntity<Menu> deleteMenu(@PathVariable long menuId){
-        Menu menu = menuService.deleteMenu(menuId);
-        return new ResponseEntity<Menu>(menu, new HttpHeaders(), HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public Menu deleteMenu(@PathVariable long menuId){
+        return menuService.deleteMenu(menuId);
+    }
+    @GetMapping("/owner/{storeId}/menus/active")
+    public List<MenuOutputDTO> listActiveMenus(@PathVariable long storeId){
+        return menuService.findActiveMenuInStore(storeId);
     }
 }

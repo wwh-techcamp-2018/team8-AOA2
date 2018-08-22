@@ -5,6 +5,91 @@
     <title>Title</title>
 </head>
 
+<style>
+
+.ctrl {
+    margin: 10px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #D5DCE6;
+  background-color: #fff;
+  border-radius: 5px;
+  //font-size: 30px;
+}
+.ctrl__counter {
+  width: 100px;
+  position: relative;
+  color: #333C48;
+  text-align: center;
+  overflow: hidden;
+
+}
+.ctrl__counter.is-input .ctrl__counter-num {
+  visability: hidden;
+  opacity: 0;
+  transition: opacity 100ms ease-in;
+
+}
+.ctrl__counter.is-input .ctrl__counter-input {
+  visability: visible;
+  opacity: 1;
+  transition: opacity 100ms ease-in;
+}
+.ctrl__counter-input {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  z-index: 2;
+  box-shadow: none;
+  outline: none;
+  border: none;
+  color: #333C48;
+  //font-size: 30px;
+  //line-height: 20px;
+  text-align: center;
+  visability: hidden;
+  opacity: 0;
+  transition: opacity 100ms ease-in;
+}
+.ctrl__counter-num {
+    width: 100%;
+    text-align: center;
+     background-color: transparent;
+     border: none;
+     border-radius: 0;
+    outline: none;
+    width: 100%;
+    font-size: 16px;
+}
+
+.ctrl__button {
+  width: 80px;
+  height: 25px;
+  //line-height: 20px;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+  background-color: #8498a7;
+  transition: background-color 100ms ease-in;
+}
+.ctrl__button:hover {
+  background-color: #90a2b0;
+  transition: background-color 100ms ease-in;
+}
+.ctrl__button:active {
+  background-color: #778996;
+  transition: background-color 100ms ease-in;
+}
+.ctrl__button--decrement {
+  border-radius: 5px 0 0 5px;
+}
+.ctrl__button--increment {
+  border-radius: 0 5px 5px 0;
+}
+
+</style>
 {{> link}}
 <link href="/css/owner.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 <body>
@@ -95,7 +180,12 @@
                 return;
             }
             appendHtmlFromData(menuData, menuAddBoxHTML, $('.collection', $('#menuModal')), '추가하기');
+            registEventListener();
         })
+
+
+        const ctrls = new Ctrls($('.collection'));
+        ctrls.registerEvent();
     });
 
     const fetchOpenReservation = ()=>{
@@ -159,23 +249,30 @@
                                 ${description}
                             </div>
                             <div class="col s12 valign-wrapper">
-                                 <div class="col s8">
+                                 <div class="col s9">
                                     <div class="col s3"><span> 최대 수량 </span></div>
                                      <div class="col s9">
-                                      <p class="range-field">
-                                         <input type="range" name="maxCount" min="0" max="100" />
-                                      </p>
+                                        <div class='ctrl'>
+                                            <div class='ctrl__button ctrl__button--decrement'>&ndash;</div>
+                                            <div class='ctrl__counter'>
+                                                <input type="text" class='ctrl__counter-num browser-default' value="0"> </input>
+                                            </div>
+                                            <div class='ctrl__button ctrl__button--increment'>+</div>
+                                        </div>
                                       </div>
                                       <div class="col s3"><span>  인당 최대 예약가능 수량 </span></div>
                                      <div class="col s9">
-                                      <p class="range-field">
-                                         <input type="range" name="personalMaxCount" min="0" max="100" />
-                                      </p>
+                                          <div class='ctrl'>
+                                                <div class='ctrl__button ctrl__button--decrement'>&ndash;</div>
+                                                <div class='ctrl__counter'>
+                                                    <input type="text" class='ctrl__counter-num browser-default' value="0"> </input>
+                                                </div>
+                                                <div class='ctrl__button ctrl__button--increment'>+</div>
+                                           </div>
+                                      </div>
                                   </div>
 
-
-                                  </div>
-                                <div class="col s3 offset-s1">
+                                <div class="col s3">
                                     <button class="btn waves-effect waves-light" type="button" style="min-width: 100px;">${btnName}</button>
                                 </div>
                             </div>
@@ -211,6 +308,71 @@
                     </div>
                 </li>`
     };
+
+ class Ctrls {
+
+    constructor(wrapper){
+        this.wrapper = wrapper;
+    }
+    decrement() {
+      let counter = this.targetInput.value;
+      const nextCounter = (this.counter > 0) ? --counter : counter;
+      this.targetInput.value = nextCounter;
+      this.updatePrevValue(nextCounter);
+    };
+
+    increment() {
+      let counter = this.targetInput.value;
+      const nextCounter = (counter < 9999999999) ? ++counter : counter;
+      this.targetInput.value = nextCounter;
+      this.updatePrevValue(nextCounter);
+    };
+
+    initClass(eventTarget){
+        this.targetInput = $('.ctrl__counter-num', eventTarget.closest('.ctrl'));
+        this.counter = Number(this.targetInput.value);
+    };
+
+    updatePrevValue(value){
+        this.targetInput.setAttribute('data-prev', value);
+    };
+    backToPrevValue(){
+        this.targetInput.value = this.targetInput.getAttribute('data-prev');
+    };
+
+    handleClickEvent(event) {
+            if(hasClass(event.target, 'ctrl__button--increment')){
+             console.log('up');
+             this.initClass(event.target);
+             this.increment();
+             return;
+            }
+             if(hasClass(event.target, 'ctrl__button--decrement')){
+                console.log('down');
+                 this.initClass(event.target);
+                 this.decrement();
+                return;
+         }
+    };
+    handleChangeEvent(event){
+            if(hasClass(event.target, 'ctrl__counter-num')){
+             console.log('change');
+              this.initClass(event.target);
+             var parseValue = parseInt(event.target.value);
+                if (isNaN(parseValue) || parseValue < 0) {
+                    this.backToPrevValue();
+                    return;
+                }
+                this.targetInput.value = parseValue;
+                this.updatePrevValue(parseValue);
+
+            }
+    }
+    registerEvent() {
+        this.wrapper.addEventListener('click', this.handleClickEvent.bind(this));
+        this.wrapper.addEventListener('change', this.handleChangeEvent.bind(this));
+    }
+}
 
 
 </script>
