@@ -88,10 +88,13 @@ public class Menu {
         return this.store.equals(store);
     }
 
-    public void changeTodayMenu(MaxCount maxCount){
+    public void setUpLastUsedStatus(MaxCount maxCount){
         this.maxCount = maxCount;
-       //hint this.maxCount = new MaxCount(, );
         lastUsed = LAST_USED;
+    }
+
+    public void dropLastUsedStatus(){
+        lastUsed = NOT_LAST_USED;
     }
 
     public boolean isLastUsed(){

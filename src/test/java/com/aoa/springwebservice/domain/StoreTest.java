@@ -52,7 +52,7 @@ public class StoreTest {
         //When
         List<Reservation> reservations = null;
         LocalDateTime timeToClose = null;
-        store.activate(reservations, timeToClose);
+        store.activate(timeToClose);
 
         store.deactivate();
         assertThat(store.isOpen()).isFalse();

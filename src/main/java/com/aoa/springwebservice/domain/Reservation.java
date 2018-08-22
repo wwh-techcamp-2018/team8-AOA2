@@ -36,8 +36,6 @@ public class Reservation {
     private LocalDate openDate;
     //todo menu deleted 상태
 
-    private boolean isActivated;
-
     @Builder
     public Reservation(Menu menu, Store store, MaxCount maxCount, LocalDate openDate) {
         this.menu = menu;
@@ -48,12 +46,7 @@ public class Reservation {
        //hint store.addReservation(this);
     }
 
-    public void changeToBeActivated() {
-        isActivated = ACTIVATED;
-        menu.changeTodayMenu(maxCount);
-    }
-
-    public void changeToBeDeactivated() {
-        isActivated = DEACTIVATED;
+    public void regist() {
+        menu.setUpLastUsedStatus(maxCount);
     }
 }

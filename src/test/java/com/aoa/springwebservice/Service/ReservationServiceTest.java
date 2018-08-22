@@ -3,13 +3,14 @@ package com.aoa.springwebservice.Service;
 import com.aoa.springwebservice.domain.*;
 import com.aoa.springwebservice.dto.ReservationDTO;
 import com.aoa.springwebservice.dto.ReservationFormDTO;
+import com.aoa.springwebservice.service.ReservationService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -18,7 +19,8 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@SpringBootTest
+@Slf4j
 public class ReservationServiceTest {
 
     private Store store;
@@ -28,6 +30,9 @@ public class ReservationServiceTest {
 
     @Autowired
     private StoreRepository storeRepository;
+
+    @Autowired
+    private ReservationService reservationService;
 
     @Before
     public void setUp() {
@@ -72,12 +77,11 @@ public class ReservationServiceTest {
                 .minuteToClose(0)
                 .reservationDTOs(reservationDTOs)
                 .build();
-        LocalDateTime timeToClose = reservationFormDTO.generateTimeToClose();
         store.deactivate();
 
-        List<Reservation> reservations = reservationFormDTO.generateReservations(store);
-//        reservations.forEach(reservation -> reservation.regist());
-        store.activate(reservations, timeToClose);
+        log.debug("test start");
+
+        reservationService.createReservation(reservationFormDTO, store.getId());
 
         assertThat(reservationRepository.findAllByStore(store).size()).isEqualTo(reservationDTOs.size());
     }

@@ -130,10 +130,13 @@ public class Store{
 
     @PostLoad
     public void deactivate() {
+        //Todo if(timeToClose.isAfter(LocalDateTime.now()))
         isOpen = CLOSE;
     }
 
-    public void activate(List<Reservation> reservations, LocalDateTime timeToClose){
+    public void activate(LocalDateTime timeToClose){
+        menus.stream().forEach(menu -> menu.dropLastUsedStatus());
+        this.timeToClose = timeToClose;
         isOpen = OPEN;
     }
 }
