@@ -56,7 +56,7 @@
                 </div>
             </div>
 
-            <button id="input_menu_btn" type="button" class="col s3 l2 offset-s9 offset-l10 btn waves-effect waves-light" data-url="/api/stores/{{store.id}}/menus/">등록
+            <button id="input_menu_btn" type="button" class="col s3 l2 offset-s9 offset-l10 btn waves-effect waves-light" data-url="/api/stores/1/menus/">등록
                 <i class="material-icons right">send</i>
             </button>
 
@@ -81,11 +81,13 @@
         if(!file.type.match('image.*')){
             return;
         }
-        formData.append('file', file, file.name);
+        console.log(file);
+        file.name = Date.now() +'-'+ file.name;
+        formData.append('file', file, Date.now() +'-'+ file.name);
 
         formData.append('name', nameElem.value);
         formData.append('price', priceElem.value);
-        formData.append('description', priceElem.value);
+        formData.append('description', descriptionElem.value);
 
         var xhr = new XMLHttpRequest();
         xhr.open('POST', url , true);

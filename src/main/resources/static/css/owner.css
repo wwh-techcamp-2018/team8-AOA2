@@ -67,3 +67,21 @@
 .collection .collection-item:first-child {
     border-top: none;
 }
+
+.preloader-wrapper.huge {
+    width: 10vw;
+    height: 10vw;
+    margin: auto;
+    display: inherit;
+}
+
+.loader-text {
+    font-size : 2vw;
+    font-weight: bold;
+    margin: 20px;
+    text-align: center;
+}
+
+.loading-wrapper {
+    margin: 100px;
+}

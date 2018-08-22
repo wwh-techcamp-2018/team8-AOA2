@@ -1,9 +1,9 @@
-const menuBoxHTML = ({imgPath, name, description, price, btnName}) => {
+const menuBoxHTML = ({imgUrl, name, description, price, btnName}) => {
     const stringPrice = numberToLocaleString(price);
     return `<li class="collection-item" >
                     <div class="valign-wrapper">
                         <div class="col s3 img-box">
-                            <img class="responsive-img" src="${imgPath}">
+                            <img class="responsive-img" src="${imgUrl}">
                         </div>
                         <div class="col s9">
                             <div class="col s12 title-box">
@@ -25,16 +25,21 @@ const menuBoxHTML = ({imgPath, name, description, price, btnName}) => {
                 </li>`
 };
 
-const appendHtmlFromData = (dataArr, templateFunc, parentElement) => {
+const nonMenu = () => {
+    return `<div class="loader-text">등록된 메뉴가 없습니다.<br> 메뉴를 등록해 주세요. </div>`
+}
+
+const appendHtmlFromData = (dataArr, templateFunc, parentElement, btnName) => {
     const html = dataArr.reduce( (accum, cur) => {
+        cur.btnName = btnName;
         return accum + templateFunc(cur);
     }, '');
     parentElement.insertAdjacentHTML('beforeend', html);
 };
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async ()  =>{
     //Ajax로 데이터 볼러와야함.
-
+    addMenuForm(1);
 
     $('.collection').addEventListener('click', (event) => {
         if(event.target.classList.contains("btn")){
@@ -47,19 +52,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
-
-//테스트용 메소드. Ajax 붙인후 삭제예정.
-var test = () => {
-    appendHtmlFromData(testdata, menuBoxHTML, $('.collection'));
-}
-
-var testdata = [
-    {
-        imgPath : "/images/macaron1.png",
-        name : "테스트입니다",
-        description : "잘되면 좋겠습니다",
-        price : 3000,
-        btnName : "되어라"
+const addMenuForm = async (storeId) => {
+    const menuData = await fetchAsync({
+        url : "/api/owner/1/menu",
+        method: "GET"
+    });
+    $('.loading-wrapper').remove();
+    if(menuData.length === 0) {
+        $('.collection').insertAdjacentHTML('beforeend', nonMenu());
     }
-];
+    appendHtmlFromData(menuData, menuBoxHTML, $('.collection'), '삭제하기');
+};
