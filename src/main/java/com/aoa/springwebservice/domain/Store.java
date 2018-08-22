@@ -53,6 +53,9 @@ public class Store{
     @Column(nullable = true, length = 600)
     private String description;
 
+    @OneToOne
+    private User user;
+
     // Todo 제약사항 추가
     private LocalDateTime timeToClose;
 
@@ -92,20 +95,22 @@ public class Store{
         return menus.contains(menu);
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         //todo User 추가되면 Store의 unique 제약조건 다시 생각
         Store store = (Store) o;
-        return Objects.equals(storeName, store.storeName);
+        return Objects.equals(storeName, store.storeName) &&
+                Objects.equals(user, store.user);
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(storeName);
+        return Objects.hash(storeName, user);
     }
+
     public void inactivateMenus(){
 //        menus.stream()
 //                .filter(menu -> menu.isUsed())
