@@ -1,9 +1,6 @@
 package com.aoa.springwebservice.service;
 
-import com.aoa.springwebservice.domain.Menu;
-import com.aoa.springwebservice.domain.MenuRepository;
-import com.aoa.springwebservice.domain.Store;
-import com.aoa.springwebservice.domain.StoreRepository;
+import com.aoa.springwebservice.domain.*;
 import com.aoa.springwebservice.domain.support.MenuDTO;
 import com.aoa.springwebservice.domain.support.MenuOutputDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -26,17 +23,17 @@ public class MenuService {
     StoreRepository storeRepository;
 
 
-    public void createMenu(long storeId, MenuDTO menuDTO){
+    public void createMenu(MenuDTO menuDTO, User user){
         log.debug("Menu DTO : {}", menuDTO);
-        Store store = storeRepository.findById(storeId).get();
+        Store store = storeRepository.findByUser(user).get();
         Menu menu = menuDTO.toDomain(store);
         log.debug("Menu : {}", menu);
         store.addMenu(menu);
         storeRepository.save(store);
     }
 
-    public List<MenuOutputDTO> findAllMenuInStore(long storeId) {
-        Store store = storeRepository.findById(storeId).get();
+    public List<MenuOutputDTO> findAllMenuInStore(User user) {
+        Store store = storeRepository.findByUser(user).get();
 //        log.debug("store : {}", store);
 //        List<Menu> menuList = menuRepository.findAllByStore(store);
 //        List<MenuOutputDTO> menuOutputDTOList = new ArrayList<>();
