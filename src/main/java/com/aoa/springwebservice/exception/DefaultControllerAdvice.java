@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 @ControllerAdvice//(basePackages = {"/web"})
 @Slf4j
-public class DefaultControllerAdvice{
+public class DefaultControllerAdvice {
 
     @ExceptionHandler(RuntimeException.class)
     public String handleRuntimeException(RuntimeException exception) {
@@ -33,15 +33,4 @@ public class DefaultControllerAdvice{
         return "/error";
     }
 
-    @ExceptionHandler({BindException.class, MethodArgumentNotValidException.class})
-    protected ResponseEntity<ValidationErrorResponse> handleBindException2(BindException ex, HttpServletRequest request,
-                                                                 HttpServletResponse response, @Nullable Object handler) throws IOException {
-        log.debug("handleBindException 2");
-        response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-        log.debug("handler {}",handler.getClass());
-        return ResponseEntity.status(HttpStatus.INSUFFICIENT_STORAGE).body(
-                new ValidationErrorResponse(new ApiError("ERROR MSG", ex.getLocalizedMessage()))
-                .addAllErrors(ex.getBindingResult())
-        );
-    }
 }
