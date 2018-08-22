@@ -1,13 +1,11 @@
 package com.aoa.springwebservice.web;
 
-import com.aoa.springwebservice.domain.Reservation;
-import com.aoa.springwebservice.domain.Store;
 import com.aoa.springwebservice.domain.StoreRepository;
 import com.aoa.springwebservice.dto.ReservationFormDTO;
+import com.aoa.springwebservice.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -17,12 +15,12 @@ public class ApiReservationController {
     @Autowired
     private StoreRepository storeRepository;
 
+    @Autowired
+    private ReservationService reservationService;
+
     @PostMapping("/stores/{storeId}/reservations")
-    public void create(@PathVariable long storeId, ReservationFormDTO reservationDTO) {
-        LocalDateTime timeToClose = reservationDTO.generateTimeToClose();
-        Store store = storeRepository.findById(storeId).orElseThrow(() -> new RuntimeException("없는 가게"));
-        List<Reservation> reservations = reservationDTO.generateReservations(store);
-        store.updateReservation(reservations, timeToClose);
+    public void create(@PathVariable long storeId, @RequestBody ReservationFormDTO reservationDTO) {
+        reservationService.createReservation(reservationDTO, storeId);
     }
 
     @GetMapping("/stores/{storeId}/reservations")

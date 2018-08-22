@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -17,6 +18,9 @@ import java.util.Objects;
 @Entity
 @ToString
 public class Store{
+
+    private static final boolean OPEN = true;
+    private static final boolean CLOSE = false;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,11 +67,8 @@ public class Store{
     @Transient
     private boolean isOpen;
 
-    @OneToMany(mappedBy = "store", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    private List<Reservation> currentReservations = new ArrayList<>();
-
     @Builder
-    public Store(String storeName, String serviceDescription, String ownerName, String imgURL, String postCode, String address, String addressDetail, String phoneNumber, String description) {
+    public Store(String storeName, String serviceDescription, String ownerName, String imgURL, String postCode, String address, String addressDetail, String phoneNumber, String description, LocalDateTime timeToClose, boolean isOpen) {
         this.storeName = storeName;
         this.serviceDescription = serviceDescription;
         this.ownerName = ownerName;
@@ -77,7 +78,10 @@ public class Store{
         this.addressDetail = addressDetail;
         this.phoneNumber = phoneNumber;
         this.description = description;
+        this.timeToClose = timeToClose;
+        this.isOpen = isOpen;
     }
+
 
     public boolean addMenu(Menu menu) {
         if(menu != null && menu.isEqualStore(this) && !hasMenu(menu)) {
@@ -108,31 +112,36 @@ public class Store{
     }
 
     public void inactivateMenus(){
-        menus.stream()
-                .filter(menu -> menu.isUsed())
-                .forEach(menu -> menu.notUsed());
+//        menus.stream()
+//                .filter(menu -> menu.isUsed())
+//                .forEach(menu -> menu.notUsed());
     }
     public boolean updateReservation(List<Reservation> reservations, LocalDateTime timeToClose) {
-        if(isOpen) return false; //&& !validateReservations(reservations)) return false;
+//        if(isOpen()) return false; //&& !validateReservations(reservations)) return false;
+//
+//        this.timeToClose = timeToClose;
+//        inactivateMenus();
+//        reservations.forEach(reservation -> reservation.changeToBeActivated());
+//        // todo Cascade 이슈 생길 수도 있음, JPA 붙이고 확인 필요
+//        currentReservations = reservations;
+        return true;
+    }
 
+    public boolean isOpen(){
+//        if(isOpen)
+//            updateOpenStatus();
+        return isOpen;
+    }
+
+    @PostLoad
+    public void deactivate() {
+        //Todo if(timeToClose.isAfter(LocalDateTime.now()))
+        isOpen = CLOSE;
+    }
+
+    public void activate(LocalDateTime timeToClose){
+        menus.stream().forEach(menu -> menu.dropLastUsedStatus());
         this.timeToClose = timeToClose;
-        inactivateMenus();
-        reservations.forEach(reservation -> reservation.update());
-        // todo Cascade 이슈 생길 수도 있음, JPA 붙이고 확인 필요
-        currentReservations = reservations;
-        return true;
+        isOpen = OPEN;
     }
-/*
-    private boolean validateReservations(List<Reservation> reservations){
-
-        //todo 검사조건 추가
-        if(reservations.stream()
-                .filter(reservation -> reservation.isValidToOpen())
-                .findAny().isPresent())
-            return false;
-
-        return true;
-    }
-*/
-
 }
