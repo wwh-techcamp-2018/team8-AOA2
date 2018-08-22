@@ -51,12 +51,13 @@ document.addEventListener('DOMContentLoaded', async ()  =>{
     });
 
     $('.test').addEventListener('click', async (event) => {
+        $('.loading-wrapper').classList.toggle("off", false);
         instances[0].open();
         const menuData = await fetchAsync({
             url : "/api/owner/1/menu",
             method: "GET"
         });
-        $('.loading-wrapper').remove();
+        $('.loading-wrapper').classList.toggle("off", true);
         if(menuData.length === 0) {
             $('.collection', $('.modal')).insertAdjacentHTML('beforeend', nonMenu());
             return;
