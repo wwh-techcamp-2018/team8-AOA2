@@ -3,14 +3,11 @@ package com.aoa.springwebservice.dto;
 import com.aoa.springwebservice.domain.MaxCount;
 import com.aoa.springwebservice.domain.Reservation;
 import com.aoa.springwebservice.domain.Store;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 public class ReservationDTO {
     private long menuId;
     private int maxCount;
