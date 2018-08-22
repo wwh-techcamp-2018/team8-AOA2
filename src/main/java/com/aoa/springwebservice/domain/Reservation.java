@@ -13,6 +13,9 @@ import java.time.LocalDate;
 @Getter @NoArgsConstructor @ToString
 public class Reservation {
 
+    private static boolean ACTIVATED = true;
+    private static boolean DEACTIVATED = false;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -32,6 +35,7 @@ public class Reservation {
 
     private LocalDate openDate;
     //todo menu deleted 상태
+
     @Builder
     public Reservation(Menu menu, Store store, MaxCount maxCount, LocalDate openDate) {
         this.menu = menu;
@@ -42,7 +46,7 @@ public class Reservation {
        //hint store.addReservation(this);
     }
 
-    public void update() {
-        menu.changeTodayMenu(maxCount);
+    public void regist() {
+        menu.setUpLastUsedStatus(maxCount);
     }
 }

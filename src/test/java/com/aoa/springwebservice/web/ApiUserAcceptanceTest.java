@@ -29,14 +29,13 @@ public class ApiUserAcceptanceTest extends AcceptanceTest {
 
     @Test
     public void login_성공() {
-        User user = userService.login(defaultUser());
-        ResponseEntity<Void> response = template().postForEntity("/api/users/login", user, Void.class);
+        ResponseEntity<Void> response = template().postForEntity("/api/users/login", defaultUser(), Void.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
-    @Test(expected = UnAuthorizedException.class)
+    @Test
     public void login_실패() {
-        User user = userService.login(new User("failed_password", "fail", "fail@fail.com", "010-1111-1111"));
+        User user = new User("failed_password", "fail", "fail@fail.com", "010-1111-1111");
         ResponseEntity<Void> response = template().postForEntity("/api/users/login", user, Void.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
     }

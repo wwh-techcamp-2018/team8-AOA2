@@ -11,61 +11,12 @@
 {{> header}}
 <main>
     <div class="container">
-        <div class="loading-wrapper">
-            <div class="preloader-wrapper huge active">
-                <div class="spinner-layer spinner-blue">
-                    <div class="circle-clipper left">
-                        <div class="circle"></div>
-                    </div>
-                    <div class="gap-patch">
-                        <div class="circle"></div>
-                    </div>
-                    <div class="circle-clipper right">
-                        <div class="circle"></div>
-                    </div>
-                </div>
-
-                <div class="spinner-layer spinner-red">
-                    <div class="circle-clipper left">
-                        <div class="circle"></div>
-                    </div>
-                    <div class="gap-patch">
-                        <div class="circle"></div>
-                    </div>
-                    <div class="circle-clipper right">
-                        <div class="circle"></div>
-                    </div>
-                </div>
-
-                <div class="spinner-layer spinner-yellow">
-                    <div class="circle-clipper left">
-                        <div class="circle"></div>
-                    </div>
-                    <div class="gap-patch">
-                        <div class="circle"></div>
-                    </div>
-                    <div class="circle-clipper right">
-                        <div class="circle"></div>
-                    </div>
-                </div>
-
-                <div class="spinner-layer spinner-green">
-                    <div class="circle-clipper left">
-                        <div class="circle"></div>
-                    </div>
-                    <div class="gap-patch">
-                        <div class="circle"></div>
-                    </div>
-                    <div class="circle-clipper right">
-                        <div class="circle"></div>
-                    </div>
-                </div>
+        {{> menulist}}
+        <button class="waves-effect waves-light btn test" type="button">Modal</button>
+        <div id="modal1" class="modal">
+            <div>
+                {{>menulist}}
             </div>
-            <div class="loader-text">메뉴정보를 가져오는 중입니다.<br> 잠시만 기다려 주세요. </div>
-        </div>
-        <div class="row">
-            <ul class="collection" style="border: none;">
-            </ul>
         </div>
     </div>
 </main>
@@ -105,25 +56,25 @@
 
     // invalid (length)
     //
-    const validateForm = (formEl) => {
-        if (!formEl)
-            return false;
-        var res = true;
-        const requiredInputs = Array.from($All(':required', formEl));
-
-        requiredInputs.forEach(e => {
-            if (e.value.isEmpty()) {
-                addClass(e, 'invalid');
-            }
-        });
-
-        if ($('.invalid', formEl)) {
-            $('.invalid', formEl).focus();
-            return false;
-        }
-        return true;
-
-    };
+    // const validateForm = (formEl) => {
+    //     if (!formEl)
+    //         return false;
+    //     var res = true;
+    //     const requiredInputs = Array.from($All(':required', formEl));
+    //
+    //     requiredInputs.forEach(e => {
+    //         if (e.value.isEmpty()) {
+    //             addClass(e, 'invalid');
+    //         }
+    //     });
+    //
+    //     if ($('.invalid', formEl)) {
+    //         $('.invalid', formEl).focus();
+    //         return false;
+    //     }
+    //     return true;
+    //
+    // };
 </script>
 <script src="/js/menu.js"></script>
 </html>

@@ -7,7 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-@Getter @NoArgsConstructor
+@Getter
+@NoArgsConstructor
 public class MaxCount {
 
     private Integer maxCount;
@@ -15,7 +16,7 @@ public class MaxCount {
     private Integer personalMaxCount;
 
     public MaxCount(int maxCount, int personalMaxCount) {
-        if (maxCount < personalMaxCount) {
+        if (personalMaxCount < 1 || maxCount < personalMaxCount) {
             throw new IllegalArgumentException("illegal maxCount & personalMaxCount");
         }
         this.maxCount = maxCount;

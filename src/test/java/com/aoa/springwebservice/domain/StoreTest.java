@@ -4,6 +4,7 @@ import com.aoa.springwebservice.domain.support.MenuDTO;
 import com.aoa.springwebservice.dto.ReservationDTO;
 import com.aoa.springwebservice.dto.ReservationFormDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.jni.Local;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -46,45 +47,14 @@ public class StoreTest {
         assertThat(store.hasMenu(menu)).isTrue();
     }
 
-
-
-
     @Test
-    public void createReservation(){
-        List<ReservationDTO> reservationDTOS = Arrays.asList(
-                ReservationDTO.builder().maxCount(3).personalMaxCount(3).menuId(1L).build()
-                , ReservationDTO.builder().maxCount(3).personalMaxCount(3).menuId(2L).build());
+    public void store_deactivate(){
+        //When
+        List<Reservation> reservations = null;
+        LocalDateTime timeToClose = null;
+        store.activate(timeToClose);
 
-        ReservationFormDTO reservationFormDTO = ReservationFormDTO.builder()
-                .hourToClose(11)
-                .minuteToClose(0)
-                .reservationDTOs(reservationDTOS)
-                .build();
-
-        List<Reservation> reservations = reservationFormDTO.generateReservations(store);
-        LocalDateTime timeToClose = reservationFormDTO.generateTimeToClose();
-
-        store.updateReservation(reservations, timeToClose);
-        log.debug("Store {} ", store);
-        /*
-            // param) reservations 날짜 세팅된 애들
-
-
-            updateReservation{
-                0) 이 스토어가 새로운 예약을 등록할 수 있는 상황인지 조건 확인 (Status == Closed)
-                1) 시간 설정 (timeToClose)
-                2) 소속 메뉴들 다 안사용 바꾸기
-                3) reservations parameter 에 있는 reservation 의 메뉴들 수정
-                    * 사용으로 바꾸기
-                    * 예약 가능 갯수 바꾸기
-                    * 최대 예약 갯수 바꾸기
-                4) store 에 소속된 reservations(예약정보)에 파라미터 add // 모두 삭제 후 insert? status확인? 등 로직?
-            }
-
-            * Cascade 적용
-            Store updatedStore = storeRepository.save(store);
-
-         */
-
+        store.deactivate();
+        assertThat(store.isOpen()).isFalse();
     }
 }

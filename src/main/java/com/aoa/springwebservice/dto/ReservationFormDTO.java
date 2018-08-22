@@ -39,7 +39,9 @@ public class ReservationFormDTO {
     }
 
     public List<Reservation> generateReservations(Store store) {
-        return reservationDTOs.stream().map(x -> x.toDomain(store)).collect(Collectors.toList());
+        return reservationDTOs.stream()
+                .map(reservationDTO -> reservationDTO.toDomain(store))
+                .collect(Collectors.toList());
     }
 
 

@@ -20,12 +20,10 @@ const fetchAsync = async ({url, method, body}) => {
         headers: {'content-type': 'application/json'},
         credentials: 'same-origin'
     });
-    const test = await res.json();
-    console.log(test);
-    console.log(res);
     if(!res.ok){
         return;
     }
+    const test = res.json();
     return test;
 };
 

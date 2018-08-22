@@ -1,9 +1,12 @@
 package com.aoa.springwebservice.domain;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,8 +18,8 @@ import java.util.Objects;
 @ToString
 public class Menu {
 
-    private static final boolean NOT_USED = false;
-    private static final boolean USED = true;
+    private static final boolean LAST_USED = true;
+    private static final boolean NOT_LAST_USED = false;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,15 +35,18 @@ public class Menu {
 
     private String imageUrl;
 
+
+    private boolean deleted;
     @Embedded
     private MaxCount maxCount;
 
     @ManyToOne(optional = false)
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_menu_store"), nullable = false)
     @ToString.Exclude
+    @JsonIgnore
     private Store store;
 
-    private boolean isUsed;
+    private boolean lastUsed = false;
 
     public Menu() {
 
@@ -51,7 +57,7 @@ public class Menu {
     }
 
     public Menu(String name, int price, String description, String imageUrl, Store store) {
-        this(0, name, price, description, imageUrl, store);
+       this(0, name, price, description, imageUrl, store);
     }
 
     @Builder
@@ -62,6 +68,7 @@ public class Menu {
         this.description = description;
         this.imageUrl = imageUrl;
         this.store = store;
+        this.deleted = false;
     }
 
 
@@ -87,13 +94,22 @@ public class Menu {
         return this.store.equals(store);
     }
 
-    public void notUsed(){
-        isUsed = NOT_USED;
+  
+    public void deleteMenu() {
+        this.deleted = true;
+        return;
+    }
+  
+    public void setUpLastUsedStatus(MaxCount maxCount){
+        this.maxCount = maxCount;
+        lastUsed = LAST_USED;
     }
 
-    public void changeTodayMenu(MaxCount maxCount){
-        this.maxCount = maxCount;
-       //hint this.maxCount = new MaxCount(, );
-        isUsed = USED;
+    public void dropLastUsedStatus(){
+        lastUsed = NOT_LAST_USED;
+    }
+
+    public boolean isLastUsed(){
+        return lastUsed;
     }
 }

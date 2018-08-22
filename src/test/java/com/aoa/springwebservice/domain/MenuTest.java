@@ -65,4 +65,18 @@ public class MenuTest {
         assertThat(store.hasMenu(menu)).isTrue();
     }
 
+    @Test
+    public void testCreateMenuOutputDTO(){
+        Store store = Store.builder()
+                .description("DESC")
+                .imgURL("img")
+                .ownerName("주인")
+                .phoneNumber("1234512345")
+                .postCode("12345")
+                .serviceDescription("create menu 가게관점")
+                .storeName("storeName")
+                .address("ADDRESS")
+                .build();
+    }
+
 }
