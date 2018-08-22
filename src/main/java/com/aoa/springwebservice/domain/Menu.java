@@ -1,5 +1,7 @@
 package com.aoa.springwebservice.domain;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,12 +35,15 @@ public class Menu {
 
     private String imageUrl;
 
+
+    private boolean deleted;
     @Embedded
     private MaxCount maxCount;
 
     @ManyToOne(optional = false)
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_menu_store"), nullable = false)
     @ToString.Exclude
+    @JsonIgnore
     private Store store;
 
     private boolean lastUsed = false;
@@ -52,7 +57,7 @@ public class Menu {
     }
 
     public Menu(String name, int price, String description, String imageUrl, Store store) {
-        this(0, name, price, description, imageUrl, store);
+       this(0, name, price, description, imageUrl, store);
     }
 
     @Builder
@@ -63,6 +68,7 @@ public class Menu {
         this.description = description;
         this.imageUrl = imageUrl;
         this.store = store;
+        this.deleted = false;
     }
 
 
@@ -88,6 +94,12 @@ public class Menu {
         return this.store.equals(store);
     }
 
+  
+    public void deleteMenu() {
+        this.deleted = true;
+        return;
+    }
+  
     public void setUpLastUsedStatus(MaxCount maxCount){
         this.maxCount = maxCount;
         lastUsed = LAST_USED;
