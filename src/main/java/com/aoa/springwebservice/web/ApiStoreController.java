@@ -37,6 +37,7 @@ public class ApiStoreController {
         Store store = storeService.createStore(inputStoreDTO);
         return "/result/success";
     }
+    //Error Response 확인용 Mapping. 여기로 요청보내면 PR(#56) Description에 써놓은것처럼 나옴.
     @PostMapping("/test1")
     public Object create_validate(@Valid InputStoreDTO inputStoreDTO, BindingResult bindingResult) throws BindException {
        if(bindingResult.hasErrors()) {
