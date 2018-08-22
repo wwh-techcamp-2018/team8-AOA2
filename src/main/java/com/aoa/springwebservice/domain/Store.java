@@ -63,13 +63,9 @@ public class Store{
     // todo (현재 시각이랑 timeToClose 랑 비교) +(currentReservations 갯수?)해서 오픈상태 동기화 어떻게 해줄지
     @Transient
     private boolean isOpen;
-//
-//    @OneToMany(mappedBy = "store", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-//    @Where(clause = "isActivated = " + OPEN)
-//    private List<Reservation> currentReservations = new ArrayList<>();
 
     @Builder
-    public Store(String storeName, String serviceDescription, String ownerName, String imgURL, String postCode, String address, String addressDetail, String phoneNumber, String description) {
+    public Store(String storeName, String serviceDescription, String ownerName, String imgURL, String postCode, String address, String addressDetail, String phoneNumber, String description, LocalDateTime timeToClose, boolean isOpen) {
         this.storeName = storeName;
         this.serviceDescription = serviceDescription;
         this.ownerName = ownerName;
@@ -79,7 +75,10 @@ public class Store{
         this.addressDetail = addressDetail;
         this.phoneNumber = phoneNumber;
         this.description = description;
+        this.timeToClose = timeToClose;
+        this.isOpen = isOpen;
     }
+
 
     public boolean addMenu(Menu menu) {
         if(menu != null && menu.isEqualStore(this) && !hasMenu(menu)) {
@@ -108,33 +107,29 @@ public class Store{
         return Objects.hash(storeName);
     }
     public void inactivateMenus(){
-        menus.stream()
-                .filter(menu -> menu.isUsed())
-                .forEach(menu -> menu.notUsed());
+//        menus.stream()
+//                .filter(menu -> menu.isUsed())
+//                .forEach(menu -> menu.notUsed());
     }
     public boolean updateReservation(List<Reservation> reservations, LocalDateTime timeToClose) {
-        if(isOpen()) return false; //&& !validateReservations(reservations)) return false;
-
-        this.timeToClose = timeToClose;
-        inactivateMenus();
-        reservations.forEach(reservation -> reservation.changeToBeActivated());
-        // todo Cascade 이슈 생길 수도 있음, JPA 붙이고 확인 필요
-        currentReservations = reservations;
+//        if(isOpen()) return false; //&& !validateReservations(reservations)) return false;
+//
+//        this.timeToClose = timeToClose;
+//        inactivateMenus();
+//        reservations.forEach(reservation -> reservation.changeToBeActivated());
+//        // todo Cascade 이슈 생길 수도 있음, JPA 붙이고 확인 필요
+//        currentReservations = reservations;
         return true;
     }
 
     public boolean isOpen(){
-        if(isOpen)
-            updateOpenStatus();
+//        if(isOpen)
+//            updateOpenStatus();
         return isOpen;
     }
 
     @PostLoad
-    public void updateOpenStatus(){
-        if(timeToClose.isAfter(LocalDateTime.now()))
-            isOpen = OPEN;
+    public void deactivate() {
         isOpen = CLOSE;
-        currentReservations.forEach(reservation -> reservation.changeToBeDeactivated());
     }
-
 }

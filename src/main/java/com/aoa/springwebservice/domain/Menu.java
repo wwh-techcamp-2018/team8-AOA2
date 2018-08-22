@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,8 +16,8 @@ import java.util.Objects;
 @ToString
 public class Menu {
 
-    private static final boolean NOT_USED = false;
-    private static final boolean USED = true;
+    private static final boolean LAST_USED = true;
+    private static final boolean NOT_LAST_USED = false;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +41,7 @@ public class Menu {
     @ToString.Exclude
     private Store store;
 
-    private boolean isUsed;
+    private boolean lastUsed = false;
 
     public Menu() {
 
@@ -87,13 +88,13 @@ public class Menu {
         return this.store.equals(store);
     }
 
-    public void notUsed(){
-        isUsed = NOT_USED;
-    }
-
     public void changeTodayMenu(MaxCount maxCount){
         this.maxCount = maxCount;
        //hint this.maxCount = new MaxCount(, );
-        isUsed = USED;
+        lastUsed = LAST_USED;
+    }
+
+    public boolean isLastUsed(){
+        return lastUsed;
     }
 }
