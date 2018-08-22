@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+{{> link}}
+<link href="/css/owner.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<body>
+{{> header}}
+<main>
+    <div class="container">
+        <div class="loading-wrapper">
+            <div class="preloader-wrapper huge active">
+                <div class="spinner-layer spinner-blue">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+
+                <div class="spinner-layer spinner-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+
+                <div class="spinner-layer spinner-yellow">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+
+                <div class="spinner-layer spinner-green">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="loader-text">메뉴정보를 가져오는 중입니다.<br> 잠시만 기다려 주세요. </div>
+        </div>
+        <div class="row">
+            <ul class="collection" style="border: none;">
+            </ul>
+        </div>
+    </div>
+</main>
+</body>
+{{> footer}}
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var counter = document.querySelectorAll('.input_counter');
+        M.CharacterCounter.init(counter);
+
+    });
+
+    function createStore() {
+        let formData = new FormData();
+        serializeArray($('form')).forEach(e => formData.append(e.name, e.value));
+        const fileElem = $('input[type=file]');
+        if (fileElem.files.length == 1 && fileElem.files[0].type.match('image.*')) {
+            const file = fileElem.files[0];
+            // if (!file.type.match('image.*')) {
+            //     return;
+            // }
+            formData.append(fileElem.name, file, file.name);
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/api/stores', true);
+
+        xhr.onload = function (progressEvent) {
+            const status = progressEvent.target.status;
+            if (status === 200) {
+                document.location = progressEvent.target.response;
+            }
+        };
+
+        xhr.send(formData);
+    }
+
+    // invalid (length)
+    //
+    const validateForm = (formEl) => {
+        if (!formEl)
+            return false;
+        var res = true;
+        const requiredInputs = Array.from($All(':required', formEl));
+
+        requiredInputs.forEach(e => {
+            if (e.value.isEmpty()) {
+                addClass(e, 'invalid');
+            }
+        });
+
+        if ($('.invalid', formEl)) {
+            $('.invalid', formEl).focus();
+            return false;
+        }
+        return true;
+
+    };
+</script>
+<script src="/js/menu.js"></script>
+</html>

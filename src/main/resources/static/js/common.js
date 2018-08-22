@@ -1,17 +1,35 @@
 const $ = (selector, context = document) => (
     context.querySelector(selector)
-)
+);
 
 const $All = (selector, context = document) => (
     context.querySelectorAll(selector)
-)
+);
 
 const generateJsonObject = form => (
     serializeArray(form).reduce((accum, cur) => {
         accum[cur.name]= cur.value;
         return accum;
     }, {})
-)
+);
+
+const fetchAsync = async ({url, method, body}) => {
+    const res = await fetch(url, {
+        method,
+        body: JSON.stringify(body),
+        headers: {'content-type': 'application/json'},
+        credentials: 'same-origin'
+    });
+    const test = await res.json();
+    console.log(test);
+    console.log(res);
+    if(!res.ok){
+        return;
+    }
+    return test;
+};
+
+
 
 const serializeArray = form => {
     let field, l, s = [];
@@ -33,7 +51,7 @@ const serializeArray = form => {
         }
     }
     return s;
-}
+};
 
 //cross-browser
 const hasClass = (el, className)=>{
@@ -41,12 +59,13 @@ const hasClass = (el, className)=>{
         return el.classList.contains(className)
     else
         return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))
-}
+};
+
 const addClass = (el, className)=>{
     if (el.classList)
         el.classList.add(className)
     else if (!hasClass(el, className)) el.className += " " + className
-}
+};
 
 const removeClass = (el, className)=>{
     if (el.classList)
@@ -55,7 +74,8 @@ const removeClass = (el, className)=>{
         var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
         el.className=el.className.replace(reg, ' ')
     }
-}
+};
+
 const toggleClass = (elem, className)=>{
     var newClass = ' ' + elem.className.replace( /[\t\r\n]/g, ' ' ) + ' ';
     if (hasClass(elem, className)) {
@@ -66,4 +86,41 @@ const toggleClass = (elem, className)=>{
     } else {
         elem.className += ' ' + className;
     }
+};
+
+const numberToLocaleString = (number) => {
+    return number.toLocaleString();
+};
+
+const localeStringToNumber = (string) => {
+    return Number(string.replace(/[,원]/gi, ""));
+};
+
+/*
+String.prototype.isEmpty = function () {
+    return (this.length === 0 || !this.trim());
 }
+*/
+
+//when using validation form
+const isEmpty = (str) => {
+    return (str.length === 0 || !str.trim());
+}
+
+const validateForm = (formEl) => {
+    if (!formEl)
+        return false;
+    const requiredInputs = Array.from ($All(':required', formEl));
+
+    requiredInputs.forEach( e => {
+        if(isEmpty(e.value)){
+            addClass(e, 'invalid');
+        }
+    });
+
+    if($('.invalid', formEl)) {
+        $('.invalid',formEl).focus();
+        return false;
+    }
+    return true;
+};
