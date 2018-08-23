@@ -55,10 +55,14 @@ public class MenuDTO implements Serializable {
     }
 
     public Menu toDomain() {
-        return new Menu(name, price, description, imageUrl);
+        return toDomain(null);
     }
 
     public Menu toDomain(Store store) {
+        return toDomain(store, imageUrl);
+    }
+
+    public Menu toDomain(Store store, String imageUrl) {
         return new Menu(name, price, description, imageUrl, store);
     }
 

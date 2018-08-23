@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface MenuRepository extends CrudRepository<Menu, Long> {
     List<Menu> findAllByStore(Store store);
+    List<Menu> findAllByStore(long storeId);
 }

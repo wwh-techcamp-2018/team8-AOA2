@@ -30,6 +30,7 @@ public class ApiMenuController {
     @Autowired
     private MenuService menuService;
 
+    //todo deprecated _ @Deprecated
     @PostMapping(path = "/owner/menus")
     public String createMenu(MenuDTOToUpload menuDTO, @LoginUser User user) {
         log.debug("menuDTO : {}", menuDTO);
@@ -40,15 +41,28 @@ public class ApiMenuController {
         return "/result/success";
     }
 
+    @PostMapping(path = "/stores/{storeId}/menus")
+    public String createMenuWithStoreId(MenuDTOToUpload menuDTO, long storeId){
+        menuService.createMenu(menuDTO, storeId);
+        return "/result/success";
+    }
+
+    //todo deprecated _ @Deprecated
     @GetMapping(path = "/owner/menus")
     public List<MenuOutputDTO> getAllMenu(@LoginUser User user) {
         return menuService.findAllMenuInStore(user);
     }
 
-    @DeleteMapping(path = "/owner/menus/{menuId}")
+    @GetMapping(path = "/stores/{storeId}/menus")
+    public List<MenuOutputDTO> getAllMenu(@PathVariable long storeId){
+        return menuService.findAllMenuInStore(storeId);
+    }
+
+    @DeleteMapping(path = "/stores/menus/{menuId}")
     public ResponseEntity<Menu> deleteMenu(@PathVariable long menuId){
         Menu menu = menuService.deleteMenu(menuId);
         return new ResponseEntity<Menu>(menu, new HttpHeaders(), HttpStatus.OK);
+        //todo 삭제 성공한 타겟 정보를 다시 응답?
     }
 
     @GetMapping(path = "/test/user")
