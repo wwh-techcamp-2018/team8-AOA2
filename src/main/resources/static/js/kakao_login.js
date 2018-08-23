@@ -23,7 +23,7 @@ const getInfo = (authObj) => {
             } else {
                 let obj = {};
                 obj['uuid'] = res.id;
-                fetchManager('/api/users/login', obj);
+                fetchManager('/api/users/signin', obj);
             }
         }
     });
