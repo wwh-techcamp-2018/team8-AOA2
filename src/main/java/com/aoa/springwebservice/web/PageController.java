@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.format.DateTimeFormatter;
@@ -43,6 +44,7 @@ public class PageController {
         //todo store 존재 확인, store isOpen 확인
         Store tempStore = storeRepository.findById(1L).get();
         model.addAttribute("storeId", tempStore.getId());
+
         model.addAttribute("timeToClose", tempStore.getTimeToClose().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
         model.addAttribute("hourToClose", tempStore.getTimeToClose().toLocalTime().format(DateTimeFormatter.ofPattern("HH")));
         model.addAttribute("minuteToClose", tempStore.getTimeToClose().toLocalTime().format(DateTimeFormatter.ofPattern("mm")));
@@ -56,5 +58,13 @@ public class PageController {
         List<Reservation> reservations = reservationService.getReservationsByCondition(condition, storeService.getStoreByUser(loginUser));
         model.addAttribute("reservations", reservations);
         return "/displayReservation";
+    }
+
+    @GetMapping("/stores/{storeId}/orders/form")
+    public String createOrder(@PathVariable long storeId, Model model){
+        Store tempStore = storeRepository.findById(1L).get();
+        model.addAttribute("timeToClose", tempStore.getTimeToClose().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+        //todo store 존재 확인, store isOpen 확인
+        return "/createOrder";
     }
 }

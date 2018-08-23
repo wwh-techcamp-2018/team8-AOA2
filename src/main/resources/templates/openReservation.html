@@ -4,92 +4,6 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-
-<style>
-
-.ctrl {
-    margin: 10px;
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #D5DCE6;
-  background-color: #fff;
-  border-radius: 5px;
-  //font-size: 30px;
-}
-.ctrl__counter {
-  width: 100px;
-  position: relative;
-  color: #333C48;
-  text-align: center;
-  overflow: hidden;
-
-}
-.ctrl__counter.is-input .ctrl__counter-num {
-  visability: hidden;
-  opacity: 0;
-  transition: opacity 100ms ease-in;
-
-}
-.ctrl__counter.is-input .ctrl__counter-input {
-  visability: visible;
-  opacity: 1;
-  transition: opacity 100ms ease-in;
-}
-.ctrl__counter-input {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  position: relative;
-  z-index: 2;
-  box-shadow: none;
-  outline: none;
-  border: none;
-  color: #333C48;
-  //font-size: 30px;
-  //line-height: 20px;
-  text-align: center;
-  visability: hidden;
-  opacity: 0;
-  transition: opacity 100ms ease-in;
-}
-.ctrl__counter-num {
-    width: 100%;
-    text-align: center;
-     background-color: transparent;
-     border: none;
-     border-radius: 0;
-    outline: none;
-    width: 100%;
-    font-size: 16px;
-}
-
-.ctrl__button {
-  width: 80px;
-  height: 25px;
-  //line-height: 20px;
-  text-align: center;
-  color: #fff;
-  cursor: pointer;
-  background-color: #8498a7;
-  transition: background-color 100ms ease-in;
-}
-.ctrl__button:hover {
-  background-color: #90a2b0;
-  transition: background-color 100ms ease-in;
-}
-.ctrl__button:active {
-  background-color: #778996;
-  transition: background-color 100ms ease-in;
-}
-.ctrl__button--decrement {
-  border-radius: 5px 0 0 5px;
-}
-.ctrl__button--increment {
-  border-radius: 0 5px 5px 0;
-}
-
-</style>
 {{> link}}
 <link href="/css/owner.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 <body>
@@ -109,7 +23,7 @@
                         </div>
                         <div class="col s6 input-field ">
                             <input id="reservationOpenTime" type="text" name="timeToClose" class="timepicker"
-                                   placeholder="{{timeToClose}}">
+                                   placeholder="{{timeToClose}}"  data-input>
                         </div>
                         <div class="col s2"></div>
                     </div>
@@ -141,18 +55,22 @@
 </main>
 </body>
 {{> footer}}
-<script>
+<script type="module">
+    import Ctrls from "/js/ctrl.js"
     document.addEventListener('DOMContentLoaded', function () {
         addMenuForm(1);
         $('#today').innerHTML = formatDate(new Date());
         M.updateTextFields();
-        const elems = $All('.timepicker');
-        const instances = M.Timepicker.init(elems, {
-            'onSelect': (hour, minute) => console.log(hour, minute),
-            'defaultTime': '{{timeToClose}}',
-            'autoClose': true,
-            'twelveHour': false
-        });
+
+        flatpickr('.timepicker',
+                      {
+                        enableTime: true,
+                        noCalendar: true,
+                        dateFormat: "H:i",
+                        time_24hr: true,
+                        defaultDate: '{{timeToClose}}',
+                        minuteIncrement:'30',
+                    });
 
         const modalElems = $All('.modal');
         const modalInstances = M.Modal.init(modalElems);
@@ -204,29 +122,14 @@
     });
 
     const fetchOpenReservation = ()=>{
-        let data = {'hourToClose' : $('input[name=timeToClose]').M_Timepicker.hours || {{hourToClose}},
-        'minuteToClose': $('input[name=timeToClose]').M_Timepicker.minutes || {{minuteToClose}} }
-        data.reservationDTOs = Array.from($All('.collection-item')).reduce( (accum, cur) => {
+        const timeArr = $('#reservationOpenTime').value.split(':');
+        let data = {'hourToClose' : timeArr[0], 'minuteToClose':timeArr[1]};
+        data.reservationDTOs = Array.from($All('.collection-item', $('#menu-collection')) ).reduce( (accum, cur) => {
             const dto = { 'menuId' : $('input[name=menuId]', cur).value , 'maxCount' : $('input[name=maxCount]', cur).value, 'personalMaxCount': $('input[name=personalMaxCount]', cur).value}
             accum.push( dto);
             return accum; }, []);
         fetchAsync({url:"/api/stores/1/reservations", method:'post', body: data})
     }
-
-
-    const loadMenuModal = (event) => {
-    };
-    const formatDate = (date) => {
-        var d = new Date(date),
-            month = '' + (d.getMonth() + 1),
-            day = '' + d.getDate(),
-            year = d.getFullYear();
-
-        if (month.length < 2) month = '0' + month;
-        if (day.length < 2) day = '0' + day;
-
-        return [year, month, day].join('-');
-    };
 
     const addMenuForm = async (storeId) => {
         const menuData = await fetchAsync({
@@ -238,7 +141,6 @@
             $('.collection').insertAdjacentHTML('beforeend', nonMenu());
         }
         appendHtmlFromData(menuData, menuBoxHTML, $('.collection'), '삭제하기');
-        M.Range.init($All("input[type=range]"))
     };
 
     const appendHtmlFromData = (dataArr, templateFunc, parentElement, btnName) => {
@@ -270,7 +172,7 @@
                                         <div class='ctrl'>
                                             <div class='ctrl__button ctrl__button--decrement'>&ndash;</div>
                                             <div class='ctrl__counter'>
-                                                <input type="text" class='ctrl__counter-num browser-default' value="${maxCount}"> </input>
+                                                <input type="text" class='ctrl__counter-num browser-default' name="maxCount" value="${maxCount}"> </input>
                                             </div>
                                             <div class='ctrl__button ctrl__button--increment'>+</div>
                                         </div>
@@ -280,7 +182,7 @@
                                           <div class='ctrl'>
                                                 <div class='ctrl__button ctrl__button--decrement'>&ndash;</div>
                                                 <div class='ctrl__counter'>
-                                                    <input type="text" class='ctrl__counter-num browser-default' value="${personalMaxCount}"> </input>
+                                                    <input type="text" class='ctrl__counter-num browser-default' name="personalMaxCount" value="${personalMaxCount}"> </input>
                                                 </div>
                                                 <div class='ctrl__button ctrl__button--increment'>+</div>
                                            </div>
@@ -324,70 +226,6 @@
                 </li>`
     };
 
- class Ctrls {
-
-    constructor(wrapper){
-        this.wrapper = wrapper;
-    }
-    decrement() {
-      let counter = this.targetInput.value;
-      const nextCounter = (this.counter > 0) ? --counter : counter;
-      this.targetInput.value = nextCounter;
-      this.updatePrevValue(nextCounter);
-    };
-
-    increment() {
-      let counter = this.targetInput.value;
-      const nextCounter = (counter < 9999999999) ? ++counter : counter;
-      this.targetInput.value = nextCounter;
-      this.updatePrevValue(nextCounter);
-    };
-
-    initClass(eventTarget){
-        this.targetInput = $('.ctrl__counter-num', eventTarget.closest('.ctrl'));
-        this.counter = Number(this.targetInput.value);
-    };
-
-    updatePrevValue(value){
-        this.targetInput.setAttribute('data-prev', value);
-    };
-    backToPrevValue(){
-        this.targetInput.value = this.targetInput.getAttribute('data-prev');
-    };
-
-    handleClickEvent(event) {
-            if(hasClass(event.target, 'ctrl__button--increment')){
-             console.log('up');
-             this.initClass(event.target);
-             this.increment();
-             return;
-            }
-             if(hasClass(event.target, 'ctrl__button--decrement')){
-                console.log('down');
-                 this.initClass(event.target);
-                 this.decrement();
-                return;
-         }
-    };
-    handleChangeEvent(event){
-            if(hasClass(event.target, 'ctrl__counter-num')){
-             console.log('change');
-              this.initClass(event.target);
-             var parseValue = parseInt(event.target.value);
-                if (isNaN(parseValue) || parseValue < 0) {
-                    this.backToPrevValue();
-                    return;
-                }
-                this.targetInput.value = parseValue;
-                this.updatePrevValue(parseValue);
-
-            }
-    }
-    registerEvent() {
-        this.wrapper.addEventListener('click', this.handleClickEvent.bind(this));
-        this.wrapper.addEventListener('change', this.handleChangeEvent.bind(this));
-    }
-}
 
 class Menu{
     constructor(wrapper, appendCallback, htmlTemplate){
@@ -413,4 +251,5 @@ class Menu{
     }
 }
 </script>
+{{>footer}}
 </html>

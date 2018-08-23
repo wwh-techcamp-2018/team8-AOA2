@@ -1,13 +1,78 @@
-header, main, footer {
-    padding-left: 300px;
-}
 
-@media only screen and (max-width: 992px) {
-    header, main, footer {
-        padding-left: 0px;
+    #sidebar {
+        width: 100%;
+        min-height: 300px;
+        float: right;
+        /*position: absolute;*/
+        /*top: 0;*/
+        /*right: 0;*/
+        position: relative;
+        z-index: 999;
+
     }
-}
+    #sidebar-body * {
+        font-size : 12px;
+    }
 
+    /*#sidebar:hover {*/
+    /*height: 100px;*/
+    /*width:10%;*/
+    /*transition: width 1s linear;*/
+    /*}*/
+
+    .hidden-on-expand {
+        display: none;
+    }
+
+    /*#sidebar .hidden-on-expand {*/
+    /*display: none;*/
+    /*}*/
+    #sidebar .sidebar-body {
+        display: block;
+        padding: 10px;
+        margin: 40px 20px;
+    }
+
+    @media only screen and (max-width: 993px) {
+        /*@media #{$medium-and-down} {*/
+        .container {
+            width: 100% !important;
+        }
+
+        #sidebar {
+            width: 350px;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .hidden-on-expand {
+            display: block;
+            position: absolute;
+            margin: 20px;
+            /*left: 10px;*/
+            /*top: 10px;*/
+        }
+
+        #sidebar.reduce .sidebar-body > * {
+        / / display: none;
+            opacity: 0;
+            /*transition:0.1s ease-in-out;*/
+
+        }
+
+        /*#sidebar.reduce-animate .sidebar-body > * {*/
+        /*opacity:0;*/
+        /*transition:0.1s ease-in-out;*/
+        /*}*/
+        #sidebar.reduce {
+            /*min-width: 80px;*/
+            /*max-width: 80px;*/
+            width: 80px;
+            text-align: center;
+            max-height: fit-content;
+            transition: width 0.3s ease-in-out;
+        }
+
+    }
 
 .ctrl {
     margin: 10px;
@@ -90,4 +155,3 @@ header, main, footer {
 .ctrl__button--increment {
   border-radius: 0 5px 5px 0;
 }
-
