@@ -63,4 +63,8 @@ public class Reservation {
     public int calculatePrice(int itemCount) {
         return this.menu.calculatePrice(itemCount);
     }
+
+    public boolean isPossiblePurchase(int itemCount) {
+        return availableCount >= itemCount;
+    }
 }

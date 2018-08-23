@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservationService {
@@ -34,32 +36,12 @@ public class ReservationService {
         reservationRepository.saveAll(reservations);
     }
 
-    public List<Reservation> getTodayReservations(long storeId) {
+    public Map<Long, Reservation> getTodayReservations(long storeId) {
         //todo : store의 오픈, 마감시간과 Reservation의 날짜 확인 필요
-        return reservationRepository.findAllByStoreId(storeId);
+        return convertReservationListToMap(reservationRepository.findAllByStoreId(storeId));
     }
 
-    public void servicemain(OrderFormDTO orderFormDTO, long storeId) {
-        List<Reservation> reservations = getTodayReservations(storeId);
-        orderFormDTO.getOrderItemDTOs().stream().forEach(e -> {
-            reservations.stream().forEach(reservation -> {
-                if(e.getMenuId() == reservation.getMenu().getId()){
-                    if(reservation.getAvailableCount() - e.getItemCount() <0){
-                        throw new RuntimeException("Can't Buy!");
-                    }
-                    reservation.orderMenu(e.getItemCount());
-                }
-            });
-        });
-    }
-
-    public Reservation updateReservationCurrentAmount(OrderItemDTO orderItemDTO, Reservation reservation) {
-        if(orderItemDTO.getMenuId() == reservation.getMenu().getId()){
-            if(reservation.getAvailableCount() - orderItemDTO.getItemCount() <0){
-                throw new RuntimeException("Can't Buy!");
-            }
-            reservation.orderMenu(orderItemDTO.getItemCount());
-        }
-        return reservation;
+    private Map<Long, Reservation> convertReservationListToMap(List<Reservation> reservations) {
+        return reservations.stream().collect(Collectors.toMap(Reservation::getId, reservation -> reservation));
     }
 }
