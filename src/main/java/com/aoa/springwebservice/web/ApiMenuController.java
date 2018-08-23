@@ -1,11 +1,9 @@
 package com.aoa.springwebservice.web;
 
 import com.aoa.springwebservice.domain.Menu;
-import com.aoa.springwebservice.domain.MenuRepository;
 import com.aoa.springwebservice.domain.User;
-import com.aoa.springwebservice.domain.support.MenuDTO;
-import com.aoa.springwebservice.domain.support.MenuDTOToUpload;
-import com.aoa.springwebservice.domain.support.MenuOutputDTO;
+import com.aoa.springwebservice.dto.MenuDTOToUpload;
+import com.aoa.springwebservice.dto.MenuOutputDTO;
 import com.aoa.springwebservice.security.LoginUser;
 import com.aoa.springwebservice.service.FileStorageService;
 import com.aoa.springwebservice.service.MenuService;
@@ -15,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 

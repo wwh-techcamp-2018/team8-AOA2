@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor
-public class OutputStoreDTO {
+public class StoreOutputDTO {
 
     private String storeName;
 
@@ -27,7 +27,7 @@ public class OutputStoreDTO {
 
     private String imgURL;
     @Builder
-    public OutputStoreDTO(String storeName, String serviceDescription, String ownerName, String postCode, String address, String addressDetail, String phoneNumber, String description, String imgURL) {
+    public StoreOutputDTO(String storeName, String serviceDescription, String ownerName, String postCode, String address, String addressDetail, String phoneNumber, String description, String imgURL) {
         this.storeName = storeName;
         this.serviceDescription = serviceDescription;
         this.ownerName = ownerName;
@@ -39,9 +39,9 @@ public class OutputStoreDTO {
         this.imgURL = imgURL;
     }
 
-    public static OutputStoreDTO createOutputDTO(Store store) {
+    public static StoreOutputDTO createOutputDTO(Store store) {
         //hint builder static
-        return  new OutputStoreDTO( store.getStoreName(), store.getServiceDescription(), store.getOwnerName(),store.getPostCode(),store.getAddress(),store.getAddressDetail(),store.getPhoneNumber(), store.getDescription(), store.getImgURL());
+        return  new StoreOutputDTO( store.getStoreName(), store.getServiceDescription(), store.getOwnerName(),store.getPostCode(),store.getAddress(),store.getAddressDetail(),store.getPhoneNumber(), store.getDescription(), store.getImgURL());
     }
 
 }

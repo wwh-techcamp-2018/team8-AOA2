@@ -1,4 +1,4 @@
-package com.aoa.springwebservice.domain.support;
+package com.aoa.springwebservice.dto;
 
 import com.aoa.springwebservice.domain.Menu;
 import com.aoa.springwebservice.domain.Store;
