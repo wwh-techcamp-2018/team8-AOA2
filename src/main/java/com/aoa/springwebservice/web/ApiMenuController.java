@@ -65,11 +65,6 @@ public class ApiMenuController {
         return menuService.deleteMenu(menuId);
     }
 
-    @GetMapping("/owner/{storeId}/menus/active")
-    public List<MenuOutputDTO> listActiveMenus(@PathVariable long storeId){
-        return menuService.findActiveMenuInStore(storeId);
-    }
-
     @GetMapping(path = "/test/user")
     public User getUser(@LoginUser User loginUser) {
         return loginUser;
