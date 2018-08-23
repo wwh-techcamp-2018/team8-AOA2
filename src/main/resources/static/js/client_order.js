@@ -54,8 +54,8 @@ const orderItemHTML = ({ id, amount, menu }) => {
     <div class="card-content">
         <span class="card-title">${name}</span>
         <p class="divider"></p>
-        <p class="section"><span class="left order-amount">${amount}개</span>
-            <span class="right"><span class="order-price">${totalPrice} </span>원</span>
+        <p class="section"><span class="left"><span class="order-amount">${amount}</span> 개</span>
+            <span class="right"><span class="order-price">${totalPrice}</span> 원</span>
         </p>
     </div>
 </div>`;
@@ -85,7 +85,7 @@ class Reservation {
     }
     updateTotalPrice(){
         const price = Array.from($All('.order-price', this.parentElement)).reduce( (accum, cur) => (accum + Number(cur.innerHTML)), 0);
-        $('#totalPrice').value = price;
+        $('#totalPrice').innerHTML = price;
     }
     registerEvent() {
         this.wrapper.addEventListener('click', this.handleClickEvent.bind(this));
@@ -105,8 +105,8 @@ class Reservation {
                 return;
             }
             const orderItem = $('[data-id="'+reservationId+'"]', this.appendTargetParent);
-            $('.order-amount', orderItem).innerHTML = reservationItem.amount;
-            $('.order-price', orderItem).innerHTML = reservationItem.amount * reservationItem.menu.price;
+            $('.order-amount', orderItem).innerHTML = Number( $('.order-amount', orderItem).innerHTML) + Number(reservationItem.amount);
+            $('.order-price', orderItem).innerHTML =  Number($('.order-price', orderItem).innerHTML ) + Number( reservationItem.amount * reservationItem.menu.price);
             this.updateTotalPrice();
             
         }
