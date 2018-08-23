@@ -4,6 +4,7 @@ import com.aoa.springwebservice.domain.Reservation;
 import com.aoa.springwebservice.domain.ReservationRepository;
 import com.aoa.springwebservice.domain.Store;
 import com.aoa.springwebservice.domain.StoreRepository;
+import com.aoa.springwebservice.dto.ReservationDTO;
 import com.aoa.springwebservice.dto.ReservationFormDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class ReservationService {
 
     @Autowired
     private ReservationRepository reservationRepository;
+
     @Autowired
     private StoreRepository storeRepository;
 
@@ -30,4 +32,9 @@ public class ReservationService {
         store.activate(timeToClose);
         reservationRepository.saveAll(reservations);
     }
+
+    public List<ReservationDTO> getReservations(String type) {
+        return null;
+    }
+
 }
