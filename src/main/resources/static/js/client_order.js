@@ -98,15 +98,15 @@ class Reservation {
             const reservationId = parent.getAttribute('data-id');
             let reservationItem = this.reservations[reservationId];
             reservationItem.amount = $('input[name=amount]', parent).value;
-            if(!this.orderItems){
+            if(!this.orderItems.includes(reservationId)){
                 this.appendTargetParent.insertAdjacentHTML('beforeend', this.htmlTemplate(reservationItem));
                 this.updateTotalPrice();
                 this.orderItems.push(reservationId);
                 return;
             }
-            const orderItem = $('div[data-id="'+reservationId+'"]', this.parentElement);
-            $('.order-amount', orderItem).value = reservationItem.amount;
-            $('.order-price', orderItem).value = reservationItem.amount * reservationItem.price;
+            const orderItem = $('[data-id="'+reservationId+'"]', this.appendTargetParent);
+            $('.order-amount', orderItem).innerHTML = reservationItem.amount;
+            $('.order-price', orderItem).innerHTML = reservationItem.amount * reservationItem.menu.price;
             this.updateTotalPrice();
             
         }
