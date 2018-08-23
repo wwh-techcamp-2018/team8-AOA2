@@ -170,15 +170,22 @@
         menu.registerEvent();
 
         $('#openReservationBtn').addEventListener('click', fetchOpenReservation);
+
         //$('#loadMenuBtn').addEventListener('click', loadMenuModal);
         $('#loadMenuBtn').addEventListener('click', async (event) => {
-            $('.loading-wrapper').classList.toggle("off", false);
-            modalInstances[1].open();
+            if(hasClass( $('.loading-wrapper'),'off')){
+                modalInstances[1].open();
+                return;
+            }
+            removeClass( $('.loading-wrapper'), 'off');
+            //todo refactor
+
             const menuData = await fetchAsync({
                 url: "/api/owner/1/menu",
                 method: "GET"
             });
-            $('.loading-wrapper').classList.toggle("off", true);
+            addClass( $('.loading-wrapper'), 'off');
+
             if (menuData.length === 0) {
                 $('.collection', $('#menuModal')).insertAdjacentHTML('beforeend', nonMenu());
                 return;
@@ -186,6 +193,7 @@
             appendHtmlFromData(menuData, menuAddBoxHTML, $('.collection', $('#menuModal')), '추가하기');
             //registEventListener();
             menu.addData(menuData);
+            modalInstances[1].open();
         })
 
 
