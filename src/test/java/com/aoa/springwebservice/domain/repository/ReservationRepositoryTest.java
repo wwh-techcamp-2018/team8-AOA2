@@ -1,6 +1,7 @@
 package com.aoa.springwebservice.domain.repository;
 
 import com.aoa.springwebservice.domain.*;
+import com.aoa.springwebservice.service.ReservationService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,30 +44,27 @@ public class ReservationRepositoryTest {
     @Test
     public void list_current_reservations_있을때() {
         int expected = 3;
-        setUp_current_있을때(expected);
-
+        setUp_current(expected);
         List<Reservation> actualReservations = reservationRepository.findAllByStoreAndOpenDate(defaultStore, LocalDate.now());
         assertThat(actualReservations).isNotEmpty();
         assertThat(actualReservations.size()).isEqualTo(expected);
     }
 
-    private void setUp_current_있을때(int expected) {
+    @Test
+    public void list_current_reservations_없을때() {
+        int expected = 0;
+        setUp_current(expected);
+        List<Reservation> actualReservations = reservationRepository.findAllByStoreAndOpenDate(defaultStore, LocalDate.now());
+        assertThat(actualReservations).isEmpty();
+    }
+
+    private void setUp_current(int expected) {
         for (int i = 0; i < expected; i++) {
             targetReservations.add(generateTestReservation(LocalDate.now()));
         }
         reservationRepository.saveAll(targetReservations);
     }
 
-    @Test
-    public void list_current_reservations_없을때() {
-        setUp_current_없을때();
-        List<Reservation> actualReservations = reservationRepository.findAllByStoreAndOpenDate(defaultStore, LocalDate.now());
-        assertThat(actualReservations).isEmpty();
-    }
-
-    private void setUp_current_없을때() {
-        reservationRepository.saveAll(targetReservations);
-    }
 
     @Test
     public void list_last_reservations_하루전() {

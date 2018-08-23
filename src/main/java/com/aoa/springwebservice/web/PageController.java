@@ -1,9 +1,9 @@
 package com.aoa.springwebservice.web;
 
+import com.aoa.springwebservice.domain.Reservation;
 import com.aoa.springwebservice.domain.Store;
 import com.aoa.springwebservice.domain.StoreRepository;
 import com.aoa.springwebservice.domain.User;
-import com.aoa.springwebservice.dto.ReservationDTO;
 import com.aoa.springwebservice.security.LoginUser;
 import com.aoa.springwebservice.service.ReservationService;
 import com.aoa.springwebservice.service.StoreService;
@@ -14,8 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -53,9 +51,9 @@ public class PageController {
         return "/openReservation";
     }
 
-    @GetMapping(path = "/owner/reservations", params = "type")
-    public String showLastReservations(@RequestParam String type, Model model) {
-        List<ReservationDTO> reservations = reservationService.getReservations(type);
+    @GetMapping(path = "/owner/reservations", params = "condition")
+    public String showReservations(@RequestParam final String condition, @LoginUser User loginUser, Model model) {
+        List<Reservation> reservations = reservationService.getReservationsByCondition(condition, storeService.getStoreByUser(loginUser));
         model.addAttribute("reservations", reservations);
         return "/displayReservation";
     }

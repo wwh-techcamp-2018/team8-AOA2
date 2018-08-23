@@ -8,6 +8,8 @@ import com.aoa.springwebservice.dto.StoreOutputDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
+
 @Service
 public class StoreService {
 
@@ -32,6 +34,10 @@ public class StoreService {
 
     public boolean hasStore(User user) {
         return storeRepository.findByUserId(user.getId()).isPresent();
+    }
+
+    public Store getStoreByUser(User user){
+        return storeRepository.findByUser(user).orElseThrow(() -> new EntityExistsException("가게 등록 부터 해주세요"));
     }
 
 }
