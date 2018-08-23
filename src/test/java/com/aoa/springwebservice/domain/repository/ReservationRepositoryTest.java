@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,47 +29,42 @@ public class ReservationRepositoryTest {
 
     private Store defaultStore;
     private Menu defaultMenu;
-
     private List<Reservation> targetReservations;
+    private static final LocalDate PAST_DATE = LocalDate.ofEpochDay(0L);
 
 
     @Before
     public void setUp() {
         prepareDefaultStore();
         prepareDefaultMenus();
+        preparePastReservations();
     }
 
     @Test
     public void list_current_reservations_있을때() {
-        setUp_current_있을때();
+        int expected = 3;
+        setUp_current_있을때(expected);
+
+        List<Reservation> actualReservations = reservationRepository.findAllByStoreAndOpenDate(defaultStore, LocalDate.now());
+        assertThat(actualReservations).isNotEmpty();
+        assertThat(actualReservations.size()).isEqualTo(expected);
     }
 
-    private void setUp_current_있을때(){
-        targetReservations = Arrays.asList(
-                Reservation.builder()
-                        .build(),
-                Reservation.builder()
-                        .build(),
-                Reservation.builder()
-                        .build()
-        );
+    private void setUp_current_있을때(int expected) {
+        for (int i = 0; i < expected; i++) {
+            targetReservations.add(generateTestReservation(LocalDate.now()));
+        }
         reservationRepository.saveAll(targetReservations);
     }
 
     @Test
     public void list_current_reservations_없을때() {
         setUp_current_없을때();
+        List<Reservation> actualReservations = reservationRepository.findAllByStoreAndOpenDate(defaultStore, LocalDate.now());
+        assertThat(actualReservations).isEmpty();
     }
 
     private void setUp_current_없을때() {
-        targetReservations = Arrays.asList(
-                Reservation.builder()
-                        .build(),
-                Reservation.builder()
-                        .build(),
-                Reservation.builder()
-                        .build()
-        );
         reservationRepository.saveAll(targetReservations);
     }
 
@@ -76,15 +73,8 @@ public class ReservationRepositoryTest {
         setUp_last_case_하루전();
     }
 
-    private void setUp_last_case_하루전(){
-        targetReservations = Arrays.asList(
-                Reservation.builder()
-                        .build(),
-                Reservation.builder()
-                        .build(),
-                Reservation.builder()
-                        .build()
-        );
+    private void setUp_last_case_하루전() {
+
         reservationRepository.saveAll(targetReservations);
     }
 
@@ -93,15 +83,8 @@ public class ReservationRepositoryTest {
         setUp_last_case_여러날전();
     }
 
-    private void setUp_last_case_여러날전(){
-        targetReservations = Arrays.asList(
-                Reservation.builder()
-                        .build(),
-                Reservation.builder()
-                        .build(),
-                Reservation.builder()
-                        .build()
-        );
+    private void setUp_last_case_여러날전() {
+
         reservationRepository.saveAll(targetReservations);
     }
 
@@ -120,9 +103,43 @@ public class ReservationRepositoryTest {
     }
 
     private void prepareDefaultMenus() {
-        defaultMenu = Menu.builder().store(defaultStore).name("test1").description("test1").price(1).imageUrl("/path").build();
+        defaultMenu = Menu.builder()
+                .store(defaultStore)
+                .name("test1")
+                .description("test1")
+                .price(1)
+                .imageUrl("/path")
+                .build();
         defaultMenu = Menu.builder().store(defaultStore).name("test2").description("test2").price(2).imageUrl("/path").build();
         defaultStore.addMenu(defaultMenu);
-        storeRepository.save(defaultStore);
+        defaultStore = storeRepository.save(defaultStore);
+        defaultMenu = defaultStore.getMenus().get(0);
+    }
+
+    private void preparePastReservations() {
+        targetReservations = new ArrayList<Reservation>();
+        targetReservations.addAll(
+                Arrays.asList(
+                generateTestReservation(PAST_DATE.plusYears(4L)),
+                generateTestReservation(PAST_DATE.plusYears(3L)),
+                generateTestReservation(PAST_DATE.plusYears(2L)),
+                generateTestReservation(PAST_DATE.plusYears(1L)),
+                generateTestReservation(PAST_DATE)
+        ));
+        reservationRepository.saveAll(targetReservations);
+    }
+
+    private Reservation generateTestReservation(LocalDate openDate){
+        log.debug("defaultMaxCount : {}", defaultMaxCount());
+        return Reservation.builder()
+                .maxCount(defaultMaxCount())
+                .store(defaultStore)
+                .menu(defaultMenu)
+                .openDate(openDate)
+                .build();
+    }
+
+    private MaxCount defaultMaxCount(){
+        return new MaxCount(2, 1);
     }
 }
