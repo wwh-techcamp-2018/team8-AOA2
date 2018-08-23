@@ -1,4 +1,4 @@
-package com.aoa.springwebservice.domain.support;
+package com.aoa.springwebservice.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 

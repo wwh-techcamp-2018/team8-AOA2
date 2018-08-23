@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 
 @Getter @Setter @NoArgsConstructor
 
-public class InputStoreDTO {
+public class StoreInputDTO {
     public static final String NAME = "^[가-힣]*$";
     public static final String PHONE_NUMBER_1 = "^01(?:0|1|[6-9])$";
     public static final String Number = "[0-9]*";
@@ -65,7 +65,7 @@ public class InputStoreDTO {
     @Nullable
     private MultipartFile imageFile;
     @Builder
-    public InputStoreDTO(String storeName, String serviceDescription, String ownerName, String postCode, String address, String addressDetail, String phoneNumber_1, String phoneNumber_2, String phoneNumber_3, String description, MultipartFile imageFile) {
+    public StoreInputDTO(String storeName, String serviceDescription, String ownerName, String postCode, String address, String addressDetail, String phoneNumber_1, String phoneNumber_2, String phoneNumber_3, String description, MultipartFile imageFile) {
         this.storeName = storeName;
         this.serviceDescription = serviceDescription;
         this.ownerName = ownerName;
