@@ -161,4 +161,5 @@ public class Store{
     public List<Menu> getActiveMenus() {
         return this.menus.stream().filter(Menu::isLastUsed).collect(Collectors.toList());
     }
+
 }
