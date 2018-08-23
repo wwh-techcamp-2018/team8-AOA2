@@ -24,11 +24,6 @@ public class ApiReservationController {
     public void create(@PathVariable long storeId, @RequestBody ReservationFormDTO reservationDTO) {
         reservationService.createReservation(reservationDTO, storeId);
     }
-    @PostMapping("/stores/{storeId}/reservations/temp")
-    public String create2(@PathVariable long storeId, @RequestBody ReservationFormDTO reservationDTO) {
-        log.debug("ReservationDTO {}", reservationDTO);
-        return "/result/success";
-    }
 
     @GetMapping("/stores/{storeId}/reservations")
     public List<ReservationFormDTO> list() {

@@ -210,7 +210,7 @@
             const dto = { 'menuId' : $('input[name=menuId]', cur).value , 'maxCount' : $('input[name=maxCount]', cur).value, 'personalMaxCount': $('input[name=personalMaxCount]', cur).value}
             accum.push( dto);
             return accum; }, []);
-        fetchAsync({url:"/api/stores/1/reservations/temp", method:'post', body: data})
+        fetchAsync({url:"/api/stores/1/reservations", method:'post', body: data})
     }
 
 
