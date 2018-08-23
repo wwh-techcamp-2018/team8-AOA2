@@ -3,11 +3,12 @@ package com.aoa.springwebservice.service;
 import com.aoa.springwebservice.domain.Store;
 import com.aoa.springwebservice.domain.StoreRepository;
 import com.aoa.springwebservice.domain.User;
-import com.aoa.springwebservice.dto.InputStoreDTO;
-import com.aoa.springwebservice.dto.OutputStoreDTO;
-import jdk.internal.util.xml.impl.Input;
+import com.aoa.springwebservice.dto.StoreInputDTO;
+import com.aoa.springwebservice.dto.StoreOutputDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityExistsException;
 
 @Service
 public class StoreService {
@@ -18,21 +19,25 @@ public class StoreService {
     @Autowired
     FileStorageService fileStorageService;
 
-    public Store createStore(InputStoreDTO storeDTO, User user){
+    public Store createStore(StoreInputDTO storeDTO, User user){
         return storeRepository.save(storeDTO.toDomain(saveStoreImg(storeDTO), user));
     }
 
-    public OutputStoreDTO convertToOutputDTO(Store store) {
-        return OutputStoreDTO.createOutputDTO(store);
+    public StoreOutputDTO convertToOutputDTO(Store store) {
+        return StoreOutputDTO.createOutputDTO(store);
     }
 
 
-    public String saveStoreImg(InputStoreDTO storeDTO) {
+    public String saveStoreImg(StoreInputDTO storeDTO) {
         return fileStorageService.storeFile(storeDTO.getImageFile());
     }
 
     public boolean hasStore(User user) {
         return storeRepository.findByUserId(user.getId()).isPresent();
+    }
+
+    public Store getStoreByUser(User user){
+        return storeRepository.findByUser(user).orElseThrow(() -> new EntityExistsException("가게 등록 부터 해주세요"));
     }
 
 }

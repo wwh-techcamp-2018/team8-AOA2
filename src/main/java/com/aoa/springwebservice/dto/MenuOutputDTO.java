@@ -1,4 +1,4 @@
-package com.aoa.springwebservice.domain.support;
+package com.aoa.springwebservice.dto;
 
 import com.aoa.springwebservice.domain.MaxCount;
 import com.aoa.springwebservice.domain.Menu;
@@ -21,7 +21,8 @@ public class MenuOutputDTO {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     protected Boolean lastUsed;
-    @JsonUnwrapped @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonUnwrapped
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     protected MaxCount maxCount;
 
     @Builder
@@ -35,7 +36,6 @@ public class MenuOutputDTO {
         this.maxCount = maxCount;
     }
 
-
     public static MenuOutputDTO createMenuOutputDTO(Menu menu) {
         return MenuOutputDTO.builder()
                 .id(menu.getId())
@@ -44,7 +44,7 @@ public class MenuOutputDTO {
                 .description(menu.getDescription())
                 .imgUrl(menu.getImageUrl())
                 .build();
-                //new MenuOutputDTO(menu.getId(), menu.getName(), menu.getPrice(), menu.getDescription(), menu.getImageUrl());
+        //new MenuOutputDTO(menu.getId(), menu.getName(), menu.getPrice(), menu.getDescription(), menu.getImageUrl());
     }
     public static MenuOutputDTO createUsedMenuOutputDTO(Menu menu) {
         return MenuOutputDTO.builder()
@@ -58,4 +58,5 @@ public class MenuOutputDTO {
                 .build();
         //new MenuOutputDTO(menu.getId(), menu.getName(), menu.getPrice(), menu.getDescription(), menu.getImageUrl());
     }
+
 }

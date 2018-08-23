@@ -1,15 +1,11 @@
 package com.aoa.springwebservice.domain;
 
-import com.aoa.springwebservice.domain.support.MenuDTO;
-import com.aoa.springwebservice.dto.ReservationDTO;
-import com.aoa.springwebservice.dto.ReservationFormDTO;
+import com.aoa.springwebservice.dto.MenuDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.jni.Local;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;

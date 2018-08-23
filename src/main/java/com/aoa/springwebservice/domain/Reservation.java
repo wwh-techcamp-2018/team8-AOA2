@@ -7,11 +7,12 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Getter @NoArgsConstructor @ToString
-public class Reservation {
+public class Reservation implements Serializable {
 
     private static boolean ACTIVATED = true;
     private static boolean DEACTIVATED = false;
