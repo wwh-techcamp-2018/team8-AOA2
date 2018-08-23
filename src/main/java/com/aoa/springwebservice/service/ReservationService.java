@@ -4,6 +4,8 @@ import com.aoa.springwebservice.domain.Reservation;
 import com.aoa.springwebservice.domain.ReservationRepository;
 import com.aoa.springwebservice.domain.Store;
 import com.aoa.springwebservice.domain.StoreRepository;
+import com.aoa.springwebservice.dto.OrderFormDTO;
+import com.aoa.springwebservice.dto.OrderItemDTO;
 import com.aoa.springwebservice.dto.ReservationDTO;
 import com.aoa.springwebservice.dto.ReservationFormDTO;
 import com.aoa.springwebservice.service.support.ReservationSelector;
@@ -12,9 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservationService {
@@ -38,6 +43,15 @@ public class ReservationService {
         reservations.forEach(reservation -> reservation.regist());
         store.activate(timeToClose);
         reservationRepository.saveAll(reservations);
+    }
+
+    public Map<Long, Reservation> getTodayReservations(long storeId) {
+        //todo : store의 오픈, 마감시간과 Reservation의 날짜 확인 필요
+        return convertReservationListToMap(reservationRepository.findAllByStoreId(storeId));
+    }
+
+    private Map<Long, Reservation> convertReservationListToMap(List<Reservation> reservations) {
+        return reservations.stream().collect(Collectors.toMap(Reservation::getId, reservation -> reservation));
     }
 
     public List<Reservation> getReservationsByCondition(String condition, Store store) {
