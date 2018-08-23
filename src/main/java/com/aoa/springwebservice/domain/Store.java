@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Getter @NoArgsConstructor
 @Entity
@@ -150,5 +151,14 @@ public class Store{
         List<MenuOutputDTO> menuDTOs = new ArrayList<>();
         this.menus.stream().forEach(e -> menuDTOs.add(MenuOutputDTO.createMenuOutputDTO(e)));
         return menuDTOs;
+    }
+    public List<MenuOutputDTO> getUsedMenuOutputDTOList(){
+        List<MenuOutputDTO> menuDTOs = new ArrayList<>();
+        this.menus.stream().forEach(e -> menuDTOs.add(MenuOutputDTO.createUsedMenuOutputDTO(e)));
+        return menuDTOs;
+    }
+
+    public List<Menu> getActiveMenus() {
+        return this.menus.stream().filter(Menu::isLastUsed).collect(Collectors.toList());
     }
 }
