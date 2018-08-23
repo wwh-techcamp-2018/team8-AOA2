@@ -1,11 +1,13 @@
 package com.aoa.springwebservice.web;
 
 import com.aoa.springwebservice.domain.Store;
+import com.aoa.springwebservice.domain.User;
 import com.aoa.springwebservice.dto.ExtendableDTO;
 import com.aoa.springwebservice.dto.InputStoreDTO;
 import com.aoa.springwebservice.dto.OutputStoreDTO;
 import com.aoa.springwebservice.response.ApiError;
 import com.aoa.springwebservice.response.ValidationErrorResponse;
+import com.aoa.springwebservice.security.LoginUser;
 import com.aoa.springwebservice.service.StoreService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -31,10 +33,10 @@ public class ApiStoreController {
     StoreService storeService;
 
     @PostMapping("")
-    public String create(@Valid InputStoreDTO inputStoreDTO){
+    public String create(@Valid InputStoreDTO inputStoreDTO, @LoginUser User loginUser){
         log.debug("inputDTO : {}", inputStoreDTO);
         //todo store 생성실패 상황 고려
-        Store store = storeService.createStore(inputStoreDTO);
+        Store store = storeService.createStore(inputStoreDTO, loginUser);
         return "/result/success";
     }
 

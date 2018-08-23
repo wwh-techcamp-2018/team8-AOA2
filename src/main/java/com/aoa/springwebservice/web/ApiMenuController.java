@@ -2,10 +2,11 @@ package com.aoa.springwebservice.web;
 
 import com.aoa.springwebservice.domain.Menu;
 import com.aoa.springwebservice.domain.MenuRepository;
+import com.aoa.springwebservice.domain.User;
 import com.aoa.springwebservice.domain.support.MenuDTO;
 import com.aoa.springwebservice.domain.support.MenuDTOToUpload;
 import com.aoa.springwebservice.domain.support.MenuOutputDTO;
-import com.aoa.springwebservice.dto.ReservationFormDTO;
+import com.aoa.springwebservice.security.LoginUser;
 import com.aoa.springwebservice.service.FileStorageService;
 import com.aoa.springwebservice.service.MenuService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,21 +30,20 @@ public class ApiMenuController {
     @Autowired
     private MenuService menuService;
 
-    @PostMapping(path = "/stores/{storeId}/menus/")
-    public String createMenu(@PathVariable long storeId,  MenuDTOToUpload menuDTO) {
+    @PostMapping(path = "/owner/menus")
+    public String createMenu(MenuDTOToUpload menuDTO, @LoginUser User user) {
         log.debug("menuDTO : {}", menuDTO);
         log.debug("file : {}", menuDTO.getFile());
         String menuImgUrl = fileStorageService.storeFile(menuDTO.getFile());
         menuDTO.setImageUrl(menuImgUrl);
-        menuService.createMenu(storeId, menuDTO);
+        menuService.createMenu(menuDTO, user);
         return "/result/success";
     }
 
-    @GetMapping(path = "/owner/{storeId}/menu")
-    public List<MenuOutputDTO> getAllMenu(@PathVariable long storeId) {
-        return menuService.findAllMenuInStore(storeId);
+    @GetMapping(path = "/owner/menus")
+    public List<MenuOutputDTO> getAllMenu(@LoginUser User user) {
+        return menuService.findAllMenuInStore(user);
     }
-
     @DeleteMapping(path = "/owner/menu/{menuId}")
     @ResponseStatus(HttpStatus.OK)
     public Menu deleteMenu(@PathVariable long menuId){
@@ -52,5 +52,10 @@ public class ApiMenuController {
     @GetMapping("/owner/{storeId}/menus/active")
     public List<MenuOutputDTO> listActiveMenus(@PathVariable long storeId){
         return menuService.findActiveMenuInStore(storeId);
+    }
+
+    @GetMapping(path = "/test/user")
+    public User getUser(@LoginUser User loginUser) {
+        return loginUser;
     }
 }

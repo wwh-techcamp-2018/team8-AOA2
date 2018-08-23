@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', async ()  =>{
         $('.loading-wrapper').classList.toggle("off", false);
         instances[0].open();
         const menuData = await fetchAsync({
-            url : "/api/owner/1/menu",
+            url : "/api/owner/menus",
             method: "GET"
         });
         $('.loading-wrapper').classList.toggle("off", true);
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', async ()  =>{
 const deleteMenu = async (removeMenuNode) => {
 
     const menu = await fetchAsync({
-        url : "/api/owner/menu/" + removeMenuNode.attributes["data-id"].value,
+        url : "/api/owner/menus/" + removeMenuNode.attributes["data-id"].value,
         method: "DELETE"
     });
     addClass(removeMenuNode, "off");
@@ -80,7 +80,7 @@ const deleteMenu = async (removeMenuNode) => {
 
 const addMenuForm = async (storeId) => {
     const menuData = await fetchAsync({
-        url : "/api/owner/1/menu",
+        url : "/api/owner/menus",
         method: "GET"
     });
     $('.loading-wrapper').remove();

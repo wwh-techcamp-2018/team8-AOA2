@@ -1,6 +1,7 @@
 package com.aoa.springwebservice.dto;
 
 import com.aoa.springwebservice.domain.Store;
+import com.aoa.springwebservice.domain.User;
 import lombok.*;
 import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
@@ -79,7 +80,7 @@ public class InputStoreDTO {
     }
 
     //todo refactoring
-    public Store toDomain(String imgUrl){
+    public Store toDomain(String imgUrl, User user){
         return Store.builder().storeName(storeName)
                 .serviceDescription(serviceDescription)
                 .ownerName(ownerName)
@@ -88,6 +89,7 @@ public class InputStoreDTO {
                 .addressDetail(addressDetail)
                 .phoneNumber(phoneNumber_1.concat(phoneNumber_2).concat(phoneNumber_3))
                 .description(description)
-                .imgURL(imgUrl).build();
+                .imgURL(imgUrl)
+                .user(user).build();
     }
 }
