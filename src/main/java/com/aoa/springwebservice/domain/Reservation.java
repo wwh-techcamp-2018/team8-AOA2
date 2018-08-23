@@ -10,7 +10,9 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Getter @NoArgsConstructor @ToString
+@Getter
+@NoArgsConstructor
+@ToString
 public class Reservation {
 
     private static boolean ACTIVATED = true;
@@ -23,30 +25,42 @@ public class Reservation {
     @ManyToOne
     private Menu menu;
 
-    @ManyToOne @ToString.Exclude
+    @ManyToOne
+    @ToString.Exclude
     private Store store;
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name="maxCount", column=@Column(nullable = false)),
-            @AttributeOverride(name="personalMaxCount", column=@Column(nullable = false))
+            @AttributeOverride(name = "maxCount", column = @Column(nullable = false)),
+            @AttributeOverride(name = "personalMaxCount", column = @Column(nullable = false))
     })
     private MaxCount maxCount;
 
     private LocalDate openDate;
     //todo menu deleted 상태
 
+    private int availableCount;
+
     @Builder
     public Reservation(Menu menu, Store store, MaxCount maxCount, LocalDate openDate) {
         this.menu = menu;
-      //hint  menu.changeTodayMenu(, );
+        //hint  menu.changeTodayMenu(, );
         this.store = store;
         this.maxCount = maxCount;
         this.openDate = openDate;
-       //hint store.addReservation(this);
+        this.availableCount = maxCount.getMaxCount();
+        //hint store.addReservation(this);
     }
 
     public void regist() {
         menu.setUpLastUsedStatus(maxCount);
+    }
+
+    public void orderMenu(int count) {
+        this.availableCount -= count;
+    }
+
+    public int calculatePrice(int itemCount) {
+        return this.menu.calculatePrice(itemCount);
     }
 }

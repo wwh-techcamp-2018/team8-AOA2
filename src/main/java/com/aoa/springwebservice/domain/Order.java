@@ -4,18 +4,26 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @ToString
+@Table(name = "order_table")
 public class Order {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
     private User customer;
 
+    @ManyToOne
     private Store store;
 
     private LocalDateTime createdDate;
@@ -27,9 +35,24 @@ public class Order {
     private boolean isPickedup;
 
     //Todo :: OrderBy
-    private List<OrderItem> orderItems;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     //Todo :: 다른 상태 있는지 고려해야함. 미수령/수령이 아니라 취소나 수령대기나 등등등
 
+
+    public Order(User customer, Store store, LocalDateTime pickupTime) {
+        this.customer = customer;
+        this.store = store;
+        this.createdDate = LocalDateTime.now();
+        this.pickupTime = pickupTime;
+        this.orderTotalPrice = 0;
+        this.isPickedup = false;
+    }
+
+    public void addOrderItem(OrderItem orderItem) {
+        this.orderItems.add(orderItem);
+        this.orderTotalPrice += orderItem.getItemTotalPrice();
+    }
 
 }

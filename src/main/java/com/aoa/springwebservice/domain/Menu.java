@@ -112,4 +112,8 @@ public class Menu {
     public boolean isLastUsed(){
         return lastUsed;
     }
+
+    public int calculatePrice(int itemCount) {
+        return this.price * itemCount;
+    }
 }
