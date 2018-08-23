@@ -48,18 +48,18 @@ const menuBoxHTML = ({ id, menu, maxCount = 0, personalMaxCount = 0, btnName }) 
             </li>`
 };
 
-
-const processOrder = (event) => {
-
-}
 class OrderItem {
-    constructor(wrapper, orderBtn){
+
+    constructor(wrapper, orderBtn, tabInstances){
         this.orderBtn = orderBtn;
         this.wrapper = wrapper;
+        this.tabInstances = tabInstances;
+        this.step = 0;
+        this.tabIds = ['order', 'payment', 'result'];
     };
     registerEvent(){
         this.wrapper.addEventListener('click', this.handleClickEvent.bind(this));
-        this.orderBtn.addEventListener('click', this.processOrder().bind(this));
+        this.orderBtn.addEventListener('click', this.processOrder.bind(this));
     };
     handleClickEvent(event){
         if (hasClass(event.target, 'delete')) {
@@ -71,9 +71,38 @@ class OrderItem {
         $('#totalPrice').innerHTML = Number($('#totalPrice').innerHTML ) - Number($('.order-price', orderItemElem).innerHTML);
         orderItemElem.remove();
     };
-    processOrder(){
+    async processOrder(){
+        this.step++;
+        removeClass( $All('.tabs > li')[this.step], 'disabled');
+        const nextTabId = this.tabIds[this.step];
+//todo refactor
+        if(nextTabId === 'result'){
+           const result = await fetchAsync({
+               url: "/api/orders/temp",
+               method: "post",
+               body: this.constructDTO(),
+           });
+           console.log(result);
+        }else{
+            this.tabInstances.select(nextTabId);
+        }
 
     };
+    constructDTO(){
+        const orderItemDTOs = Array.from($All('.card', this.wrapper)).reduce( (accum, cur) => {
+            accum.push( { reservationId : cur.getAttribute('data-id'), itemCount: $('.order-amount', cur).innerHTML });
+            return accum;
+        }, []);
+
+        return { name : $('input[name=name]').value,
+                phoneNumber_1 : $('input[name=phoneNumber_1]').value,
+                phoneNumber_2:  $('input[name=phoneNumber_2]').value,
+                phoneNumber_3:  $('input[name=phoneNumber_3]').value,
+                pickupTime: $('input[name=pickupTime]').value, //HH:mm
+                orderItemDTOs: orderItemDTOs,
+        };
+
+    }
 }
 class Reservation {
     constructor(wrapper, appendTargetParent ) {
@@ -105,21 +134,28 @@ class Reservation {
         if (event.target.nodeName === 'BUTTON') {
             console.log('click');
             //todo Refactor
+
             const parent = event.target.closest('.collection-item');
+
             const reservationId = parent.getAttribute('data-id');
             let reservationItem = this.reservations[reservationId];
             reservationItem.amount = $('input[name=amount]', parent).value;
+
+            if($('input[name=amount]', parent).value < 1) return;
+
             if(!this.orderItems.includes(reservationId)){
                 this.appendTargetParent.insertAdjacentHTML('beforeend', this.orderItemHTML(reservationItem));
                 this.updateTotalPrice();
                 this.orderItems.push(reservationId);
+                reduce();
                 return;
             }
             const orderItem = $('[data-id="'+reservationId+'"]', this.appendTargetParent);
             $('.order-amount', orderItem).innerHTML = Number( $('.order-amount', orderItem).innerHTML) + Number(reservationItem.amount);
             $('.order-price', orderItem).innerHTML =  Number($('.order-price', orderItem).innerHTML ) + Number( reservationItem.amount * reservationItem.menu.price);
             this.updateTotalPrice();
-            
+
+            reduce();
         }
     };
 

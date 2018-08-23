@@ -6,17 +6,19 @@ import com.aoa.springwebservice.domain.Reservation;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.stereotype.Service;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class OrderItemDTO {
-    private long menuId;
+    private long reservationId;
     private int itemCount;
 
-    public OrderItemDTO(long menuId, int itemCount) {
-        this.menuId = menuId;
+    public OrderItemDTO(long reservationId, int itemCount) {
+        this.reservationId = reservationId;
         this.itemCount = itemCount;
     }
 
