@@ -42,6 +42,7 @@
         #sidebar {
             width: 350px;
             transition: width 0.3s ease-in-out;
+            height: -webkit-fill-available;
         }
 
         .hidden-on-expand {
@@ -52,7 +53,7 @@
             /*top: 10px;*/
         }
 
-        #sidebar.reduce .sidebar-body > * {
+        #sidebar:not(:focus) .sidebar-body > * {
         / / display: none;
             opacity: 0;
             /*transition:0.1s ease-in-out;*/
@@ -63,7 +64,7 @@
         /*opacity:0;*/
         /*transition:0.1s ease-in-out;*/
         /*}*/
-        #sidebar.reduce {
+        #sidebar:not(:focus) {
             /*min-width: 80px;*/
             /*max-width: 80px;*/
             width: 80px;

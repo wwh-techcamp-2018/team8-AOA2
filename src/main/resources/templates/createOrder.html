@@ -19,12 +19,10 @@
 
 
                     </ul>
-
-
                 </div>
 
-                <div class="col s1 l4 sidebar-wrapper " style="height: -webkit-fill-available;">
-                    <div id="sidebar" class="grey lighten-4">
+                <div class="col s1 l4 sidebar-wrapper" style="height: -webkit-fill-available;" >
+                    <div id="sidebar" class="grey lighten-4 collapsible" tabindex="1">
                         <a href="#!" onclick="reduce()" class="hidden-on-expand"><i class="material-icons">menu</i></a>
                         <div class="sidebar-body ">
 
@@ -32,13 +30,13 @@
                                 <div class="input-title"> 수령 시간 </div>
                                 <div class="valign-wrapper">
 
-                                    <div class="col s6 valign" style="margin-bottom: 0.4em;">
+                                    <div class="col s6 center">
                                         <span id="today"></span>
                                     </div>
-                                    <div class="col s6 valign">
-                                        <input id="reservationOpenTime" type="text" name="timeToClose" class="timepicker" placeholder="{{timeToClose}}" data-input>
+                                    <div class="col s4 ">
+                                        <input id="reservationOpenTime" type="text" name="timeToClose" class="flat-timepicker" placeholder="{{timeToClose}}" data-input>
                                     </div>
-                                    <div class="col s2"></div>
+                                    <div class="col s1"></div>
                                 </div>
                             </div>
                             <div class="divider"></div>
@@ -47,13 +45,13 @@
                             </div>
                             <div class="section">
                                 <div class="row">
-                                    <div class="col s6"><h6>총 결제 금액</h6> </div>
-                                    <div class="col offset-s2 s4"><h6> <span id="totalPrice">0</span> <span>원</span></h6></div>
+                                    <div class="col s6 left"><h6>총 결제 금액</h6> </div>
+                                    <div class="col s6 right right-align"><h6> <span id="totalPrice">0</span> <span>원</span></h6></div>
                                 </div>
                             </div>
                             <div class="section">
                                 <div class="row">
-                                    <button class="btn waves-effect waves-light btn-large" type="button" style="width: -webkit-fill-available;"> 주문하기  </button>
+                                    <button id="orderBtn" data-order-step="1" class="btn waves-effect waves-light btn-large" type="button" style="width: -webkit-fill-available;"> 주문하기  </button>
                                 </div>
 
                             </div>
@@ -76,16 +74,16 @@
 <script type="module">
     import Ctrls from "/js/ctrl.js"
     document.addEventListener('DOMContentLoaded', function () {
-        const reservations = new Reservation($("#reservation-collection"), $('#order-list'), orderItemHTML);
+        const reservations = new Reservation($("#reservation-collection"), $('#order-list'), $('#orderBtn'));
         reservations.registerEvent();
         reservations.getOpenReservations(1);
         const orderItems = new OrderItem($('#order-list'));
-        orderItems.registerEvent();
-        
+
+        $('#orderBtn').addEventListener('click', processOrder);
         const now = formatDate(new Date());
         $('#today').innerHTML = now;
 
-        flatpickr('.timepicker',
+        flatpickr('.flat-timepicker',
             {
                 enableTime: true,
                 noCalendar: true,
@@ -94,6 +92,7 @@
                 defaultDate: '{{timeToClose}}',
                 minuteIncrement: '30',
                 maxDate : '{{timeToClose}}',
+                disableMobile: "true",
             });
 
         const ctrls = new Ctrls($('.collection'));

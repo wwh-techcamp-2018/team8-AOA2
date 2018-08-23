@@ -47,45 +47,41 @@ const menuBoxHTML = ({ id, menu, maxCount = 0, personalMaxCount = 0, btnName }) 
                 </div>
             </li>`
 };
-const orderItemHTML = ({ id, amount, menu }) => {
-    const { name, maxCount, personalMaxCount, price } = menu;
-    const totalPrice = price * amount;
-    return `<div class="card" data-id="${id}">
-    <a class="btn-small btn-floating halfway-top right waves-effect waves-light mayac-light-blue"><i class="delete material-icons">clear</i></a>
-    <div class="card-content">
-        <span class="card-title">${name}</span>
-        <p class="divider"></p>
-        <p class="section"><span class="left"><span class="order-amount">${amount}</span> 개</span>
-            <span class="right"><span class="order-price">${totalPrice}</span> 원</span>
-        </p>
-    </div>
-</div>`;
+
+
+const processOrder = (event) => {
+
 }
 class OrderItem {
-    constructor(wrapper){
+    constructor(wrapper, orderBtn){
+        this.orderBtn = orderBtn;
         this.wrapper = wrapper;
-    }
+    };
     registerEvent(){
         this.wrapper.addEventListener('click', this.handleClickEvent.bind(this));
-    }
+        this.orderBtn.addEventListener('click', this.processOrder().bind(this));
+    };
     handleClickEvent(event){
         if (hasClass(event.target, 'delete')) {
             console.log('click');
             this.deleteOrderItem(event.target.closest('.card'));
         }
-    }
+    };
     deleteOrderItem(orderItemElem){
         $('#totalPrice').innerHTML = Number($('#totalPrice').innerHTML ) - Number($('.order-price', orderItemElem).innerHTML);
         orderItemElem.remove();
-    }
+    };
+    processOrder(){
+
+    };
 }
 class Reservation {
-    constructor(wrapper, appendTargetParent, htmlTemplate) {
+    constructor(wrapper, appendTargetParent ) {
         this.wrapper = wrapper;
         this.appendTargetParent = appendTargetParent;
-        this.htmlTemplate = htmlTemplate;
         this.orderItems = [];
     }
+
     async getOpenReservations(storeId) {
         const menuData = await fetchAsync({
             url: "/api/stores/" + storeId + "/reservations",
@@ -96,14 +92,15 @@ class Reservation {
     };
     addData(reservations) {
         this.reservations = reservations.reduce((accum, cur) => { accum[cur.id] = cur; return accum; }, {});
-    }
+    };
     updateTotalPrice(){
         const price = Array.from($All('.order-price', this.parentElement)).reduce( (accum, cur) => (accum + Number(cur.innerHTML)), 0);
         $('#totalPrice').innerHTML = price;
-    }
+    };
     registerEvent() {
         this.wrapper.addEventListener('click', this.handleClickEvent.bind(this));
-    }
+    };
+
     handleClickEvent(event) {
         if (event.target.nodeName === 'BUTTON') {
             console.log('click');
@@ -113,7 +110,7 @@ class Reservation {
             let reservationItem = this.reservations[reservationId];
             reservationItem.amount = $('input[name=amount]', parent).value;
             if(!this.orderItems.includes(reservationId)){
-                this.appendTargetParent.insertAdjacentHTML('beforeend', this.htmlTemplate(reservationItem));
+                this.appendTargetParent.insertAdjacentHTML('beforeend', this.orderItemHTML(reservationItem));
                 this.updateTotalPrice();
                 this.orderItems.push(reservationId);
                 return;
@@ -124,5 +121,21 @@ class Reservation {
             this.updateTotalPrice();
             
         }
-    }
+    };
+
+    orderItemHTML({ id, amount, menu }){
+        const { name, maxCount, personalMaxCount, price } = menu;
+        const totalPrice = price * amount;
+        return `<div class="card" data-id="${id}">
+            <a class="btn-small btn-floating halfway-top right waves-effect waves-light mayac-light-blue"><i class="delete material-icons">clear</i></a>
+            <div class="card-content">
+                <span class="card-title">${name}</span>
+                <p class="divider"></p>
+                <p class="section"><span class="left"><span class="order-amount">${amount}</span> 개</span>
+                    <span class="right"><span class="order-price">${totalPrice}</span> 원</span>
+                </p>
+            </div>
+    </div>`;
+    };
+
 }
