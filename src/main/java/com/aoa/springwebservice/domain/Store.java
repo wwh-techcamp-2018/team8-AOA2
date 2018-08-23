@@ -70,7 +70,7 @@ public class Store{
     private boolean isOpen;
 
     @Builder
-    public Store(String storeName, String serviceDescription, String ownerName, String imgURL, String postCode, String address, String addressDetail, String phoneNumber, String description, LocalDateTime timeToClose, boolean isOpen) {
+    public Store(String storeName, String serviceDescription, String ownerName, String imgURL, String postCode, String address, String addressDetail, String phoneNumber, String description, LocalDateTime timeToClose, boolean isOpen, User user) {
         this.storeName = storeName;
         this.serviceDescription = serviceDescription;
         this.ownerName = ownerName;
@@ -82,6 +82,7 @@ public class Store{
         this.description = description;
         this.timeToClose = timeToClose;
         this.isOpen = isOpen;
+        this.user = user;
     }
 
 
