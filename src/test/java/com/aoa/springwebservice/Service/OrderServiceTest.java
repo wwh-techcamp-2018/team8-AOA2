@@ -78,7 +78,7 @@ public class OrderServiceTest {
         Order order = new Order(null, store, LocalDateTime.now());
 
         orderFormDTO.getOrderItemDTOs().stream().forEach(orderItemDTO -> {
-            long id = orderItemDTO.getMenuId();
+            long id = orderItemDTO.getReservationId();
             Reservation reservation = result.get(id);
             if(result.containsKey(id)) {
                 if(!reservation.isPossiblePurchase(orderItemDTO.getItemCount())) {
@@ -122,7 +122,7 @@ public class OrderServiceTest {
         orderItems.add(orderItemDTO1);
         orderItems.add(orderItemDTO2);
 
-        return new OrderFormDTO("hong", "010", "1111", "1111", LocalDateTime.now(), orderItems);
+        return new OrderFormDTO("hong", "010", "1111", "1111", "11:30", orderItems);
     }
 
 }
