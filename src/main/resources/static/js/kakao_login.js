@@ -12,7 +12,7 @@ Kakao.Auth.createLoginButton({
 const getInfo = (authObj) => {
     Kakao.API.request({
         url: '/v2/user/me',
-        success: function(res) {
+        success: (res) => {
             if (!res.has_signed_up) {
                 $('#user-id').value = res.id;
 
@@ -21,13 +21,20 @@ const getInfo = (authObj) => {
                 modal.open();
 
             } else {
-                let obj = {};
-                obj['uuid'] = res.id;
-                fetchManager('/api/users/login', obj);
+                (async (uuid) => {
+                    const response = await fetchAsync({
+                        url : '/api/users/signin',
+                        method : 'POST',
+                        body : {
+                            uuid : uuid,
+                        },
+                    });
+                    document.location = response.data;
+                })(res.id);
             }
-        }
+        },
     });
-}
+};
 
 document.addEventListener('DOMContentLoaded', function () {
     var counter = document.querySelectorAll('.input_counter');
@@ -55,8 +62,14 @@ function kakaoSignUp () {
             }
         },
         success: () => {
-            fetchManager('/api/users/signup', formData);
+            (async () => {
+                const response = await fetchAsync({
+                    url: '/api/users/signup',
+                    method: 'POST',
+                    body: formData,
+                });
+                document.location = response;
+            })();
         }
     });
-
-}
+};

@@ -23,8 +23,7 @@ const fetchAsync = async ({url, method, body}) => {
     if(!res.ok){
         return;
     }
-    const test = res.json();
-    return test;
+    return res.json();
 };
 
 
