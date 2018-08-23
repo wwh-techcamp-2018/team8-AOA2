@@ -70,21 +70,47 @@ public class ReservationRepositoryTest {
 
     @Test
     public void list_last_reservations_하루전() {
-        setUp_last_case_하루전();
-    }
+        int expected = 3;
+        long termOfPastDays = 1;
+        setUp_last_case(expected, termOfPastDays);
 
-    private void setUp_last_case_하루전() {
 
-        reservationRepository.saveAll(targetReservations);
+        LocalDate lastDate = reservationRepository
+                .findFirstByStoreAndOpenDateBeforeOrderByOpenDateDesc(defaultStore, LocalDate.now())
+                .get()
+                .getOpenDate();
+
+        log.debug("lastDate : {}", lastDate);
+
+        List<Reservation> actualReservations = reservationRepository.findAllByStoreAndOpenDate(defaultStore, lastDate);
+
+        assertThat(actualReservations).isNotEmpty();
+        assertThat(actualReservations.size()).isEqualTo(expected);
     }
 
     @Test
     public void list_last_reservations_여러날전() {
-        setUp_last_case_여러날전();
+        int expected = 5;
+        long termOfPastDays = 10;
+        setUp_last_case(expected, termOfPastDays);
+
+        LocalDate lastDate = reservationRepository
+                .findFirstByStoreAndOpenDateBeforeOrderByOpenDateDesc(defaultStore, LocalDate.now())
+                .get()
+                .getOpenDate();
+
+        log.debug("lastDate : {}", lastDate);
+
+        List<Reservation> actualReservations = reservationRepository.findAllByStoreAndOpenDate(defaultStore, lastDate);
+
+        assertThat(actualReservations).isNotEmpty();
+        assertThat(actualReservations.size()).isEqualTo(expected);
     }
 
-    private void setUp_last_case_여러날전() {
-
+    private void setUp_last_case(int expected, long termOfPastDays) {
+        for (int i = 0; i < expected; i++) {
+            targetReservations.add(generateTestReservation(LocalDate.now().minusDays(termOfPastDays)));
+        }
         reservationRepository.saveAll(targetReservations);
     }
 
