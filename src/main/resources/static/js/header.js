@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var instances = M.Sidenav.init(elems, {});
 
     $('#logoutBtn').addEventListener('click', (event) => {
-        console.log(event);
         kakaoLogout();
     });
 

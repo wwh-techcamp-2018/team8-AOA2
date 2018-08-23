@@ -54,7 +54,7 @@ public class ApiUserController {
         userService.logout(user);
         HttpSessionUtils.removeUserSession(session);
 
-        return new RestResponse("/login");
+        return new RestResponse("/");
     }
 
 }
