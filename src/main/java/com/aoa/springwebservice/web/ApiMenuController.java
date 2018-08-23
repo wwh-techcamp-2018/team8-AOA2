@@ -56,10 +56,14 @@ public class ApiMenuController {
     }
 
     @DeleteMapping(path = "/stores/menus/{menuId}")
-    public ResponseEntity<Menu> deleteMenu(@PathVariable long menuId){
-        Menu menu = menuService.deleteMenu(menuId);
-        return new ResponseEntity<Menu>(menu, new HttpHeaders(), HttpStatus.OK);
-        //todo 삭제 성공한 타겟 정보를 다시 응답?
+    @ResponseStatus(HttpStatus.OK)
+    public Menu deleteMenu(@PathVariable long menuId){
+        return menuService.deleteMenu(menuId);
+    }
+
+    @GetMapping("/owner/{storeId}/menus/active")
+    public List<MenuOutputDTO> listActiveMenus(@PathVariable long storeId){
+        return menuService.findActiveMenuInStore(storeId);
     }
 
     @GetMapping(path = "/test/user")
