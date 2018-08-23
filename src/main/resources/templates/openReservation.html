@@ -118,7 +118,7 @@
             </div>
             <div class="row">
                 <h5>메뉴</h5>
-                <ul class="collection" style="border: none;">
+                <ul id="menu-collection" class="collection" style="border: none;">
 
                 </ul>
                 <div class="col s12">
@@ -165,6 +165,10 @@
                 }, 500);
             }
         });
+
+        const menu = new Menu($('.collection', $('#menuModal')), appendHtmlFromData, menuAddBoxHTML);
+        menu.registerEvent();
+
         $('#openReservationBtn').addEventListener('click', fetchOpenReservation);
         //$('#loadMenuBtn').addEventListener('click', loadMenuModal);
         $('#loadMenuBtn').addEventListener('click', async (event) => {
@@ -180,12 +184,15 @@
                 return;
             }
             appendHtmlFromData(menuData, menuAddBoxHTML, $('.collection', $('#menuModal')), '추가하기');
-            registEventListener();
+            //registEventListener();
+            menu.addData(menuData);
         })
 
 
         const ctrls = new Ctrls($('.collection'));
         ctrls.registerEvent();
+
+
     });
 
     const fetchOpenReservation = ()=>{
@@ -233,10 +240,10 @@
         }, '');
         parentElement.insertAdjacentHTML('beforeend', html);
     };
-    const menuBoxHTML = ({imgUrl, name, description, price, btnName}) => {
+    const menuBoxHTML = ({id, imgUrl, name, description, price, btnName, maxCount = 0, personalMaxCount = 0}) => {
         const stringPrice = numberToLocaleString(price);
         return `<li class="collection-item" >
-                    <input type="hidden" name="menuId" min="0" max="100" value="1"/>
+                    <input type="hidden" name="menuId" min="0" max="100" value="${id}"/>
                     <div class="valign-wrapper">
                         <div class="col s3 img-box">
                             <img class="responsive-img" src="${imgUrl}">
@@ -255,7 +262,7 @@
                                         <div class='ctrl'>
                                             <div class='ctrl__button ctrl__button--decrement'>&ndash;</div>
                                             <div class='ctrl__counter'>
-                                                <input type="text" class='ctrl__counter-num browser-default' value="0"> </input>
+                                                <input type="text" class='ctrl__counter-num browser-default' value="${maxCount}"> </input>
                                             </div>
                                             <div class='ctrl__button ctrl__button--increment'>+</div>
                                         </div>
@@ -265,7 +272,7 @@
                                           <div class='ctrl'>
                                                 <div class='ctrl__button ctrl__button--decrement'>&ndash;</div>
                                                 <div class='ctrl__counter'>
-                                                    <input type="text" class='ctrl__counter-num browser-default' value="0"> </input>
+                                                    <input type="text" class='ctrl__counter-num browser-default' value="${personalMaxCount}"> </input>
                                                 </div>
                                                 <div class='ctrl__button ctrl__button--increment'>+</div>
                                            </div>
@@ -282,9 +289,9 @@
                 </li>`
     };
 
-    const menuAddBoxHTML = ({id, imgUrl, name, description, price, btnName}) => {
+    const menuAddBoxHTML = ({id, imgUrl, name, description, price, btnName, maxCount = 0, personalMaxCount = 0}) => {
         const stringPrice = numberToLocaleString(price);
-        return `<li class="collection-item" data-id="${id}">
+        return `<li class="collection-item" data-id="${id}" data-max-count="${maxCount}" data-person-max-count="${personalMaxCount}" >
                     <div class="valign-wrapper">
                         <div class="col s3 img-box">
                             <img class="responsive-img" src="${imgUrl}">
@@ -374,6 +381,28 @@
     }
 }
 
-
+class Menu{
+    constructor(wrapper, appendCallback, htmlTemplate){
+        this.wrapper = wrapper;
+        this.appendCallback = appendCallback;
+        this.htmlTemplate = htmlTemplate;
+    }
+    addData(menus){
+        this.menus = menus.reduce( (accum, cur) => { accum[cur.id] = cur; return accum;}, {});
+    }
+    registerEvent() {
+        this.wrapper.addEventListener('click', this.handleClickEvent.bind(this));
+    }
+    handleClickEvent(event){
+        if(event.target.nodeName === 'BUTTON'){
+             console.log('click');
+             const clickBtn = event.target;
+             const menuId = clickBtn.closest('.collection-item').getAttribute('data-id');
+            //todo Refactor
+             appendHtmlFromData([ this.menus[menuId] ], menuBoxHTML, $('#menu-collection'), '삭제하기');
+            clickBtn.setAttribute('disabled', 'disabled');
+        }
+    }
+}
 </script>
 </html>
