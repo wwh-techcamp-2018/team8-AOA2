@@ -134,3 +134,51 @@ const formatDate = (date) => {
 
         return [year, month, day].join('-');
 };
+
+
+
+function collapse() {
+    if ($('#menu-cart').classList.contains('open')) {
+        $('#menu-cart').classList.remove('open');
+        return;
+    }
+    $('#menu-cart').classList.add('open');
+}
+
+function reduce() {
+    if ($('#sidebar').classList.contains('reduce')) {
+        $('#sidebar').classList.add('reduce-animate');
+        setTimeout(() => {
+            $('#sidebar').classList.remove('reduce-animate');
+            $('#sidebar').classList.remove('reduce');
+        }, 300);
+
+        return;
+    }
+
+    $('#sidebar').classList.add('reduce-animate');
+    setTimeout(() => {
+        $('#sidebar').classList.remove('reduce-animate');
+        $('#sidebar').classList.add('reduce');
+    }, 300);
+}
+
+function reduce() {
+    // if ($('#sidebar').classList.contains('reduce')) {
+    //     $('#sidebar').classList.add('reduce-animate');
+    //     setTimeout(() => {
+    //         $('#sidebar').classList.remove('reduce-animate');
+    //         $('#sidebar').classList.remove('reduce');
+    //     }, 300);
+    //
+    //     return;
+    // }
+    //
+    // $('#sidebar').classList.add('reduce-animate');
+    // setTimeout(() => {
+    //     $('#sidebar').classList.remove('reduce-animate');
+    //     $('#sidebar').classList.add('reduce');
+    // }, 300);
+
+    $('#sidebar').focus();
+}

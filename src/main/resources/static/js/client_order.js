@@ -25,8 +25,8 @@ const menuBoxHTML = ({ id, menu, maxCount = 0, personalMaxCount = 0, btnName }) 
                             ${description}
                         </div>
                         <div class="col s12 valign-wrapper">
-                             <div class="col s9">
-                                <div class="col s3"><span> 최대 수량 </span></div>
+                             <div class="col s9 valign-wrapper">
+                                <div class="col s3"><span> 수량 </span></div>
                                  <div class="col s9">
                                     <div class='ctrl'>
                                         <div class='ctrl__button ctrl__button--decrement'>&ndash;</div>
@@ -51,7 +51,7 @@ const orderItemHTML = ({ id, amount, menu }) => {
     const { name, maxCount, personalMaxCount, price } = menu;
     const totalPrice = price * amount;
     return `<div class="card" data-id="${id}">
-    <a class="delete btn-floating halfway-top right waves-effect waves-light mayac-light-blue"><i class="delete material-icons">clear</i></a>
+    <a class="btn-small btn-floating halfway-top right waves-effect waves-light mayac-light-blue"><i class="delete material-icons">clear</i></a>
     <div class="card-content">
         <span class="card-title">${name}</span>
         <p class="divider"></p>
