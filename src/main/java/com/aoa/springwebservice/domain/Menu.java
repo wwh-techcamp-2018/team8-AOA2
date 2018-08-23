@@ -57,7 +57,7 @@ public class Menu {
     }
 
     public Menu(String name, int price, String description, String imageUrl, Store store) {
-       this(0, name, price, description, imageUrl, store);
+        this(0, name, price, description, imageUrl, store);
     }
 
     @Builder
@@ -69,6 +69,7 @@ public class Menu {
         this.imageUrl = imageUrl;
         this.store = store;
         this.deleted = false;
+        this.maxCount = new MaxCount(2,1);
     }
 
 
@@ -94,22 +95,22 @@ public class Menu {
         return this.store.equals(store);
     }
 
-  
+
     public void deleteMenu() {
         this.deleted = true;
         return;
     }
-  
-    public void setUpLastUsedStatus(MaxCount maxCount){
+
+    public void setUpLastUsedStatus(MaxCount maxCount) {
         this.maxCount = maxCount;
         lastUsed = LAST_USED;
     }
 
-    public void dropLastUsedStatus(){
+    public void dropLastUsedStatus() {
         lastUsed = NOT_LAST_USED;
     }
 
-    public boolean isLastUsed(){
+    public boolean isLastUsed() {
         return lastUsed;
     }
 

@@ -100,5 +100,4 @@ public class ReservationServiceTest {
 
         assertThat(reservationRepository.findAllByStore(store).size()).isEqualTo(reservationDTOs.size());
     }
-
 }

@@ -1,13 +1,3 @@
-header, main, footer {
-    padding-left: 300px;
-}
-
-@media only screen and (max-width: 992px) {
-    header, main, footer {
-        padding-left: 0px;
-    }
-}
-
 
 .ctrl {
     margin: 10px;
@@ -90,4 +80,3 @@ header, main, footer {
 .ctrl__button--increment {
   border-radius: 0 5px 5px 0;
 }
-

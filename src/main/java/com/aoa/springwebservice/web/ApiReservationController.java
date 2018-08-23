@@ -1,5 +1,7 @@
 package com.aoa.springwebservice.web;
 
+import com.aoa.springwebservice.domain.Reservation;
+import com.aoa.springwebservice.domain.ReservationRepository;
 import com.aoa.springwebservice.domain.StoreRepository;
 import com.aoa.springwebservice.dto.ReservationFormDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,8 @@ public class ApiReservationController {
     @Autowired
     private ReservationService reservationService;
 
+    @Autowired
+    private ReservationRepository reservationRepository;
     @PostMapping("/stores/{storeId}/reservations")
     public void create(@PathVariable long storeId, @RequestBody ReservationFormDTO reservationDTO) {
         reservationService.createReservation(reservationDTO, storeId);
@@ -31,8 +35,8 @@ public class ApiReservationController {
     }
 
     @GetMapping("/stores/{storeId}/reservations")
-    public List<ReservationFormDTO> list() {
-        return null;
+    public List<Reservation> list(@PathVariable long storeId) {
+        return reservationRepository.findAllByStore( storeRepository.findById(storeId).get());
     }
 
 }

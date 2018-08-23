@@ -1,0 +1,53 @@
+<!-- Compiled and minified CSS -->
+<link href="/css/clientCommon.css" type="text/css" rel="stylesheet"/>
+<body>
+<header>
+    <nav class="nav-extended">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo center">구매자 페이지</a>
+            <ul class="right hide-on-med-and-down">
+                <li><a class="waves-effect waves-light btn"> <i class="material-icons right">home</i>우아한
+                    가게</a></li>
+            </ul>
+        </div>
+        <div class="nav-content">
+            <div class="row center">
+                <a href="#!" class="breadcrumb">메뉴 선택</a>
+                <a href="#!" class="breadcrumb">결제 진행</a>
+                <a href="#!" class="breadcrumb">예약 완료</a>
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('.test');
+        window.instances = M.Sidenav.init(elems, {edge: 'right'});
+    });
+
+    function collapse() {
+        if ($('#menu-cart').classList.contains('open')) {
+            $('#menu-cart').classList.remove('open');
+            return;
+        }
+        $('#menu-cart').classList.add('open');
+    }
+
+    function reduce() {
+        if ($('#sidebar').classList.contains('reduce')) {
+            $('#sidebar').classList.add('reduce-animate');
+            setTimeout(() => {
+                $('#sidebar').classList.remove('reduce-animate');
+                $('#sidebar').classList.remove('reduce');
+            }, 300);
+
+            return;
+        }
+
+        $('#sidebar').classList.add('reduce-animate');
+        setTimeout(() => {
+            $('#sidebar').classList.remove('reduce-animate');
+            $('#sidebar').classList.add('reduce');
+        }, 300);
+    }
+</script>

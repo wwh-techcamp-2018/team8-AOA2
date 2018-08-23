@@ -2,6 +2,7 @@ package com.aoa.springwebservice.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -9,6 +10,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 @Getter
 @NoArgsConstructor
+@ToString
 public class MaxCount {
 
     private Integer maxCount;
