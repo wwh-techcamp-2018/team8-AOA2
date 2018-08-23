@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -32,6 +31,9 @@ public class OrderServiceTest {
     private Store store;
     private Menu menu1;
     private Menu menu2;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private StoreRepository storeRepository;
@@ -75,24 +77,14 @@ public class OrderServiceTest {
         Map<Long, Reservation> result = reservationService.getTodayReservations(store.getId());
 
         //todo : 구매 갯수와 예약 갯수가 일치 (못사는 것에 대한 에러처리)
-        Order order = new Order(null, store, LocalDateTime.now());
+        Order order = orderFormDTO.toDomain(store);
 
-        orderFormDTO.getOrderItemDTOs().stream().forEach(orderItemDTO -> {
-            long id = orderItemDTO.getMenuId();
-            Reservation reservation = result.get(id);
-            if(result.containsKey(id)) {
-                if(!reservation.isPossiblePurchase(orderItemDTO.getItemCount())) {
-                    throw new RuntimeException("Cannot buy");
-                }
-                orderItemDTO.toDomain(order, reservation);
-                reservation.orderMenu(orderItemDTO.getItemCount());
-            }
-        });
+        Order newOrder = orderService.createOrder(result, orderFormDTO, order);
 
         assertThat(order.getOrderItems().size()).isEqualTo(2);
         assertThat(order.getOrderTotalPrice()).isEqualTo(order.getOrderItems().stream().mapToInt(i -> i.getItemTotalPrice()).sum());
 
-        log.debug("newOrder : {}", orderService.save(order));
+        log.debug("newOrder : {}", newOrder);
     }
 
     public OrderFormDTO init_data() {

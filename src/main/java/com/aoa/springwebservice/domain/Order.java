@@ -1,5 +1,7 @@
 package com.aoa.springwebservice.domain;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -20,8 +22,13 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private User customer;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "name", column = @Column(nullable = false)),
+            @AttributeOverride(name = "phoneNumber", column = @Column(nullable = false))
+    })
+    @JsonUnwrapped
+    private Customer customer;
 
     @ManyToOne
     private Store store;
@@ -40,8 +47,8 @@ public class Order {
 
     //Todo :: 다른 상태 있는지 고려해야함. 미수령/수령이 아니라 취소나 수령대기나 등등등
 
-
-    public Order(User customer, Store store, LocalDateTime pickupTime) {
+    @Builder
+    public Order(Customer customer, Store store, LocalDateTime pickupTime) {
         this.customer = customer;
         this.store = store;
         this.createdDate = LocalDateTime.now();
