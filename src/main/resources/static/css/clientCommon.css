@@ -10,6 +10,9 @@
         z-index: 999;
 
     }
+    #sidebar-body * {
+        font-size : 12px;
+    }
 
     /*#sidebar:hover {*/
     /*height: 100px;*/

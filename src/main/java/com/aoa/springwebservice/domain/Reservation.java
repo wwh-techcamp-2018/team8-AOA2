@@ -31,6 +31,7 @@ public class Reservation {
             @AttributeOverride(name="maxCount", column=@Column(nullable = false)),
             @AttributeOverride(name="personalMaxCount", column=@Column(nullable = false))
     })
+    @JsonUnwrapped //todo DTO 분리?
     private MaxCount maxCount;
 
     private LocalDate openDate;

@@ -1,5 +1,6 @@
 package com.aoa.springwebservice.web;
 
+import com.aoa.springwebservice.domain.ReservationRepository;
 import com.aoa.springwebservice.domain.Store;
 import com.aoa.springwebservice.domain.StoreRepository;
 import com.aoa.springwebservice.domain.User;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -23,6 +25,9 @@ public class PageController {
     @Autowired
     StoreRepository storeRepository;
 
+    @Autowired
+    ReservationRepository reservationRepository;
+
     @GetMapping("/admin")
     public String show(@LoginUser User loginUser) {
         if(storeService.hasStore(loginUser))
@@ -35,6 +40,7 @@ public class PageController {
         //todo store 존재 확인, store isOpen 확인
         Store tempStore = storeRepository.findById(1L).get();
         model.addAttribute("storeId", tempStore.getId());
+
         model.addAttribute("timeToClose", tempStore.getTimeToClose().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
         model.addAttribute("hourToClose", tempStore.getTimeToClose().toLocalTime().format(DateTimeFormatter.ofPattern("HH")));
         model.addAttribute("minuteToClose", tempStore.getTimeToClose().toLocalTime().format(DateTimeFormatter.ofPattern("mm")));
@@ -48,4 +54,11 @@ public class PageController {
 //        model.addAttribute("store", storeRepository.findById(1L).get());
 //        return "/registMenu";
 //    }
+    @GetMapping("/stores/{storeId}/orders/form")
+    public String createOrder(@PathVariable long storeId, Model model){
+        Store tempStore = storeRepository.findById(1L).get();
+        model.addAttribute("timeToClose", tempStore.getTimeToClose().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+        //todo store 존재 확인, store isOpen 확인
+        return "/createOrder";
+    }
 }
