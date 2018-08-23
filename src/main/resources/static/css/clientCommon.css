@@ -155,3 +155,8 @@
 .ctrl__button--increment {
   border-radius: 0 5px 5px 0;
 }
+
+.halfway-top{
+    top: -15px;
+    right: -15px;
+}

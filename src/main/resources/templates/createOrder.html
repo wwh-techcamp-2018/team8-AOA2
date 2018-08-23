@@ -79,7 +79,9 @@
         const reservations = new Reservation($("#reservation-collection"), $('#order-list'), orderItemHTML);
         reservations.registerEvent();
         reservations.getOpenReservations(1);
-
+        const orderItems = new OrderItem($('#order-list'));
+        orderItems.registerEvent();
+        
         const now = formatDate(new Date());
         $('#today').innerHTML = now;
 
@@ -91,6 +93,7 @@
                 time_24hr: true,
                 defaultDate: '{{timeToClose}}',
                 minuteIncrement: '30',
+                maxDate : '{{timeToClose}}',
             });
 
         const ctrls = new Ctrls($('.collection'));

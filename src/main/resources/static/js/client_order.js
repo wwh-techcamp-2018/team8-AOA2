@@ -50,7 +50,8 @@ const menuBoxHTML = ({ id, menu, maxCount = 0, personalMaxCount = 0, btnName }) 
 const orderItemHTML = ({ id, amount, menu }) => {
     const { name, maxCount, personalMaxCount, price } = menu;
     const totalPrice = price * amount;
-    return `<div class="card grey lighten-4" data-id="${id}">
+    return `<div class="card" data-id="${id}">
+    <a class="delete btn-floating halfway-top right waves-effect waves-light mayac-light-blue"><i class="delete material-icons">clear</i></a>
     <div class="card-content">
         <span class="card-title">${name}</span>
         <p class="divider"></p>
@@ -60,7 +61,24 @@ const orderItemHTML = ({ id, amount, menu }) => {
     </div>
 </div>`;
 }
-
+class OrderItem {
+    constructor(wrapper){
+        this.wrapper = wrapper;
+    }
+    registerEvent(){
+        this.wrapper.addEventListener('click', this.handleClickEvent.bind(this));
+    }
+    handleClickEvent(event){
+        if (hasClass(event.target, 'delete')) {
+            console.log('click');
+            this.deleteOrderItem(event.target.closest('.card'));
+        }
+    }
+    deleteOrderItem(orderItemElem){
+        $('#totalPrice').innerHTML = Number($('#totalPrice').innerHTML ) - Number($('.order-price', orderItemElem).innerHTML);
+        orderItemElem.remove();
+    }
+}
 class Reservation {
     constructor(wrapper, appendTargetParent, htmlTemplate) {
         this.wrapper = wrapper;
@@ -73,10 +91,6 @@ class Reservation {
             url: "/api/stores/" + storeId + "/reservations",
             method: "GET"
         });
-        //$('.loading-wrapper').remove();
-        if (menuData.length === 0) {
-            $('.collection').insertAdjacentHTML('beforeend', nonMenu());
-        }
         appendHtmlFromData(menuData, menuBoxHTML, $('.collection'), '추가');
         this.addData(menuData);
     };
