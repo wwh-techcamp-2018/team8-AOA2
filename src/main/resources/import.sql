@@ -3,7 +3,7 @@ insert into user (uuid, name, email, phone_number) values ('904513135', 'Junho H
 
 insert into store (ADDRESS, address_detail, description, imgurl, owner_name, phone_number, post_code, service_description, store_name, time_to_close) values ('ADDRESS', 'DETAI', 'DESC', '/', '예제', '1234512345', '12345', 'SERVICE DESC', 'TEST_STORE', CURRENT_TIMESTAMP());
 
---insert into user (id, email, name, phone_number, uuid) values (null, 'urbanscenery@gmail.com', '김연태', '01043334441', '904502908');
+insert into user (id, email, name, phone_number, uuid) values (null, 'urbanscenery@gmail.com', '김연태', '01043334441', '904502908');
 
 insert into  user ( email, name, phone_number, uuid) values ( 'mhyun1116@gmail.com', '테스트', '0101231234', '904829912');
 
