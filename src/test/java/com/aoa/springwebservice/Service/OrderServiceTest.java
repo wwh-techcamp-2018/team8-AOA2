@@ -131,7 +131,7 @@ public class OrderServiceTest {
         orderItems.add(orderItemDTO1);
         orderItems.add(orderItemDTO2);
 
-        return new OrderFormDTO("hong", "010", "1111", "1111", LocalDateTime.now(), orderItems);
+        return new OrderFormDTO("hong", "010", "1111", "1111", "11:30", orderItems);
     }
 
 }
