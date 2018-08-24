@@ -25,7 +25,7 @@ public class RestResponse<T> {
         private String url;
         private String message;
 
-        public RedirectData(String url1, String message) {
+        public RedirectData(String url, String message) {
             this.url = url;
             this.message = message;
         }
