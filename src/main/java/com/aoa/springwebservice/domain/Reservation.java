@@ -64,7 +64,8 @@ public class Reservation implements Serializable {
         return this.menu.calculatePrice(itemCount);
     }
 
-    public boolean isPossiblePurchase(int itemCount) {
-        return availableCount >= itemCount;
+    public void checkPossiblePurchase(int itemCount) {
+        if(this.availableCount < itemCount)
+            throw new RuntimeException("Cannot buy");
     }
 }

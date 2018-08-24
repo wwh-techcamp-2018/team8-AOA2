@@ -21,6 +21,10 @@ const getInfo = (authObj) => {
                 modal.open();
 
             } else {
+                let obj = {};
+                obj['uuid'] = res.id;
+                fetchManager('/api/users/signin', obj);
+
                 (async (uuid) => {
                     const response = await fetchAsync({
                         url : '/api/users/signin',
