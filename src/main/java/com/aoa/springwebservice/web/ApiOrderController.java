@@ -20,7 +20,7 @@ public class ApiOrderController {
     @PostMapping("/temp")
     public RestResponse<RestResponse.RedirectData> tempCreateOrder(@RequestBody OrderFormDTO orderFormDTO){
         log.debug("orderFormDTO {}", orderFormDTO);
-        return RestResponse.ofRedirectResponse(URI.create("/orders/1/result"),"OK");
+        return RestResponse.ofRedirectResponse("/orders/1/result","OK");
     }
 
 }

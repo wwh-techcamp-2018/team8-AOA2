@@ -17,15 +17,15 @@ public class RestResponse<T> {
         this.data = data;
     }
 
-    public static RestResponse<RedirectData> ofRedirectResponse(URI url, String message){
+    public static RestResponse<RedirectData> ofRedirectResponse(String url, String message){
         return new RestResponse<RedirectData>(new RedirectData(url, message));
     }
     @NoArgsConstructor @Setter @Getter
     public static class RedirectData {
-        private URI url;
+        private String url;
         private String message;
 
-        public RedirectData(URI url1, String message) {
+        public RedirectData(String url1, String message) {
             this.url = url;
             this.message = message;
         }
