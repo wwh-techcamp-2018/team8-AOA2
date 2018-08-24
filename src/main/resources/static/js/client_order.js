@@ -89,7 +89,7 @@ class OrderItem {
             method: "post",
             body: this.constructDTO(),
         });
-        document.location = result.url;
+        document.location = result.data.url;
     }
     constructDTO(){
         const orderItemDTOs = Array.from($All('.card', this.wrapper)).reduce( (accum, cur) => {
