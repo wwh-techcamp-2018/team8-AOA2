@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -26,9 +27,6 @@ public class PageController {
 
     @Autowired
     StoreService storeService;
-
-    @Autowired
-    StoreRepository storeRepository;
 
     @Autowired
     ReservationService reservationService;
@@ -44,9 +42,7 @@ public class PageController {
     @GetMapping("/owner/reservations/form")
     public String openReservation(Model model, @LoginUser User loginUser) {
         //todo store 존재 확인, store isOpen 확인 --> 중복 로직 처리 어떻게?
-
-        Store tempStore = storeService.getStoreByUser(loginUser);
-
+        model.addAttribute("store", storeService.createStoreOpenInfoDTO(storeService.getStoreByUser(loginUser)));
       return "/openReservation";
     }
 
@@ -57,13 +53,23 @@ public class PageController {
         return "/displayReservation";
     }
 
+//    @GetMapping("/stores/{storeId}/orders/form")
+//    public String createOrder(@PathVariable long storeId, @LoginUser User loginUser, Model model){
+//        //todo store 존재 확인, store isOpen 확인
+//        model.addAttribute("store", storeService.createStoreOpenInfoDTO(storeService.getStoreByUser(loginUser)));
+//        LocalTime now = LocalTime.now();
+//        model.addAttribute("defaultTime", LocalTime.of(now.getHour(), ((now.getMinute()/ 30)) * 30).plusMinutes(30));
+//        return "/createOrder";
+//    }
+
+    @Autowired
+    StoreRepository storeRepository;
     @GetMapping("/stores/{storeId}/orders/form")
     public String createOrder(@PathVariable long storeId, Model model){
         //todo store 존재 확인, store isOpen 확인
-
-        Store tempStore = storeRepository.findById(1L).get();
-        model.addAttribute("timeToClose", tempStore.getTimeToClose().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
-
+        model.addAttribute("store", storeService.createStoreOpenInfoDTO(storeRepository.findById(storeId).get()));
+        LocalTime now = LocalTime.now();
+        model.addAttribute("defaultTime", LocalTime.of(now.getHour(), ((now.getMinute()/ 30)) * 30).plusMinutes(30));
         return "/createOrder";
     }
 }
