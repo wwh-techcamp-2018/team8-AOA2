@@ -3,6 +3,7 @@ package com.aoa.springwebservice.dto;
 import com.aoa.springwebservice.domain.Customer;
 import com.aoa.springwebservice.domain.Order;
 import com.aoa.springwebservice.domain.Store;
+import javafx.scene.input.DataFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,7 +46,7 @@ public class OrderFormDTO {
     public Order toDomain(Store store) {
         return Order.builder()
                 .customer(Customer.builder().name(name).phoneNumber(phoneNumber_1 + phoneNumber_2 + phoneNumber_3).build())
-                .pickupTime(pickupTime)
+                .pickupTime(LocalDateTime.of(LocalDate.now().plusDays(1L), LocalTime.parse(pickupTime, DateTimeFormatter.ofPattern("HH:mm"))))
                 .store(store)
                 .build();
     }

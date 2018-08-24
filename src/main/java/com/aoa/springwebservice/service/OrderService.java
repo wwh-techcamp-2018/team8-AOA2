@@ -17,7 +17,7 @@ public class OrderService {
     public Order createOrder(Map<Long, Reservation> result, OrderFormDTO orderFormDTO, Order order) {
         //todo : 구매 갯수와 예약 갯수가 일치 (못사는 것에 대한 에러처리)
         orderFormDTO.getOrderItemDTOs().stream().forEach(orderItemDTO -> {
-            long id = orderItemDTO.getMenuId();
+            long id = orderItemDTO.getReservationId();
             Reservation reservation = result.get(id);
             if(result.containsKey(id)) {
                 reservation.checkPossiblePurchase(orderItemDTO.getItemCount());

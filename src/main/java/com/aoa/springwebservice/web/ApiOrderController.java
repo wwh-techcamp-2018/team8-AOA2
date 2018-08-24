@@ -31,7 +31,8 @@ public class ApiOrderController {
         Order order = orderFormDTO.toDomain(storeService.getStoreById(storeId));
         //todo : parameter 3개...refactor 필요
         orderService.createOrder(reservationService.getTodayReservations(storeId), orderFormDTO, order);
-
+    }
+    
     @PostMapping("/temp")
     public String tempCreateOrder(@RequestBody OrderFormDTO orderFormDTO){
         log.debug("orderFormDTO {}", orderFormDTO);
