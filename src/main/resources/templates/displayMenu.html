@@ -10,14 +10,9 @@
 <body>
 {{> header}}
 <main>
+    <input type="hidden" id="storeId" value="{{store.id}}"/>
     <div class="container">
         {{> menulist}}
-        <button class="waves-effect waves-light btn test" type="button">Modal</button>
-        <div id="modal1" class="modal">
-            <div>
-                {{>menulist}}
-            </div>
-        </div>
     </div>
 </main>
 </body>

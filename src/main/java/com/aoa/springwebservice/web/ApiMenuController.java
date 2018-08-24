@@ -58,14 +58,9 @@ public class ApiMenuController {
         return menuService.getLastUsedMenusInStore(storeId);
     }
 
-    @DeleteMapping(path = "/stores/menus/{menuId}")
+    @DeleteMapping(path = "/menus/{menuId}")
     @ResponseStatus(HttpStatus.OK)
     public Menu deleteMenu(@PathVariable long menuId){
         return menuService.deleteMenu(menuId);
-    }
-
-    @GetMapping(path = "/test/user")
-    public User getUser(@LoginUser User loginUser) {
-        return loginUser;
     }
 }

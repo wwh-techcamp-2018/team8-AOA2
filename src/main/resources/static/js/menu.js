@@ -39,7 +39,7 @@ const appendHtmlFromData = (dataArr, templateFunc, parentElement, btnName) => {
 
 document.addEventListener('DOMContentLoaded', async ()  =>{
     //Ajax로 데이터 볼러와야함.
-    addMenuForm(1);
+    addMenuForm($("#storeId").value);
 
     var elems = document.querySelectorAll('.modal');
     var instances = M.Modal.init(elems);
@@ -49,27 +49,12 @@ document.addEventListener('DOMContentLoaded', async ()  =>{
             deleteMenu(event.target.closest(".collection-item"));
         }
     });
-
-    $('.test').addEventListener('click', async (event) => {
-        $('.loading-wrapper').classList.toggle("off", false);
-        instances[0].open();
-        const menuData = await fetchAsync({
-            url : "/api/owner/menus",
-            method: "GET"
-        });
-        $('.loading-wrapper').classList.toggle("off", true);
-        if(menuData.length === 0) {
-            $('.collection', $('.modal')).insertAdjacentHTML('beforeend', nonMenu());
-            return;
-        }
-        appendHtmlFromData(menuData, menuBoxHTML, $('.collection', $('.modal')), '추가하기');
-    })
 });
 
 const deleteMenu = async (removeMenuNode) => {
 
     const menu = await fetchAsync({
-        url : "/api/owner/menus/" + removeMenuNode.attributes["data-id"].value,
+        url : "/api/menus/" + removeMenuNode.attributes["data-id"].value,
         method: "DELETE"
     });
     addClass(removeMenuNode, "off");
@@ -80,7 +65,7 @@ const deleteMenu = async (removeMenuNode) => {
 
 const addMenuForm = async (storeId) => {
     const menuData = await fetchAsync({
-        url : "/api/owner/menus",
+        url : '/api/stores/'+storeId+'/menus',
         method: "GET"
     });
     $('.loading-wrapper').remove();

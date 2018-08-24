@@ -78,4 +78,10 @@ public class PageController {
         model.addAttribute("order", "ORDER RESULT"); //OUTPUT
         return "/showOrderResult";
     }
+
+    @GetMapping("/owner/menus")
+    public String showMenus(@LoginUser User user,  Model model) {
+        model.addAttribute("store", storeService.getStoreByUser(user));
+        return "displayMenu";
+    }
 }
