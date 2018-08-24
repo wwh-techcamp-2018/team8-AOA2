@@ -87,6 +87,23 @@ public class OrderServiceTest {
         log.debug("newOrder : {}", newOrder);
     }
 
+    @Test
+    public void update_count_Reservations_실패() {
+
+        orderFormDTO.getOrderItemDTOs().remove(1);
+        orderFormDTO.getOrderItemDTOs().add(new OrderItemDTO(2L, 5));
+
+        Map<Long, Reservation> result = reservationService.getTodayReservations(store.getId());
+
+        Order order = orderFormDTO.toDomain(store);
+        Order newOrder = orderService.createOrder(result, orderFormDTO, order);
+
+        //todo : runtimeexception 확인
+        assertThat(order.getOrderItems().size()).isEqualTo(0);
+
+        log.debug("newOrder : {}", newOrder);
+    }
+
     public OrderFormDTO init_data() {
         // When
         List<ReservationDTO> reservationDTOs = Arrays.asList(

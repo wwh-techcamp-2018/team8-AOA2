@@ -2,12 +2,12 @@ package com.aoa.springwebservice.service;
 
 import com.aoa.springwebservice.domain.*;
 import com.aoa.springwebservice.dto.OrderFormDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Map;
-
+@Slf4j
 @Service
 public class OrderService {
 
@@ -20,9 +20,7 @@ public class OrderService {
             long id = orderItemDTO.getMenuId();
             Reservation reservation = result.get(id);
             if(result.containsKey(id)) {
-                if(!reservation.isPossiblePurchase(orderItemDTO.getItemCount())) {
-                    throw new RuntimeException("Cannot buy");
-                }
+                reservation.checkPossiblePurchase(orderItemDTO.getItemCount());
                 orderItemDTO.toDomain(order, reservation);
                 reservation.orderMenu(orderItemDTO.getItemCount());
             }
