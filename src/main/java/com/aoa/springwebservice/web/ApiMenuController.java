@@ -48,14 +48,15 @@ public class ApiMenuController {
         return menuService.findAllMenuInStore(user);
     }
 
-    @GetMapping(path = "/stores/{storeId}/menus")
-    public List<MenuOutputDTO> getAllMenu(@PathVariable long storeId){
-        return menuService.findAllMenuInStore(storeId);
-    }
-    @GetMapping(path ="/stores/{storeId}/menus/", params = "condition")
-    public List<MenuOutputDTO> listActiveMenus(@RequestParam final String condition, @PathVariable long storeId){
+    @GetMapping(path ="/stores/{storeId}/menus")
+    public List<MenuOutputDTO> listActiveMenus(@RequestParam(required = false) String condition, @PathVariable long storeId){
         //todo condition 체크
-        return menuService.getLastUsedMenusInStore(storeId);
+        if(condition != null ) {
+            log.debug("listActiveMenus");
+            return menuService.getLastUsedMenusInStore(storeId);
+        }
+        log.debug("getAllMenus");
+        return menuService.findAllMenuInStore(storeId);
     }
 
     @DeleteMapping(path = "/menus/{menuId}")
