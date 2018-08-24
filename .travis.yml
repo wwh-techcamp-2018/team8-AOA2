@@ -37,7 +37,7 @@ deploy:
   access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
   secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
   bucket: 20180814aoa2team8 # S3 버킷
-  key: springboot-webservice.zip # S3 버킷에 저장된 springboot-webservice.zip 파일을 EC2로 배포
+  key: aoa2-application.zip # S3 버킷에 저장된 springboot-webservice.zip 파일을 EC2로 배포
   bundle_type: zip
   application: Team8-AOA2-Deployer # 웹 콘솔에서 등록한 CodeDeploy 어플리케이션
   deployment_group: Woowahan-techcamp-2018 # 웹 콘솔에서 등록한 CodeDeploy 배포 그룹
