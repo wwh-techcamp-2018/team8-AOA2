@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+{{> link}}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link href="/css/owner.css" type="text/css" rel="stylesheet" media="screen,projection" />
+
+<body>
+{{>clientHeader}}
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col s11 l8">
+                <div id="order" class="">
+                    <ul id="reservation-collection" class="collection" style="border: none;">
+
+
+                    </ul>
+                </div>
+                <div id="payment" class="row">
+                    <div class="col s12 order-title mayac-deep-blue-text">
+                        예약자 정보
+                    </div>
+                    <div class="col s12 divider"></div>
+                    <ul>
+                        <li>
+                            <div class="input-title col s12 l2 ">
+                                이름
+                            </div>
+                            <div class="input-field col s12 l10">
+                                <input class="input_counter validate" id="input_owner" name="name" type="text"
+                                       data-length="5" data-min-length="2" required>
+                                <span class="helper-text" data-error="wrong" data-success="right">5자 이하로 적어주십시오</span>
+                                <label for="input_owner">이름</label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="input-title col s12 l2">
+                                핸드폰번호
+                            </div>
+                            <div class="col s12 l10">
+                                <div class="row">
+                                    <div class="input-field col s3 l2">
+                                        <input name="phoneNumber_1" class="validate" type="text"
+                                               data-length="3" data-regex="^01(?:0|1|[6-9])$" required>
+                                        <span class="helper-text" data-error="wrong"
+                                              data-success="right">3자 이하</span>
+                                    </div>
+                                    <div class="input-title col s1 l1">
+                                        -
+                                    </div>
+                                    <div class="input-field col s3 l2">
+                                        <input name="phoneNumber_2" class="validate" type="text"
+                                               data-length="4" data-min-length="3" data-regex="^[0-9]*$" required>
+                                        <span class="helper-text" data-error="wrong"
+                                              data-success="right" >4자 이하</span>
+                                    </div>
+                                    <div class="input-title col s1 l1">
+                                        -
+                                    </div>
+                                    <div class="input-field col s3 l2">
+                                        <input name="phoneNumber_3" class="validate" type="text"
+                                               data-length="4" data-min-length="4" data-regex="^[0-9]*$" required>
+                                        <span class="helper-text" data-error="wrong"
+                                              data-success="right" >4자 이하</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="col s12 order-title mayac-deep-blue-text">
+                        결제 수단
+                    </div>
+                    <div class="col s12 divider"></div>
+                    <div class="col s12 unuseable mayac-deep-blue">
+                        <div class="test">
+                            <div class="payment">
+                                <ul>
+                                    <li class="row">
+                                        <div class="col s4 l2">
+                                            <label>
+                                                <input class="with-gap" name="payment-group" type="radio" />
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                        <div class="order-subtitle col s8 l10 mayac-deep-blue-text">
+                                            신용카드 결제
+                                        </div>
+                                    </li>
+                                    <li class="row">
+                                        <div class="col s4 l2 ">
+                                            <label>
+                                                <input class="with-gap" name="payment-group" type="radio" />
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                        <div class="order-subtitle col s8 l10 mayac-deep-blue-text">
+                                            카카오페이 결제
+                                        </div>
+                                    </li>
+                                    <li class="row">
+                                        <div class="col s4 l2 ">
+                                            <label>
+                                                <input class="with-gap" name="payment-group" type="radio" />
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                        <div class="order-subtitle col s8 l10 mayac-deep-blue-text">
+                                            핸드폰 결제
+                                        </div>
+                                    </li>
+                                </ul>
+
+                            </div>
+                            <div class="test2">기능 준비중입니다.</div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s1 l4 sidebar-wrapper" style="height: -webkit-fill-available;" >
+                <div id="sidebar" class="grey lighten-4 collapsible" tabindex="1">
+                    <a href="#!" onclick="reduce()" class="hidden-on-expand"><i class="material-icons">menu</i></a>
+                    <div class="sidebar-body ">
+
+                        <div class="section" id="hourSection">
+                            <div class="input-title"> 수령 시간 </div>
+                            <div class="valign-wrapper">
+
+                                <div class="col s6 center">
+                                    <span id="today"></span>
+                                </div>
+                                <div class="col s4 ">
+                                    <input name="pickupTime" type="text" name="timeToClose" class="flat-timepicker" placeholder="{{timeToClose}}" data-input>
+                                </div>
+                                <div class="col s1"></div>
+                            </div>
+                        </div>
+                        <div class="divider"></div>
+                        <div id="order-list" class="section">
+
+                        </div>
+                        <div class="section">
+                            <div class="row">
+                                <div class="col s6 left"><h6>총 결제 금액</h6> </div>
+                                <div class="col s6 right right-align"><h6> <span id="totalPrice">0</span> <span>원</span></h6></div>
+                            </div>
+                        </div>
+                        <div class="section">
+                            <div class="row">
+                                <button id="orderBtn" data-order-step="1" class="btn waves-effect waves-light btn-large" type="button" style="width: -webkit-fill-available;"> 주문하기  </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+</body>
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+<script src="/js/client_order.js"></script>
+{{>clientFooter}}
+
+</html>

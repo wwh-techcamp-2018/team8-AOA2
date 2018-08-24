@@ -72,4 +72,10 @@ public class PageController {
         model.addAttribute("defaultTime", LocalTime.of(now.getHour(), ((now.getMinute()/ 30)) * 30).plusMinutes(30));
         return "/createOrder";
     }
+
+    @GetMapping("/orders/{orderId}/result")
+    public String showOrderResult(@PathVariable long orderId, Model model){
+        model.addAttribute("order", "ORDER RESULT"); //OUTPUT
+        return "/showOrderResult";
+    }
 }
