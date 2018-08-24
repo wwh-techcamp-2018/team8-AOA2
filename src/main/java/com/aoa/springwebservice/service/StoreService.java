@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 
 @Service
 public class StoreService {
@@ -38,7 +39,12 @@ public class StoreService {
     public Store getStoreByUser(User user){
         return storeRepository.findByUser(user).orElseThrow(() -> new EntityExistsException("가게 등록 부터 해주세요"));
     }
+  
     public StoreOutputDTO createStoreOpenInfoDTO(Store store){
         return StoreOutputDTO.createStoreOpenInfoDTO(store);
+    }
+
+    public Store getStoreById(long id) {
+        return storeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("주문할 가게가 등록되지 않았습니다"));
     }
 }
