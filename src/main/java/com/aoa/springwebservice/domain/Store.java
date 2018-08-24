@@ -150,11 +150,13 @@ public class Store{
 
     public List<MenuOutputDTO> getMenuOutputDTOList() {
         List<MenuOutputDTO> menuDTOs = new ArrayList<>();
-        this.menus.stream().forEach(e -> menuDTOs.add(MenuOutputDTO.createMenuOutputDTO(e)));
+        this.menus.stream().forEach(e -> menuDTOs.add(MenuOutputDTO.createUsedMenuOutputDTO(e)));
         return menuDTOs;
     }
     public List<MenuOutputDTO> getUsedMenuOutputDTOList(){
         List<MenuOutputDTO> menuDTOs = new ArrayList<>();
+        log.debug(" IsLastUsed Size{} ", this.menus.stream().filter(Menu::isLastUsed).collect(Collectors.toList()).size());
+        log.debug(" IsLastUsed Size{} ", this.menus.stream().filter(x -> x.isLastUsed()).collect(Collectors.toList()).size());
         this.menus.stream().filter(Menu::isLastUsed).forEach(e -> menuDTOs.add(MenuOutputDTO.createUsedMenuOutputDTO(e)));
         return menuDTOs;
     }
