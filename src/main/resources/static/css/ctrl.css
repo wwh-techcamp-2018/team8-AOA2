@@ -1,0 +1,82 @@
+
+.ctrl {
+    margin: 10px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #D5DCE6;
+  background-color: #fff;
+  border-radius: 5px;
+  //font-size: 30px;
+}
+.ctrl__counter {
+  width: 100px;
+  position: relative;
+  color: #333C48;
+  text-align: center;
+  overflow: hidden;
+
+}
+.ctrl__counter.is-input .ctrl__counter-num {
+  visability: hidden;
+  opacity: 0;
+  transition: opacity 100ms ease-in;
+
+}
+.ctrl__counter.is-input .ctrl__counter-input {
+  visability: visible;
+  opacity: 1;
+  transition: opacity 100ms ease-in;
+}
+.ctrl__counter-input {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  z-index: 2;
+  box-shadow: none;
+  outline: none;
+  border: none;
+  color: #333C48;
+  //font-size: 30px;
+  //line-height: 20px;
+  text-align: center;
+  visability: hidden;
+  opacity: 0;
+  transition: opacity 100ms ease-in;
+}
+.ctrl__counter-num {
+    width: 100%;
+    text-align: center;
+     background-color: transparent;
+     border: none;
+     border-radius: 0;
+    outline: none;
+    width: 100%;
+    font-size: 16px;
+}
+
+.ctrl__button {
+  width: 80px;
+  height: 25px;
+  //line-height: 20px;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+  background-color: #8498a7;
+  transition: background-color 100ms ease-in;
+}
+.ctrl__button:hover {
+  background-color: #90a2b0;
+  transition: background-color 100ms ease-in;
+}
+.ctrl__button:active {
+  background-color: #778996;
+  transition: background-color 100ms ease-in;
+}
+.ctrl__button--decrement {
+  border-radius: 5px 0 0 5px;
+}
+.ctrl__button--increment {
+  border-radius: 0 5px 5px 0;
+}

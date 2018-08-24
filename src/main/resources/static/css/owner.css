@@ -1,0 +1,174 @@
+.title-box {
+    width: 100%;
+    max-height: 20%;
+    font-size: 2vw;
+    font-weight: bold;
+    margin : 2% 0 2% 0;
+}
+
+.description-text {
+    width: 100%;
+    max-height: 30%;
+    font-size: 1vw;
+    font-weight: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    word-wrap:break-word;
+    margin : 2% 0 2% 0;
+}
+
+.img-box {
+    padding : 1% !important;
+}
+
+
+
+.price-box {
+    max-height:40%;
+    margin : 2% 0 0 0;
+}
+
+.price {
+    width: 80%;
+    font-size:2vw;
+    font-weight: bold;
+    color:#2bbbad;
+}
+
+.won {
+    width: 20%;
+    font-size:1vw;
+    font-weight: bold;
+}
+
+.collection .collection-item.off {
+    opacity: 0;
+    background-color: #fff;
+    line-height: 1.5rem;
+    padding: 10px 20px;
+    margin: 0;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: none;
+    transition: opacity 0.5s;
+}
+
+.collection .collection-item {
+    opacity: 1;
+    background-color: #fff;
+    line-height: 1.5rem;
+    padding: 10px 20px;
+    margin: 0;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: none;
+    transition: opacity 0.5s;
+}
+
+.collection .collection-item:first-child {
+    border-top: none;
+}
+
+.preloader-wrapper.huge {
+    width: 10vw;
+    height: 10vw;
+    margin: auto;
+    display: inherit;
+}
+
+.loader-text {
+    font-size : 2vw;
+    font-weight: bold;
+    margin: 20px;
+    text-align: center;
+}
+
+.loading-wrapper {
+    margin: 100px;
+}
+
+@media only screen and (max-width: 992px) {
+    .img-box {
+        padding : 0 !important;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .title-box {
+        width: 100%;
+        max-height: 20%;
+        font-size: 4vw;
+        font-weight: bold;
+        margin : 0;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .price {
+        width: 80%;
+        font-size:4vw;
+        font-weight: bold;
+        color:#2bbbad;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .won {
+        width: 20%;
+        font-size:2vw;
+        font-weight: bold;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .price-box {
+        max-height:40%;
+        margin : 0;
+    }
+}
+
+.off {
+    display : none;
+}
+
+.order-title {
+    font-size: 2vw;
+    font-weight: bold;
+    margin: 1vw 0;
+}
+
+.order-subtitle {
+    font-size: 1.5vw;
+    font-weight: bold;
+}
+
+.unuseable {
+    min-height : 400px !important;
+    backgroud-color: black;
+}
+.payment {
+    position: absolute;
+    margin: 30px 15px;
+    z-index: 2;
+}
+
+.test {
+    position: relative !important;
+}
+
+.test2 {
+    position: absolute;
+    margin: 10px 10px;
+    background-color: black;
+    opacity: 0.4;
+    z-index: 3;
+    min-height: 300px;
+    width: 100%;
+    font-size: 3vw;
+    font-weight: bold;
+    text-align: center;
+    color: #FFF;
+    padding-top: 100px;
+}
+
