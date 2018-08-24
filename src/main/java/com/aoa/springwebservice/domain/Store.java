@@ -154,7 +154,7 @@ public class Store{
     }
     public List<MenuOutputDTO> getUsedMenuOutputDTOList(){
         List<MenuOutputDTO> menuDTOs = new ArrayList<>();
-        this.menus.stream().forEach(e -> menuDTOs.add(MenuOutputDTO.createUsedMenuOutputDTO(e)));
+        this.menus.stream().filter(x -> x.isLastUsed()).forEach(e -> menuDTOs.add(MenuOutputDTO.createUsedMenuOutputDTO(e)));
         return menuDTOs;
     }
 
