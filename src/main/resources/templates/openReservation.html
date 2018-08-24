@@ -12,6 +12,7 @@
     <div class="container">
         <form>
             <div class="row">
+
                 <div class="section">
                     <h5><span id="today"></span>일의 예약 오픈 </h5>
                 </div>
@@ -23,6 +24,7 @@
                         </div>
                         <div class="col s6 input-field ">
                             {{#store}}
+                            <input id="storeId" name="storeId" type="hidden" value="{{storeId}}">
                             <input name="pickupTime" type="text" name="timeToClose" class="timepicker"
                                    placeholder="{{timeToClose}}" data-default-value="{{timeToClose}}"
                                    data-hour="{{hourToClose}}" data-minute="{{minuteToClose}}">
@@ -35,7 +37,7 @@
             </div>
             <div class="row">
                 <h5>메뉴</h5>
-                <ul id="menu-collection" class="collection" style="border: none;">
+                <ul id="open-menu-collection" class="collection" style="border: none;">
 
                 </ul>
                 <div class="col s12">
@@ -57,11 +59,12 @@
     </div>
 </main>
 </body>
+<script src="/js/owner_reservation.js"></script>
 <script type="module">
     import Ctrls from '/js/ctrl.js'
 
     document.addEventListener('DOMContentLoaded', function () {
-        addMenuForm(1);
+        addMenuForm($("#storeId").value);
         $('#today').innerHTML = formatDate(new Date());
         M.updateTextFields();
 
@@ -80,34 +83,37 @@
             });
 
 
-        const modalElems = $All('.modal');
-        const modalInstances = M.Modal.init(modalElems);
-        $('.collection').addEventListener('click', (event) => {
+
+
+        $('#open-menu-collection').addEventListener('click', (event) => {
             if (event.target.classList.contains('btn')) {
                 const forRemove = event.target.closest('.collection-item');
+                const menuId = $('input[name=menuId]' , forRemove).value;
                 addClass(forRemove, 'off');
                 setTimeout(() => {
                     forRemove.remove();
                 }, 500);
+                $( '.collection-item[data-id="'+ menuId + '"] button:disabled', $('#menu-collection')).removeAttribute('disabled');
             }
         });
 
-        const menu = new Menu($('.collection', $('#menuModal')), appendHtmlFromData, menuAddBoxHTML);
+        const menu = new Menu($('#menu-collection', $('#menuModal')), appendHtmlFromData, menuAddBoxHTML);
         menu.registerEvent();
 
         $('#openReservationBtn').addEventListener('click', fetchOpenReservation);
 
-        //$('#loadMenuBtn').addEventListener('click', loadMenuModal);
+        const modalElems = $('.modal');
+        const modalInstance = M.Modal.init(modalElems);
         $('#loadMenuBtn').addEventListener('click', async (event) => {
             if (hasClass($('.loading-wrapper'), 'off')) {
-                modalInstances[1].open();
+                $('.modal').M_Modal.open();
                 return;
             }
             removeClass($('.loading-wrapper'), 'off');
             //todo refactor
 
             const menuData = await fetchAsync({
-                url: '/api/owner/1/menu',
+                url: '/api/stores/'+$('#storeId').value+'/menus',
                 method: 'GET'
             });
             addClass($('.loading-wrapper'), 'off');
@@ -116,159 +122,19 @@
                 $('.collection', $('#menuModal')).insertAdjacentHTML('beforeend', nonMenu());
                 return;
             }
-            appendHtmlFromData(menuData, menuAddBoxHTML, $('.collection', $('#menuModal')), '추가하기');
+            appendHtmlFromData(menuData, menuAddBoxHTML, $('#menu-collection', $('#menuModal')), '추가하기');
             //registEventListener();
             menu.addData(menuData);
-            modalInstances[1].open();
-        })
+            $('.modal').M_Modal.open();
+        });
 
 
-        const ctrls = new Ctrls($('.collection'));
+        const ctrls = new Ctrls($('#open-menu-collection'));
         ctrls.registerEvent();
 
 
     });
 
-    const fetchOpenReservation = () => {
-        const timeArr = $('input[name=pickupTime]').value.split(':');
-        let data = {'hourToClose': timeArr[0], 'minuteToClose': timeArr[1]};
-        data.reservationDTOs = Array.from($All('.collection-item', $('#menu-collection'))).reduce((accum, cur) => {
-            const dto = {
-                'menuId': $('input[name=menuId]', cur).value,
-                'maxCount': $('input[name=maxCount]', cur).value,
-                'personalMaxCount': $('input[name=personalMaxCount]', cur).value
-            }
-            accum.push(dto);
-            return accum;
-        }, []);
-        fetchAsync({url: '/api/stores/1/reservations', method: 'post', body: data})
-    }
-
-    const addMenuForm = async (storeId) => {
-        const menuData = await fetchAsync({
-            url: '/api/stores/' + storeId + '/menus?condition=last',
-            method: 'GET'
-        });
-        //$('.loading-wrapper').remove();
-        if (menuData.length === 0) {
-            $('.collection').insertAdjacentHTML('beforeend', nonMenu());
-        }
-        appendHtmlFromData(menuData, menuBoxHTML, $('.collection'), '삭제하기');
-    };
-
-    const appendHtmlFromData = (dataArr, templateFunc, parentElement, btnName) => {
-        const html = dataArr.reduce((accum, cur) => {
-            cur.btnName = btnName;
-            return accum + templateFunc(cur);
-        }, '');
-        parentElement.insertAdjacentHTML('beforeend', html);
-    };
-    const menuBoxHTML = ({id, imgUrl, name, description, price, btnName, maxCount = 0, personalMaxCount = 0}) => {
-        const stringPrice = numberToLocaleString(price);
-        return `<li class="collection-item" >
-                    <input type="hidden" name="menuId" min="0" max="100" value="${id}"/>
-                    <div class="valign-wrapper">
-                        <div class="col s3 img-box">
-                            <img class="responsive-img" src="${imgUrl}">
-                        </div>
-                        <div class="col s9">
-                            <div class="col s12 title-box">
-                                ${name}
-                            </div>
-                            <div class="col s12 description-text grey-text">
-                                ${description}
-                            </div>
-                            <div class="col s12 valign-wrapper">
-                                 <div class="col s9">
-                                    <div class="col s3"><span> 최대 수량 </span></div>
-                                     <div class="col s9">
-                                        <div class='ctrl'>
-                                            <div class='ctrl__button ctrl__button--decrement'>&ndash;</div>
-                                            <div class='ctrl__counter'>
-                                                <input type="text" class='ctrl__counter-num browser-default' name="maxCount" value="${maxCount}"> </input>
-                                            </div>
-                                            <div class='ctrl__button ctrl__button--increment'>+</div>
-                                        </div>
-                                      </div>
-                                      <div class="col s3"><span>  인당 최대 예약가능 수량 </span></div>
-                                     <div class="col s9">
-                                          <div class='ctrl'>
-                                                <div class='ctrl__button ctrl__button--decrement'>&ndash;</div>
-                                                <div class='ctrl__counter'>
-                                                    <input type="text" class='ctrl__counter-num browser-default' name="personalMaxCount" value="${personalMaxCount}"> </input>
-                                                </div>
-                                                <div class='ctrl__button ctrl__button--increment'>+</div>
-                                           </div>
-                                      </div>
-                                  </div>
-
-                                <div class="col s3">
-                                    <button class="btn waves-effect waves-light" type="button" style="min-width: 100px;">${btnName}</button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </li>`
-    };
-
-    const menuAddBoxHTML = ({id, imgUrl, name, description, price, btnName, maxCount = 0, personalMaxCount = 0}) => {
-        const stringPrice = numberToLocaleString(price);
-        return `<li class="collection-item" data-id="${id}" data-max-count="${maxCount}" data-person-max-count="${personalMaxCount}" >
-                    <div class="valign-wrapper">
-                        <div class="col s3 img-box">
-                            <img class="responsive-img" src="${imgUrl}">
-                        </div>
-                        <div class="col s9">
-                            <div class="col s12 title-box">
-                                ${name}
-                            </div>
-                            <div class="col s12 description-text grey-text">
-                                ${description}
-                            </div>
-                            <div class="col s8 l9 price-box">
-                                <span class="price">${stringPrice}</span>
-                                <span class="won">원</span>
-                            </div>
-                            <button class="col s4 l3  btn waves-effect waves-light"
-                                    type="button">${btnName}
-                            </button>
-
-                        </div>
-                    </div>
-                </li>`
-    };
-
-
-    class Menu {
-        constructor(wrapper, appendCallback, htmlTemplate) {
-            this.wrapper = wrapper;
-            this.appendCallback = appendCallback;
-            this.htmlTemplate = htmlTemplate;
-        }
-
-        addData(menus) {
-            this.menus = menus.reduce((accum, cur) => {
-                accum[cur.id] = cur;
-                return accum;
-            }, {});
-        }
-
-        registerEvent() {
-            this.wrapper.addEventListener('click', this.handleClickEvent.bind(this));
-        }
-
-        handleClickEvent(event) {
-            if (event.target.nodeName === 'BUTTON') {
-                console.log('click');
-                const clickBtn = event.target;
-                const menuId = clickBtn.closest('.collection-item').getAttribute('data-id');
-                //todo Refactor
-                appendHtmlFromData([this.menus[menuId]], menuBoxHTML, $('#menu-collection'), '삭제하기');
-                clickBtn.setAttribute('disabled', 'disabled');
-            }
-        }
-    }
 </script>
 {{> clientFooter}}
 </html>
