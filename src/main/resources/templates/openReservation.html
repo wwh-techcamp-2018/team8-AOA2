@@ -22,8 +22,9 @@
                             <h6> 예약 마감 시간 </h6>
                         </div>
                         <div class="col s6 input-field ">
-                            <input id="reservationOpenTime" type="text" name="timeToClose" class="timepicker"
-                                   placeholder="{{timeToClose}}"  data-input>
+                            <input name="pickupTime" type="text" name="timeToClose" class="timepicker"
+                                   placeholder="{{timeToClose}}" data-default-value="{{timeToClose}}"
+                                   data-hour="{{hourToClose}}" data-minute="{{minuteToClose}}">
                         </div>
                         <div class="col s2"></div>
                     </div>
@@ -56,28 +57,34 @@
 </body>
 {{> footer}}
 <script type="module">
-    import Ctrls from "/js/ctrl.js"
+    import Ctrls from '/js/ctrl.js'
+
     document.addEventListener('DOMContentLoaded', function () {
         addMenuForm(1);
         $('#today').innerHTML = formatDate(new Date());
         M.updateTextFields();
 
-        flatpickr('.timepicker',
-                      {
-                        enableTime: true,
-                        noCalendar: true,
-                        dateFormat: "H:i",
-                        time_24hr: true,
-                        defaultDate: '{{timeToClose}}',
-                        minuteIncrement:'30',
-                    });
+        //todo duplicated -- 중복 제거, 모듈로 분리
+        const defaultTime = $('input[name=pickupTime]').getAttribute('data-default-value');
+        flatpickr('input[name=pickupTime]',
+            {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: 'H:i',
+                time_24hr: true,
+                defaultDate: defaultTime,
+                minuteIncrement: '30',
+                maxDate: '24:00',
+                disableMobile: 'true',
+            });
+
 
         const modalElems = $All('.modal');
         const modalInstances = M.Modal.init(modalElems);
         $('.collection').addEventListener('click', (event) => {
-            if (event.target.classList.contains("btn")) {
+            if (event.target.classList.contains('btn')) {
                 const forRemove = event.target.closest('.collection-item');
-                addClass(forRemove, "off");
+                addClass(forRemove, 'off');
                 setTimeout(() => {
                     forRemove.remove();
                 }, 500);
@@ -91,18 +98,18 @@
 
         //$('#loadMenuBtn').addEventListener('click', loadMenuModal);
         $('#loadMenuBtn').addEventListener('click', async (event) => {
-            if(hasClass( $('.loading-wrapper'),'off')){
+            if (hasClass($('.loading-wrapper'), 'off')) {
                 modalInstances[1].open();
                 return;
             }
-            removeClass( $('.loading-wrapper'), 'off');
+            removeClass($('.loading-wrapper'), 'off');
             //todo refactor
 
             const menuData = await fetchAsync({
-                url: "/api/owner/1/menu",
-                method: "GET"
+                url: '/api/owner/1/menu',
+                method: 'GET'
             });
-            addClass( $('.loading-wrapper'), 'off');
+            addClass($('.loading-wrapper'), 'off');
 
             if (menuData.length === 0) {
                 $('.collection', $('#menuModal')).insertAdjacentHTML('beforeend', nonMenu());
@@ -121,20 +128,25 @@
 
     });
 
-    const fetchOpenReservation = ()=>{
-        const timeArr = $('#reservationOpenTime').value.split(':');
-        let data = {'hourToClose' : timeArr[0], 'minuteToClose':timeArr[1]};
-        data.reservationDTOs = Array.from($All('.collection-item', $('#menu-collection')) ).reduce( (accum, cur) => {
-            const dto = { 'menuId' : $('input[name=menuId]', cur).value , 'maxCount' : $('input[name=maxCount]', cur).value, 'personalMaxCount': $('input[name=personalMaxCount]', cur).value}
-            accum.push( dto);
-            return accum; }, []);
-        fetchAsync({url:"/api/stores/1/reservations", method:'post', body: data})
+    const fetchOpenReservation = () => {
+        const timeArr = $('input[name=pickupTime]').value.split(':');
+        let data = {'hourToClose': timeArr[0], 'minuteToClose': timeArr[1]};
+        data.reservationDTOs = Array.from($All('.collection-item', $('#menu-collection'))).reduce((accum, cur) => {
+            const dto = {
+                'menuId': $('input[name=menuId]', cur).value,
+                'maxCount': $('input[name=maxCount]', cur).value,
+                'personalMaxCount': $('input[name=personalMaxCount]', cur).value
+            }
+            accum.push(dto);
+            return accum;
+        }, []);
+        fetchAsync({url: '/api/stores/1/reservations', method: 'post', body: data})
     }
 
     const addMenuForm = async (storeId) => {
         const menuData = await fetchAsync({
-            url: "/api/owner/" + storeId + "/menus/active",
-            method: "GET"
+            url: '/api/stores/' + storeId + '/menus?condition=last',
+            method: 'GET'
         });
         //$('.loading-wrapper').remove();
         if (menuData.length === 0) {
@@ -227,29 +239,35 @@
     };
 
 
-class Menu{
-    constructor(wrapper, appendCallback, htmlTemplate){
-        this.wrapper = wrapper;
-        this.appendCallback = appendCallback;
-        this.htmlTemplate = htmlTemplate;
-    }
-    addData(menus){
-        this.menus = menus.reduce( (accum, cur) => { accum[cur.id] = cur; return accum;}, {});
-    }
-    registerEvent() {
-        this.wrapper.addEventListener('click', this.handleClickEvent.bind(this));
-    }
-    handleClickEvent(event){
-        if(event.target.nodeName === 'BUTTON'){
-             console.log('click');
-             const clickBtn = event.target;
-             const menuId = clickBtn.closest('.collection-item').getAttribute('data-id');
-            //todo Refactor
-             appendHtmlFromData([ this.menus[menuId] ], menuBoxHTML, $('#menu-collection'), '삭제하기');
-            clickBtn.setAttribute('disabled', 'disabled');
+    class Menu {
+        constructor(wrapper, appendCallback, htmlTemplate) {
+            this.wrapper = wrapper;
+            this.appendCallback = appendCallback;
+            this.htmlTemplate = htmlTemplate;
+        }
+
+        addData(menus) {
+            this.menus = menus.reduce((accum, cur) => {
+                accum[cur.id] = cur;
+                return accum;
+            }, {});
+        }
+
+        registerEvent() {
+            this.wrapper.addEventListener('click', this.handleClickEvent.bind(this));
+        }
+
+        handleClickEvent(event) {
+            if (event.target.nodeName === 'BUTTON') {
+                console.log('click');
+                const clickBtn = event.target;
+                const menuId = clickBtn.closest('.collection-item').getAttribute('data-id');
+                //todo Refactor
+                appendHtmlFromData([this.menus[menuId]], menuBoxHTML, $('#menu-collection'), '삭제하기');
+                clickBtn.setAttribute('disabled', 'disabled');
+            }
         }
     }
-}
 </script>
 {{>footer}}
 </html>

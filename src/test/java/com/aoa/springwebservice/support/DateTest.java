@@ -32,10 +32,13 @@ public class DateTest {
         LocalTime converted = LocalTime.of(test1.getHour(), ((test1.getMinute()/ 30)+1) * 30);
         log.debug("converted {} ", converted);
 
-        converted = LocalTime.of(test1.getHour(), ((test2.getMinute()/ 30)) * 30);
+        converted = LocalTime.of(test1.getHour(), ((test2.getMinute()/ 30)) * 30).plusMinutes(30);
         log.debug("converted {} ", converted);
 
-        converted = LocalTime.of(test1.getHour(), ((test3.getMinute()/ 30)) * 30);
+        converted = LocalTime.of(test1.getHour(), ((test3.getMinute()/ 30)) * 30).plusMinutes(30);
+        log.debug("converted {} ", converted);
+
+        converted = LocalTime.of(test1.getHour(), 0).plusMinutes((test1.getMinute()%30 + 1) * 30).withSecond(0).withNano(0);
         log.debug("converted {} ", converted);
     }
 

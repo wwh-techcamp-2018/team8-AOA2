@@ -55,7 +55,7 @@ class OrderItem {
         this.wrapper = wrapper;
         this.tabInstances = tabInstances;
         this.step = 0;
-        this.tabIds = ['order', 'payment', 'result'];
+        this.tabIds = ['order', 'payment'];
     };
     registerEvent(){
         this.wrapper.addEventListener('click', this.handleClickEvent.bind(this));
@@ -73,21 +73,24 @@ class OrderItem {
     };
     async processOrder(){
         this.step++;
-        removeClass( $All('.tabs > li')[this.step], 'disabled');
-        const nextTabId = this.tabIds[this.step];
-//todo refactor
-        if(nextTabId === 'result'){
-           const result = await fetchAsync({
-               url: "/api/orders/temp",
-               method: "post",
-               body: this.constructDTO(),
-           });
-           console.log(result);
-        }else{
-            this.tabInstances.select(nextTabId);
+
+        if(this.step < this.tabIds.length){
+            removeClass( $All('.tabs > li')[this.step], 'disabled');
+            this.tabInstances.select(this.tabIds[this.step]);
+            return;
         }
+        const result = await this.submitOrder();
+
 
     };
+    async submitOrder(){
+        const result = await fetchAsync({
+            url: "/api/orders/temp",
+            method: "post",
+            body: this.constructDTO(),
+        });
+        document.location = result.data.url;
+    }
     constructDTO(){
         const orderItemDTOs = Array.from($All('.card', this.wrapper)).reduce( (accum, cur) => {
             accum.push( { reservationId : cur.getAttribute('data-id'), itemCount: $('.order-amount', cur).innerHTML });

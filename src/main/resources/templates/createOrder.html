@@ -137,7 +137,9 @@
                                         <span id="today"></span>
                                     </div>
                                     <div class="col s4 ">
-                                        <input name="pickupTime" type="text" name="timeToClose" class="flat-timepicker" placeholder="{{timeToClose}}" data-input>
+                                        <input name="pickupTime" type="text" name="timeToClose" class="flat-timepicker" placeholder="{{timeToClose}}"
+                                               data-default-value="{{defaultTime}}" data-max-date="{{timeToClose}}"
+                                               data-hour="{{hourToClose}}" data-minute="{{minuteToClose}}">
                                     </div>
                                     <div class="col s1"></div>
                                 </div>
@@ -188,15 +190,18 @@
         const now = formatDate(new Date());
         $('#today').innerHTML = now;
 
+        //todo duplicated -- 중복 제거, 모듈로 분리
+        const defaultTime = $('.flat-timepicker').getAttribute('data-default-value');
+        const maxTime = $('.flat-timepicker').getAttribute('data-max-date');
         flatpickr('.flat-timepicker',
             {
                 enableTime: true,
                 noCalendar: true,
                 dateFormat: "H:i",
                 time_24hr: true,
-                defaultDate: '{{timeToClose}}',
+                defaultDate: defaultTime,
                 minuteIncrement: '30',
-                maxDate : '{{timeToClose}}',
+                maxDate : maxTime,
                 disableMobile: "true",
             });
 

@@ -9,9 +9,7 @@ import com.aoa.springwebservice.service.FileStorageService;
 import com.aoa.springwebservice.service.MenuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,9 +52,10 @@ public class ApiMenuController {
     public List<MenuOutputDTO> getAllMenu(@PathVariable long storeId){
         return menuService.findAllMenuInStore(storeId);
     }
-    @GetMapping("/owner/{storeId}/menus/active")
-    public List<MenuOutputDTO> listActiveMenus(@PathVariable long storeId){
-        return menuService.findActiveMenuInStore(storeId);
+    @GetMapping(path ="/stores/{storeId}/menus/", params = "condition")
+    public List<MenuOutputDTO> listActiveMenus(@RequestParam final String condition, @PathVariable long storeId){
+        //todo condition 체크
+        return menuService.getLastUsedMenusInStore(storeId);
     }
 
     @DeleteMapping(path = "/stores/menus/{menuId}")

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Getter @NoArgsConstructor
 @Entity
-@ToString
+@ToString @Slf4j
 public class Store{
 
     private static final boolean OPEN = true;
@@ -154,7 +155,7 @@ public class Store{
     }
     public List<MenuOutputDTO> getUsedMenuOutputDTOList(){
         List<MenuOutputDTO> menuDTOs = new ArrayList<>();
-        this.menus.stream().forEach(e -> menuDTOs.add(MenuOutputDTO.createUsedMenuOutputDTO(e)));
+        this.menus.stream().filter(Menu::isLastUsed).forEach(e -> menuDTOs.add(MenuOutputDTO.createUsedMenuOutputDTO(e)));
         return menuDTOs;
     }
 

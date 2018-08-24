@@ -36,10 +36,7 @@ public class MenuService {
 
     @Transactional
     public void createMenu(MenuDTOToUpload menuDTO, long storeId) {
-        Store store = storeRepository.findById(storeId)
-                .orElseThrow(
-                        () -> new EntityNotFoundException("No Search Store By storeId : " + storeId)
-                );
+        Store store = getStoreByStoreId(storeId);
         String menuImgUrl = fileStorageService.storeFile(menuDTO.getFile());
         Menu menu = menuDTO.toDomain(store, menuImgUrl);
         store.addMenu(menu);
@@ -47,22 +44,16 @@ public class MenuService {
 
     public List<MenuOutputDTO> findAllMenuInStore(User user) {
         Store store = storeRepository.findByUser(user).get();
-//        log.debug("store : {}", store);
-//        List<Menu> menuList = menuRepository.findAllByStore(store);
-//        List<MenuOutputDTO> menuOutputDTOList = new ArrayList<>();
-//        menuList.stream().forEach(e -> menuOutputDTOList.add(MenuOutputDTO.createMenuOutputDTO(e)));
-        return store.getUsedMenuOutputDTOList();//store.getMenuOutputDTOList();
-    }
-    public List<MenuOutputDTO> findActiveMenuInStore(long storeId) {
-        Store store = storeRepository.findById(storeId).get();
         return store.getUsedMenuOutputDTOList();
     }
-
+    //todo cacheable, cacheEvict on reservation registration
+    public List<MenuOutputDTO> getLastUsedMenusInStore(long storeId) {
+        Store store = getStoreByStoreId(storeId);
+        return store.getUsedMenuOutputDTOList();
+    }
+    //todo cacheable, cacheEvict on reservation registration
     public List<MenuOutputDTO> findAllMenuInStore(long storeId) {
-        Store store = storeRepository.findById(storeId)
-                .orElseThrow(
-                        () -> new EntityNotFoundException("No Search Store By storeId : " + storeId)
-                );
+        Store store = getStoreByStoreId(storeId);
         return store.getMenuOutputDTOList();
     }
 
@@ -74,5 +65,10 @@ public class MenuService {
         menu.deleteMenu();
         return menu;
     }
-
+    private Store getStoreByStoreId(long storeId){
+        return storeRepository.findById(storeId)
+                .orElseThrow(
+                        () -> new EntityNotFoundException("No Search Store By storeId : " + storeId)
+                );
+    }
 }

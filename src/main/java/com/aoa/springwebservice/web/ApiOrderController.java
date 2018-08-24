@@ -1,5 +1,7 @@
 package com.aoa.springwebservice.web;
 
+import com.aoa.springwebservice.RestResponse;
+
 import com.aoa.springwebservice.domain.Order;
 import com.aoa.springwebservice.dto.OrderFormDTO;
 import com.aoa.springwebservice.service.OrderService;
@@ -34,9 +36,9 @@ public class ApiOrderController {
     }
     
     @PostMapping("/temp")
-    public String tempCreateOrder(@RequestBody OrderFormDTO orderFormDTO){
+    public RestResponse<RestResponse.RedirectData> tempCreateOrder(@RequestBody OrderFormDTO orderFormDTO){
         log.debug("orderFormDTO {}", orderFormDTO);
-        return "OK";
+        return RestResponse.ofRedirectResponse("/orders/1/result","OK");
     }
 
 }
