@@ -19,7 +19,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/owner/stores/form").setViewName("registStore");
         registry.addViewController("/owner/menus/form").setViewName("registMenu");
         //registry.addViewController("/owner/menus").setViewName("displayMenu");
-        registry.addViewController("/owner/reservations/form").setViewName("openReservation");
+        //registry.addViewController("/owner/reservations/form").setViewName("openReservation");
 
         //registry.addViewController("/stores/{storeId}/orders/form").setViewName("client");
         registry.addViewController("/result/success").setViewName("registMenuSuccess");

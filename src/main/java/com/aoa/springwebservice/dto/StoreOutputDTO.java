@@ -1,16 +1,16 @@
 package com.aoa.springwebservice.dto;
 
 import com.aoa.springwebservice.domain.Store;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 public class StoreOutputDTO {
 
     private String storeName;
@@ -76,7 +76,11 @@ public class StoreOutputDTO {
         return  StoreOutputDTO.builder()
                 .storeName(store.getStoreName())
                 .storeId(store.getId())
-                .timeToClose(store.getTimeToClose())
+                .timeToClose(
+                        Optional.ofNullable(store.getTimeToClose())
+                                .orElse( LocalDateTime.of(LocalDate.now(),LocalTime.of(LocalTime.now().getHour(), ((LocalTime.now().getMinute()/ 30) * 30))).plusMinutes(30)
+                                )
+                )
                 .build();
     }
 

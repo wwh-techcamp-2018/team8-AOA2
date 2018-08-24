@@ -42,8 +42,11 @@ public class PageController {
     @GetMapping("/owner/reservations/form")
     public String openReservation(Model model, @LoginUser User loginUser) {
         //todo store 존재 확인, store isOpen 확인 --> 중복 로직 처리 어떻게?
+        log.debug("store check {} ", storeService.getStoreByUser(loginUser));
+        log.debug("dto check {}",  storeService.createStoreOpenInfoDTO(storeService.getStoreByUser(loginUser)));
         model.addAttribute("store", storeService.createStoreOpenInfoDTO(storeService.getStoreByUser(loginUser)));
-      return "/openReservation";
+
+        return "/openReservation";
     }
 
     @GetMapping(path = "/owner/reservations", params = "condition")
