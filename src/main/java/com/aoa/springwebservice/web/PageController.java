@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.persistence.EntityExistsException;
 import javax.servlet.http.HttpSession;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -39,11 +40,22 @@ public class PageController {
         return "/admin/store/fail";
     }
 
+    @GetMapping("/owner/stores/form")
+    public String registStore(@LoginUser User loginUser) {
+        if(storeService.hasStore(loginUser)) {
+            return "/alreadyRegisted";
+        }
+        return "/registStore";
+    }
+
     @GetMapping("/owner/reservations/form")
     public String openReservation(Model model, @LoginUser User loginUser) {
         //todo store 존재 확인, store isOpen 확인 --> 중복 로직 처리 어떻게?
+        log.debug("store check {} ", storeService.getStoreByUser(loginUser));
+        log.debug("dto check {}",  storeService.createStoreOpenInfoDTO(storeService.getStoreByUser(loginUser)));
         model.addAttribute("store", storeService.createStoreOpenInfoDTO(storeService.getStoreByUser(loginUser)));
-      return "/openReservation";
+
+        return "/openReservation";
     }
 
     @GetMapping(path = "/owner/reservations", params = "condition")

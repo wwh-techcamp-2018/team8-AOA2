@@ -22,9 +22,11 @@
                             <h6> 예약 마감 시간 </h6>
                         </div>
                         <div class="col s6 input-field ">
+                            {{#store}}
                             <input name="pickupTime" type="text" name="timeToClose" class="timepicker"
                                    placeholder="{{timeToClose}}" data-default-value="{{timeToClose}}"
                                    data-hour="{{hourToClose}}" data-minute="{{minuteToClose}}">
+                            {{/store}}
                         </div>
                         <div class="col s2"></div>
                     </div>
@@ -55,7 +57,6 @@
     </div>
 </main>
 </body>
-{{> footer}}
 <script type="module">
     import Ctrls from '/js/ctrl.js'
 
@@ -269,5 +270,5 @@
         }
     }
 </script>
-{{>footer}}
+{{> clientFooter}}
 </html>
