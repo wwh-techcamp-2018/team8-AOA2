@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.persistence.EntityExistsException;
 import javax.servlet.http.HttpSession;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -37,6 +38,14 @@ public class PageController {
             return "redirect:/result/success";
 
         return "/admin/store/fail";
+    }
+
+    @GetMapping("/owner/stores/form")
+    public String registStore(@LoginUser User loginUser) {
+        if(storeService.hasStore(loginUser)) {
+            return "/alreadyRegisted";
+        }
+        return "/registStore";
     }
 
     @GetMapping("/owner/reservations/form")
