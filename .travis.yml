@@ -40,7 +40,7 @@ deploy:
   key: aoa2-application.zip # S3 버킷에 저장된 springboot-webservice.zip 파일을 EC2로 배포
   bundle_type: zip
   application: Team8-AOA2-Deployer # 웹 콘솔에서 등록한 CodeDeploy 어플리케이션
-  deployment_group: Woowahan-techcamp-2018 # 웹 콘솔에서 등록한 CodeDeploy 배포 그룹
+  deployment_group: spring-boot-webservice-group # 웹 콘솔에서 등록한 CodeDeploy 배포 그룹
   region: ap-northeast-2
   wait-until-deployed: true
   on:
