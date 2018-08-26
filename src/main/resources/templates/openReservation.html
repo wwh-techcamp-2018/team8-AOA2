@@ -87,16 +87,15 @@
         const openReservation = new OpenReservation($('#open-menu-collection'),
             {
                 callbackOnDelete: (menuId) => {
-                    $('.collection-item[data-id="' + menuId + '"] button:disabled', $('#menu-collection')).removeAttribute('disabled');
+                    menu.enableMenu(menuId);
                 }
             });
         openReservation.registEvent();
         openReservation.getLastUsedMenus();
         const menu = new Menu($('#menu-collection'),
-            {
-                callbackOnAdd: (menuArr) => {
-                    appendHtmlFromData(menuArr, menuBoxHTML, $('#open-menu-collection'), '삭제하기');
-                }
+            {   //hint this binding 이 제대로 안되기 때문에 아래처럼 호출...
+                callbackOnAdd: (menus) => { openReservation.addMenu(menus) },
+
             });
         menu.registerEvent();
 
@@ -110,21 +109,10 @@
             }
             removeClass($('.loading-wrapper'), 'off');
             //todo refactor
+            await menu.getAllMenus();
 
-            const menuData = await fetchAsync({
-                url: '/api/stores/' + $('#storeId').value + '/menus',
-                method: 'GET'
-            });
             addClass($('.loading-wrapper'), 'off');
 
-            if (menuData.length === 0) {
-                $('.collection', $('#menuModal')).insertAdjacentHTML('beforeend', nonMenu());
-                return;
-            }
-            appendHtmlFromData(menuData, menuAddBoxHTML, $('#menu-collection', $('#menuModal')), '추가하기');
-            //registEventListener();
-            //todo > 분리
-            menu.addData(menuData);
             $('.modal').M_Modal.open();
         });
 
