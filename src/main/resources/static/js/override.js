@@ -46,7 +46,7 @@ M.validate_field = function (object) {
 */
 
 
-class CustomInputVadlidator {
+class CustomInputValidator {
     constructor() {
         // Text based inputs
         const input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=search], input[type=date], input[type=time], textarea';
@@ -134,4 +134,4 @@ class CustomInputVadlidator {
 }
 
 
-export {CustomInputVadlidator};
+export {CustomInputValidator};

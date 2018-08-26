@@ -74,7 +74,7 @@
 </body>
 {{> footer}}
 <script type="module">
-    import {CustomInputVadlidator} from '/js/override.js';
+    import {CustomInputValidator} from '/js/override.js';
     function createMenu(event) {
         if (!validateForm($('form')))
             return;
@@ -120,7 +120,7 @@
         var inputMenuBtn = document.querySelector('#input_menu_btn')
         inputMenuBtn.addEventListener('click', createMenu);
         M.CharacterCounter.init(counter);
-        const inputValidator = new CustomInputVadlidator();
+        const inputValidator = new CustomInputValidator();
 
     });
 
