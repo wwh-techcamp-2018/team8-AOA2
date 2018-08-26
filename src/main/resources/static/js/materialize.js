@@ -6906,59 +6906,30 @@ $jscomp.polyfill = function (e, r, p, m) {
     });
   };
 
-  // M.validate_field = function (object) {
-  //   var hasLength = object.attr('data-length') !== null;
-  //   var lenAttr = parseInt(object.attr('data-length'));
-  //   var len = object[0].value.length;
-  //
-  //   if (len === 0 && object[0].validity.badInput === false && !object.is(':required')) {
-  //     if (object.hasClass('validate')) {
-  //       object.removeClass('valid');
-  //       object.removeClass('invalid');
-  //     }
-  //   } else {
-  //     if (object.hasClass('validate')) {
-  //       // Check for character counter attributes
-  //       if (object.is(':valid') && hasLength && len <= lenAttr || object.is(':valid') && !hasLength) {
-  //         object.removeClass('invalid');
-  //         object.addClass('valid');
-  //       } else {
-  //         object.removeClass('valid');
-  //         object.addClass('invalid');
-  //       }
-  //     }
-  //   }
-  // };
-    M.validate_field = function (object) {
-        var hasLength = (object.attr('data-length') !== null || object.attr('data-min-length') !== null);
-        var lenAttr = parseInt(object.attr('data-length'));
-        var minLenAttr = parseInt(object.attr('data-min-length')) || 0;
-        var len = object[0].value.length;
+  M.validate_field = function (object) {
+    var hasLength = object.attr('data-length') !== null;
+    var lenAttr = parseInt(object.attr('data-length'));
+    var len = object[0].value.length;
 
-        var hasRegex = object.attr('data-regex') !== null;
-        var regex = new RegExp(object.attr('data-regex'));
-        var str = object[0].value;
-
-        if (len === 0 && object[0].validity.badInput === false && !object.is(':required')) {
-            if (object.hasClass('validate')) {
-                object.removeClass('valid');
-                object.removeClass('invalid');
-            }
+    if (len === 0 && object[0].validity.badInput === false && !object.is(':required')) {
+      if (object.hasClass('validate')) {
+        object.removeClass('valid');
+        object.removeClass('invalid');
+      }
+    } else {
+      if (object.hasClass('validate')) {
+        // Check for character counter attributes
+        if (object.is(':valid') && hasLength && len <= lenAttr || object.is(':valid') && !hasLength) {
+          object.removeClass('invalid');
+          object.addClass('valid');
         } else {
-            if (object.hasClass('validate')) {
-                // Check for character counter attributes
-                if(object.is(':valid')
-                    && (!hasLength || hasLength && len <= lenAttr && len >= minLenAttr)
-                    && (!hasRegex || hasRegex &&  str.match(regex))){
-                    object.removeClass('invalid');
-                    object.addClass('valid');
-                }else {
-                        object.removeClass('valid');
-                        object.addClass('invalid');
-                }
-            }
+          object.removeClass('valid');
+          object.addClass('invalid');
         }
-    };
+      }
+    }
+  };
+
 
   M.textareaAutoResize = function ($textarea) {
     // Wrap if native element
@@ -10350,7 +10321,7 @@ $jscomp.polyfill = function (e, r, p, m) {
     }, {
       key: "_setupEventHandlers",
       value: function _setupEventHandlers() {
-        this._handleUpdateCounterBound = this.customUpdateCounter.bind(this);//this.updateCounter.bind(this);
+        this._handleUpdateCounterBound = this.updateCounter.bind(this);//this.updateCounter.bind(this);
 
         this.el.addEventListener('focus', this._handleUpdateCounterBound, true);
         this.el.addEventListener('input', this._handleUpdateCounterBound, true);
@@ -10417,27 +10388,6 @@ $jscomp.polyfill = function (e, r, p, m) {
       /**
        * Add validation classes
        */
-
-    }, {
-        key: "customUpdateCounter",
-        value: function customUpdateCounter() {
-            var maxLength = +this.$el.attr('data-length'),
-                minLength = +this.$el.attr('data-min-length') || 0,
-                actualLength = this.el.value.length;
-            this.isValidLength = actualLength <= maxLength && actualLength >= minLength;
-            var counterString = actualLength;
-
-            if (maxLength) {
-                counterString += '/' + maxLength;
-                this._validateInput();
-            }
-
-            $(this.counterEl).html(counterString);
-        }
-
-        /**
-         * Add validation classes
-         */
 
     }, {
       key: "_validateInput",
