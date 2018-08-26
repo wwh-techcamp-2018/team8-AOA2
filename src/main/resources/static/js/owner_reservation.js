@@ -161,7 +161,7 @@ class Menu {
                             </div>
                             <div class="col s12 description-text grey-text">
                                 ${description}
-                            </div>x
+                            </div>
                             <div class="col s8 l9 price-box">
                                 <span class="price">${stringPrice}</span>
                                 <span class="won">원</span>

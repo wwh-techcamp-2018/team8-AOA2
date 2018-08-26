@@ -22,6 +22,6 @@ public class MaxCount {
             throw new IllegalArgumentException("illegal maxCount & personalMaxCount");
         }
         this.maxCount = maxCount;
-        this.personalMaxCount = maxCount;
+        this.personalMaxCount = personalMaxCount;
     }
 }
