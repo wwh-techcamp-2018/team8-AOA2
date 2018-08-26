@@ -13,7 +13,7 @@ public class SpringWebserviceApplication {
             "spring.config.location="+
                     "classpath:application.yml," +
                     "classpath:application.properties," +
-                    "/app/config/spring-webservice/real-application.yml";
+                    "/home/ec2-user/app/config/spring-webservice/real-application.yml";
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(SpringWebserviceApplication.class)
