@@ -8,7 +8,7 @@ class OpenReservation {
     }
     registEvent(){
         this.wrapper.addEventListener('click', ((event) => {
-            if (event.target.classList.contains('btn')) {
+            if (hasClass(event.target, 'btn')) {
                 this.deleteReservation(event.target);
             }
         }).bind(this));
@@ -223,7 +223,7 @@ class MenuInForm extends Menu {
         appendHtmlFromData(menuData, this.variableHtmlTemplate.bind(this), this.wrapper, '삭제하기');
     };
     handleClickEvent(event) {
-        if(event.target.classList.contains("btn")) {
+        if(hasClass(event.target, 'btn')) {
             this.deleteMenu(event.target.closest(".collection-item"));
         }
     };
