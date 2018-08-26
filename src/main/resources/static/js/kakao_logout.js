@@ -10,7 +10,7 @@ function kakaoLogout() {
                         uuid : uuid,
                     },
                 });
-                document.location = response.data;
+                document.location = response.data.url;
             })(res.id)
 
         },

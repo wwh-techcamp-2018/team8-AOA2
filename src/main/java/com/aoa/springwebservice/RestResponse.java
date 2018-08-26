@@ -13,7 +13,7 @@ import java.net.URI;
 public class RestResponse<T> {
     private T data;
 
-    public RestResponse(T data) {
+    private RestResponse(T data) {
         this.data = data;
     }
 
