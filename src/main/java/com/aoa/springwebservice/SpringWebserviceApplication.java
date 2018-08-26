@@ -2,6 +2,7 @@ package com.aoa.springwebservice;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
@@ -9,10 +10,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 public class SpringWebserviceApplication {
 
     private static final String APPLICATION_LOCATIONS =
-            "spring.config.location=" +
+            "spring.config.location="+
                     "classpath:application.yml," +
                     "classpath:application.properties," +
-                    "~/app/config/spring-webservice/real-application.yml";
+                    "/app/config/spring-webservice/real-application.yml";
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(SpringWebserviceApplication.class)
