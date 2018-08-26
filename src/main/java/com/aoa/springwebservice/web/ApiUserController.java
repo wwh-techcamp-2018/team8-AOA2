@@ -36,7 +36,7 @@ public class ApiUserController {
         log.debug("userInputDTO : {}", user);
         HttpSessionUtils.setUserSession(session, userService.create(user));
 
-        return new RestResponse<String>("/admin");
+        return RestResponse.ofRedirectResponse("/admin", "");
 
     }
 
@@ -45,7 +45,7 @@ public class ApiUserController {
         log.debug("user : {}", user);
         HttpSessionUtils.setUserSession(session, userService.login(user));
 
-        return new RestResponse<String>("/admin");
+        return RestResponse.ofRedirectResponse("/admin", "");
     }
 
     @PostMapping("/signout")
@@ -54,7 +54,7 @@ public class ApiUserController {
         userService.logout(user);
         HttpSessionUtils.removeUserSession(session);
 
-        return new RestResponse<String>("/");
+        return RestResponse.ofRedirectResponse("/", "");
     }
 
 }

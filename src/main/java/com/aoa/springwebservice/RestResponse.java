@@ -13,13 +13,14 @@ import java.net.URI;
 public class RestResponse<T> {
     private T data;
 
-    public RestResponse(T data) {
+    private RestResponse(T data) {
         this.data = data;
     }
 
     public static RestResponse<RedirectData> ofRedirectResponse(String url, String message){
         return new RestResponse<RedirectData>(new RedirectData(url, message));
     }
+
     @NoArgsConstructor @Setter @Getter
     public static class RedirectData {
         private String url;
