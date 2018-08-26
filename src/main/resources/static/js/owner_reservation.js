@@ -1,11 +1,10 @@
 
 class OpenReservation {
-    constructor(wrapper, callback = {callbackOnDelete : null }){
+    constructor(storeId, wrapper, callback = {callbackOnDelete : null }){
+        this.storeId = storeId;
         this.wrapper = wrapper;
         this.openReservationBtn = $('#openReservationBtn');
         this.callbackOnDelete = callback.callbackOnDelete;
-        this.storeId =  $('input[name=storeId]').value|| $('#storeId').value; // todo get from ... ?
-
     }
     registEvent(){
         this.wrapper.addEventListener('click', ((event) => {
@@ -105,31 +104,26 @@ class OpenReservation {
     };
 }
 class Menu {
-    constructor(wrapper, callback = {callbackOnAdd : null}) {
+    constructor(storeId, wrapper, callback = {callbackOnAdd : null, callbackOnInit : null}) {
+        this.storeId =  storeId;
         this.wrapper = wrapper;
-        this.callbackOnAdd = callback.callbackOnAdd;
+        this.callback = callback;
+        this.menus = {};
     };
+
     registerEvent() {
         this.wrapper.addEventListener('click', this.handleClickEvent.bind(this));
     };
 
     async getAllMenus(){
         const menuData = await fetchAsync({
-            url: '/api/stores/' + $('#storeId').value + '/menus',
+            url: '/api/stores/' + this.storeId + '/menus',
             method: 'GET'
         });
 
         this.renderMenus(menuData);
         this.addData(menuData);
     };
-    renderMenus(menuData){
-        if (menuData.length === 0) {
-            this.wrapper.insertAdjacentHTML('beforeend', this.nonMenu());
-            return;
-        }
-        appendHtmlFromData(menuData, this.menuAddBoxHTML, this.wrapper, '추가하기');
-    };
-
     addData(menus) {
         this.menus = menus.reduce((accum, cur) => {
             accum[cur.id] = cur;
@@ -137,24 +131,11 @@ class Menu {
         }, {});
     };
 
-    handleClickEvent(event) {
-        if (event.target.nodeName === 'BUTTON') {
-            console.log('click');
-            const clickBtn = event.target;
-           //disableMenu
-            clickBtn.setAttribute('disabled', 'disabled');
 
-            const menuId = clickBtn.closest('.collection-item').getAttribute('data-id');
-            if(this.callbackOnAdd)
-                this.callbackOnAdd(this.menus[menuId]);
-
-        }
+    nonMenu() {
+        return `<div class="loader-text">등록된 메뉴가 없습니다.<br> 메뉴를 등록해 주세요. </div>`;
     };
-    enableMenu(menuId){
-        $('.collection-item[data-id="' + menuId + '"] button:disabled', this.wrapper).removeAttribute('disabled');
-    };
-
-    menuAddBoxHTML({id, imgUrl, name, description, price, btnName, maxCount = 0, personalMaxCount = 0, lastUsed}) {
+    menuAddBoxHTML({id, imgUrl, name, description, price, btnName, maxCount = 0, personalMaxCount = 0, lastUsed}, btnHtmlTemplate) {
         const stringPrice = numberToLocaleString(price);
         const disabled = lastUsed ? 'disabled':'';
         return `<li class="collection-item" data-id="${id}" data-max-count="${maxCount}" data-person-max-count="${personalMaxCount}" >
@@ -173,19 +154,85 @@ class Menu {
                                 <span class="price">${stringPrice}</span>
                                 <span class="won">원</span>
                             </div>
-                            <button class="col s4 l3  btn waves-effect waves-light" ${disabled}
-                                    type="button">${btnName}
-                            </button>
-
+                            ${btnHtmlTemplate}
                         </div>
                     </div>
                 </li>`
     };
-    nonMenu() {
-        return `<div class="loader-text">등록된 메뉴가 없습니다.<br> 메뉴를 등록해 주세요. </div>`;
-    };
-
-
 }
 
-export {OpenReservation, Menu}
+class MenuInModal extends Menu{
+
+    renderMenus(menuData){
+        if (menuData.length === 0) {
+            this.wrapper.insertAdjacentHTML('beforeend', this.nonMenu());
+            return;
+        }
+        appendHtmlFromDataArr(menuData, this.variableHtmlTemplate.bind(this), this.wrapper);
+    };
+
+    enableMenu(menuId){
+        $('.collection-item[data-id="' + menuId + '"] button:disabled', this.wrapper).removeAttribute('disabled');
+    };
+
+    handleClickEvent(event) {
+        if (event.target.nodeName === 'BUTTON') {
+            console.log('click');
+            const clickBtn = event.target;
+            //disableMenu
+            clickBtn.setAttribute('disabled', 'disabled');
+
+            const menuId = clickBtn.closest('.collection-item').getAttribute('data-id');
+            if(this.callback.callbackOnAdd)
+                this.callbackOnAdd(this.menus[menuId]);
+
+        }
+    };
+
+    addBtnTemplate( {lastUsed}){
+        const disabled = lastUsed ? 'disabled':'';
+        return `<button class="col s4 l3  btn waves-effect waves-light" ${disabled}
+                type="button">추가하기
+            </button>`;
+    };
+    variableHtmlTemplate(menu) {
+        return this.menuAddBoxHTML(menu, this.addBtnTemplate(menu));
+    };
+}
+
+class MenuInForm extends Menu {
+    renderMenus(menuData){
+        if(this.callback.callbackOnInit)
+            this.callback.callbackOnInit();
+        if (menuData.length === 0) {
+            this.wrapper.insertAdjacentHTML('beforeend', this.nonMenu());
+            return;
+        }
+        appendHtmlFromData(menuData, this.variableHtmlTemplate.bind(this), this.wrapper, '삭제하기');
+    };
+    handleClickEvent(event) {
+        if(event.target.classList.contains("btn")) {
+            this.deleteMenu(event.target.closest(".collection-item"));
+        }
+    };
+    async deleteMenu(removeMenuNode){
+        const menu = await fetchAsync({
+            url : "/api/menus/" + removeMenuNode.attributes["data-id"].value,
+            method: "DELETE"
+        });
+        addClass(removeMenuNode, "off");
+        setTimeout(() => {
+            removeMenuNode.remove();
+        },500);
+    }
+    deleteBtnTemplate(){
+        return `<button class="col s4 l3  btn waves-effect waves-light"
+                type="button">삭제하기
+            </button>`;
+    };
+    variableHtmlTemplate(menu) {
+        return this.menuAddBoxHTML(menu, this.deleteBtnTemplate());
+    };
+
+}
+export {OpenReservation, MenuInModal, MenuInForm}

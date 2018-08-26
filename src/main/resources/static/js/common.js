@@ -189,3 +189,10 @@ const appendHtmlFromData = (dataArr, templateFunc, parentElement, btnName) => {
     }, '');
     parentElement.insertAdjacentHTML('beforeend', html);
 };
+
+const appendHtmlFromDataArr = (dataArr, templateFunc, parentElement) => {
+    const html = dataArr.reduce((accum, cur) => {
+        return accum + templateFunc(cur);
+    }, '');
+    parentElement.insertAdjacentHTML('beforeend', html);
+};
