@@ -12,7 +12,7 @@ class OpenReservation {
                 this.deleteReservation(event.target);
             }
         }).bind(this));
-        this.openReservationBtn.addEventListener('click', this.fetchOpenReservation);
+        this.openReservationBtn.addEventListener('click', this.fetchOpenReservation.bind(this));
 
     };
     deleteReservation(elem){
@@ -26,20 +26,33 @@ class OpenReservation {
             this.callback.callbackOnDelete(menuId);
         };
     async fetchOpenReservation(){
-        const storeId = $('input[name=storeId]').value;
+        if(!this.validate()){
+            return;
+        }
+        const data = this.buildRequestBody();
+        const result = await fetchAsync({url: '/api/stores/' + this.storeId + '/reservations', method: 'post', body: data});
+        console.log(result);
+        document.location = result.data.url;
+    }
+    validate(){
+        //todo validation
+        return true;
+    }
+    buildRequestBody(){
         const timeArr = $('input[name=pickupTime]').value.split(':');
-        let data = {'hourToClose': timeArr[0], 'minuteToClose': timeArr[1]};
-        data.reservationDTOs = Array.from($All('.collection-item', this.wrapper)).reduce((accum, cur) => {
+        const reservations = Array.from($All('.collection-item', this.wrapper));
+        const reservationDTOs = reservations.reduce((accum, cur) => {
             const dto = {
                 'menuId': $('input[name=menuId]', cur).value,
                 'maxCount': $('input[name=maxCount]', cur).value,
                 'personalMaxCount': $('input[name=personalMaxCount]', cur).value
             }
             accum.push(dto);
+            return accum;
 
-        });
+        }, []);
+        return {'hourToClose': timeArr[0], 'minuteToClose': timeArr[1] , 'reservationDTOs' : reservationDTOs};
     }
-
     async getLastUsedMenus () {
         const menuData = await fetchAsync({
             url: '/api/stores/' + this.storeId + '/menus?condition=last',
@@ -148,7 +161,7 @@ class Menu {
                             </div>
                             <div class="col s12 description-text grey-text">
                                 ${description}
-                            </div>
+                            </div>x
                             <div class="col s8 l9 price-box">
                                 <span class="price">${stringPrice}</span>
                                 <span class="won">원</span>
