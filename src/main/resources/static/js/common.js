@@ -181,3 +181,11 @@ function reduce() {
 
     $('#sidebar').focus();
 }
+
+const appendHtmlFromData = (dataArr, templateFunc, parentElement, btnName) => {
+    const html = dataArr.reduce((accum, cur) => {
+        cur.btnName = btnName;
+        return accum + templateFunc(cur);
+    }, '');
+    parentElement.insertAdjacentHTML('beforeend', html);
+};

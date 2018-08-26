@@ -59,13 +59,13 @@
     </div>
 </main>
 </body>
-<script src="/js/owner_reservation.js"></script>
 
 <script type="module">
     import Ctrls from '/js/ctrl.js'
+    import {Menu, OpenReservation} from '/js/owner_reservation.js';
 
     document.addEventListener('DOMContentLoaded', function () {
-        addMenuForm($("#storeId").value);
+        //addMenuForm($('#storeId').value);
         $('#today').innerHTML = formatDate(new Date());
         M.updateTextFields();
 
@@ -84,24 +84,22 @@
             });
 
 
-
-
-        $('#open-menu-collection').addEventListener('click', (event) => {
-            if (event.target.classList.contains('btn')) {
-                const forRemove = event.target.closest('.collection-item');
-                const menuId = $('input[name=menuId]' , forRemove).value;
-                addClass(forRemove, 'off');
-                setTimeout(() => {
-                    forRemove.remove();
-                }, 500);
-                $( '.collection-item[data-id="'+ menuId + '"] button:disabled', $('#menu-collection')).removeAttribute('disabled');
-            }
-        });
-
-        const menu = new Menu($('#menu-collection', $('#menuModal')), appendHtmlFromData, menuAddBoxHTML);
+        const openReservation = new OpenReservation($('#open-menu-collection'),
+            {
+                callbackOnDelete: (menuId) => {
+                    $('.collection-item[data-id="' + menuId + '"] button:disabled', $('#menu-collection')).removeAttribute('disabled');
+                }
+            });
+        openReservation.registEvent();
+        openReservation.getLastUsedMenus();
+        const menu = new Menu($('#menu-collection'),
+            {
+                callbackOnAdd: (menuArr) => {
+                    appendHtmlFromData(menuArr, menuBoxHTML, $('#open-menu-collection'), '삭제하기');
+                }
+            });
         menu.registerEvent();
 
-        $('#openReservationBtn').addEventListener('click', fetchOpenReservation);
 
         const modalElems = $('.modal');
         const modalInstance = M.Modal.init(modalElems);
@@ -114,7 +112,7 @@
             //todo refactor
 
             const menuData = await fetchAsync({
-                url: '/api/stores/'+$('#storeId').value+'/menus',
+                url: '/api/stores/' + $('#storeId').value + '/menus',
                 method: 'GET'
             });
             addClass($('.loading-wrapper'), 'off');
@@ -125,6 +123,7 @@
             }
             appendHtmlFromData(menuData, menuAddBoxHTML, $('#menu-collection', $('#menuModal')), '추가하기');
             //registEventListener();
+            //todo > 분리
             menu.addData(menuData);
             $('.modal').M_Modal.open();
         });

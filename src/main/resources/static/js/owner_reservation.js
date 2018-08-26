@@ -1,42 +1,3 @@
-
-
-const fetchOpenReservation = async() => {
-    const storeId = $('input[name=storeId]').value;
-    const timeArr = $('input[name=pickupTime]').value.split(':');
-    let data = {'hourToClose': timeArr[0], 'minuteToClose': timeArr[1]};
-    data.reservationDTOs = Array.from($All('.collection-item', $('#open-menu-collection'))).reduce((accum, cur) => {
-        const dto = {
-            'menuId': $('input[name=menuId]', cur).value,
-            'maxCount': $('input[name=maxCount]', cur).value,
-            'personalMaxCount': $('input[name=personalMaxCount]', cur).value
-        }
-        accum.push(dto);
-        return accum;
-    }, []);
-    const result = await fetchAsync({url: '/api/stores/' + storeId + '/reservations', method: 'post', body: data});
-    console.log(result);
-    document.location = result.data.url;
-}
-
-const addMenuForm = async (storeId) => {
-    const menuData = await fetchAsync({
-        url: '/api/stores/' + storeId + '/menus?condition=last',
-        method: 'GET'
-    });
-    //$('.loading-wrapper').remove();
-    if (menuData.length === 0) {
-        $('#menu-collection').insertAdjacentHTML('beforeend', nonMenu());
-    }
-    appendHtmlFromData(menuData, menuBoxHTML, $('#open-menu-collection'), '삭제하기');
-};
-
-const appendHtmlFromData = (dataArr, templateFunc, parentElement, btnName) => {
-    const html = dataArr.reduce((accum, cur) => {
-        cur.btnName = btnName;
-        return accum + templateFunc(cur);
-    }, '');
-    parentElement.insertAdjacentHTML('beforeend', html);
-};
 const nonMenu = () => {
     return `<div class="loader-text">등록된 메뉴가 없습니다.<br> 메뉴를 등록해 주세요. </div>`
 };
@@ -117,33 +78,88 @@ const menuAddBoxHTML = ({id, imgUrl, name, description, price, btnName, maxCount
                 </li>`
 };
 
-
-class Menu {
-    constructor(wrapper, appendCallback, htmlTemplate) {
+class OpenReservation {
+    constructor(wrapper, callback = {callbackOnDelete : null}){
         this.wrapper = wrapper;
-        this.appendCallback = appendCallback;
-        this.htmlTemplate = htmlTemplate;
+        this.openReservationBtn = $('#openReservationBtn');
+        this.callbackOnDelete = callback.callbackOnDelete;
+        this.storeId =  $('input[name=storeId]').value|| $('#storeId').value; // todo get from ... ?
+
     }
+    registEvent(){
+        this.wrapper.addEventListener('click', ((event) => {
+            if (event.target.classList.contains('btn')) {
+                this.deleteReservation(elem, this.callbackOnDelete)
+            }
+        }).bind(this));
+        this.openReservationBtn.addEventListener('click', this.fetchOpenReservation);
+
+    };
+    deleteReservation(elem){
+        const forRemove = elem.closest('.collection-item');
+        const menuId = $('input[name=menuId]', forRemove).value;
+        addClass(forRemove, 'off');
+        setTimeout(() => {
+            forRemove.remove();
+        }, 500);
+        if(this.callbackOnDelete)
+            this.callbackOnDelete();
+        //$( '.collection-item[data-id="'+ menuId + '"] button:disabled', $('#menu-collection')).removeAttribute('disabled');
+    };
+    async fetchOpenReservation(){
+        const storeId = $('input[name=storeId]').value;
+        const timeArr = $('input[name=pickupTime]').value.split(':');
+        let data = {'hourToClose': timeArr[0], 'minuteToClose': timeArr[1]};
+        data.reservationDTOs = Array.from($All('.collection-item', this.wrapper)).reduce((accum, cur) => {
+            const dto = {
+                'menuId': $('input[name=menuId]', cur).value,
+                'maxCount': $('input[name=maxCount]', cur).value,
+                'personalMaxCount': $('input[name=personalMaxCount]', cur).value
+            }
+            accum.push(dto);
+
+        });
+    }
+
+    async getLastUsedMenus () {
+        const menuData = await fetchAsync({
+            url: '/api/stores/' + this.storeId + '/menus?condition=last',
+            method: 'GET'
+        });
+        appendHtmlFromData(menuData, menuBoxHTML, this.wrapper, '삭제하기');
+    };
+}
+class Menu {
+    constructor(wrapper, {callbackOnAdd}) {
+        this.wrapper = wrapper;
+        this.callbackOnAdd = callbackOnAdd;
+    };
 
     addData(menus) {
         this.menus = menus.reduce((accum, cur) => {
             accum[cur.id] = cur;
             return accum;
         }, {});
-    }
+    };
 
     registerEvent() {
         this.wrapper.addEventListener('click', this.handleClickEvent.bind(this));
-    }
+    };
 
     handleClickEvent(event) {
         if (event.target.nodeName === 'BUTTON') {
             console.log('click');
             const clickBtn = event.target;
             const menuId = clickBtn.closest('.collection-item').getAttribute('data-id');
-            //todo Refactor
-            appendHtmlFromData([this.menus[menuId]], menuBoxHTML, $('#open-menu-collection'), '삭제하기');
+            //todo Refactor -- callback 인자로 받거나,
+            this.callbackOnAdd([this.menus[menuId]]);
+            //appendHtmlFromData(, menuBoxHTML, $('#open-menu-collection'), '삭제하기');
             clickBtn.setAttribute('disabled', 'disabled');
         }
-    }
+    };
+    addMenu(menuArr){
+        appendHtmlFromData(menuArr, menuBoxHTML, this.wrapper, '삭제하기');
+    };
 }
+
+export {OpenReservation, Menu}
