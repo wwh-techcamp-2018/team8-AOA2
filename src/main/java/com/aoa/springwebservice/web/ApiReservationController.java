@@ -1,5 +1,6 @@
 package com.aoa.springwebservice.web;
 
+import com.aoa.springwebservice.RestResponse;
 import com.aoa.springwebservice.domain.Reservation;
 import com.aoa.springwebservice.domain.ReservationRepository;
 import com.aoa.springwebservice.domain.StoreRepository;
@@ -24,15 +25,17 @@ public class ApiReservationController {
 
     @Autowired
     private ReservationRepository reservationRepository;
+    //todo Handle -- Redirect
     @PostMapping("/stores/{storeId}/reservations")
-    public void create(@PathVariable long storeId, @RequestBody ReservationFormDTO reservationDTO) {
+    public RestResponse<RestResponse.RedirectData> create(@PathVariable long storeId, @RequestBody ReservationFormDTO reservationDTO) {
         reservationService.createReservation(reservationDTO, storeId);
+        return RestResponse.ofRedirectResponse("/result/success", "OK");
     }
-    @PostMapping("/stores/{storeId}/reservations/temp")
-    public String create2(@PathVariable long storeId, @RequestBody ReservationFormDTO reservationDTO) {
-        log.debug("ReservationDTO {}", reservationDTO);
-        return "/result/success";
-    }
+//    @PostMapping("/stores/{storeId}/reservations/temp")
+//    public String create2(@PathVariable long storeId, @RequestBody ReservationFormDTO reservationDTO) {
+//        log.debug("ReservationDTO {}", reservationDTO);
+//        return "/result/success";
+//    }
 
     @GetMapping("/stores/{storeId}/reservations")
     public List<Reservation> list(@PathVariable long storeId) {
