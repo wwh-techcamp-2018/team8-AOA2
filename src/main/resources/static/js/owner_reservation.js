@@ -4,7 +4,7 @@ class OpenReservation {
         this.storeId = storeId;
         this.wrapper = wrapper;
         this.openReservationBtn = $('#openReservationBtn');
-        this.callbackOnDelete = callback.callbackOnDelete;
+        this.callback = callback;
     }
     registEvent(){
         this.wrapper.addEventListener('click', ((event) => {
@@ -22,10 +22,9 @@ class OpenReservation {
         setTimeout(() => {
             forRemove.remove();
         }, 500);
-        if(this.callbackOnDelete)
-            this.callbackOnDelete(menuId);
-        //$( '.collection-item[data-id="'+ menuId + '"] button:disabled', $('#menu-collection')).removeAttribute('disabled');
-    };
+        if(this.callback && this.callback.callbackOnDelete)
+            this.callback.callbackOnDelete(menuId);
+        };
     async fetchOpenReservation(){
         const storeId = $('input[name=storeId]').value;
         const timeArr = $('input[name=pickupTime]').value.split(':');
@@ -183,8 +182,8 @@ class MenuInModal extends Menu{
             clickBtn.setAttribute('disabled', 'disabled');
 
             const menuId = clickBtn.closest('.collection-item').getAttribute('data-id');
-            if(this.callback.callbackOnAdd)
-                this.callbackOnAdd(this.menus[menuId]);
+            if(this.callback && this.callback.callbackOnAdd)
+                this.callback.callbackOnAdd(this.menus[menuId]);
 
         }
     };
@@ -202,7 +201,7 @@ class MenuInModal extends Menu{
 
 class MenuInForm extends Menu {
     renderMenus(menuData){
-        if(this.callback.callbackOnInit)
+        if(this.callback && this.callback.callbackOnInit)
             this.callback.callbackOnInit();
         if (menuData.length === 0) {
             this.wrapper.insertAdjacentHTML('beforeend', this.nonMenu());
