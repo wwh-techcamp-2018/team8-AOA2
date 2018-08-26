@@ -68,7 +68,8 @@ const addMenuForm = async (storeId) => {
         url : '/api/stores/'+storeId+'/menus',
         method: "GET"
     });
-    $('.loading-wrapper').remove();
+    if($('.loading-wrapper'))
+        $('.loading-wrapper').remove();
     if(menuData.length === 0) {
         $('.collection').insertAdjacentHTML('beforeend', nonMenu());
         return;

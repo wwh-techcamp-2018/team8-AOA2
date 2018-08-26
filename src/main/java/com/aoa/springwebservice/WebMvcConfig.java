@@ -24,7 +24,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/result/success").setViewName("registMenuSuccess");
         //registry.addViewController("/owner/menu").setViewName("displayMenu");
         registry.addViewController("/login").setViewName("login");
-        registry.addViewController("/owner/menu/form").setViewName("registMenu");
+       // registry.addViewController("/owner/menu/form").setViewName("registMenu");
         registry.addViewController("/admin/store/fail").setViewName("fail");
 
     }
