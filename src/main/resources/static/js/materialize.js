@@ -16,7 +16,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /*! cash-dom 1.3.5, https://github.com/kenwheeler/cash @license MIT */
 (function (factory) {
   window.cash = factory();
-})(function () {
+})(function () { // factory
   var doc = document,
       win = window,
       ArrayProto = Array.prototype,
@@ -1002,7 +1002,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   });
 
   return cash;
-});
+}); //end of factory()
 ;
 var Component = function () {
   /**
@@ -1056,7 +1056,7 @@ var Component = function () {
   }]);
 
   return Component;
-}();
+}(); //end of component
 
 ; // Required for Meteor package, the use of window prevents export by Meteor
 (function (window) {
