@@ -19,7 +19,7 @@
                 <div class="row">
                     <div class="input-title col s12 l2">메뉴명</div>
                     <div class="input-field col s12 l10">
-                        <input class="input_counter validate" id="input_menu_name" type="text" data-length="20" required>
+                        <input class="input_counter custom-validate" id="input_menu_name" type="text" data-length="20" required>
                         <span class="helper-text" data-error="메뉴 이름이 너무 깁니다" data-success="right">20자 이하로 작성해주세요</span>
                         <label for="input_menu_name">메뉴명</label>
                     </div>
@@ -27,7 +27,7 @@
                 <div class="row">
                     <div class="input-title col s12 l2">가격</div>
                     <div class="input-field col s12 l10">
-                        <input class="input_counter validate" id="input_menu_price" type="text" data-length="9"
+                        <input class="input_counter custom-validate" id="input_menu_price" type="text" data-length="9"
                                data-regex="^[1-9][0-9]*$" required>
                         <span class="helper-text" data-error="잘못된 가격입니다" data-success="right">가격을 입력해주세요</span>
                         <label for="input_menu_price">가격</label>
@@ -51,7 +51,7 @@
                                 <input id="input_menu_img" type="file">
                             </div>
                             <div class="file-path-wrapper">
-                                <input id="file_path" class="file-path validate" type="text" required>
+                                <input id="file_path" class="file-path custom-validate" type="text" required>
                                 <label for="file_path">첨부파일</label>
                                 <span class="helper-text" data-error="10MB 이하의 이미지파일만 업로드가 가능합니다"
                                       data-success="right">이미지파일 업로드</span>
@@ -73,7 +73,8 @@
 </main>
 </body>
 {{> footer}}
-<script>
+<script type="module">
+    import {CustomInputVadlidator} from '/js/override.js';
     function createMenu(event) {
         if (!validateForm($('form')))
             return;
@@ -119,7 +120,10 @@
         var inputMenuBtn = document.querySelector('#input_menu_btn')
         inputMenuBtn.addEventListener('click', createMenu);
         M.CharacterCounter.init(counter);
+        const inputValidator = new CustomInputVadlidator();
+
     });
+
 </script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 </html>
