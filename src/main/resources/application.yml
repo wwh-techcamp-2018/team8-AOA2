@@ -1,0 +1,63 @@
+# dev, prod( set1,2 ) 공통 환경 설정
+server:
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    session:
+      tracking-modes: cookie
+
+handlebars:
+  suffix: .html
+  cache: false
+  expose-session-attributes: true
+
+spring:
+  devtools:
+    liverload:
+      enabled: true
+
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 20MB
+      max-request-size: 35MB
+
+logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+#for HTTP Encoding UTF-8
+http:
+  encoding:
+    charset: UTF-8
+    enabled: true
+    force: true # encoding issue 가능
+
+---
+
+# active profile -> dev 환경 설정
+spring:
+  profiles.active: dev
+
+  datasource:
+    url: jdbc:h2:~/team8-aoa;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        format_sql: true
+
+  h2.console.enabled: true
+
+server:
+  port: 8080
+
+file.upload-dir: ./src/main/resources/static/uploads
+base.menuImgUrl-dir: /uploads/
+---
+spring:
+  profiles: set1
