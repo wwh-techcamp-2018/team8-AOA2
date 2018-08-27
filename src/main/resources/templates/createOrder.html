@@ -154,7 +154,7 @@
                             <div class="valign-wrapper">
 
                                 <div class="col s6 center">
-                                    <span id="today"></span>
+                                    <span id="tomorrow"></span>
                                 </div>
                                 <div class="col s4 ">
                                     <input name="pickupTime" type="text" name="timeToClose" class="flat-timepicker"
@@ -329,9 +329,10 @@
         }
         tabInstances.select('order');
 
-
-        const now = formatDate(new Date());
-        $('#today').innerHTML = now;
+        const today = new Date();
+        today.setDate(today.getDate() + 1);
+        const tomorrow = formatDate(today);
+        $('#tomorrow').innerHTML = tomorrow ;
 
         //todo duplicated -- 중복 제거, 모듈로 분리
         const defaultTime = $('.flat-timepicker').getAttribute('data-default-value');
