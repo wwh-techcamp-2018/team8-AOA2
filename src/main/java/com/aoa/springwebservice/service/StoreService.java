@@ -23,11 +23,6 @@ public class StoreService {
     public Store createStore(StoreInputDTO storeDTO, User user){
         return storeRepository.save(storeDTO.toDomain(saveStoreImg(storeDTO), user));
     }
-
-    public StoreOutputDTO createStoreDetailDTO(Store store) {
-        return StoreOutputDTO.createStoreDetailDTO(store);
-    }
-
     public String saveStoreImg(StoreInputDTO storeDTO) {
         return fileStorageService.storeFile(storeDTO.getImageFile());
     }
@@ -40,8 +35,8 @@ public class StoreService {
         return storeRepository.findByUser(user).orElseThrow(() -> new EntityExistsException("가게 등록 부터 해주세요"));
     }
   
-    public StoreOutputDTO createStoreOpenInfoDTO(Store store){
-        return StoreOutputDTO.createStoreOpenInfoDTO(store);
+    public StoreOutputDTO createStoreDetailInfoDTO(Store store){
+        return StoreOutputDTO.createStoreDetailInfoDTO(store);
     }
 
     public Store getStoreById(long id) {

@@ -6,6 +6,7 @@ import com.aoa.springwebservice.domain.StoreRepository;
 import com.aoa.springwebservice.domain.User;
 import com.aoa.springwebservice.security.HttpSessionUtils;
 import com.aoa.springwebservice.security.LoginUser;
+import com.aoa.springwebservice.service.OrderService;
 import com.aoa.springwebservice.service.ReservationService;
 import com.aoa.springwebservice.service.StoreService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,9 @@ public class PageController {
     @Autowired
     ReservationService reservationService;
 
+    @Autowired
+    OrderService orderService;
+
     @GetMapping("/admin")
     public String show(@LoginUser User loginUser) {
         if (storeService.hasStore(loginUser))
@@ -52,8 +56,8 @@ public class PageController {
     public String openReservation(Model model, @LoginUser User loginUser) {
         //todo store 존재 확인, store isOpen 확인 --> 중복 로직 처리 어떻게?
         log.debug("store check {} ", storeService.getStoreByUser(loginUser));
-        log.debug("dto check {}",  storeService.createStoreOpenInfoDTO(storeService.getStoreByUser(loginUser)));
-        model.addAttribute("store", storeService.createStoreOpenInfoDTO(storeService.getStoreByUser(loginUser)));
+        log.debug("dto check {}",  storeService.createStoreDetailInfoDTO(storeService.getStoreByUser(loginUser)));
+        model.addAttribute("store", storeService.createStoreDetailInfoDTO(storeService.getStoreByUser(loginUser)));
 
         return "/openReservation";
     }
@@ -68,7 +72,7 @@ public class PageController {
 //    @GetMapping("/stores/{storeId}/orders/form")
 //    public String createOrder(@PathVariable long storeId, @LoginUser User loginUser, Model model){
 //        //todo store 존재 확인, store isOpen 확인
-//        model.addAttribute("store", storeService.createStoreOpenInfoDTO(storeService.getStoreByUser(loginUser)));
+//        model.addAttribute("store", storeService.createStoreDetailInfoDTO(storeService.getStoreByUser(loginUser)));
 //        LocalTime now = LocalTime.now();
 //        model.addAttribute("defaultTime", LocalTime.of(now.getHour(), ((now.getMinute()/ 30)) * 30).plusMinutes(30));
 //        return "/createOrder";
@@ -79,15 +83,16 @@ public class PageController {
     @GetMapping("/stores/{storeId}/orders/form")
     public String createOrder(@PathVariable long storeId, Model model){
         //todo store 존재 확인, store isOpen 확인
-        model.addAttribute("store", storeService.createStoreOpenInfoDTO(storeRepository.findById(storeId).get()));
+        model.addAttribute("store", storeService.createStoreDetailInfoDTO(storeRepository.findById(storeId).get()));
         LocalTime now = LocalTime.now();
         model.addAttribute("defaultTime", LocalTime.of(now.getHour(), ((now.getMinute()/ 30)) * 30).plusMinutes(30));
         return "/createOrder";
     }
 
     @GetMapping("/orders/{orderId}/result")
-    public String showOrderResult(@PathVariable long orderId, Model model){
-        model.addAttribute("order", "ORDER RESULT"); //OUTPUT
+    public String showOrderResult(@PathVariable long orderId, @LoginUser User user, Model model){
+
+        model.addAttribute("order", "?"); //OUTPUT
         return "/showOrderResult";
     }
 
