@@ -22,3 +22,6 @@ bin/
 
 ### local ###
 uploads/
+
+### H2 init data ###
+import.sql

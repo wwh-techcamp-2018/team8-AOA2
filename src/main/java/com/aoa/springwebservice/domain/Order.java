@@ -1,6 +1,8 @@
 package com.aoa.springwebservice.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
@@ -47,10 +49,7 @@ public class Order {
     private LocalDateTime pickupTime;
 
     private int orderTotalPrice;
-
-//    @JsonProperty
-//    @JsonSerialize(using=NumericBooleanSerializer.class)
-//    @JsonDeserialize(using=NumericBooleanDeserializer.class)
+  
     private Boolean isPickedup;
 
     //Todo :: OrderBy
@@ -81,19 +80,4 @@ public class Order {
             this.isPickedup = true;
     }
 
-//    public static class NumericBooleanSerializer extends JsonSerializer<Boolean> {
-//
-//        @Override
-//        public void serialize(Boolean bool, JsonGenerator generator, SerializerProvider provider) throws IOException, JsonProcessingException {
-//            generator.writeString(bool ? "1" : "0");
-//        }
-//    }
-//
-//    public static class NumericBooleanDeserializer extends JsonDeserializer<Boolean> {
-//
-//        @Override
-//        public Boolean deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
-//            return !"0".equals(parser.getText());
-//        }
-//    }
 }

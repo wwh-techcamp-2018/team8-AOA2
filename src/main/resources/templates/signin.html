@@ -3,10 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>로그인</title>
 </head>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="/css/override.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 <link href="/css/common.css" type="text/css" rel="stylesheet"/>
 <link href="/css/login.css" type="text/css" rel="stylesheet"/>
 
@@ -31,47 +32,50 @@
             <div class="container">
                 <div class="row">
                     <div class="input-title col s12 l3">
+                        <label>*필수값</label>
                         이메일
                     </div>
                     <div class="input-field col s12 l9">
-                        <input id="user-email" class="validate" data-regex="^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$" type="text" name="email" required>
-                        <span class="helper-text" data-error="wrong" data-success="right">이메일 양식에 맞게 입력하세요</span>
+                        <input id="user-email" class="custom-validate" data-regex="^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$" type="text" name="email" required>
+                        <span class="helper-text" data-error="wrong" data-success="right">이메일 입력</span>
                     </div>
                     <div class="input-title col s12 l3">
+                        <label>*필수값</label>
                         이름
                     </div>
                     <div class="input-field col s12 l9">
-                        <input id="user-name" class="input_counter validate" type="text" name="name" data-length="5" data-min-length="2" required>
-                        <span class="helper-text" data-error="wrong" data-success="right">5자 이하로 입력해주세요.</span>
+                        <input id="user-name" class="input_counter custom-validate" type="text" name="name" data-length="5" data-regex="^[가-힣]*$" data-min-length="2" required>
+                        <span class="helper-text" data-error="wrong" data-success="right">5자 이하</span>
                     </div>
-                    <div class="input-title col s12 l2">
+                    <div class="input-title col s12 l3">
+                        <label>*필수값</label>
                         핸드폰번호
                     </div>
-                    <div class="col s12 l10">
+                    <div class="col s12 l9">
                         <div class="row">
-                            <div class="input-field col s3 l2">
-                                <input name="phoneNumber_1" class="validate" type="text"
+                            <div class="input-field col s3 l3">
+                                <input name="phoneNumber_1" class="custom-validate" type="text"
                                        data-length="3" data-regex="^01(?:0|1|[6-9])$" required>
                                 <span class="helper-text" data-error="wrong"
-                                      data-success="right">3자 이하로 적어주십시오</span>
+                                      data-success="right">3자 이하</span>
                             </div>
                             <div class="input-title col s1 l1">
                                 -
                             </div>
-                            <div class="input-field col s3 l2">
-                                <input name="phoneNumber_2" class="validate" type="text"
+                            <div class="input-field col s3 l3">
+                                <input name="phoneNumber_2" class="custom-validate" type="text"
                                        data-length="4" data-min-length="3" data-regex="^[0-9]*$" required>
                                 <span class="helper-text" data-error="wrong"
-                                      data-success="right" >4자 이하로 적어주십시오</span>
+                                      data-success="right" >4자 이하</span>
                             </div>
                             <div class="input-title col s1 l1">
                                 -
                             </div>
-                            <div class="input-field col s3 l2">
-                                <input name="phoneNumber_3" class="validate" type="text"
+                            <div class="input-field col s3 l3">
+                                <input name="phoneNumber_3" class="custom-validate" type="text"
                                        data-length="4" data-min-length="4" data-regex="^[0-9]*$" required>
                                 <span class="helper-text" data-error="wrong"
-                                      data-success="right" >4자 이하로 적어주십시오</span>
+                                      data-success="right" >4자 이하</span>
                             </div>
                         </div>
                     </div>
@@ -90,4 +94,18 @@
 </div>
 </body>
 {{> loginFooter}}
+<script type="module">
+    import {CustomInputValidator} from '/js/override.js'
+    document.addEventListener('DOMContentLoaded', () => {
+        const counter = $All('.input_counter');
+        const elems = $All('.sidenav');
+        const instances = M.Sidenav.init(elems, {});
+        M.CharacterCounter.init(counter);
+        const submitBtn = $('#submitBtn');
+
+        submitBtn.addEventListener('click', kakaoSignUp);
+        const inputValidator = new CustomInputValidator();
+
+    });
+</script>
 </html>

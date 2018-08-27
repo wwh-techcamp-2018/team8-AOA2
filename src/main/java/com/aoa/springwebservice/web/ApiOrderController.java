@@ -3,6 +3,7 @@ package com.aoa.springwebservice.web;
 import com.aoa.springwebservice.RestResponse;
 
 import com.aoa.springwebservice.domain.Order;
+import com.aoa.springwebservice.dto.ExtendableDTO;
 import com.aoa.springwebservice.dto.OrderFormDTO;
 import com.aoa.springwebservice.service.OrderService;
 import com.aoa.springwebservice.service.ReservationService;
@@ -13,6 +14,11 @@ import com.aoa.springwebservice.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -29,10 +35,17 @@ public class ApiOrderController {
     private OrderService orderService;
 
     @PostMapping("/stores/{storeId}/orders")
-    public void makePayment(@PathVariable long storeId, @RequestBody OrderFormDTO orderFormDTO) {
+    public Object makePayment(@PathVariable long storeId, @RequestBody OrderFormDTO orderFormDTO) {
         Order order = orderFormDTO.toDomain(storeService.getStoreById(storeId));
         //todo : parameter 3개...refactor 필요
-        orderService.createOrder(reservationService.getTodayReservations(storeId), orderFormDTO, order);
+        order = orderService.createOrder(reservationService.getTodayReservations(storeId), orderFormDTO, order);
+        //todo refactor - dto? or domain
+        ExtendableDTO dto = new ExtendableDTO();
+        dto.add("name", order.getCustomer().getName());
+        dto.add("phoneNumber", order.getCustomer().getPhoneNumber());
+        dto.add("pickupTime", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(order.getPickupTime()));
+        dto.add("orderTotalPrice", order.getOrderTotalPrice());
+        return dto;
     }
 
     @PostMapping("/orders/{orderId}")
@@ -40,11 +53,5 @@ public class ApiOrderController {
         log.debug("pickedupStatus : {}", order);
         return orderService.updateIsPickedupStatus(orderId, order);
     }
-
-    @PostMapping("/temp")
-    public RestResponse<RestResponse.RedirectData> tempCreateOrder(@RequestBody OrderFormDTO orderFormDTO){
-        log.debug("orderFormDTO {}", orderFormDTO);
-        return RestResponse.ofRedirectResponse("/orders/1/result","OK");
-    }
-
+  
 }

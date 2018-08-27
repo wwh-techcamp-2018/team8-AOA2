@@ -181,3 +181,30 @@ function reduce() {
 
     $('#sidebar').focus();
 }
+
+const appendHtmlFromData = (dataArr, templateFunc, parentElement, btnName) => {
+    const html = dataArr.reduce((accum, cur) => {
+        cur.btnName = btnName;
+        return accum + templateFunc(cur);
+    }, '');
+    parentElement.insertAdjacentHTML('beforeend', html);
+};
+
+const appendHtmlFromDataArr = (dataArr, templateFunc, parentElement) => {
+    const html = dataArr.reduce((accum, cur) => {
+        return accum + templateFunc(cur);
+    }, '');
+    parentElement.insertAdjacentHTML('beforeend', html);
+};
+
+const sleep = ms => new Promise(res => setTimeout(res, ms));
+
+const formatPhoneNumber = phoneNumberString => {
+    const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+    let regexPhoneNumber = /^(\d{3})(\d{3})(\d{4})$/;
+    if (cleaned.length == 11) {
+        regexPhoneNumber = /^(\d{3})(\d{4})(\d{4})$/;
+    }
+    var match = cleaned.match(regexPhoneNumber);
+    return (!match) ? null : '' + match[1] + '-' + match[2] + '-' + match[3];
+};
