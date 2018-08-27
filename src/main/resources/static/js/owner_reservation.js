@@ -8,7 +8,8 @@ class OpenReservation {
     }
     registEvent(){
         this.wrapper.addEventListener('click', ((event) => {
-            if (event.target.classList.contains('btn')) {
+
+            if (hasClass(event.target, 'btn')) {
                 this.deleteReservation(event.target);
             }
         }).bind(this));
@@ -126,13 +127,11 @@ class Menu {
     registerEvent() {
         this.wrapper.addEventListener('click', this.handleClickEvent.bind(this));
     };
-
     async getAllMenus(){
         const menuData = await fetchAsync({
             url: '/api/stores/' + this.storeId + '/menus',
             method: 'GET'
         });
-
         this.renderMenus(menuData);
         this.addData(menuData);
     };
@@ -161,7 +160,7 @@ class Menu {
                             </div>
                             <div class="col s12 description-text grey-text">
                                 ${description}
-                            </div>
+                            </div>x
                             <div class="col s8 l9 price-box">
                                 <span class="price">${stringPrice}</span>
                                 <span class="won">원</span>
@@ -174,7 +173,6 @@ class Menu {
 }
 
 class MenuInModal extends Menu{
-
     renderMenus(menuData){
         if (menuData.length === 0) {
             this.wrapper.insertAdjacentHTML('beforeend', this.nonMenu());
@@ -223,7 +221,7 @@ class MenuInForm extends Menu {
         appendHtmlFromData(menuData, this.variableHtmlTemplate.bind(this), this.wrapper, '삭제하기');
     };
     handleClickEvent(event) {
-        if(event.target.classList.contains("btn")) {
+        if(hasClass(event.target, 'btn')) {
             this.deleteMenu(event.target.closest(".collection-item"));
         }
     };

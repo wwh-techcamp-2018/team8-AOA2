@@ -40,24 +40,35 @@ public class PageController {
     public String show(@LoginUser User loginUser) {
         if (storeService.hasStore(loginUser))
             return "redirect:/result/success";
-
         return "/admin/store/fail";
     }
 
     @GetMapping("/owner/stores/form")
-    public String registStore(@LoginUser User loginUser) {
+    public String registStore(@LoginUser User loginUser, Model model) {
         if(storeService.hasStore(loginUser)) {
             return "/alreadyRegisted";
         }
+        model.addAttribute("navTitle", "가게정보 등록");
         return "/registStore";
+    }
+
+    @GetMapping("/owner/menus/form")
+    public String registMenu(@LoginUser User loginUser, Model model) {
+        if(!storeService.hasStore(loginUser)) {
+            return "/fail";
+        }
+        model.addAttribute("navTitle", "메뉴 등록");
+        return "/registMenu";
     }
 
     @GetMapping("/owner/reservations/form")
     public String openReservation(Model model, @LoginUser User loginUser) {
         //todo store 존재 확인, store isOpen 확인 --> 중복 로직 처리 어떻게?
         log.debug("store check {} ", storeService.getStoreByUser(loginUser));
+
         log.debug("dto check {}",  storeService.createStoreDetailInfoDTO(storeService.getStoreByUser(loginUser)));
         model.addAttribute("store", storeService.createStoreDetailInfoDTO(storeService.getStoreByUser(loginUser)));
+        model.addAttribute("navTitle", "예약 등록");
 
         return "/openReservation";
     }
@@ -66,6 +77,7 @@ public class PageController {
     public String showReservations(@RequestParam final String condition, @LoginUser User loginUser, Model model) {
         List<Reservation> reservations = reservationService.getReservationsByCondition(condition, storeService.getStoreByUser(loginUser));
         model.addAttribute("reservations", reservations);
+        model.addAttribute("navTitle", "예약 조회");
         return "/displayReservation";
     }
 
@@ -99,6 +111,7 @@ public class PageController {
     @GetMapping("/owner/menus")
     public String showMenus(@LoginUser User user,  Model model) {
         model.addAttribute("store", storeService.getStoreByUser(user));
+        model.addAttribute("navTitle", "메뉴 조회");
         return "displayMenu";
     }
 }

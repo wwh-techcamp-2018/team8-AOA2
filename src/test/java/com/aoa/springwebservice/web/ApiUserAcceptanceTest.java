@@ -21,22 +21,17 @@ public class ApiUserAcceptanceTest extends AcceptanceTest {
     @Autowired
     private UserService userService;
 
-    @Before
-    public void setUp() throws Exception {
-        UserInputDTO userDTO = UserInputDTO.builder().uuid("903645764").email("brenden0730@gmail.com").name("홍준호").phoneNumber_1("010").phoneNumber_2("1111").phoneNumber_3("1111").build();
-        userService.create(userDTO);
-    }
-
     @Test
     public void login_성공() {
-        ResponseEntity<Void> response = template().postForEntity("/api/users/login", defaultUser(), Void.class);
+        ResponseEntity<Void> response = template().postForEntity("/api/users/signin", defaultUser(), Void.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
     public void login_실패() {
         User user = new User("failed_password", "fail", "fail@fail.com", "010-1111-1111");
-        ResponseEntity<Void> response = template().postForEntity("/api/users/login", user, Void.class);
+        ResponseEntity<Void> response = template().postForEntity("/api/users/signin", user, Void.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
     }
+
 }

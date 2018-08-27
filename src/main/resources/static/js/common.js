@@ -199,12 +199,12 @@ const appendHtmlFromDataArr = (dataArr, templateFunc, parentElement) => {
 
 const sleep = ms => new Promise(res => setTimeout(res, ms));
 
-function formatPhoneNumber(phoneNumberString) {
-    const cleaned = ("" + phoneNumberString).replace(/\D/g, '');
+const formatPhoneNumber = phoneNumberString => {
+    const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
     let regexPhoneNumber = /^(\d{3})(\d{3})(\d{4})$/;
-    if(cleaned.length == 11){
+    if (cleaned.length == 11) {
         regexPhoneNumber = /^(\d{3})(\d{4})(\d{4})$/;
     }
     var match = cleaned.match(regexPhoneNumber);
-    return (!match) ? null :  "" + match[1] + "-" + match[2] + "-" + match[3];
-}
+    return (!match) ? null : '' + match[1] + '-' + match[2] + '-' + match[3];
+};

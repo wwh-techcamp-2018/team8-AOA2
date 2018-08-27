@@ -36,15 +36,14 @@ public class ReservationService {
     private static final String SELECTOR_POST_FIX = "Reservation";
 
     @Transactional
-    public void createReservation(ReservationFormDTO reservationFormDTO, long storeId){
+    public Iterable<Reservation> createReservation(ReservationFormDTO reservationFormDTO, long storeId){
         Store store = storeRepository.findById(storeId).get();
         LocalDateTime timeToClose = reservationFormDTO.generateTimeToClose();
         List<Reservation> reservations = reservationFormDTO.generateReservations(store);
 
         store.activate(timeToClose);
         reservations.forEach(reservation -> reservation.regist());
-
-        reservationRepository.saveAll(reservations);
+        return reservationRepository.saveAll(reservations);
     }
 
     public Map<Long, Reservation> getTodayReservations(long storeId) {

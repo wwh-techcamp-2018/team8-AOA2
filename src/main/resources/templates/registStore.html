@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>가게등록</title>
 </head>
 
 {{> link}}
@@ -19,10 +19,11 @@
                 <ul>
                     <li>
                         <div class="input-title col s12 l2">
+                            <label>*필수값</label>
                             업체명
                         </div>
                         <div class="input-field col s12 l10">
-                            <input class="input_counter validate" type="text" id="input_store" name="storeName" type="text"
+                            <input class="input_counter custom-validate" type="text" id="input_store" name="storeName" type="text"
                                    data-length="20" data-regex="^[가-힣]*$" required>
                             <span class="helper-text" data-error="wrong" data-success="right">20자 이하로 적어주십시오</span>
                             <label for="input_store">업체명</label>
@@ -30,10 +31,11 @@
                     </li>
                     <li>
                         <div class="input-title col s12 l2">
+                            <label>*필수값</label>
                             서비스명
                         </div>
                         <div class="input-field col s12 l10 ">
-                            <input class="input_counter validate"  type="text" required id="input_service" name="serviceDescription"
+                            <input class="input_counter custom-validate"  type="text" required id="input_service" name="serviceDescription"
                                    type="text" data-length="30" required>
                             <span class="helper-text" data-error="wrong" data-success="right">30자 이하로 적어주십시오</span>
                             <label for="input_service">서비스명</label>
@@ -41,17 +43,19 @@
                     </li>
                     <li>
                         <div class="input-title col s12 l2 ">
+                            <label>*필수값</label>
                             대표자명
                         </div>
                         <div class="input-field col s12 l10">
-                            <input class="input_counter validate" id="input_owner" name="ownerName" type="text"
-                                   data-length="5" data-min-length="2" required>
+                            <input class="input_counter custom-validate" id="input_owner" name="ownerName" type="text"
+                                   data-length="5" data-min-length="2" data-regex="^[가-힣]*$" required>
                             <span class="helper-text" data-error="wrong" data-success="right">5자 이하로 적어주십시오</span>
                             <label for="input_owner">대표자명</label>
                         </div>
                     </li>
                     <li>
                         <div class="input-title col s12 l2">
+                            <label>*필수값</label>
                             대표이미지
                         </div>
                         <div class="input-field col s12  l10">
@@ -74,10 +78,11 @@
                     </li>
                     <li>
                         <div class="input-title col s12 l2">
+                            <label>*필수값</label>
                             주소
                         </div>
                         <div class="input-field col s5 l3 ">
-                            <input id="input_address_postcode" name="postCode" class="validate" type="text" placeholder="우편번호"
+                            <input id="input_address_postcode" name="postCode" class="custom-validate" type="text" placeholder="우편번호"
                                    readonly="readonly" required>
                         </div>
                         <div class="input-field col s4 l3">
@@ -85,24 +90,25 @@
                                 찾기</a>
                         </div>
                         <div class="input-field-nonmsg col s12 l10 offset-l2">
-                            <input id="input_address_main" name="address" class="validate" name="address" type="text"
+                            <input id="input_address_main" name="address" class="custom-validate" name="address" type="text"
                                    placeholder="도로명주소" readonly="readonly" data-length="50" required>
                         </div>
                         <div class="input-field col s12 l10 offset-l2">
-                            <input class="input_counter validate" id="input_address_sub" name="addressDetail" type="text"
+                            <input class="input_counter custom-validate" id="input_address_sub" name="addressDetail" type="text"
                                    data-length="20">
                             <label for="input_address_sub">상세주소</label>
-                            <span class="helper-text" data-error="wrong" data-success="right" 10자 이하로 적어주십시오</span>
+                            <span class="helper-text" data-error="wrong" data-success="right"> 10자 이하로 적어주십시오</span>
                         </div>
                     </li>
                     <li>
                         <div class="input-title col s12 l2">
+                            <label>*필수값</label>
                             핸드폰번호
                         </div>
                         <div class="col s12 l10">
                             <div class="row">
                                 <div class="input-field col s3 l2">
-                                    <input name="phoneNumber_1" class="validate" type="text"
+                                    <input name="phoneNumber_1" class="custom-validate" type="text"
                                            data-length="3" data-regex="^01(?:0|1|[6-9])$" required>
                                     <span class="helper-text" data-error="wrong"
                                           data-success="right">3자 이하로 적어주십시오</span>
@@ -111,7 +117,7 @@
                                     -
                                 </div>
                                 <div class="input-field col s3 l2">
-                                    <input name="phoneNumber_2" class="validate" type="text"
+                                    <input name="phoneNumber_2" class="custom-validate" type="text"
                                            data-length="4" data-min-length="3" data-regex="^[0-9]*$" required>
                                     <span class="helper-text" data-error="wrong"
                                           data-success="right" >4자 이하로 적어주십시오</span>
@@ -120,7 +126,7 @@
                                     -
                                 </div>
                                 <div class="input-field col s3 l2">
-                                    <input name="phoneNumber_3" class="validate" type="text"
+                                    <input name="phoneNumber_3" class="custom-validate" type="text"
                                            data-length="4" data-min-length="4" data-regex="^[0-9]*$" required>
                                     <span class="helper-text" data-error="wrong"
                                           data-success="right" >4자 이하로 적어주십시오</span>
@@ -134,7 +140,7 @@
                         </div>
                         <div class="input-field col s12 l10">
                             <textarea id="input_description" name="description"
-                                      class="materialize-textarea input_counter validate" data-length="300"></textarea>
+                                      class="materialize-textarea input_counter custom-validate" data-length="300"></textarea>
                             <span class="helper-text" data-error="wrong" data-success="right">300자 이하로 적어주십시오</span>
                             <label for="input_description">홍보문구</label>
                         </div>
@@ -152,20 +158,19 @@
 </main>
 </body>
 {{> footer}}
-<script>
-
-    document.addEventListener('DOMContentLoaded', function () {
-        var counter = document.querySelectorAll('.input_counter');
+<script type="module">
+    import {CustomInputValidator} from '/js/override.js';
+    document.addEventListener('DOMContentLoaded', () => {
+        const elems = $All('.sidenav');
+        const counter = $All('.input_counter');
+        const instances = M.Sidenav.init(elems, {});
+        const submitBtn = $('#submitBtn');
+        submitBtn.addEventListener('click', createStore);
         M.CharacterCounter.init(counter);
+        const inputValidator = new CustomInputValidator();
 
-        $('#submitBtn').addEventListener('click', (event) => {
-            if (!validateForm($('form')))
-                return;
-            createStore();
-
-        });
     });
-    function createStore(){
+    const createStore = () => {
         let formData = new FormData();
         serializeArray($('form')).forEach( e => formData.append(e.name, e.value));
         const fileElem = $('input[type=file]');
@@ -178,9 +183,9 @@
             // if (!file.type.match('image.*')) {
             //     return;
             // }
-            formData.append(fileElem.name, file, file.name);
+            formData.append(fileElem.name, file, 'store-' + Date.now() + '-' + file.name);
         }
-        var xhr = new XMLHttpRequest();
+        const xhr = new XMLHttpRequest();
         xhr.open('POST', '/api/stores', true);
 
         xhr.onload = function (progressEvent) {
