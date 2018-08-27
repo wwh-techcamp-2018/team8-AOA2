@@ -17,11 +17,24 @@
 </main>
 </body>
 {{> footer}}
-<script>
+<script type="module">
+    import {MenuInForm} from '/js/owner_reservation.js';
 
     document.addEventListener('DOMContentLoaded', function () {
         var counter = document.querySelectorAll('.input_counter');
         M.CharacterCounter.init(counter);
+
+        const storeId  = 1;
+        const menu = new MenuInForm(storeId, $('#menu-collection'),
+            {
+                callbackOnInit: () => {
+                    if ($('.loading-wrapper'))
+                        $('.loading-wrapper').remove();
+                }
+            }
+        );
+        menu.registerEvent();
+        menu.getAllMenus();
 
     });
 
@@ -49,27 +62,5 @@
         xhr.send(formData);
     }
 
-    // invalid (length)
-    //
-    // const validateForm = (formEl) => {
-    //     if (!formEl)
-    //         return false;
-    //     var res = true;
-    //     const requiredInputs = Array.from($All(':required', formEl));
-    //
-    //     requiredInputs.forEach(e => {
-    //         if (e.value.isEmpty()) {
-    //             addClass(e, 'invalid');
-    //         }
-    //     });
-    //
-    //     if ($('.invalid', formEl)) {
-    //         $('.invalid', formEl).focus();
-    //         return false;
-    //     }
-    //     return true;
-    //
-    // };
 </script>
-<script src="/js/menu.js"></script>
 </html>
