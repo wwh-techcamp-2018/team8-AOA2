@@ -37,16 +37,7 @@ const getInfo = (authObj) => {
     });
 };
 
-document.addEventListener('DOMContentLoaded', function () {
-    var counter = document.querySelectorAll('.input_counter');
-    M.CharacterCounter.init(counter);
 
-    $('#submitBtn').addEventListener('click', (event) => {
-        kakaoSignUp();
-        modal.close();
-    });
-
-});
 
 function kakaoSignUp () {
     const form = $('form');
@@ -69,6 +60,7 @@ function kakaoSignUp () {
                     method: 'POST',
                     body: formData,
                 });
+                modal.close();
                 document.location = response.data.url;
             })();
         }
