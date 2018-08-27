@@ -1,9 +1,10 @@
 class OrderItem {
 
-    constructor(storeId, wrapper, callback = {callbackBeforeProcessOrder : null, callbackOnSubmitOrder : null}){
+    constructor(storeId, el = {wrapper: null, userInfoForm: null}, callback = {callbackBeforeProcessOrder : null, callbackOnSubmitOrder : null}){
         this.storeId = storeId;
         this.orderBtn = $('#orderBtn');
-        this.wrapper = wrapper;
+        this.wrapper = el.wrapper;
+        this.userInfoForm = el.userInfoForm;
         this.callback = callback;
         this.orderItems = {};
 
@@ -44,8 +45,13 @@ class OrderItem {
         if(stopMove)
             this.submitOrder();
     };
-
+    validated(){
+        debugger;
+        return ( validateForm(this.userInfoForm) && !isEmpty(this.orderItems) );
+    };
     async submitOrder(){
+        if(!this.validated())
+            return;
         const result = await fetchAsync({
             url: "/api/stores/"+this.storeId+"/orders",
             method: "post",

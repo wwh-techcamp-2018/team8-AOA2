@@ -49,7 +49,7 @@
                     <ul>
                         <li>
                             <div class="input-title col s12 l2 ">
-                                이름
+                                <label>*필수값</label>이름
                             </div>
                             <div class="input-field col s12 l10">
                                 <input class="input_counter custom-validate" id="input_owner" name="name" type="text"
@@ -60,7 +60,7 @@
                         </li>
                         <li>
                             <div class="input-title col s12 l2">
-                                핸드폰번호
+                                <label>*필수값</label>핸드폰번호
                             </div>
                             <div class="col s12 l10">
                                 <div class="row">
@@ -159,8 +159,9 @@
                                 <div class="col s4 ">
                                     <input name="pickupTime" type="text" name="timeToClose" class="flat-timepicker"
                                            placeholder="{{timeToClose}}"
-                                           data-default-value="{{defaultTime}}" data-max-date="{{timeToClose}}"
-                                           data-hour="{{hourToClose}}" data-minute="{{minuteToClose}}">
+                                           data-default-value="{{defaultTime}}"
+                                           data-min-date="{{defaultTime}}" data-max-date="{{store.timeToClose}}"
+                                           data-hour="{{store.hourToClose}}" data-minute="{{store.minuteToClose}}">
                                 </div>
                                 <div class="col s1"></div>
                             </div>
@@ -299,7 +300,11 @@
 
         await reservations.getOpenReservations();
 
-        const orderItems = new OrderItem(storeId, $('#order-list'),
+        const orderItems = new OrderItem(storeId,
+            {
+                wrapper : $('#order-list'),
+                userInfoForm : $('#payment')
+             },
             {
                 callbackBeforeProcessOrder: () => {
                     if (tabInstances.$content[0].id === 'payment')
@@ -337,6 +342,7 @@
         //todo duplicated -- 중복 제거, 모듈로 분리
         const defaultTime = $('.flat-timepicker').getAttribute('data-default-value');
         const maxTime = $('.flat-timepicker').getAttribute('data-max-date');
+        const minTime = $('.flat-timepicker').getAttribute('data-min-date');
         flatpickr('.flat-timepicker',
             {
                 enableTime: true,
@@ -346,6 +352,7 @@
                 defaultDate: defaultTime,
                 minuteIncrement: '30',
                 maxDate: maxTime,
+                minDate: minTime,
                 disableMobile: 'true',
             });
 
