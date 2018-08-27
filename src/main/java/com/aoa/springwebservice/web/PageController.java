@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.persistence.EntityExistsException;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -34,7 +35,8 @@ public class PageController {
     ReservationService reservationService;
 
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
+
 
     @GetMapping("/admin")
     public String show(@LoginUser User loginUser) {
@@ -113,5 +115,18 @@ public class PageController {
         model.addAttribute("store", storeService.getStoreByUser(user));
         model.addAttribute("navTitle", "메뉴 조회");
         return "displayMenu";
+    }
+
+    @GetMapping("/owner/orders")
+    public String openOrders(Model model, @LoginUser User loginUser) {
+        Store store = storeService.getStoreByUser(loginUser);
+        log.debug("store check {} ", store);
+        LocalDate lastDay = reservationService.getLastDay(storeService.getStoreByUser(loginUser));
+        log.debug("last day : {}", lastDay);
+        log.debug("orders : {}", orderService.selectOrders(store, lastDay.atTime(0,0,0)));
+
+        model.addAttribute("lastDay", lastDay);
+        model.addAttribute("orders", orderService.selectOrders(store, lastDay.atTime(0,0,0)));
+        return "/showOrders";
     }
 }

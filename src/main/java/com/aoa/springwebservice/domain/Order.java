@@ -1,19 +1,29 @@
 package com.aoa.springwebservice.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.*;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @ToString
 @Table(name = "order_table")
@@ -39,8 +49,8 @@ public class Order {
     private LocalDateTime pickupTime;
 
     private int orderTotalPrice;
-
-    private boolean isPickedup;
+  
+    private Boolean isPickedup;
 
     //Todo :: OrderBy
     @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
@@ -61,6 +71,13 @@ public class Order {
     public void addOrderItem(OrderItem orderItem) {
         this.orderItems.add(orderItem);
         this.orderTotalPrice += orderItem.getItemTotalPrice();
+    }
+
+    public void setIsPickedupByOrder(Order inputOrder) {
+        if(inputOrder.isPickedup)
+            this.isPickedup = false;
+        else
+            this.isPickedup = true;
     }
 
 }

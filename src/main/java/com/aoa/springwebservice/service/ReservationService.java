@@ -59,4 +59,12 @@ public class ReservationService {
         ReservationSelector selector = (ReservationSelector)beanFactory.getBean(condition + SELECTOR_POST_FIX);
         return selector.select(store);
     }
+
+    public LocalDate getLastDay(Store store) {
+        //todo : pageController에서 전날 데이터 없을 때 exception 처리해야된다.
+        return reservationRepository
+                .findFirstByStoreAndOpenDateBeforeOrderByOpenDateDesc(store, LocalDate.now())
+                .get()
+                .getOpenDate();
+    }
 }
