@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>가게등록</title>
 </head>
 
 {{> link}}
@@ -183,7 +183,7 @@
             // if (!file.type.match('image.*')) {
             //     return;
             // }
-            formData.append(fileElem.name, file, file.name);
+            formData.append(fileElem.name, file, 'store-' + Date.now() + '-' + file.name);
         }
         const xhr = new XMLHttpRequest();
         xhr.open('POST', '/api/stores', true);

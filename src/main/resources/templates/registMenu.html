@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>메뉴등록</title>
 </head>
 
 {{> link}}
@@ -99,8 +99,7 @@
             return;
         }
         console.log(file);
-        file.name = Date.now() + '-' + file.name;
-        formData.append('file', file, Date.now() + '-' + file.name);
+        formData.append('file', file, 'menu-' + Date.now() + '-' + file.name);
 
         formData.append('name', nameElem.value);
         formData.append('price', priceElem.value);
@@ -132,5 +131,4 @@
     });
 
 </script>
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 </html>
