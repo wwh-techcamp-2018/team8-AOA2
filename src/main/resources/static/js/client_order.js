@@ -90,8 +90,6 @@ class OrderItem {
        return amount <= maxLimit;
     }
     insertOrderItem(reservationItem){
-
-
         this.wrapper.insertAdjacentHTML('beforeend', this.orderItemHTML(reservationItem));
         this.updateTotalPrice();
         this.toggleOrderBtn();

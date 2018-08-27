@@ -275,20 +275,6 @@
         var html = document.querySelector('#order-result-card').innerHTML;
         return html.replace('{title}', title)
             .replace('{content}', content);
-
-        // return `<div class="col s6 offset-s3">
-        //             <div class="card">
-        //
-        //                 <div class="card-image">
-        //                     <img src="images/sample-1.jpg">
-        //                     <span class="card-title"> ${title}</span>
-        //                 </div>
-        //                 <div class="card-content">
-        //                     ${content}
-        //                 </div>
-        //
-        //             </div>
-        //         </div>`;
     }
 
 
@@ -296,6 +282,9 @@
 
         const tabInstances = M.Tabs.init($('.tabs'), null);
         const lastTabLi = tabInstances.$tabLinks[tabInstances.$tabLinks.length - 1].closest('.tab');
+
+        const validator = new CustomInputValidator();
+
         const storeId = $('input[name=storeId]').value;
 
         const reservations = new Reservation(storeId, $('#reservation-collection'),
@@ -339,6 +328,7 @@
             addClass($('.loading-wrapper'), 'off');
         }
         tabInstances.select('order');
+
 
         const now = formatDate(new Date());
         $('#today').innerHTML = now;
