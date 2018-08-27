@@ -48,6 +48,14 @@ public class PageController {
         return "/registStore";
     }
 
+    @GetMapping("/owner/menus/form")
+    public String registMenu(@LoginUser User loginUser) {
+        if(!storeService.hasStore(loginUser)) {
+            return "/fail";
+        }
+        return "/registMenu";
+    }
+
     @GetMapping("/owner/reservations/form")
     public String openReservation(Model model, @LoginUser User loginUser) {
         //todo store 존재 확인, store isOpen 확인 --> 중복 로직 처리 어떻게?
