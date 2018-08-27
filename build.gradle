@@ -32,6 +32,7 @@ dependencies {
     compile('pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.0')
     compile('org.springframework.security:spring-security-core:5.0.6.RELEASE')
     compile('org.hibernate:hibernate-java8')
+    compile('mysql:mysql-connector-java')
     compile group: 'org.projectlombok', name: 'lombok'
     runtime('com.h2database:h2')
     runtime('net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1')
