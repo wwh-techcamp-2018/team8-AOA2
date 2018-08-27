@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 @Slf4j
 @Service
@@ -28,4 +29,7 @@ public class OrderService {
         return orderRepositroy.save(order);
     }
 
+    public Iterable<Order> selectOrders(Store store, LocalDateTime lastDay) {
+        return orderRepositroy.findByStoreAndPickupTimeAfterOrderByPickupTime(store, lastDay);
+    }
 }
