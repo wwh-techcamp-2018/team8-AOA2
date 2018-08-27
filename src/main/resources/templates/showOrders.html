@@ -19,26 +19,37 @@
         <div id="show-order-collections">
             {{#orders}}
             <div class="card order-collection">
-                <div class="card-reveal">
-                    <span class="card-title grey-text text-darken-4">주문목록<i
-                            class="material-icons right">close</i></span>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Menu Name</th>
-                            <th>Item Count</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {{#orderItems}}
-                        <tr>
-                            <td>{{reservation.menu.name}}</td>
-                            <td>{{itemCount}}</td>
-                        </tr>
-                        {{/orderItems}}
-                        </tbody>
-                    </table>
+                {{#if isPickedup}}
+                <input type="hidden" name="isPickedup" value="true"/>
+                <div class="black-wrapper">
+                    <span class="card-title activator white-text">수령완료</span>
+                    <p>
+                        <button class="btn return-btn waves-effect waves-light" type="button" style="min-width: 100px;">
+                            되돌리기
+                        </button>
+                    </p>
                 </div>
+                <div class="card-content off" data-id="{{id}}">
+                    <span class="card-title activator grey-text text-darken-4">{{customer.name}}<i
+                            class="material-icons right">more_vert</i></span>
+                    <div class="col s9">
+                        <div class="col s12 description-text grey-text">
+                            <label>전화번호 : </label>
+                            {{customer.phoneNumber}}
+                        </div>
+                        <div class="col s12 description-text grey-text">
+                            <label>테이크아웃 시간 : </label>
+                            {{pickupTime}}
+                        </div>
+                    </div>
+                    <p>
+                        <button class="btn accept-btn waves-effect waves-light" type="button" style="min-width: 100px;">
+                            수령하기
+                        </button>
+                    </p>
+                </div>
+                {{else}}
+                <input type="hidden" name="isPickedup" value="false"/>
                 <div class="black-wrapper off">
                     <span class="card-title activator white-text">수령완료</span>
                     <p>
@@ -60,16 +71,32 @@
                             {{pickupTime}}
                         </div>
                     </div>
-                    {{#if isPickedup}}
-                    <input type="hidden" name="isPickedup" value="true"/>
-                    {{else}}
-                    <input type="hidden" name="isPickedup" value="false"/>
-                    {{/if}}
                     <p>
                         <button class="btn accept-btn waves-effect waves-light" type="button" style="min-width: 100px;">
                             수령하기
                         </button>
                     </p>
+                </div>
+                {{/if}}
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">주문목록<i
+                            class="material-icons right">close</i></span>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Menu Name</th>
+                            <th>Item Count</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#orderItems}}
+                        <tr>
+                            <td>{{reservation.menu.name}}</td>
+                            <td>{{itemCount}}</td>
+                        </tr>
+                        {{/orderItems}}
+                        </tbody>
+                    </table>
                 </div>
             </div>
             {{/orders}}

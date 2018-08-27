@@ -17,7 +17,7 @@ insert into reservation (available_count, max_count, personal_max_count, open_da
 insert into reservation (available_count, max_count, personal_max_count, open_date, menu_id, store_id) values (3, 3, 3, '2018-08-26', 2, 1);
 
 insert into order_table (CREATED_DATE, NAME, PHONE_NUMBER, IS_PICKEDUP, ORDER_TOTAL_PRICE, PICKUP_TIME, STORE_ID) values ('2018-08-26', '홍준호', '010-1111-1111', false, 2000,'2018-08-27 11:00:00+03', 1);
-insert into order_table (CREATED_DATE, NAME, PHONE_NUMBER, IS_PICKEDUP, ORDER_TOTAL_PRICE, PICKUP_TIME, STORE_ID) values ('2018-08-26', '이성근', '010-2222-2222', false, 2000,'2018-08-27 15:00:00+03', 1);
+insert into order_table (CREATED_DATE, NAME, PHONE_NUMBER, IS_PICKEDUP, ORDER_TOTAL_PRICE, PICKUP_TIME, STORE_ID) values ('2018-08-26', '이성근', '010-2222-2222', true, 2000,'2018-08-27 15:00:00+03', 1);
 
 insert into order_item (ITEM_COUNT, ITEM_TOTAL_PRICE, ORDER_ID, RESERVATION_ID) values (1, 1000, 1, 1);
 insert into order_item (ITEM_COUNT, ITEM_TOTAL_PRICE, ORDER_ID, RESERVATION_ID) values (1, 1000, 1, 2);
