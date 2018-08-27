@@ -1,6 +1,7 @@
 package com.aoa.springwebservice.domain;
 
 import com.aoa.springwebservice.dto.MenuOutputDTO;
+import com.aoa.springwebservice.exception.InvalidStateOnStore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -165,4 +166,10 @@ public class Store{
         return this.menus.stream().filter(Menu::isLastUsed).collect(Collectors.toList());
     }
 
+    public void updateLastUsedMenu(Menu menu, MaxCount maxCount) {
+        if(!this.isOpen)
+            throw new InvalidStateOnStore("Cannot update menu status on closed store");
+        this.menus.stream().filter(x -> x.equals(menu)).findAny().orElseThrow( () -> new InvalidStateOnStore("Cannot find menu on store"))
+                .setUpLastUsedStatus(maxCount);
+    }
 }

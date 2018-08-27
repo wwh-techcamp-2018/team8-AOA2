@@ -53,7 +53,7 @@ public class Reservation implements Serializable {
     }
 
     public void regist() {
-        menu.setUpLastUsedStatus(maxCount);
+        this.store.updateLastUsedMenu(menu, maxCount);
     }
 
     public void orderMenu(int count) {

@@ -40,8 +40,9 @@ public class ReservationService {
         Store store = storeRepository.findById(storeId).get();
         LocalDateTime timeToClose = reservationFormDTO.generateTimeToClose();
         List<Reservation> reservations = reservationFormDTO.generateReservations(store);
-        reservations.forEach(reservation -> reservation.regist());
+
         store.activate(timeToClose);
+        reservations.forEach(reservation -> reservation.regist());
         return reservationRepository.saveAll(reservations);
     }
 

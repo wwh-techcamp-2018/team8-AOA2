@@ -1,5 +1,6 @@
 package com.aoa.springwebservice.dto;
 
+import com.aoa.springwebservice.converter.NumberConverter;
 import com.aoa.springwebservice.domain.Store;
 import lombok.*;
 
@@ -27,11 +28,13 @@ public class StoreOutputDTO {
     //todo phoneNumber 필요시, 1,2,3으로 쪼개기
     private String phoneNumber;
 
+    private String phoneNumber_1, phoneNumber_2, phoneNumber_3;
+
     private String description;
 
     private String imgURL;
 
-    private long storeId;
+    private long id;
 
     private String timeToClose;
 
@@ -47,17 +50,16 @@ public class StoreOutputDTO {
         this.postCode = postCode;
         this.address = address;
         this.addressDetail = addressDetail;
-        this.phoneNumber = phoneNumber;
+        this.phoneNumber = NumberConverter.formatPhoneNumber(phoneNumber);
         this.description = description;
         this.imgURL = imgURL;
-        this.storeId = storeId;
+        this.id = storeId;
         this.timeToClose = timeToClose.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"));
 
         this.hourToClose =  timeToClose.toLocalTime().format(DateTimeFormatter.ofPattern("HH"));
         this.minuteToClose = timeToClose.toLocalTime().format(DateTimeFormatter.ofPattern("mm"));
     }
-
-    public static StoreOutputDTO createStoreDetailDTO(@NotNull Store store) {
+    public static StoreOutputDTO createStoreDetailInfoDTO(@NotNull Store store) {
         return  StoreOutputDTO.builder()
                 .storeName(store.getStoreName())
                 .serviceDescription(store.getServiceDescription())
@@ -68,13 +70,6 @@ public class StoreOutputDTO {
                 .phoneNumber(store.getPhoneNumber())
                 .description(store.getDescription())
                 .imgURL(store.getImgURL())
-                .storeId(store.getId())
-                .build();
-    }
-
-    public static StoreOutputDTO createStoreOpenInfoDTO(@NotNull Store store) {
-        return  StoreOutputDTO.builder()
-                .storeName(store.getStoreName())
                 .storeId(store.getId())
                 .timeToClose(
                         Optional.ofNullable(store.getTimeToClose())

@@ -8,6 +8,7 @@ class OpenReservation {
     }
     registEvent(){
         this.wrapper.addEventListener('click', ((event) => {
+
             if (hasClass(event.target, 'btn')) {
                 this.deleteReservation(event.target);
             }
@@ -126,13 +127,11 @@ class Menu {
     registerEvent() {
         this.wrapper.addEventListener('click', this.handleClickEvent.bind(this));
     };
-
     async getAllMenus(){
         const menuData = await fetchAsync({
             url: '/api/stores/' + this.storeId + '/menus',
             method: 'GET'
         });
-
         this.renderMenus(menuData);
         this.addData(menuData);
     };
@@ -174,7 +173,6 @@ class Menu {
 }
 
 class MenuInModal extends Menu{
-
     renderMenus(menuData){
         if (menuData.length === 0) {
             this.wrapper.insertAdjacentHTML('beforeend', this.nonMenu());
