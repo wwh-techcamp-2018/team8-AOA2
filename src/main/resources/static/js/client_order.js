@@ -5,7 +5,7 @@ class OrderItem {
         this.orderBtn = $('#orderBtn');
         this.wrapper = wrapper;
         this.callback = callback;
-        this.orderItems = [];
+        this.orderItems = {};
 
     };
     registerEvent(){
@@ -20,19 +20,19 @@ class OrderItem {
     };
     deleteOrderItem(orderItemElem){
         const reservationId = orderItemElem.getAttribute('data-id');
-        this.orderItems.splice( this.orderItems.indexOf(reservationId), 1 );
-
+        //this.orderItems.remove(reservationId);
+        delete this.orderItems[reservationId];
         orderItemElem.remove();
         $('#totalPrice').innerHTML = Number($('#totalPrice').innerHTML ) - Number($('.order-price', orderItemElem).innerHTML);
         this.toggleOrderBtn();
     };
     toggleOrderBtn(){
         const hasDisabled = this.orderBtn.hasAttribute('disabled');
-        const itemLength = this.orderItems.length;
-        if( hasDisabled && itemLength > 0){
+        const empty = isEmpty(this.orderItems); //this.orderItems.length;
+        if( hasDisabled && !empty){
             this.orderBtn.removeAttribute('disabled');
         }
-        else if(!hasDisabled && itemLength == 0){
+        else if(!hasDisabled && empty){
             this.orderBtn.setAttribute('disabled', 'disabled');
         }
     }
@@ -71,21 +71,34 @@ class OrderItem {
 
     }
     addOrderItem(reservationItem){
-        if(!this.orderItems.includes(reservationItem.id)){
-            this.insertOrderItem(reservationItem);
-            return;
+        if(!this.orderItems[reservationItem.id]
+            && this.canBuy( reservationItem.amount, reservationItem.maxLimit)){
+             this.orderItems[reservationItem.id]= { amount : reservationItem.amount, maxLimit : reservationItem.maxLimit };
+             this.insertOrderItem(reservationItem);
+             return true;
         }
-        this.updateOrderItem(reservationItem);
+        if(this.orderItems[reservationItem.id]
+            && this.canBuy( reservationItem.amount + this.orderItems[reservationItem.id].amount, reservationItem.maxLimit)){
+
+            this.orderItems[reservationItem.id]= { amount :  reservationItem.amount + this.orderItems[reservationItem.id].amount, maxLimit : reservationItem.maxLimit };
+            this.updateOrderItem(reservationItem);
+            return true;
+        }
+        return false;
+    }
+    canBuy(amount, maxLimit){
+       return amount <= maxLimit;
     }
     insertOrderItem(reservationItem){
-        this.orderItems.push(reservationItem.id);
+
 
         this.wrapper.insertAdjacentHTML('beforeend', this.orderItemHTML(reservationItem));
         this.updateTotalPrice();
         this.toggleOrderBtn();
     }
-    updateOrderItem({id, amount, menu}){
+    updateOrderItem({id, amount, menu, personalMaxCount, availableCount}){
         const orderItem = $('[data-id="'+id+'"]', this.wrapper);
+
         $('.order-amount', orderItem).innerHTML = Number( $('.order-amount', orderItem).innerHTML) + Number( amount );
         $('.order-price', orderItem).innerHTML =  Number($('.order-price', orderItem).innerHTML ) + Number( amount * menu.price);
         this.updateTotalPrice();
@@ -145,22 +158,27 @@ class Reservation {
 
             const reservationId = parent.getAttribute('data-id');
             let reservationItem = this.reservations[reservationId];
-            reservationItem.amount = $('input[name=amount]', parent).value;
+            reservationItem.amount = Number($('input[name=amount]', parent).value);
 
             if($('input[name=amount]', parent).value < 1) return;
 
-
+            let inserted = false;
             if(this.callback.callbackOnClick){
-                this.callback.callbackOnClick(reservationItem);
+                inserted = this.callback.callbackOnClick(reservationItem);
+            }
+            if(!inserted){
+             removeClass( $('.error-msg', parent), 'opacity-hidden');
+             setTimeout( () => addClass( $('.error-msg', parent), 'opacity-hidden'), 1000);
             }
         }
     };
 
 
-    menuBoxHTML({ id, menu, maxCount = 0, personalMaxCount = 0, btnName }){
+    menuBoxHTML({ id, menu, availableCount = 0, personalMaxCount = 0, btnName }){
         const menuId = menu.id;
         const { imgUrl, name, description, price } = menu;
         const stringPrice = numberToLocaleString(price);
+        const maxLimit = availableCount > personalMaxCount ? availableCount : personalMaxCount;
         return `<li class="collection-item" data-id="${id}" >
                 <input type="hidden" name="menuId" min="0" max="100" value="${menuId}"/>
                 <div class="valign-wrapper">
@@ -181,10 +199,11 @@ class Reservation {
                                     <div class='ctrl'>
                                         <div class='ctrl__button ctrl__button--decrement'>&ndash;</div>
                                         <div class='ctrl__counter'>
-                                            <input type="text" class='ctrl__counter-num browser-default' name="amount" value="1"> </input>
+                                            <input type="text" class='ctrl__counter-num browser-default' name="amount" value="1" data-max-value="${maxLimit}"> </input>
                                         </div>
                                         <div class='ctrl__button ctrl__button--increment'>+</div>
                                     </div>
+                                      <label class="error-msg opacity-hidden"> <span class="maxLimit">${maxLimit}</span>개 이상 구매 불가</label><span class="badge custom-badge"> Max <span class="maxLimit"> ${maxLimit}</span></span>
                                 </div>
                               </div>
 

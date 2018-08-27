@@ -135,3 +135,16 @@
 .tabs{
     min-height: max-content;
 }
+
+.badge.custom-badge{
+    border-radius: 0.5em;
+    background-color: #d81b60;
+    color: #FFFFFF;
+    font-size: 80%;
+}
+
+
+.opacity-hidden{
+     opacity : 0;
+     transition: opacity 100ms ease-in;
+ }

@@ -301,8 +301,9 @@
         const reservations = new Reservation(storeId, $('#reservation-collection'),
             {
                 callbackOnClick: (reservation) => {
-                    orderItems.addOrderItem(reservation);
-                    window.reduce();
+                    const inserted = orderItems.addOrderItem(reservation);
+                    if(inserted) window.reduce();
+                    return inserted;
                 },
             });// $('#order-list'));
         reservations.registerEvent();
