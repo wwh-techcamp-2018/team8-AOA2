@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("/api")
 @Slf4j
 public class ApiOrderController {
 
@@ -28,13 +28,19 @@ public class ApiOrderController {
     @Autowired
     private OrderService orderService;
 
-    @PostMapping("/stores/{storeId}")
+    @PostMapping("/stores/{storeId}/orders")
     public void makePayment(@PathVariable long storeId, @RequestBody OrderFormDTO orderFormDTO) {
         Order order = orderFormDTO.toDomain(storeService.getStoreById(storeId));
         //todo : parameter 3개...refactor 필요
         orderService.createOrder(reservationService.getTodayReservations(storeId), orderFormDTO, order);
     }
-    
+
+    @PostMapping("/orders/{orderId}")
+    public Order updateIsPickedupStatus(@PathVariable long orderId, @RequestBody Order order){
+        log.debug("pickedupStatus : {}", order);
+        return orderService.updateIsPickedupStatus(orderId, order);
+    }
+
     @PostMapping("/temp")
     public RestResponse<RestResponse.RedirectData> tempCreateOrder(@RequestBody OrderFormDTO orderFormDTO){
         log.debug("orderFormDTO {}", orderFormDTO);

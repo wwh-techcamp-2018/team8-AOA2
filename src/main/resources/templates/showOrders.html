@@ -19,23 +19,38 @@
         <div id="show-order-collections">
             {{#orders}}
             <div class="card order-collection">
-                <div class="card-content">
-                    <span class="card-title activator grey-text text-darken-4">{{customer.name}}<i class="material-icons right">more_vert</i></span>
+                <div class="black-wrapper off">
+                    <span class="card-title activator white-text">수령완료</span>
+                    <p>
+                        <button class="btn return-btn waves-effect waves-light" type="button" style="min-width: 100px;">
+                            되돌리기
+                        </button>
+                    </p>
+                </div>
+                <div class="card-content" data-id="{{id}}">
+                    <span class="card-title activator grey-text text-darken-4">{{customer.name}}<i
+                            class="material-icons right">more_vert</i></span>
                     <ul>
                         <li>{{customer.phoneNumber}}</li>
                         <li>{{pickupTime}} 방문예정</li>
                     </ul>
+                    {{#if isPickedup}}
+                    <input type="hidden" name="isPickedup" value="true"/>
+                    {{else}}
+                    <input type="hidden" name="isPickedup" value="false"/>
+                    {{/if}}
                     <p>
-                        <button class="btn waves-effect waves-light" type="button" style="min-width: 100px;">수령하기</button>
+                        <button class="btn accept-btn waves-effect waves-light" type="button" style="min-width: 100px;">
+                            수령하기
+                        </button>
                     </p>
                 </div>
                 <div class="card-reveal">
                     <span class="card-title grey-text text-darken-4">주문목록<i
                             class="material-icons right">close</i></span>
                     {{#orderItems}}
-                        {{reservation.menu.name}} // {{itemCount}}
+                    {{reservation.menu.name}} // {{itemCount}}
                     {{/orderItems}}
-
                 </div>
             </div>
             {{/orders}}
@@ -43,18 +58,43 @@
     </div>
 </main>
 </body>
-<!--<script src="/js/owner_reservation.js"></script>-->
 <script>
+    const updatePickedUpStatus = async (card_content) => {
+        const isPickedup = $('input[name=isPickedup]', card_content);
 
-document.addEventListener('DOMContentLoaded', function () {
+        const picked = await fetchAsync({
+            url: "/api/orders/" + card_content.getAttribute('data-id'),
+            method: "POST",
+            body: {"isPickedup": (isPickedup.value == 'true')}
+        });
 
-    $('#show-order-collections').addEventListener('click', (event) => {
-        if (hasClass(event.target, 'btn')) {
+        console.log(picked);
+        isPickedup.value = picked.isPickedup;
 
-        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        $('#show-order-collections').addEventListener('click', (event) => {
+
+            const order_collection = event.target.closest('.order-collection');
+            const card_content = $('.card-content', order_collection);
+            const black_wrapper = $('.black-wrapper', order_collection);
+
+            if (hasClass(event.target, 'accept-btn')) {
+                addClass(card_content, 'off');
+                removeClass(black_wrapper, 'off');
+            } else if (hasClass(event.target, 'return-btn')) {
+                removeClass(card_content, 'off');
+                addClass(black_wrapper, 'off');
+            }
+
+            updatePickedUpStatus(card_content);
+
+        });
+
     });
 
-});
 
 </script>
 <script type="module">
