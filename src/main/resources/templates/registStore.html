@@ -183,7 +183,7 @@
             // if (!file.type.match('image.*')) {
             //     return;
             // }
-            formData.append(fileElem.name, file, file.name);
+            formData.append(fileElem.name, file, 'store-' + Date.now() + '-' + file.name);
         }
         const xhr = new XMLHttpRequest();
         xhr.open('POST', '/api/stores', true);
