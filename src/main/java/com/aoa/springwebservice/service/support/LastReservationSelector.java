@@ -6,6 +6,7 @@ import com.aoa.springwebservice.domain.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class LastReservationSelector implements ReservationSelector{
         //todo Exception 날리기 + Refactoring
         LocalDate lastDate = reservationRepository
                 .findFirstByStoreAndOpenDateBeforeOrderByOpenDateDesc(store, LocalDate.now())
-                .get()
+                .orElseThrow((() -> new EntityNotFoundException("직전 예약이 없어요.")))
                 .getOpenDate();
 
         List<Reservation> actualReservations = reservationRepository.findAllByStoreAndOpenDate(store, lastDate);
