@@ -7133,6 +7133,9 @@ $jscomp.polyfill = function (e, r, p, m) {
       for (var i = 0; i < files.length; i++) {
         file_names.push(files[i].name);
       }
+      if(hasClass(path_input[0], 'invalid')){
+          removeClass(path_input[0], 'invalid');
+      }
       path_input[0].value = file_names.join(', ');
       path_input.trigger('change');
     });
