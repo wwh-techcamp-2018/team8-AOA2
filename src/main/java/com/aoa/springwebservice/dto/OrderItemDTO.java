@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.stereotype.Service;
 
 @Getter
 @Setter
@@ -23,6 +22,7 @@ public class OrderItemDTO {
     }
 
     public OrderItem toDomain(Order order, Reservation reservation) {
+
         return OrderItem.builder().order(order)
                 .reservation(reservation)
                 .itemCount(this.itemCount)

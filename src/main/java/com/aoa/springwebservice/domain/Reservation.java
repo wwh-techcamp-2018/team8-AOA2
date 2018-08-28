@@ -1,5 +1,6 @@
 package com.aoa.springwebservice.domain;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.Builder;
 import lombok.Getter;
@@ -51,9 +52,12 @@ public class Reservation implements Serializable {
         this.availableCount = maxCount.getMaxCount();
         //hint store.addReservation(this);
     }
-
+    @JsonGetter("maxLimit") //todo handlebar에서 쓸 일 있으면 getter 로 ?
+    public int calculateMaxLimit(){
+        return this.availableCount < this.maxCount.getPersonalMaxCount() ? this.availableCount : this.maxCount.getPersonalMaxCount();
+    }
     public void regist() {
-        menu.setUpLastUsedStatus(maxCount);
+        this.store.updateLastUsedMenu(menu, maxCount);
     }
 
     public void orderMenu(int count) {

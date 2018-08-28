@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>예약등록</title>
 </head>
 {{> link}}
 <link href="/css/owner.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -24,9 +24,9 @@
                         </div>
                         <div class="col s6 input-field ">
                             {{#store}}
-                            <input id="storeId" name="storeId" type="hidden" value="{{storeId}}">
-                            <input name="pickupTime" type="text" name="timeToClose" class="timepicker"
+                            <input name="timeToClose" type="text" name="timeToClose" class="flat-timepicker"
                                    placeholder="{{timeToClose}}" data-default-value="{{timeToClose}}"
+                                   data-min-date="{{defaultTime}}"
                                    data-hour="{{hourToClose}}" data-minute="{{minuteToClose}}">
                             {{/store}}
                         </div>
@@ -59,49 +59,33 @@
     </div>
 </main>
 </body>
-<script src="/js/owner_reservation.js"></script>
 
 <script type="module">
     import Ctrls from '/js/ctrl.js'
+    import {MenuInModal, OpenReservation} from '/js/owner_reservation.js';
 
     document.addEventListener('DOMContentLoaded', function () {
-        addMenuForm($("#storeId").value);
-        $('#today').innerHTML = formatDate(new Date());
+
+
         M.updateTextFields();
 
-        //todo duplicated -- 중복 제거, 모듈로 분리
-        const defaultTime = $('input[name=pickupTime]').getAttribute('data-default-value');
-        flatpickr('input[name=pickupTime]',
+
+        const storeId = $('#storeId').value;
+        const openReservation = new OpenReservation(storeId, $('#open-menu-collection'),
             {
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: 'H:i',
-                time_24hr: true,
-                defaultDate: defaultTime,
-                minuteIncrement: '30',
-                maxDate: '24:00',
-                disableMobile: 'true',
+                callbackOnDelete: (menuId) => {
+                    menu.enableMenu(menuId);
+                }
             });
+        openReservation.registEvent();
+        openReservation.getLastUsedMenus();
 
+        const menu = new MenuInModal(storeId, $('#menu-collection'),
+            {   //hint this binding 이 제대로 안되기 때문에 아래처럼 호출...
+                callbackOnAdd: (menus) => { openReservation.addMenu(menus) },
 
-
-
-        $('#open-menu-collection').addEventListener('click', (event) => {
-            if (event.target.classList.contains('btn')) {
-                const forRemove = event.target.closest('.collection-item');
-                const menuId = $('input[name=menuId]' , forRemove).value;
-                addClass(forRemove, 'off');
-                setTimeout(() => {
-                    forRemove.remove();
-                }, 500);
-                $( '.collection-item[data-id="'+ menuId + '"] button:disabled', $('#menu-collection')).removeAttribute('disabled');
-            }
-        });
-
-        const menu = new Menu($('#menu-collection', $('#menuModal')), appendHtmlFromData, menuAddBoxHTML);
+            });
         menu.registerEvent();
-
-        $('#openReservationBtn').addEventListener('click', fetchOpenReservation);
 
         const modalElems = $('.modal');
         const modalInstance = M.Modal.init(modalElems);
@@ -112,26 +96,36 @@
             }
             removeClass($('.loading-wrapper'), 'off');
             //todo refactor
+            await menu.getAllMenus();
 
-            const menuData = await fetchAsync({
-                url: '/api/stores/'+$('#storeId').value+'/menus',
-                method: 'GET'
-            });
             addClass($('.loading-wrapper'), 'off');
 
-            if (menuData.length === 0) {
-                $('.collection', $('#menuModal')).insertAdjacentHTML('beforeend', nonMenu());
-                return;
-            }
-            appendHtmlFromData(menuData, menuAddBoxHTML, $('#menu-collection', $('#menuModal')), '추가하기');
-            //registEventListener();
-            menu.addData(menuData);
             $('.modal').M_Modal.open();
         });
 
+        //todo duplicated -- 중복 제거, 모듈로 분리
+       const defaultTime = $('.flat-timepicker').getAttribute('data-default-value');
+        const minTime = $('.flat-timepicker').getAttribute('data-min-date');
+        flatpickr('input[name=timeToClose]',
+            {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: 'H:i',
+                time_24hr: true,
+                defaultDate: defaultTime,
+                minDate: defaultTime,
+                minuteIncrement: '30',
+                minTime: minTime,
+                maxDate: '24:00',
+                disableMobile: 'true',
+            });
+
+        $('#today').innerHTML = formatDate(new Date());
 
         const ctrls = new Ctrls($('#open-menu-collection'));
         ctrls.registerEvent();
+
+
 
 
     });

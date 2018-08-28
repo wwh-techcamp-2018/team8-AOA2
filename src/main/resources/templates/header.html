@@ -2,7 +2,7 @@
 <header>
     <nav>
         <div class="nav-wrapper">
-            <a href="#!" class="brand-logo">예약</a>
+            <a href="#" class="brand-logo">{{navTitle}}</a>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <button id="logoutBtn" class="btn right" type="button">로그아웃</button>
             <button id="unregisterBtn" class="btn right" type="button">탈퇴</button>
@@ -32,6 +32,14 @@
             <div class="divider"></div>
             <li class="menu"><a href="/owner/reservations/form">예약 등록</a></li>
             <li class="menu"><a href="/owner/reservations?condition=last">예약정보 조회</a></li>
+            <li class="menu"><a href="/owner/orders">예약주문 조회</a></li>
         </ul>
     </ul>
+    {{#if store}}
+    <input type="hidden" id="storeId" name="storeId" value="{{store.id}}"/>
+    {{else}}
+        {{#if storeId}}
+    <input type="hidden" id="storeId" name="storeId" value="{{storeId}}"/>
+        {{/if}}
+    {{/if}}
 </header>

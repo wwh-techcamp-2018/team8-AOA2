@@ -3,7 +3,6 @@ package com.aoa.springwebservice.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
 import javax.persistence.Embeddable;
 
 @Embeddable
@@ -21,6 +20,6 @@ public class MaxCount {
             throw new IllegalArgumentException("illegal maxCount & personalMaxCount");
         }
         this.maxCount = maxCount;
-        this.personalMaxCount = maxCount;
+        this.personalMaxCount = personalMaxCount;
     }
 }

@@ -110,14 +110,19 @@ class CustomInputValidator {
         var hasRegex = object.getAttribute('data-regex') !== null;
         var regex = new RegExp(object.getAttribute('data-regex'));
         var str = object.value;
-
+        var regexSQL = /\b(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})\b/i;
+        var regexHTML = /<.*?>|<\/.*?>/g;
         if (len === 0 && !object.hasAttribute('required')) {
-            if (hasClass(object, 'validate')) {
+            if (hasClass(object, 'custom-validate')) {
                 removeClass(object, 'valid');
                 removeClass(object, 'invalid');
             }
         } else {
-            if (hasClass(object, 'custom-validate')) {
+            if(str.match(regexSQL) || str.match(regexHTML)){
+                removeClass(object, 'valid');
+                addClass(object, 'invalid');
+            }
+            else if (hasClass(object, 'custom-validate')) {
                 // Check for character counter attributes
                 if (//object.hasAttribute('valid')&&
                      (!hasLength || hasLength && len <= lenAttr && len >= minLenAttr)
@@ -134,4 +139,4 @@ class CustomInputValidator {
 }
 
 
-export {CustomInputValidator};
+export { CustomInputValidator };

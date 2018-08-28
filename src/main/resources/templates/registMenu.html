@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>메뉴등록</title>
 </head>
 
 {{> link}}
@@ -17,7 +17,10 @@
         <form>
             <div class="row" id="input_menu_form">
                 <div class="row">
-                    <div class="input-title col s12 l2">메뉴명</div>
+                    <div class="input-title col s12 l2">
+                        <label>*필수값</label>
+                        메뉴명
+                    </div>
                     <div class="input-field col s12 l10">
                         <input class="input_counter custom-validate" id="input_menu_name" type="text" data-length="20" required>
                         <span class="helper-text" data-error="메뉴 이름이 너무 깁니다" data-success="right">20자 이하로 작성해주세요</span>
@@ -25,7 +28,9 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="input-title col s12 l2">가격</div>
+                    <div class="input-title col s12 l2">
+                        <label>*필수값</label>가격
+                    </div>
                     <div class="input-field col s12 l10">
                         <input class="input_counter custom-validate" id="input_menu_price" type="text" data-length="9"
                                data-regex="^[1-9][0-9]*$" required>
@@ -43,7 +48,9 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="input-title col s12 l2">메뉴이미지</div>
+                    <div class="input-title col s12 l2">
+                        <label>*필수값</label>메뉴이미지
+                    </div>
                     <div class="input-field col s12 l10">
                         <div class="file-field input-field">
                             <div class="btn">
@@ -61,7 +68,7 @@
                 </div>
 
                 <button id="input_menu_btn" type="button"
-                        class="col s3 l2 offset-s9 offset-l10 btn waves-effect waves-light" data-url="/api/owner/menus">
+                        class="col s3 l2 offset-s9 offset-l10 btn waves-effect waves-light">
                     등록
                     <i class="material-icons right">send</i>
                 </button>
@@ -69,20 +76,19 @@
             </div>
         </form>
     </div>
-    {{store}}
 </main>
 </body>
 {{> footer}}
 <script type="module">
     import {CustomInputValidator} from '/js/override.js';
-    function createMenu(event) {
+    const createMenu = (event) => {
         if (!validateForm($('form')))
             return;
         event.preventDefault();
-        const url = event.target.getAttribute('data-url');
-        const nameElem = document.querySelector('#input_menu_name');
-        const priceElem = document.querySelector('#input_menu_price');
-        const descriptionElem = document.querySelector('#input_menu_description');
+        const url = '/api/stores/' + $('#storeId').value + '/menus';
+        const nameElem = $('#input_menu_name');
+        const priceElem = $('#input_menu_price');
+        const descriptionElem = $('#input_menu_description');
         const fileElem = document.querySelector('#input_menu_img');
         const file = fileElem.files[0];
         let formData = new FormData();
@@ -92,14 +98,13 @@
             return;
         }
         console.log(file);
-        file.name = Date.now() + '-' + file.name;
-        formData.append('file', file, Date.now() + '-' + file.name);
+        formData.append('file', file, 'menu-' + Date.now() + '-' + file.name);
 
         formData.append('name', nameElem.value);
         formData.append('price', priceElem.value);
         formData.append('description', descriptionElem.value);
 
-        var xhr = new XMLHttpRequest();
+        const xhr = new XMLHttpRequest();
         xhr.open('POST', url, true);
 
         xhr.onload = function (progressEvent) {
@@ -113,11 +118,11 @@
     }
 
 
-    document.addEventListener('DOMContentLoaded', function () {
-        var elems = document.querySelectorAll('.sidenav');
-        var counter = document.querySelectorAll('.input_counter');
-        var instances = M.Sidenav.init(elems, {});
-        var inputMenuBtn = document.querySelector('#input_menu_btn')
+    document.addEventListener('DOMContentLoaded', () => {
+        const elems = $All('.sidenav');
+        const counter = $All('.input_counter');
+        const instances = M.Sidenav.init(elems, {});
+        const inputMenuBtn = $('#input_menu_btn')
         inputMenuBtn.addEventListener('click', createMenu);
         M.CharacterCounter.init(counter);
         const inputValidator = new CustomInputValidator();
@@ -125,5 +130,4 @@
     });
 
 </script>
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 </html>

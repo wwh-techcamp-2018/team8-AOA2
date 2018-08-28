@@ -1,10 +1,8 @@
 package com.aoa.springwebservice.web;
 
 import com.aoa.springwebservice.domain.Menu;
-import com.aoa.springwebservice.domain.User;
 import com.aoa.springwebservice.dto.MenuDTOToUpload;
 import com.aoa.springwebservice.dto.MenuOutputDTO;
-import com.aoa.springwebservice.security.LoginUser;
 import com.aoa.springwebservice.service.FileStorageService;
 import com.aoa.springwebservice.service.MenuService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,27 +23,11 @@ public class ApiMenuController {
     @Autowired
     private MenuService menuService;
 
-    //todo deprecated _ @Deprecated
-    @PostMapping(path = "/owner/menus")
-    public String createMenu(MenuDTOToUpload menuDTO, @LoginUser User user) {
-        log.debug("menuDTO : {}", menuDTO);
-        log.debug("file : {}", menuDTO.getFile());
-        String menuImgUrl = fileStorageService.storeFile(menuDTO.getFile());
-        menuDTO.setImageUrl(menuImgUrl);
-        menuService.createMenu(menuDTO, user);
-        return "/result/success";
-    }
 
     @PostMapping(path = "/stores/{storeId}/menus")
-    public String createMenuWithStoreId(MenuDTOToUpload menuDTO, long storeId){
+    public String createMenuWithStoreId(MenuDTOToUpload menuDTO,@PathVariable long storeId){
         menuService.createMenu(menuDTO, storeId);
         return "/result/success";
-    }
-
-    //todo deprecated _ @Deprecated
-    @GetMapping(path = "/owner/menus")
-    public List<MenuOutputDTO> getAllMenu(@LoginUser User user) {
-        return menuService.findAllMenuInStore(user);
     }
 
     @GetMapping(path ="/stores/{storeId}/menus")

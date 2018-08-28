@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>메뉴조회</title>
 </head>
 
 {{> link}}
@@ -10,22 +10,36 @@
 <body>
 {{> header}}
 <main>
-    <input type="hidden" id="storeId" value="{{store.id}}"/>
     <div class="container">
         {{> menulist}}
     </div>
 </main>
 </body>
 {{> footer}}
-<script>
+<script type="module">
+    import {MenuInForm} from '/js/owner_reservation.js';
 
     document.addEventListener('DOMContentLoaded', function () {
         var counter = document.querySelectorAll('.input_counter');
         M.CharacterCounter.init(counter);
 
+        const storeId  = $('#storeId').value;
+        const menu = new MenuInForm(storeId, $('#menu-collection'),
+            {
+                callbackOnInit: () => {
+                    if ($('.loading-wrapper'))
+                        $('.loading-wrapper').remove();
+                }
+            }
+        );
+        menu.registerEvent();
+        menu.getAllMenus();
+
     });
 
     function createStore() {
+        if(!validateForm($('form')))
+            return;
         let formData = new FormData();
         serializeArray($('form')).forEach(e => formData.append(e.name, e.value));
         const fileElem = $('input[type=file]');
@@ -49,27 +63,5 @@
         xhr.send(formData);
     }
 
-    // invalid (length)
-    //
-    // const validateForm = (formEl) => {
-    //     if (!formEl)
-    //         return false;
-    //     var res = true;
-    //     const requiredInputs = Array.from($All(':required', formEl));
-    //
-    //     requiredInputs.forEach(e => {
-    //         if (e.value.isEmpty()) {
-    //             addClass(e, 'invalid');
-    //         }
-    //     });
-    //
-    //     if ($('.invalid', formEl)) {
-    //         $('.invalid', formEl).focus();
-    //         return false;
-    //     }
-    //     return true;
-    //
-    // };
 </script>
-<script src="/js/menu.js"></script>
 </html>

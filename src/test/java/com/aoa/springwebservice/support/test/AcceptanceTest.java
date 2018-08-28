@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public abstract class AcceptanceTest {
-    private static final String DEFAULT_LOGIN_USER_ID = "903645764";
+    private static final String DEFAULT_LOGIN_USER_ID = "905405911";
     private static final String DEFAULT_LOGIN_USER_PW = "NONE";
 
     @Autowired

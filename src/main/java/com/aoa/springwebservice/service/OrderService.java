@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
 import java.util.Map;
 @Slf4j
 @Service
@@ -26,6 +28,16 @@ public class OrderService {
             }
         });
         return orderRepositroy.save(order);
+    }
+
+    public Iterable<Order> selectOrders(Store store, LocalDateTime lastDay) {
+        return orderRepositroy.findByStoreAndPickupTimeAfterOrderByPickupTime(store, lastDay);
+    }
+
+    public Order updateIsPickedupStatus(long orderId, Order order) {
+        Order returnOrder = orderRepositroy.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order가 없습니다."));
+        returnOrder.setIsPickedupByOrder(order);
+        return orderRepositroy.save(returnOrder);
     }
 
 }

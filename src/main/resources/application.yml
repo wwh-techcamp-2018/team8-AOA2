@@ -24,6 +24,8 @@ spring:
       max-request-size: 35MB
 
 logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+file.upload-dir: ./src/main/resources/static/uploads
+base.menuImgUrl-dir: /uploads/
 
 #for HTTP Encoding UTF-8
 http:
@@ -56,8 +58,4 @@ spring:
 server:
   port: 8080
 
-file.upload-dir: ./src/main/resources/static/uploads
-base.menuImgUrl-dir: /uploads/
 ---
-spring:
-  profiles: set1

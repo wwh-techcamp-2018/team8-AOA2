@@ -1,6 +1,7 @@
 package com.aoa.springwebservice.domain;
 
 import com.aoa.springwebservice.dto.MenuOutputDTO;
+import com.aoa.springwebservice.exception.InvalidStateOnStore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -67,7 +68,7 @@ public class Store{
 
     // todo (현재 시각이랑 timeToClose 랑 비교) +(currentReservations 갯수?)해서 오픈상태 동기화 어떻게 해줄지
     @Transient
-    private boolean isOpen;
+    private boolean isOpen = false;
 
     @Builder
     public Store(String storeName, String serviceDescription, String ownerName, String imgURL, String postCode, String address, String addressDetail, String phoneNumber, String description, LocalDateTime timeToClose, boolean isOpen, User user) {
@@ -114,31 +115,22 @@ public class Store{
         return Objects.hash(storeName, user);
     }
 
-    public void inactivateMenus(){
-//        menus.stream()
-//                .filter(menu -> menu.isUsed())
-//                .forEach(menu -> menu.notUsed());
-    }
-    public boolean updateReservation(List<Reservation> reservations, LocalDateTime timeToClose) {
-//        if(isOpen()) return false; //&& !validateReservations(reservations)) return false;
-//
-//        this.timeToClose = timeToClose;
-//        inactivateMenus();
-//        reservations.forEach(reservation -> reservation.changeToBeActivated());
-//        // todo Cascade 이슈 생길 수도 있음, JPA 붙이고 확인 필요
-//        currentReservations = reservations;
-        return true;
-    }
-
     public boolean isOpen(){
-//        if(isOpen)
-//            updateOpenStatus();
+        updateOpenStatus();
         return isOpen;
     }
 
-    @PostLoad
+    @PostPersist @PostUpdate @PostLoad
+    public void updateOpenStatus(){
+        if(timeToClose == null || timeToClose.isAfter(LocalDateTime.now())) {
+            isOpen = CLOSE;
+            return;
+        }
+        isOpen = OPEN;
+    }
+
     public void deactivate() {
-        //Todo if(timeToClose.isAfter(LocalDateTime.now()))
+        timeToClose = null;
         isOpen = CLOSE;
     }
 
@@ -165,4 +157,10 @@ public class Store{
         return this.menus.stream().filter(Menu::isLastUsed).collect(Collectors.toList());
     }
 
+    public void updateLastUsedMenu(Menu menu, MaxCount maxCount) {
+        if(!this.isOpen)
+            throw new InvalidStateOnStore("Cannot update menu status on closed store");
+        this.menus.stream().filter(x -> x.equals(menu)).findAny().orElseThrow( () -> new InvalidStateOnStore("Cannot find menu on store"))
+                .setUpLastUsedStatus(maxCount);
+    }
 }

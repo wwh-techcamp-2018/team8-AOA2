@@ -44,7 +44,7 @@ public class Menu {
     @JsonIgnore
     private Store store;
 
-    private boolean lastUsed = false;
+    private boolean lastUsed; //= false;
 
     public Menu() {
 
@@ -101,7 +101,7 @@ public class Menu {
 
     public void setUpLastUsedStatus(MaxCount maxCount) {
         this.maxCount = maxCount;
-        lastUsed = LAST_USED;
+        this.lastUsed = LAST_USED;
     }
 
     public void dropLastUsedStatus() {
