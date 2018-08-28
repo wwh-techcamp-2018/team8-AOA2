@@ -1,4 +1,9 @@
-language: java
+
+
+
+
+
+    language: java
 jdk:
 - openjdk8
 
@@ -14,6 +19,12 @@ cache:
 
 script: "./gradlew clean build"
 
+# CI 실행 완료시 메일로 알람
+notifications:
+  email:
+    recipients:
+    - tech_ytk@woowahan.com
+
 before_deploy:
 - zip -r aoa2-application *
 - mkdir -p deploy
@@ -23,32 +34,25 @@ deploy:
 - provider: s3
   access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
   secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
-  bucket: aoa2-springboot-webservice-deploy # S3 버킷
+  bucket: 20180814aoa2team8
   region: ap-northeast-2
   skip_cleanup: true
   acl: public_read
-  local_dir: deploy # before_deploy에서 생성한 디렉토리
   wait-until-deployed: true
   on:
     repo: wwh-techcamp-2018/team8-AOA2
     branch: master
 
-- provider: codedeploy
+    - provider: codedeploy
   access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
   secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
-  bucket: aoa2-springboot-webservice-deploy # S3 버킷
-  key: aoa2-application.zip # S3 버킷에 저장된 springboot-webservice.zip 파일을 EC2로 배포
+  bucket: 20180814aoa2team8 # S3 버킷
+  key: aoa2-application.zip # 빌드 파일을 압축해서 전달
   bundle_type: zip
   application: Team8-AOA2-Deployer # 웹 콘솔에서 등록한 CodeDeploy 어플리케이션
-  deployment_group: spring-boot-webservice-group # 웹 콘솔에서 등록한 CodeDeploy 배포 그룹
+  deployment_group: Woowahan-techcamp-2018 # 웹 콘솔에서 등록한 CodeDeploy 배포 그룹
   region: ap-northeast-2
   wait-until-deployed: true
   on:
     repo: wwh-techcamp-2018/team8-AOA2
     branch: master
-
-notifications:
-  email:
-    recipients:
-    - tech_ytk@woowahan.com
-    - tech_skl@woowahan.com
