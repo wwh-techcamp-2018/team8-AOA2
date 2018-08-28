@@ -25,7 +25,7 @@ public class ApiMenuController {
 
 
     @PostMapping(path = "/stores/{storeId}/menus")
-    public String createMenuWithStoreId(MenuDTOToUpload menuDTO, long storeId){
+    public String createMenuWithStoreId(MenuDTOToUpload menuDTO,@PathVariable long storeId){
         menuService.createMenu(menuDTO, storeId);
         return "/result/success";
     }

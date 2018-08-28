@@ -54,7 +54,7 @@ public class Reservation implements Serializable {
     }
     @JsonGetter("maxLimit") //todo handlebar에서 쓸 일 있으면 getter 로 ?
     public int calculateMaxLimit(){
-        return this.availableCount > this.maxCount.getPersonalMaxCount() ? this.availableCount : this.maxCount.getPersonalMaxCount();
+        return this.availableCount < this.maxCount.getPersonalMaxCount() ? this.availableCount : this.maxCount.getPersonalMaxCount();
     }
     public void regist() {
         this.store.updateLastUsedMenu(menu, maxCount);

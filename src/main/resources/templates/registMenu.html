@@ -68,7 +68,7 @@
                 </div>
 
                 <button id="input_menu_btn" type="button"
-                        class="col s3 l2 offset-s9 offset-l10 btn waves-effect waves-light" data-url="/api/owner/menus">
+                        class="col s3 l2 offset-s9 offset-l10 btn waves-effect waves-light">
                     등록
                     <i class="material-icons right">send</i>
                 </button>
@@ -76,7 +76,6 @@
             </div>
         </form>
     </div>
-    {{store}}
 </main>
 </body>
 {{> footer}}
@@ -86,7 +85,7 @@
         if (!validateForm($('form')))
             return;
         event.preventDefault();
-        const url = event.target.getAttribute('data-url');
+        const url = '/api/stores/' + $('#storeId').value + '/menus';
         const nameElem = $('#input_menu_name');
         const priceElem = $('#input_menu_price');
         const descriptionElem = $('#input_menu_description');

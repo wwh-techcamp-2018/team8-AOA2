@@ -30,13 +30,11 @@ class Ctrls {
 
     handleClickEvent(event) {
         if (hasClass(event.target, 'ctrl__button--increment')) {
-            console.log('up');
             this.initClass(event.target);
             this.increment();
             return;
         }
         if (hasClass(event.target, 'ctrl__button--decrement')) {
-            console.log('down');
             this.initClass(event.target);
             this.decrement();
             return;
@@ -57,7 +55,6 @@ class Ctrls {
     }
     handleChangeEvent(event) {
         if (hasClass(event.target, 'ctrl__counter-num')) {
-            console.log('change');
             this.initClass(event.target);
             var parseValue = parseInt(event.target.value);
             this.changeValue(parseValue);
