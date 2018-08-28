@@ -13,6 +13,7 @@ import javax.persistence.EntityNotFoundException;
 @Slf4j
 public class DefaultControllerAdvice {
 
+    private static final String DEFAULT_LOGIN_ERROR_PAGE_URI = "/signin";
     private static final String DEFAULT_ERROR_PAGE_URI = "/defaultErrorPage";
     private static final String ATTRIBUTE_NAME_FOR_ERROR_MESSAGE = "errorMessage";
 
@@ -20,8 +21,7 @@ public class DefaultControllerAdvice {
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
     public String unAuthorized(UnAuthorizedException exception, Model model) {
         log.debug("unAuthorized : {}", exception.getMessage());
-        model.addAttribute(ATTRIBUTE_NAME_FOR_ERROR_MESSAGE, exception.getMessage());
-        return DEFAULT_ERROR_PAGE_URI;
+        return DEFAULT_LOGIN_ERROR_PAGE_URI;
     }
 
     @ExceptionHandler({

@@ -4,6 +4,7 @@ import com.aoa.springwebservice.domain.Reservation;
 import com.aoa.springwebservice.domain.Store;
 import com.aoa.springwebservice.domain.StoreRepository;
 import com.aoa.springwebservice.domain.User;
+import com.aoa.springwebservice.security.HttpSessionUtils;
 import com.aoa.springwebservice.security.LoginUser;
 import com.aoa.springwebservice.service.OrderService;
 import com.aoa.springwebservice.service.ReservationService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -36,6 +38,14 @@ public class PageController {
     @Autowired
     private StoreRepository storeRepository;
 
+
+    @GetMapping("/")
+    public String showBySigninStatus(HttpSession session) {
+        if(HttpSessionUtils.isLoginUser(session)) {
+            return "redirect:/owner/stores/form";
+        }
+        return "/signin";
+    }
 
     @GetMapping("/admin")
     public String show(@LoginUser User loginUser) {
