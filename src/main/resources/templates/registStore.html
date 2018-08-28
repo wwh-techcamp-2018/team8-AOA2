@@ -67,8 +67,8 @@
                                     <input type="file" name="imageFile">
                                 </div>
                                 <div class="file-path-wrapper">
-                                    <input id="file_path" class="file-path" type="text"
-                                           readonly="readonly">
+                                    <input id="file_path" class="file-path" type="text">
+                                    <!--readonly="readonly"-->
                                     <label for="file_path">첨부파일</label>
                                     <span class="helper-text" data-error="10MB 이하의 이미지파일만 업로드가 가능합니다"
                                           data-success="right">이미지파일 업로드</span>
@@ -192,20 +192,24 @@
 
     });
     const createStore = () => {
+        if (!validateForm($('form')))
+            return;
         let formData = new FormData();
         serializeArray($('form')).forEach( e => formData.append(e.name, e.value));
         const fileElem = $('input[type=file]');
-        if(fileElem.files.length !== 0  && fileElem.files[0].size > 10485760){
-            addClass($('#file_path'), 'invalid');
+        const filePathElem = $('#file_path');
+
+        if(fileElem.files.length === 0 || (fileElem.files.length !== 0
+            && fileElem.files[0].size > 10485760) && !fileElem.files[0].type.match('image.*')){
+            addClass(filePathElem, 'invalid');
+            fileElem.focus();
             return;
         }
-        if(fileElem.files.length === 1  && fileElem.files[0].type.match('image.*')) {
-            const file = fileElem.files[0];
-            // if (!file.type.match('image.*')) {
-            //     return;
-            // }
-            formData.append(fileElem.name, file, 'store-' + Date.now() + '-' + file.name);
-        }
+
+        replaceClass(filePathElem, 'invalid', 'valid');
+        const file = fileElem.files[0];
+        formData.append(fileElem.name, file, 'store-' + Date.now() + '-' + file.name);
+
         const xhr = new XMLHttpRequest();
         xhr.open('POST', '/api/stores', true);
 

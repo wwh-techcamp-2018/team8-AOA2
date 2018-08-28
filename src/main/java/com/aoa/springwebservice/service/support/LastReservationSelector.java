@@ -26,4 +26,5 @@ public class LastReservationSelector implements ReservationSelector{
         List<Reservation> actualReservations = reservationRepository.findAllByStoreAndOpenDate(store, lastDate);
         return reservationRepository.findAllByStoreAndOpenDate(store, LocalDate.now());
     }
+
 }
