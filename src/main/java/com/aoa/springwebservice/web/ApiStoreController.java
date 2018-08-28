@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/stores")
@@ -21,7 +22,7 @@ public class ApiStoreController {
     StoreService storeService;
 
     @PostMapping("")
-    public String create(@Valid StoreInputDTO storeInputDTO, @LoginUser User loginUser){
+    public String create(@Valid StoreInputDTO storeInputDTO, @LoginUser User loginUser)throws IOException {
         log.debug("inputDTO : {}", storeInputDTO);
         //todo store 생성실패 상황 고려
         if(storeService.hasStore(loginUser)){

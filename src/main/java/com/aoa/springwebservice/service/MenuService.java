@@ -24,6 +24,9 @@ public class MenuService {
     @Autowired
     FileStorageService fileStorageService;
 
+    @Autowired
+    S3Uploader s3Uploader;
+
 
     public void createMenu(MenuDTO menuDTO, User user) {
         log.debug("Menu DTO : {}", menuDTO);
