@@ -25,13 +25,16 @@ import java.util.List;
 public class PageController {
 
     @Autowired
-    StoreService storeService;
+    private StoreService storeService;
 
     @Autowired
-    ReservationService reservationService;
+    private ReservationService reservationService;
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private StoreRepository storeRepository;
 
 
     @GetMapping("/admin")
@@ -63,11 +66,13 @@ public class PageController {
 
     @GetMapping("/owner/reservations/form")
     public String openReservation(Model model, @LoginUser User loginUser) {
+        
         //todo store 존재 확인, store isOpen 확인 --> 중복 로직 처리 어떻게?
         if(!storeService.hasStore(loginUser)) {
             return "/fail";
         }
         Store store = storeService.getStoreByUser(loginUser);
+        if(store.isOpen()) throw new RuntimeException("이미 진행 중인 예약이 존재합니다.");
 //        if(store.isOpen()){
 //            return "/fail";
 //        }

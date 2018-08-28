@@ -36,6 +36,7 @@ public class ReservationService {
     @Transactional
     public Iterable<Reservation> createReservation(ReservationFormDTO reservationFormDTO, long storeId){
         Store store = storeRepository.findById(storeId).get();
+        if(store.isOpen()) throw new RuntimeException("이미 진행 중인 예약 정보가 존재 합니다.");
         LocalDateTime timeToClose = reservationFormDTO.generateTimeToClose();
         List<Reservation> reservations = reservationFormDTO.generateReservations(store);
 

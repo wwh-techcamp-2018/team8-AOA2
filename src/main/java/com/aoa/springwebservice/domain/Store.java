@@ -115,29 +115,18 @@ public class Store{
         return Objects.hash(storeName, user);
     }
 
-    public void inactivateMenus(){
-//        menus.stream()
-//                .filter(menu -> menu.isUsed())
-//                .forEach(menu -> menu.notUsed());
-    }
-    public boolean updateReservation(List<Reservation> reservations, LocalDateTime timeToClose) {
-//        if(isOpen()) return false; //&& !validateReservations(reservations)) return false;
-//
-//        this.timeToClose = timeToClose;
-//        inactivateMenus();
-//        reservations.forEach(reservation -> reservation.changeToBeActivated());
-//        // todo Cascade 이슈 생길 수도 있음, JPA 붙이고 확인 필요
-//        currentReservations = reservations;
-        return true;
-    }
-
     public boolean isOpen(){
-//        if(isOpen)
-//            updateOpenStatus();
+        updateOpenStatus();
         return isOpen;
     }
 
     @PostLoad
+    public void updateOpenStatus(){
+        if(timeToClose.isAfter(LocalDateTime.now()))
+            isOpen = CLOSE;
+        isOpen = OPEN;
+    }
+
     public void deactivate() {
         //Todo if(timeToClose.isAfter(LocalDateTime.now()))
         isOpen = CLOSE;

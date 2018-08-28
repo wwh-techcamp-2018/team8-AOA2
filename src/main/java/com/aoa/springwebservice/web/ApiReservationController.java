@@ -31,12 +31,7 @@ public class ApiReservationController {
         reservationService.createReservation(reservationDTO, storeId);
         return RestResponse.ofRedirectResponse("/result/success", "OK");
     }
-//    @PostMapping("/stores/{storeId}/reservations/temp")
-//    public String create2(@PathVariable long storeId, @RequestBody ReservationFormDTO reservationDTO) {
-//        log.debug("ReservationDTO {}", reservationDTO);
-//        return "/result/success";
-//    }
-//todo?C
+
     @GetMapping("/stores/{storeId}/reservations")
     public List<Reservation> list(@PathVariable long storeId) {
         return reservationRepository.findAllByStore( storeRepository.findById(storeId).get());
