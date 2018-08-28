@@ -28,6 +28,8 @@ class OpenReservation {
     };
     async fetchOpenReservation() {
         if (!this.validate()) {
+            removeClass($('.error-msg'), 'opacity-hidden');
+            setTimeout(() => addClass($('.error-msg'), 'opacity-hidden'), 1000);
             return;
         }
         const data = this.buildRequestBody();
@@ -36,8 +38,9 @@ class OpenReservation {
         document.location = result.data.url;
     }
     validate() {
-        //todo validation
-        return true;
+        if($All('.collection-item', this.wrapper).length > 0)
+            return true;
+        return false;
     }
     buildRequestBody() {
         const timeArr = $('.flat-timepicker').value.split(':');
@@ -91,7 +94,7 @@ class OpenReservation {
                                     <div class='ctrl'>
                                         <div class='ctrl__button ctrl__button--decrement'>&ndash;</div>
                                         <div class='ctrl__counter'>
-                                            <input type="text" class='ctrl__counter-num browser-default' name="maxCount" value="${maxCount}"> </input>
+                                            <input type="text" class='ctrl__counter-num browser-default' name="maxCount" value="${maxCount}" data-limit-target="input[name=personalMaxCount]"> </input>
                                         </div>
                                         <div class='ctrl__button ctrl__button--increment'>+</div>
                                     </div>
@@ -103,7 +106,7 @@ class OpenReservation {
                                     <div class='ctrl'>
                                         <div class='ctrl__button ctrl__button--decrement'>&ndash;</div>
                                         <div class='ctrl__counter'>
-                                            <input type="text" class='ctrl__counter-num browser-default' name="personalMaxCount" value="${personalMaxCount}"> </input>
+                                            <input type="text" class='ctrl__counter-num browser-default' name="personalMaxCount" value="${personalMaxCount}" data-max-value="${maxCount}"> </input>
                                         </div>
                                         <div class='ctrl__button ctrl__button--increment'>+</div>
                                     </div>

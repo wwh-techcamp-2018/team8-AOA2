@@ -15,13 +15,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        registry.addViewController("/").setViewName("signin");
-
         registry.addViewController("/result/success").setViewName("registMenuSuccess");
-
         registry.addViewController("/admin/store/fail").setViewName("fail");
-        registry.addViewController("/alreadyRegisted").setViewName("alreadyRegisted");
-
     }
 
     @Bean

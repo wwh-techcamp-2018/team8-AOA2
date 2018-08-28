@@ -131,3 +131,9 @@
 .margin-top-80 {
     margin-top: 80px;
 }
+
+
+.opacity-hidden{
+     opacity : 0;
+     transition: opacity 100ms ease-in;
+ }
