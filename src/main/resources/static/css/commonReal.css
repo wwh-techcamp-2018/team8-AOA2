@@ -119,4 +119,11 @@
 .black-wrapper {
     background-color: #000000;
     opacity: 0.5;
+    padding: 24px;
+    border-radius: 0px 0px 2px 2px;
+    height: 203px;
+}
+
+.margin-top-80 {
+    margin-top: 80px;
 }

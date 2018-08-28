@@ -103,12 +103,6 @@ public class PageController {
         return "/createOrder";
     }
 
-    @GetMapping("/orders/{orderId}/result")
-    public String showOrderResult(@PathVariable long orderId, @LoginUser User user, Model model){
-
-        model.addAttribute("order", "?"); //OUTPUT
-        return "/showOrderResult";
-    }
 
     @GetMapping("/owner/menus")
     public String showMenus(@LoginUser User user,  Model model) {
@@ -119,6 +113,7 @@ public class PageController {
 
     @GetMapping("/owner/orders")
     public String openOrders(Model model, @LoginUser User loginUser) {
+        //todo : store => isOpen, Reservation openDate => 예약등록이 되지 않았을 경우
         Store store = storeService.getStoreByUser(loginUser);
         log.debug("store check {} ", store);
         LocalDate lastDay = reservationService.getLastDay(storeService.getStoreByUser(loginUser));
