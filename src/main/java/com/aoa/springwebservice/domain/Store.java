@@ -68,7 +68,7 @@ public class Store{
 
     // todo (현재 시각이랑 timeToClose 랑 비교) +(currentReservations 갯수?)해서 오픈상태 동기화 어떻게 해줄지
     @Transient
-    private boolean isOpen;
+    private boolean isOpen = false;
 
     @Builder
     public Store(String storeName, String serviceDescription, String ownerName, String imgURL, String postCode, String address, String addressDetail, String phoneNumber, String description, LocalDateTime timeToClose, boolean isOpen, User user) {
@@ -120,15 +120,17 @@ public class Store{
         return isOpen;
     }
 
-    @PostLoad
+    @PostPersist @PostUpdate @PostLoad
     public void updateOpenStatus(){
-        if(timeToClose.isAfter(LocalDateTime.now()))
+        if(timeToClose == null || timeToClose.isAfter(LocalDateTime.now())) {
             isOpen = CLOSE;
+            return;
+        }
         isOpen = OPEN;
     }
 
     public void deactivate() {
-        //Todo if(timeToClose.isAfter(LocalDateTime.now()))
+        timeToClose = null;
         isOpen = CLOSE;
     }
 

@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -57,7 +58,9 @@ public class ReservationServiceTest {
                 .addressDetail("address")
                 .timeToClose(LocalDateTime.now())
                 .build();
+        log.debug("before store : {}", store);
         store = storeRepository.save(store);
+        log.debug("after store : {}", store);
 
         menu1 = Menu.builder().store(store).name("test1").description("test1").price(1).id(1L).build();
         menu2 = Menu.builder().store(store).name("test2").description("test2").price(2).id(2L).build();
@@ -70,6 +73,9 @@ public class ReservationServiceTest {
         store.addMenu(menu3);
         store.addMenu(menu4);
         store.addMenu(menu5);
+        log.debug("after add store : {}", store);
+
+        store.deactivate();
         store = storeRepository.save(store);
     }
 
@@ -92,9 +98,8 @@ public class ReservationServiceTest {
                 .minuteToClose(0)
                 .reservationDTOs(reservationDTOs)
                 .build();
-        store.deactivate();
 
-        log.debug("test start");
+        log.debug("deactivate store : {}", store);
 
         reservationService.createReservation(reservationFormDTO, store.getId());
 
