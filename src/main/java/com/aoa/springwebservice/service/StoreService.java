@@ -5,6 +5,7 @@ import com.aoa.springwebservice.domain.StoreRepository;
 import com.aoa.springwebservice.domain.User;
 import com.aoa.springwebservice.dto.StoreInputDTO;
 import com.aoa.springwebservice.dto.StoreOutputDTO;
+import com.aoa.springwebservice.property.MayakURLProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,14 @@ public class StoreService {
 
     @Autowired
     FileStorageService fileStorageService;
+
+    //private static final String MAYAK_URL = MayakURLProperties;
+    private String mayakUrl;
+
+    @Autowired
+    public StoreService(MayakURLProperties mayakURLProperties) {
+        this.mayakUrl = mayakURLProperties.getUrl();
+    }
 
     public Store createStore(StoreInputDTO storeDTO, User user){
         return storeRepository.save(storeDTO.toDomain(saveStoreImg(storeDTO), user));
@@ -41,5 +50,10 @@ public class StoreService {
 
     public Store getStoreById(long id) {
         return storeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("주문할 가게가 등록되지 않았습니다"));
+    }
+
+    public String makeOwnerUrl(User loginUser) {
+        return mayakUrl + "/stores/" + getStoreByUser(loginUser).getId() + "/orders/form";
+
     }
 }
