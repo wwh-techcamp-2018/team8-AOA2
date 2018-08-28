@@ -95,7 +95,7 @@
                         </div>
                         <div class="input-field col s12 l10 offset-l2">
                             <input class="input_counter custom-validate" id="input_address_sub" name="addressDetail" type="text"
-                                   data-length="20">
+                                   data-length="20" required>
                             <label for="input_address_sub">상세주소</label>
                             <span class="helper-text" data-error="wrong" data-success="right"> 10자 이하로 적어주십시오</span>
                         </div>
@@ -171,13 +171,20 @@
 
     });
     const createStore = () => {
+        if (!validateForm($('form')))
+            return;
         let formData = new FormData();
         serializeArray($('form')).forEach( e => formData.append(e.name, e.value));
         const fileElem = $('input[type=file]');
-        if(fileElem.files.length !== 0  && fileElem.files[0].size > 10485760){
-            addClass($('#file_path'), 'invalid');
+        const filePathElem = $('#file_path');
+        if(fileElem.files.length === 0 || (fileElem.files.length !== 0 && fileElem.files[0].size > 10485760)){
+            addClass(filePathElem, 'invalid');
+            fileElem.focus();
             return;
         }
+
+        replaceClass(filePathElem, 'invalid', 'valid');
+
         if(fileElem.files.length === 1  && fileElem.files[0].type.match('image.*')) {
             const file = fileElem.files[0];
             // if (!file.type.match('image.*')) {

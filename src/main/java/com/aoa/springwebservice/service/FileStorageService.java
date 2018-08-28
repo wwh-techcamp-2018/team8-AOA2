@@ -37,6 +37,7 @@ public class FileStorageService {
 
     public String storeFile(MultipartFile file) {
         // Normalize file name
+        //todo : nullPointerException 처리
         String fileName = file.getOriginalFilename();
 
         try {
