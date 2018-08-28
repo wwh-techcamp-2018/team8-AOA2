@@ -34,4 +34,11 @@
             <li class="menu"><a href="/owner/reservations?condition=last">예약정보 조회</a></li>
         </ul>
     </ul>
+    {{#if store}}
+    <input type="hidden" id="storeId" name="storeId" value="{{store.id}}"/>
+    {{else}}
+        {{#if storeId}}
+    <input type="hidden" id="storeId" name="storeId" value="{{storeId}}"/>
+        {{/if}}
+    {{/if}}
 </header>
