@@ -2,7 +2,7 @@ class Ctrls {
 
     constructor(wrapper) {
         this.wrapper = wrapper;
-        this.limit = { minValue: 1, maxValue: 9999999999 };
+        this.limit = { globalMinValue: 1, globalMaxValue: 9999999999 };
     }
     decrement() {
         this.changeValue(Number(this.targetInput.value) - 1);
@@ -14,10 +14,12 @@ class Ctrls {
 
     initClass(eventTarget) {
         this.targetInput = $('.ctrl__counter-num', eventTarget.closest('.ctrl'));
-        this.limit = {
-            minValue: this.targetInput.getAttribute('data-min-value') || this.limit.minValue,
-            maxValue: this.targetInput.getAttribute('data-max-value') || this.limit.maxValue,
-        };
+        this.limit.minValue =  Number( this.targetInput.getAttribute('data-min-value') || this.limit.globalMinValue );
+        this.limit.maxValue =  Number( this.targetInput.getAttribute('data-max-value') || this.limit.globalMaxValue );
+        this.relatedElem = null;
+        if(this.targetInput.getAttribute('data-limit-target')){
+            this.relatedElem = $(this.targetInput.getAttribute('data-limit-target'));
+        }
     };
 
     updatePrevValue(value) {
@@ -25,7 +27,7 @@ class Ctrls {
     };
     backToPrevValue(invalidValue) {
         if (this.targetInput.value == invalidValue)
-            this.targetInput.value = this.targetInput.getAttribute('data-prev');
+            this.targetInput.value = Number( this.targetInput.getAttribute('data-prev'));
     };
 
     handleClickEvent(event) {
@@ -47,6 +49,18 @@ class Ctrls {
         }
         this.targetInput.value = nextNumber;
         this.updatePrevValue(nextNumber);
+
+        if(this.relatedElem)
+            this.limitMaxValue(this.relatedElem, nextNumber);
+
+    }
+    limitMaxValue(target,newMaxLimit){
+        if( target.value > newMaxLimit){
+            target.value = newMaxLimit;
+        }
+        target.setAttribute('data-prev', newMaxLimit);
+        target.setAttribute('data-max-value', newMaxLimit);
+
     }
     validNextNumber(nextNumber) {
         return !isNaN(nextNumber)
