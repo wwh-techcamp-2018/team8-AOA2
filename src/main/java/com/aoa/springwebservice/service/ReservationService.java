@@ -55,6 +55,7 @@ public class ReservationService {
     }
 
     public List<Reservation> getReservationsByCondition(String condition, Store store) {
+        //todo : BeanException 처리
         ReservationSelector selector = (ReservationSelector)beanFactory.getBean(condition + SELECTOR_POST_FIX);
         return selector.select(store);
     }
