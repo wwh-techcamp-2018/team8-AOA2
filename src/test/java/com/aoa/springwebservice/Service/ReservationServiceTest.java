@@ -76,14 +76,13 @@ public class ReservationServiceTest {
         log.debug("after add store : {}", store);
 
         store.deactivate();
-        store = storeRepository.save(store);
+        storeRepository.save(store);
     }
 
     @Test
     public void create_new_reservation() {
         // When
         long storeId = store.getId();
-        store = null;
         List<ReservationDTO> reservationDTOs = Arrays.asList(
                 ReservationDTO.builder()
                         .maxCount(3)
