@@ -136,15 +136,24 @@
     min-height: max-content;
 }
 
-.badge.custom-badge{
+.collection-item  .badge.custom-badge{
     border-radius: 0.5em;
     background-color: #d81b60;
     color: #FFFFFF;
     font-size: 80%;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
-
-.opacity-hidden{
-     opacity : 0;
-     transition: opacity 100ms ease-in;
- }
+.collection-item{
+    position:relative;
+}
+.collection-item .btn-action{
+    min-width: 100px;
+    bottom: 10px;
+    position: absolute;
+}
+.padded{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}

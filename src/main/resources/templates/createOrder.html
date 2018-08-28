@@ -201,6 +201,7 @@
 
 
 </body>
+
 <script id="order-result-card" type="text/template">
     <div class="col s6 offset-s3">
         <div class="card">
@@ -213,22 +214,39 @@
                 {content}
                 </p>
             </div>
-            <div class="card-reveal">
+            <div class="card-reveal mayac-light-blue lighten-1">
                 <span class="card-title grey-text text-darken-4"><i class="material-icons right">close</i></span>
                 {{#store}}
                 <p class="blue-grey text-darken-3">
-                    <h5>{{storeName}}</h5>
-                    <div class="section">
-                    <dl>
-                        <dt>위치</dt>
-                        <dd>{{address}}</dd>
-                        <dd>{{addressDetail}}</dd>
-                        <dt>연락처</dt>
-                        <dd>{{phoneNumber}}</dd>
-                        <dt>예약 마감 시간</dt>
-                        <dd>{{timeToClose}}</dd>
-                        <dl>
-                    </dl>
+                    <h5 id="storeName">{{storeName}}</h5>
+                    <div class="row">
+                    <table class="centered highlight">
+                        <thead>
+                            <th></th>
+                            <th></th>
+                        </thead>
+                        <tbody>
+
+                        <tr>
+                            <td>연락처</td>
+                            <td><p>{{phoneNumber}}</p></td>
+                        </tr>
+                        <tr>
+                            <td>예약 마감 시간</td>
+                            <td><p>{{timeToClose}}</p></td>
+                        </tr>
+                        <tr>
+                            <td>위치</td>
+                            <td><p id="addressTxt">{{address}}<br>{{addressDetail}}</p></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <div id="info-map" class="info-map" style="width:80%;height:300px;"></div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                     </div>
                 </p>
                 {{/store}}
@@ -325,6 +343,7 @@
 
                     };
                     $('#result').innerHTML = orderResultHtmlTemplate(tmpParams);
+                    loadMap($('#info-map'), $('#addressTxt').innerHTML, $('#storeName').innerHTML);
                 }
             });
         orderItems.registerEvent();
@@ -359,9 +378,12 @@
         const ctrls = new Ctrls($('.collection'));
         ctrls.registerEvent();
 
+
+
     });
 
 </script>
+<script src="/js/storeInfo.js"></script>
 {{>clientFooter}}
 
 </html>
