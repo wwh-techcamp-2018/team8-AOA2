@@ -35,4 +35,11 @@
             <li class="menu"><a href="/owner/orders">예약주문 조회</a></li>
         </ul>
     </ul>
+    {{#if store}}
+    <input type="hidden" id="storeId" name="storeId" value="{{store.id}}"/>
+    {{else}}
+        {{#if storeId}}
+    <input type="hidden" id="storeId" name="storeId" value="{{storeId}}"/>
+        {{/if}}
+    {{/if}}
 </header>

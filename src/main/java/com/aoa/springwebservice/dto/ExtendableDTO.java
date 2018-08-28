@@ -2,7 +2,7 @@ package com.aoa.springwebservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import lombok.Builder;
+
 import lombok.NoArgsConstructor;
 import lombok.Singular;
 import lombok.ToString;

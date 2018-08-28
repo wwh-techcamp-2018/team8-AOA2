@@ -1,8 +1,5 @@
 package com.aoa.springwebservice.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;

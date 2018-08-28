@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.List;
