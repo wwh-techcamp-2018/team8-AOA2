@@ -48,17 +48,16 @@ public class PageController {
     }
 
     @GetMapping("/admin")
-    public String show(@LoginUser User loginUser) {
+    public String show(@LoginUser User loginUser, Model model) {
         if (storeService.hasStore(loginUser))
-            return "redirect:/result/success";
+            return alreadyRegistedStore(loginUser, model);
         return "/admin/store/fail";
     }
 
     @GetMapping("/owner/stores/form")
     public String registStore(@LoginUser User loginUser, Model model) {
-        if(storeService.hasStore(loginUser)) {
-            return "/alreadyRegisted";
-        }
+        if(storeService.hasStore(loginUser))
+            return alreadyRegistedStore(loginUser, model);
 
         model.addAttribute("navTitle", "가게정보 등록");
         return "/registStore";
@@ -137,5 +136,11 @@ public class PageController {
         model.addAttribute("lastDay", lastDay);
         model.addAttribute("orders", orderService.selectOrders(store, lastDay.atTime(0,0,0)));
         return "/showOrders";
+    }
+
+
+    private String alreadyRegistedStore(User loginUser, Model model) {
+        model.addAttribute("ownerUrl", storeService.makeOwnerUrl(loginUser));
+        return "/alreadyRegisted";
     }
 }

@@ -25,7 +25,8 @@ public class ApiStoreController {
         log.debug("inputDTO : {}", storeInputDTO);
         //todo store 생성실패 상황 고려
         if(storeService.hasStore(loginUser)){
-            return "/alreadyRegisted";
+            //return "/alreadyRegisted";
+            return "/owner/stores/form";
         }
         Store store = storeService.createStore(storeInputDTO, loginUser);
         return "/result/success";
