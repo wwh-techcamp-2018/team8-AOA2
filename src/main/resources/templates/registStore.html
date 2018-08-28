@@ -12,6 +12,7 @@
 </style>
 <body>
 {{> header}}
+<link href="/css/info.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 <main>
     <div class="container">
         <form>
@@ -108,7 +109,7 @@
                         <div class="col s12 l10">
                             <div class="row">
                                 <div class="input-field col s3 l2">
-                                    <input name="phoneNumber_1" class="custom-validate" type="text"
+                                    <input id="input_phone1" name="phoneNumber_1" class="custom-validate" type="text"
                                            data-length="3" data-regex="^01(?:0|1|[6-9])$" required>
                                     <span class="helper-text" data-error="wrong"
                                           data-success="right">3자 이하로 적어주십시오</span>
@@ -117,7 +118,7 @@
                                     -
                                 </div>
                                 <div class="input-field col s3 l2">
-                                    <input name="phoneNumber_2" class="custom-validate" type="text"
+                                    <input id="input_phone2" name="phoneNumber_2" class="custom-validate" type="text"
                                            data-length="4" data-min-length="3" data-regex="^[0-9]*$" required>
                                     <span class="helper-text" data-error="wrong"
                                           data-success="right" >4자 이하로 적어주십시오</span>
@@ -126,7 +127,7 @@
                                     -
                                 </div>
                                 <div class="input-field col s3 l2">
-                                    <input name="phoneNumber_3" class="custom-validate" type="text"
+                                    <input id="input_phone3" name="phoneNumber_3" class="custom-validate" type="text"
                                            data-length="4" data-min-length="4" data-regex="^[0-9]*$" required>
                                     <span class="helper-text" data-error="wrong"
                                           data-success="right" >4자 이하로 적어주십시오</span>
@@ -146,18 +147,25 @@
                         </div>
                     </li>
                 </ul>
-                <button id="submitBtn" class="col s3 l2 offset-s9 offset-l10 btn waves-effect waves-light"
-                        type="button">등록
-                    <i class="material-icons right">send</i>
+                <button id="previewBtn" class="col s3 l2 offset-s5 offset-l7 btn waves-effect waves-light " type="button">
+                    미리보기
+                </button>
+                <button id="submitBtn" class="col s3 l2 offset-s1 offset-l1 btn waves-effect waves-light" type="button">
+                    등록 <i class="material-icons right">send</i>
                 </button>
 
             </div>
 
         </form>
     </div>
+    <div id="previewModal" class="modal">
+            {{>storeInfo}}
+    </div>
 </main>
 </body>
 {{> footer}}
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b61fe85153207d259015754ef56d69ab&libraries=services"></script>
+<script src="/js/storeinfo.js"></script>
 <script type="module">
     import {CustomInputValidator} from '/js/override.js';
     document.addEventListener('DOMContentLoaded', () => {
@@ -168,6 +176,19 @@
         submitBtn.addEventListener('click', createStore);
         M.CharacterCounter.init(counter);
         const inputValidator = new CustomInputValidator();
+
+        const modalElems = $('.modal');
+        const modalInstance = M.Modal.init(modalElems);
+        $('#previewBtn').addEventListener('click', async (event) => {
+            const serviceName = $('#input_service').value;
+            const ownerName = $('#input_owner').value;
+            const phone = $('#input_phone1').value + ' - ' + $('#input_phone2').value + ' - ' + $('#input_phone3').value ;
+            const imgFile = $('input[type=file]').files[0];
+            const address = $('#input_address_main').value + ' ' + $('#input_address_sub').value;
+            const description = $('#input_description').value;
+            await previewLoad(serviceName, ownerName, imgFile, address, phone, description);
+            $('.modal').M_Modal.open();
+        });
 
     });
     const createStore = () => {
@@ -200,7 +221,6 @@
 
 </script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script src="/js/test.js"></script>
 <script>
     //todo 포스트코드 선택시 창 닫기, 창 크기 조절하기
     function sample4_execDaumPostcode() {

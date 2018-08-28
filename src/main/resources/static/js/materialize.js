@@ -3809,7 +3809,7 @@ $jscomp.polyfill = function (e, r, p, m) {
        * @prop {Number} responsiveThreshold
        */
       _this20.options = $.extend({}, Parallax.defaults, options);
-      _this20._enabled = window.innerWidth > _this20.options.responsiveThreshold;
+      _this20._enabled = document.querySelector('.modal').innerWidth > _this20.options.responsiveThreshold;
 
       _this20.$img = _this20.$el.find('img').first();
       _this20.$img.each(function () {
@@ -3847,10 +3847,10 @@ $jscomp.polyfill = function (e, r, p, m) {
 
         if (Parallax._parallaxes.length === 0) {
           Parallax._handleScrollThrottled = M.throttle(Parallax._handleScroll, 5);
-          window.addEventListener('scroll', Parallax._handleScrollThrottled);
+          document.querySelector('.modal').addEventListener('scroll', Parallax._handleScrollThrottled);
 
           Parallax._handleWindowResizeThrottled = M.throttle(Parallax._handleWindowResize, 5);
-          window.addEventListener('resize', Parallax._handleWindowResizeThrottled);
+          document.querySelector('.modal').addEventListener('resize', Parallax._handleWindowResizeThrottled);
         }
       }
     }, {
@@ -3859,8 +3859,8 @@ $jscomp.polyfill = function (e, r, p, m) {
         this.$img[0].removeEventListener('load', this._handleImageLoadBound);
 
         if (Parallax._parallaxes.length === 0) {
-          window.removeEventListener('scroll', Parallax._handleScrollThrottled);
-          window.removeEventListener('resize', Parallax._handleWindowResizeThrottled);
+            document.querySelector('.modal').removeEventListener('scroll', Parallax._handleScrollThrottled);
+            document.querySelector('.modal').removeEventListener('resize', Parallax._handleWindowResizeThrottled);
         }
       }
     }, {
@@ -3879,19 +3879,21 @@ $jscomp.polyfill = function (e, r, p, m) {
         var containerHeight = this.$el.height() > 0 ? this.el.parentNode.offsetHeight : 500;
         var imgHeight = this.$img[0].offsetHeight;
         var parallaxDist = imgHeight - containerHeight;
+        parallaxDist = 100;
         var bottom = this.$el.offset().top + containerHeight;
         var top = this.$el.offset().top;
         var scrollTop = M.getDocumentScrollTop();
-        var windowHeight = window.innerHeight;
+        var windowHeight = document.querySelector('.modal').clientHeight;
         var windowBottom = scrollTop + windowHeight;
-        var percentScrolled = (windowBottom - top) / (containerHeight + windowHeight);
-        var parallax = parallaxDist * percentScrolled;
+        var percentScrolled = (windowBottom - top)  / (containerHeight + windowHeight);
+        var parallax = (parallaxDist * percentScrolled * 6) - (parallaxDist * 3);
 
-        if (!this._enabled) {
-          this.$img[0].style.transform = '';
-        } else if (bottom > scrollTop && top < scrollTop + windowHeight) {
-          this.$img[0].style.transform = "translate3D(-50%, " + parallax + "px, 0)";
-        }
+        this.$img[0].style.transform = "translate3D(-50%, " + parallax + "px, 0)";
+        // if (!this._enabled) {
+        //   this.$img[0].style.transform = '';
+        // } else if (bottom > scrollTop && top < scrollTop + windowHeight) {
+        //   this.$img[0].style.transform = "translate3D(-50%, " + parallax + "px, 0)";
+        // }
       }
     }], [{
       key: "init",
@@ -3922,7 +3924,7 @@ $jscomp.polyfill = function (e, r, p, m) {
       value: function _handleWindowResize() {
         for (var i = 0; i < Parallax._parallaxes.length; i++) {
           var parallaxInstance = Parallax._parallaxes[i];
-          parallaxInstance._enabled = window.innerWidth > parallaxInstance.options.responsiveThreshold;
+          parallaxInstance._enabled = document.querySelector('.modal').innerWidth > parallaxInstance.options.responsiveThreshold;
         }
       }
     }, {
