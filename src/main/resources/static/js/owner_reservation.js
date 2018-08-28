@@ -40,7 +40,7 @@ class OpenReservation {
         return true;
     }
     buildRequestBody() {
-        const timeArr = $('input[name=pickupTime]').value.split(':');
+        const timeArr = $('.flat-timepicker').value.split(':');
         const reservations = Array.from($All('.collection-item', this.wrapper));
         const reservationDTOs = reservations.reduce((accum, cur) => {
             const dto = {
@@ -196,7 +196,6 @@ class MenuInModal extends Menu {
 
     handleClickEvent(event) {
         if (event.target.nodeName === 'BUTTON') {
-            console.log('click');
             const clickBtn = event.target;
             //disableMenu
             clickBtn.setAttribute('disabled', 'disabled');

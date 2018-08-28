@@ -46,7 +46,6 @@ class OrderItem {
             this.submitOrder();
     };
     validated() {
-        debugger;
         return (validateForm(this.userInfoForm) && !isEmpty(this.orderItems));
     };
     async submitOrder() {
@@ -57,6 +56,7 @@ class OrderItem {
             method: "post",
             body: this.constructDTO(),
         });
+
         //document.location = result.data.url;
         if (this.callback.callbackOnSubmitOrder)
             this.callback.callbackOnSubmitOrder(result);
@@ -155,7 +155,6 @@ class Reservation {
 
     handleClickEvent(event) {
         if (event.target.nodeName === 'BUTTON') {
-            console.log('click');
             //todo Refactor
 
             const parent = event.target.closest('.collection-item');
@@ -180,13 +179,13 @@ class Reservation {
 
     menuBoxHTML({ id, menu, maxLimit = 0, btnName }) {
         const menuId = menu.id;
-        const { imgUrl, name, description, price } = menu;
+        const { imageUrl, name, description, price } = menu;
         const stringPrice = numberToLocaleString(price);
         return `<li class="collection-item" data-id="${id}" >
                                 <input type="hidden" name="menuId" min="0" max="100" value="${menuId}"/>
                                 <div class="valign-wrapper">
                                     <div class="col s3 img-box">
-                                        <img class="responsive-img" src="${imgUrl}">
+                                        <img class="responsive-img" src="${imageUrl}">
                                     </div>
                                     <div class="col s9">
                                         <div class="col s12 title-box">
@@ -194,6 +193,10 @@ class Reservation {
                                         </div>
                                         <div class="col s12 description-text grey-text">
                                             ${description}
+                                        </div>
+                                        <div class="col s8 l9 price-box">
+                                            <span class="price">${stringPrice}</span>
+                                            <span class="won">원</span>
                                         </div>
                                         <div class="col s12 valign-wrapper">
                                              <div class="col s8">
