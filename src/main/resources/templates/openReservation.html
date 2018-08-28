@@ -24,8 +24,9 @@
                         </div>
                         <div class="col s6 input-field ">
                             {{#store}}
-                            <input name="pickupTime" type="text" name="timeToClose" class="timepicker"
+                            <input name="timeToClose" type="text" name="timeToClose" class="flat-timepicker"
                                    placeholder="{{timeToClose}}" data-default-value="{{timeToClose}}"
+                                   data-min-date="{{defaultTime}}"
                                    data-hour="{{hourToClose}}" data-minute="{{minuteToClose}}">
                             {{/store}}
                         </div>
@@ -103,15 +104,18 @@
         });
 
         //todo duplicated -- 중복 제거, 모듈로 분리
-        const defaultTime = $('input[name=pickupTime]').getAttribute('data-default-value');
-        flatpickr('input[name=pickupTime]',
+       const defaultTime = $('.flat-timepicker').getAttribute('data-default-value');
+        const minTime = $('.flat-timepicker').getAttribute('data-min-date');
+        flatpickr('input[name=timeToClose]',
             {
                 enableTime: true,
                 noCalendar: true,
                 dateFormat: 'H:i',
                 time_24hr: true,
                 defaultDate: defaultTime,
+                minDate: defaultTime,
                 minuteIncrement: '30',
+                minTime: minTime,
                 maxDate: '24:00',
                 disableMobile: 'true',
             });
