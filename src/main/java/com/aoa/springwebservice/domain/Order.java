@@ -1,11 +1,7 @@
 package com.aoa.springwebservice.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @ToString
 @Table(name = "order_table")
@@ -39,8 +36,8 @@ public class Order {
     private LocalDateTime pickupTime;
 
     private int orderTotalPrice;
-
-    private boolean isPickedup;
+  
+    private Boolean isPickedup;
 
     //Todo :: OrderBy
     @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
@@ -61,6 +58,13 @@ public class Order {
     public void addOrderItem(OrderItem orderItem) {
         this.orderItems.add(orderItem);
         this.orderTotalPrice += orderItem.getItemTotalPrice();
+    }
+
+    public void setIsPickedupByOrder(Order inputOrder) {
+        if(inputOrder.isPickedup)
+            this.isPickedup = false;
+        else
+            this.isPickedup = true;
     }
 
 }

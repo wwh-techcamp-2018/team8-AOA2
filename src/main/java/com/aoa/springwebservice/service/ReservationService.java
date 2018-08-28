@@ -4,9 +4,6 @@ import com.aoa.springwebservice.domain.Reservation;
 import com.aoa.springwebservice.domain.ReservationRepository;
 import com.aoa.springwebservice.domain.Store;
 import com.aoa.springwebservice.domain.StoreRepository;
-import com.aoa.springwebservice.dto.OrderFormDTO;
-import com.aoa.springwebservice.dto.OrderItemDTO;
-import com.aoa.springwebservice.dto.ReservationDTO;
 import com.aoa.springwebservice.dto.ReservationFormDTO;
 import com.aoa.springwebservice.service.support.ReservationSelector;
 import org.springframework.beans.factory.BeanFactory;
@@ -14,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -38,6 +35,7 @@ public class ReservationService {
     @Transactional
     public Iterable<Reservation> createReservation(ReservationFormDTO reservationFormDTO, long storeId){
         Store store = storeRepository.findById(storeId).get();
+        if(store.isOpen()) throw new RuntimeException("이미 진행 중인 예약 정보가 존재 합니다.");
         LocalDateTime timeToClose = reservationFormDTO.generateTimeToClose();
         List<Reservation> reservations = reservationFormDTO.generateReservations(store);
 
@@ -58,5 +56,12 @@ public class ReservationService {
     public List<Reservation> getReservationsByCondition(String condition, Store store) {
         ReservationSelector selector = (ReservationSelector)beanFactory.getBean(condition + SELECTOR_POST_FIX);
         return selector.select(store);
+    }
+
+    public LocalDate getLastDay(Store store) {
+        return reservationRepository
+                .findFirstByStoreAndOpenDateBeforeOrderByOpenDateDesc(store, LocalDate.now())
+                .orElseThrow(() -> new EntityNotFoundException("Last Day가 존재하지 않는다."))
+                .getOpenDate();
     }
 }

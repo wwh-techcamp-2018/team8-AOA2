@@ -1,7 +1,5 @@
 package com.aoa.springwebservice.web;
 
-import com.aoa.springwebservice.RestResponse;
-
 import com.aoa.springwebservice.domain.Order;
 import com.aoa.springwebservice.dto.ExtendableDTO;
 import com.aoa.springwebservice.dto.OrderFormDTO;
@@ -9,16 +7,11 @@ import com.aoa.springwebservice.service.OrderService;
 import com.aoa.springwebservice.service.ReservationService;
 import com.aoa.springwebservice.service.StoreService;
 
-import com.aoa.springwebservice.dto.OrderFormDTO;
-import com.aoa.springwebservice.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -48,5 +41,10 @@ public class ApiOrderController {
         return dto;
     }
 
-
+    @PostMapping("/orders/{orderId}")
+    public Order updateIsPickedupStatus(@PathVariable long orderId, @RequestBody Order order){
+        log.debug("pickedupStatus : {}", order);
+        return orderService.updateIsPickedupStatus(orderId, order);
+    }
+  
 }

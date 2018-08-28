@@ -73,6 +73,11 @@ const removeClass = (el, className)=>{
     }
 };
 
+const replaceClass = (el, preClassName, postClassName) => {
+    removeClass(el, preClassName);
+    addClass(el, postClassName);
+};
+
 const toggleClass = (elem, className)=>{
     var newClass = ' ' + elem.className.replace( /[\t\r\n]/g, ' ' ) + ' ';
     if (hasClass(elem, className)) {
@@ -100,8 +105,10 @@ String.prototype.isEmpty = function () {
 */
 
 //when using validation form
-const isEmpty = (str) => {
-    return (str.length === 0 || !str.trim());
+const isEmpty = (target) => {
+    if( target.constructor === String )
+        return (target.length === 0 || !target.trim());
+    return Object.keys(target).length === 0 && target.constructor === Object;
 }
 
 const validateForm = (formEl) => {

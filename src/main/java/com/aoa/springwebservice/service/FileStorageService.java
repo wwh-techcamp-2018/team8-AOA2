@@ -3,8 +3,6 @@ package com.aoa.springwebservice.service;
 import com.aoa.springwebservice.exception.FileStorageException;
 import com.aoa.springwebservice.property.FileStorageProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,6 +35,7 @@ public class FileStorageService {
 
     public String storeFile(MultipartFile file) {
         // Normalize file name
+        //todo : nullPointerException 처리
         String fileName = file.getOriginalFilename();
 
         try {

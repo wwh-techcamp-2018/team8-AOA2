@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -76,6 +77,7 @@ public class OrderServiceTest {
     }
 
     @Test
+    @Transactional
     public void update_count_Reservations_성공() {
         OrderFormDTO orderFormDTO = createReservationResource(1L, 2L);
         Map<Long, Reservation> result = reservationService.getTodayReservations(store.getId());
@@ -90,21 +92,6 @@ public class OrderServiceTest {
 
         log.debug("newOrder : {}", newOrder);
     }
-
-//    @Test(expected = RuntimeException.class)
-//    public void update_count_Reservations_실패() {
-//
-//        OrderFormDTO orderFormDTO = createReservationResource(3L, 4L);
-//        orderFormDTO.getOrderItemDTOs().remove(1);
-//        orderFormDTO.getOrderItemDTOs().add(new OrderItemDTO(3L, 5));
-//
-//        Map<Long, Reservation> result = reservationService.getTodayReservations(store.getId());
-//
-//        Order order = orderFormDTO.toDomain(store);
-//        Order newOrder = orderService.createOrder(result, orderFormDTO, order);
-//
-//        log.debug("newOrder : {}", newOrder);
-//    }
 
     public OrderFormDTO createReservationResource(long menuId1, long menuId2) {
         // When
