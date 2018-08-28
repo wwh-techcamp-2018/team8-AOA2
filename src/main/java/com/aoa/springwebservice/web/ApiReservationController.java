@@ -25,7 +25,7 @@ public class ApiReservationController {
 
     @Autowired
     private ReservationRepository reservationRepository;
-    //todo Handle -- Redirect
+
     @PostMapping("/stores/{storeId}/reservations")
     public RestResponse<RestResponse.RedirectData> create(@PathVariable long storeId, @RequestBody ReservationFormDTO reservationDTO) {
         reservationService.createReservation(reservationDTO, storeId);

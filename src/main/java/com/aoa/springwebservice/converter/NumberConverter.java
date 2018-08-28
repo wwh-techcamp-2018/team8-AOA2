@@ -8,6 +8,5 @@ public class NumberConverter {
         }
         return phoneNumber.replaceFirst("(\\d{3})(\\d{3})(\\d{4})", "$1-$2-$3");
     }
-//    public static String[] splitPhoneNumber(String phoneNumber){
-//    }
+
 }

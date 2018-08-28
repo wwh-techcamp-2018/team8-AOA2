@@ -1,61 +1,67 @@
 class Ctrls {
 
-    constructor(wrapper){
+    constructor(wrapper) {
         this.wrapper = wrapper;
+        this.limit = { minValue: 1, maxValue: 9999999999 };
     }
     decrement() {
-      let counter = this.targetInput.value;
-      const nextCounter = (this.counter > 0) ? --counter : counter;
-      this.targetInput.value = nextCounter;
-      this.updatePrevValue(nextCounter);
+        this.changeValue(Number(this.targetInput.value) - 1);
     };
 
     increment() {
-      let counter = this.targetInput.value;
-      const nextCounter = (counter < 9999999999) ? ++counter : counter;
-      this.targetInput.value = nextCounter;
-      this.updatePrevValue(nextCounter);
+        this.changeValue(Number(this.targetInput.value) + 1);
     };
 
-    initClass(eventTarget){
+    initClass(eventTarget) {
         this.targetInput = $('.ctrl__counter-num', eventTarget.closest('.ctrl'));
-        this.counter = Number(this.targetInput.value);
+        this.limit = {
+            minValue: this.targetInput.getAttribute('data-min-value') || this.limit.minValue,
+            maxValue: this.targetInput.getAttribute('data-max-value') || this.limit.maxValue,
+        };
     };
 
-    updatePrevValue(value){
+    updatePrevValue(value) {
         this.targetInput.setAttribute('data-prev', value);
     };
-    backToPrevValue(){
-        this.targetInput.value = this.targetInput.getAttribute('data-prev');
+    backToPrevValue(invalidValue) {
+        if (this.targetInput.value == invalidValue)
+            this.targetInput.value = this.targetInput.getAttribute('data-prev');
     };
 
     handleClickEvent(event) {
-            if(hasClass(event.target, 'ctrl__button--increment')){
-             console.log('up');
-             this.initClass(event.target);
-             this.increment();
-             return;
-            }
-             if(hasClass(event.target, 'ctrl__button--decrement')){
-                console.log('down');
-                 this.initClass(event.target);
-                 this.decrement();
-                return;
-         }
+        if (hasClass(event.target, 'ctrl__button--increment')) {
+            console.log('up');
+            this.initClass(event.target);
+            this.increment();
+            return;
+        }
+        if (hasClass(event.target, 'ctrl__button--decrement')) {
+            console.log('down');
+            this.initClass(event.target);
+            this.decrement();
+            return;
+        }
     };
-    handleChangeEvent(event){
-            if(hasClass(event.target, 'ctrl__counter-num')){
-             console.log('change');
-              this.initClass(event.target);
-             var parseValue = parseInt(event.target.value);
-                if (isNaN(parseValue) || parseValue < 0) {
-                    this.backToPrevValue();
-                    return;
-                }
-                this.targetInput.value = parseValue;
-                this.updatePrevValue(parseValue);
-
-            }
+    changeValue(nextNumber) {
+        if (!this.validNextNumber(nextNumber)) {
+            this.backToPrevValue(nextNumber);
+            return;
+        }
+        this.targetInput.value = nextNumber;
+        this.updatePrevValue(nextNumber);
+    }
+    validNextNumber(nextNumber) {
+        return !isNaN(nextNumber)
+            && nextNumber <= this.limit.maxValue
+            && nextNumber >= this.limit.minValue;
+    }
+    handleChangeEvent(event) {
+        if (hasClass(event.target, 'ctrl__counter-num')) {
+            console.log('change');
+            this.initClass(event.target);
+            var parseValue = parseInt(event.target.value);
+            this.changeValue(parseValue);
+        }
     }
     registerEvent() {
         this.wrapper.addEventListener('click', this.handleClickEvent.bind(this));

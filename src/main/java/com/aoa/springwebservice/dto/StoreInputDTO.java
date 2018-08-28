@@ -6,7 +6,6 @@ import lombok.*;
 import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -62,7 +61,7 @@ public class StoreInputDTO {
     @Size(max = 300, message = "길이가 맞지 않습니다")
     private String description;
 
-    @Nullable
+    @NotNull
     private MultipartFile imageFile;
     @Builder
     public StoreInputDTO(String storeName, String serviceDescription, String ownerName, String postCode, String address, String addressDetail, String phoneNumber_1, String phoneNumber_2, String phoneNumber_3, String description, MultipartFile imageFile) {
