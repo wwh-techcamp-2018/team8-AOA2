@@ -24,7 +24,6 @@
                         </div>
                         <div class="col s6 input-field ">
                             {{#store}}
-                            <input id="storeId" name="storeId" type="hidden" value="{{storeId}}">
                             <input name="pickupTime" type="text" name="timeToClose" class="timepicker"
                                    placeholder="{{timeToClose}}" data-default-value="{{timeToClose}}"
                                    data-hour="{{hourToClose}}" data-minute="{{minuteToClose}}">
@@ -65,25 +64,12 @@
     import {MenuInModal, OpenReservation} from '/js/owner_reservation.js';
 
     document.addEventListener('DOMContentLoaded', function () {
-        //addMenuForm($('#storeId').value);
-        $('#today').innerHTML = formatDate(new Date());
+
+
         M.updateTextFields();
 
-        //todo duplicated -- 중복 제거, 모듈로 분리
-        const defaultTime = $('input[name=pickupTime]').getAttribute('data-default-value');
-        flatpickr('input[name=pickupTime]',
-            {
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: 'H:i',
-                time_24hr: true,
-                defaultDate: defaultTime,
-                minuteIncrement: '30',
-                maxDate: '24:00',
-                disableMobile: 'true',
-            });
-        //todo storeId ==>
-        const storeId = 1;
+
+        const storeId = $('#storeId').value;
         const openReservation = new OpenReservation(storeId, $('#open-menu-collection'),
             {
                 callbackOnDelete: (menuId) => {
@@ -99,7 +85,6 @@
 
             });
         menu.registerEvent();
-
 
         const modalElems = $('.modal');
         const modalInstance = M.Modal.init(modalElems);
@@ -117,9 +102,26 @@
             $('.modal').M_Modal.open();
         });
 
+        //todo duplicated -- 중복 제거, 모듈로 분리
+        const defaultTime = $('input[name=pickupTime]').getAttribute('data-default-value');
+        flatpickr('input[name=pickupTime]',
+            {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: 'H:i',
+                time_24hr: true,
+                defaultDate: defaultTime,
+                minuteIncrement: '30',
+                maxDate: '24:00',
+                disableMobile: 'true',
+            });
+
+        $('#today').innerHTML = formatDate(new Date());
 
         const ctrls = new Ctrls($('#open-menu-collection'));
         ctrls.registerEvent();
+
+
 
 
     });

@@ -25,7 +25,7 @@ public class ApiReservationController {
 
     @Autowired
     private ReservationRepository reservationRepository;
-    //todo Handle -- Redirect
+
     @PostMapping("/stores/{storeId}/reservations")
     public RestResponse<RestResponse.RedirectData> create(@PathVariable long storeId, @RequestBody ReservationFormDTO reservationDTO) {
         reservationService.createReservation(reservationDTO, storeId);
@@ -36,7 +36,7 @@ public class ApiReservationController {
 //        log.debug("ReservationDTO {}", reservationDTO);
 //        return "/result/success";
 //    }
-
+//todo?C
     @GetMapping("/stores/{storeId}/reservations")
     public List<Reservation> list(@PathVariable long storeId) {
         return reservationRepository.findAllByStore( storeRepository.findById(storeId).get());

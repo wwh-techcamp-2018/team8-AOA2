@@ -10,7 +10,6 @@
 <body>
 {{> header}}
 <main>
-    <input type="hidden" id="storeId" value="{{store.id}}"/>
     <div class="container">
         {{> menulist}}
     </div>
@@ -24,7 +23,7 @@
         var counter = document.querySelectorAll('.input_counter');
         M.CharacterCounter.init(counter);
 
-        const storeId  = 1;
+        const storeId  = $('#storeId').value;
         const menu = new MenuInForm(storeId, $('#menu-collection'),
             {
                 callbackOnInit: () => {
@@ -39,6 +38,8 @@
     });
 
     function createStore() {
+        if(!validateForm($('form')))
+            return;
         let formData = new FormData();
         serializeArray($('form')).forEach(e => formData.append(e.name, e.value));
         const fileElem = $('input[type=file]');

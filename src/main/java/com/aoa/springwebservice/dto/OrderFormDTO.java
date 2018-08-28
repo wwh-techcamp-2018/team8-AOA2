@@ -3,7 +3,6 @@ package com.aoa.springwebservice.dto;
 import com.aoa.springwebservice.domain.Customer;
 import com.aoa.springwebservice.domain.Order;
 import com.aoa.springwebservice.domain.Store;
-import javafx.scene.input.DataFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

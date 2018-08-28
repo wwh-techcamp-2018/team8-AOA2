@@ -105,8 +105,10 @@ String.prototype.isEmpty = function () {
 */
 
 //when using validation form
-const isEmpty = (str) => {
-    return (str.length === 0 || !str.trim());
+const isEmpty = (target) => {
+    if( target.constructor === String )
+        return (target.length === 0 || !target.trim());
+    return Object.keys(target).length === 0 && target.constructor === Object;
 }
 
 const validateForm = (formEl) => {
