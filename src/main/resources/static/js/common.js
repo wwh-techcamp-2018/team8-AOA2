@@ -73,6 +73,11 @@ const removeClass = (el, className)=>{
     }
 };
 
+const replaceClass = (el, preClassName, postClassName) => {
+    removeClass(el, preClassName);
+    addClass(el, postClassName);
+};
+
 const toggleClass = (elem, className)=>{
     var newClass = ' ' + elem.className.replace( /[\t\r\n]/g, ' ' ) + ' ';
     if (hasClass(elem, className)) {

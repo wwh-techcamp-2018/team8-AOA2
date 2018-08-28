@@ -1,6 +1,6 @@
 
 
-insert into user (uuid, name, email, phone_number) values ('905405911', 'Junho Hong', 'brenden0730@gmail.com', '010-1111-1111');
+insert into user (uuid, name, email, phone_number) values ('907439560', 'Junho Hong', 'brenden0730@gmail.com', '010-1111-1111');
 insert into user (uuid, name, email, phone_number) values ('907126317', '김연태', 'urbanscenery@gmail.com', '01043444441');
 --insert into store (user_id, ADDRESS, address_detail, description, imgurl, owner_name, phone_number, post_code, service_description, store_name) values (1,'ADDRESS', 'DETAI', 'DESC', '/', '예제', '1234512345', '12345', 'SERVICE DESC', 'TEST_STORE');
 
