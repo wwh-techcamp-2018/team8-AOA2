@@ -82,6 +82,8 @@ public class ReservationServiceTest {
     @Test
     public void create_new_reservation() {
         // When
+        long storeId = store.getId();
+        store = null;
         List<ReservationDTO> reservationDTOs = Arrays.asList(
                 ReservationDTO.builder()
                         .maxCount(3)
@@ -99,10 +101,8 @@ public class ReservationServiceTest {
                 .reservationDTOs(reservationDTOs)
                 .build();
 
-        log.debug("deactivate store : {}", store);
+        reservationService.createReservation(reservationFormDTO, storeId);
 
-        reservationService.createReservation(reservationFormDTO, store.getId());
-
-        assertThat(reservationRepository.findAllByStore(store).size()).isEqualTo(reservationDTOs.size());
+        assertThat(reservationRepository.findAllByStoreId(storeId).size()).isEqualTo(reservationDTOs.size());
     }
 }
