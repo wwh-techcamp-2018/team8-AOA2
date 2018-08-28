@@ -73,6 +73,8 @@ public class PageController {
 //        }
         model.addAttribute("store", storeService.createStoreDetailInfoDTO(store));
         model.addAttribute("navTitle", "예약 등록");
+        LocalTime now = LocalTime.now();
+        model.addAttribute("defaultTime", LocalTime.of(now.getHour(), ((now.getMinute()/ 30)) * 30).plusMinutes(30));
 
         return "/openReservation";
     }
