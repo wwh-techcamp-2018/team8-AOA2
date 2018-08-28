@@ -25,7 +25,7 @@ public class CurrentReservationSelector implements ReservationSelector{
     }
 
     private boolean isExisted(List<Reservation> reservations){
-        if(reservations == null && reservations.isEmpty())
+        if(reservations == null || reservations.isEmpty())
             throw new EntityNotFoundException("현재 진행 중인 예약이 없습니다.");
         return true;
     }

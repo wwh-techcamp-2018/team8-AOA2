@@ -4,6 +4,7 @@ import com.aoa.springwebservice.domain.Reservation;
 import com.aoa.springwebservice.domain.Store;
 import com.aoa.springwebservice.domain.StoreRepository;
 import com.aoa.springwebservice.domain.User;
+import com.aoa.springwebservice.dto.StoreOutputDTO;
 import com.aoa.springwebservice.security.HttpSessionUtils;
 import com.aoa.springwebservice.security.LoginUser;
 import com.aoa.springwebservice.service.OrderService;
@@ -29,13 +30,16 @@ import java.util.List;
 public class PageController {
 
     @Autowired
-    StoreService storeService;
+    private StoreService storeService;
 
     @Autowired
-    ReservationService reservationService;
+    private ReservationService reservationService;
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private StoreRepository storeRepository;
 
 
     @GetMapping("/admin")
@@ -65,13 +69,13 @@ public class PageController {
 
     @GetMapping("/owner/reservations/form")
     public String openReservation(Model model, @LoginUser User loginUser) {
-        //todo store 존재 확인, store isOpen 확인 --> 중복 로직 처리 어떻게?
-        log.debug("store check {} ", storeService.getStoreByUser(loginUser));
-
-        log.debug("dto check {}",  storeService.createStoreDetailInfoDTO(storeService.getStoreByUser(loginUser)));
-        model.addAttribute("store", storeService.createStoreDetailInfoDTO(storeService.getStoreByUser(loginUser)));
+        //todo store 존재 확인, store isOpen 확인
+        Store store = storeService.getStoreByUser(loginUser);
+        if(store.isOpen()) throw new RuntimeException("이미 진행 중인 예약이 존재합니다.");
+        StoreOutputDTO storeOutputDTO = storeService.createStoreDetailInfoDTO(store);
+        log.debug("dto check {}",  storeOutputDTO);
+        model.addAttribute("store", storeOutputDTO);
         model.addAttribute("navTitle", "예약 등록");
-
         return "/openReservation";
     }
 
@@ -83,17 +87,6 @@ public class PageController {
         return "/displayReservation";
     }
 
-//    @GetMapping("/stores/{storeId}/orders/form")
-//    public String createOrder(@PathVariable long storeId, @LoginUser User loginUser, Model model){
-//        //todo store 존재 확인, store isOpen 확인
-//        model.addAttribute("store", storeService.createStoreDetailInfoDTO(storeService.getStoreByUser(loginUser)));
-//        LocalTime now = LocalTime.now();
-//        model.addAttribute("defaultTime", LocalTime.of(now.getHour(), ((now.getMinute()/ 30)) * 30).plusMinutes(30));
-//        return "/createOrder";
-//    }
-
-    @Autowired
-    StoreRepository storeRepository;
     @GetMapping("/stores/{storeId}/orders/form")
     public String createOrder(@PathVariable long storeId, Model model){
         //todo store 존재 확인, store isOpen 확인
