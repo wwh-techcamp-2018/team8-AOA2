@@ -101,9 +101,8 @@ class OrderItem {
         this.updateTotalPrice();
         this.toggleOrderBtn();
     }
-    updateOrderItem({ id, amount, menu, personalMaxCount, availableCount }) {
+    updateOrderItem({ id, amount, menu }) {
         const orderItem = $('[data-id="' + id + '"]', this.wrapper);
-
         $('.order-amount', orderItem).innerHTML = Number($('.order-amount', orderItem).innerHTML) + Number(amount);
         $('.order-price', orderItem).innerHTML = Number($('.order-price', orderItem).innerHTML) + Number(amount * menu.price);
         this.updateTotalPrice();
@@ -113,7 +112,7 @@ class OrderItem {
         $('#totalPrice').innerHTML = price;
     };
     orderItemHTML({ id, amount, menu }) {
-        const { name, maxCount, personalMaxCount, price } = menu;
+        const { name, price } = menu;
         const totalPrice = price * amount;
         return `<div class="card" data-id="${id}">
             <a class="btn-small btn-floating halfway-top right waves-effect waves-light mayac-light-blue"><i class="delete material-icons">clear</i></a>
@@ -179,11 +178,10 @@ class Reservation {
     };
 
 
-    menuBoxHTML({ id, menu, availableCount = 0, personalMaxCount = 0, btnName }) {
+    menuBoxHTML({ id, menu, maxLimit = 0, btnName }) {
         const menuId = menu.id;
         const { imgUrl, name, description, price } = menu;
         const stringPrice = numberToLocaleString(price);
-        const maxLimit = availableCount > personalMaxCount ? availableCount : personalMaxCount;
         return `<li class="collection-item" data-id="${id}" >
                                 <input type="hidden" name="menuId" min="0" max="100" value="${menuId}"/>
                                 <div class="valign-wrapper">
@@ -209,6 +207,8 @@ class Reservation {
                                                             </div>
                                                             <div class='ctrl__button ctrl__button--increment'>+</div>
                                                         </div>
+                                                         <label class="error-msg opacity-hidden left"> <span class="maxLimit left">${maxLimit}</span>개 이상 구매 불가</label><span class="badge custom-badge"> Max <span class="maxLimit"> ${maxLimit}</span></span>
+
                                                     </div>
                                                 </div>
                                               </div>

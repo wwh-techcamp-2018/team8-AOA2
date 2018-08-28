@@ -66,10 +66,10 @@ public class PageController {
             return "/fail";
         }
         Store store = storeService.getStoreByUser(loginUser);
-        if(store.isOpen()){
-            return "/fail";
-        }
-        model.addAttribute("storeId", store.getId());
+//        if(store.isOpen()){
+//            return "/fail";
+//        }
+        model.addAttribute("store", storeService.createStoreDetailInfoDTO(store));
         model.addAttribute("navTitle", "예약 등록");
 
         return "/openReservation";
@@ -83,16 +83,14 @@ public class PageController {
         return "/displayReservation";
     }
 
-    @Autowired
-    StoreRepository storeRepository;
     @GetMapping("/stores/{storeId}/orders/form")
     public String createOrder(@PathVariable long storeId, Model model){
         //todo store 존재 확인, store isOpen 확인
         Store store = storeService.getStoreById(storeId);
-        if(!store.isOpen()){
-            return "/fail";
-        }
-        model.addAttribute("store", storeService.createStoreDetailInfoDTO(storeRepository.findById(storeId).get()));
+//        if(!store.isOpen()){
+//            return "/fail";
+//        }
+        model.addAttribute("store", storeService.createStoreDetailInfoDTO(storeService.getStoreById(storeId)));
         LocalTime now = LocalTime.now();
         model.addAttribute("defaultTime", LocalTime.of(now.getHour(), ((now.getMinute()/ 30)) * 30).plusMinutes(30));
         return "/createOrder";
