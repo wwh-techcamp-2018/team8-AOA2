@@ -1,5 +1,6 @@
 package com.aoa.springwebservice.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class OrderItem {
 
     @ManyToOne(optional = false)
     @ToString.Exclude
+    @JsonIgnore
     private Order order;
 
     @ManyToOne

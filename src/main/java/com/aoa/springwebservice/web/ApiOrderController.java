@@ -41,5 +41,10 @@ public class ApiOrderController {
         return dto;
     }
 
-
+    @PostMapping("/orders/{orderId}")
+    public Order updateIsPickedupStatus(@PathVariable long orderId, @RequestBody Order order){
+        log.debug("pickedupStatus : {}", order);
+        return orderService.updateIsPickedupStatus(orderId, order);
+    }
+  
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -55,5 +56,12 @@ public class ReservationService {
     public List<Reservation> getReservationsByCondition(String condition, Store store) {
         ReservationSelector selector = (ReservationSelector)beanFactory.getBean(condition + SELECTOR_POST_FIX);
         return selector.select(store);
+    }
+
+    public LocalDate getLastDay(Store store) {
+        return reservationRepository
+                .findFirstByStoreAndOpenDateBeforeOrderByOpenDateDesc(store, LocalDate.now())
+                .orElseThrow(() -> new EntityNotFoundException("Last Day가 존재하지 않는다."))
+                .getOpenDate();
     }
 }

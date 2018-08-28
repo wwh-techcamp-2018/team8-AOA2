@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -30,7 +31,8 @@ public class PageController {
     ReservationService reservationService;
 
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
+
 
     @GetMapping("/admin")
     public String show(@LoginUser User loginUser) {
@@ -95,7 +97,7 @@ public class PageController {
         model.addAttribute("defaultTime", LocalTime.of(now.getHour(), ((now.getMinute()/ 30)) * 30).plusMinutes(30));
         return "/createOrder";
     }
-
+  
     @GetMapping("/owner/menus")
     public String showMenus(@LoginUser User user,  Model model) {
         if(!storeService.hasStore(user)) {
@@ -104,5 +106,19 @@ public class PageController {
         model.addAttribute("store", storeService.getStoreByUser(user));
         model.addAttribute("navTitle", "메뉴 조회");
         return "displayMenu";
+    }
+
+    @GetMapping("/owner/orders")
+    public String openOrders(Model model, @LoginUser User loginUser) {
+        //todo : store => isOpen, Reservation openDate => 예약등록이 되지 않았을 경우
+        Store store = storeService.getStoreByUser(loginUser);
+        log.debug("store check {} ", store);
+        LocalDate lastDay = reservationService.getLastDay(storeService.getStoreByUser(loginUser));
+        log.debug("last day : {}", lastDay);
+        log.debug("orders : {}", orderService.selectOrders(store, lastDay.atTime(0,0,0)));
+
+        model.addAttribute("lastDay", lastDay);
+        model.addAttribute("orders", orderService.selectOrders(store, lastDay.atTime(0,0,0)));
+        return "/showOrders";
     }
 }
