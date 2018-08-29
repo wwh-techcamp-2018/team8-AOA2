@@ -115,4 +115,8 @@ public class Menu {
     public int calculatePrice(int itemCount) {
         return this.price * itemCount;
     }
+
+    public boolean hasSameStore(Store store) {
+        return this.store.equals(store);
+    }
 }

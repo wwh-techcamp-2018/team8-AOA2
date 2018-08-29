@@ -163,4 +163,8 @@ public class Store{
         this.menus.stream().filter(x -> x.equals(menu)).findAny().orElseThrow( () -> new InvalidStateOnStore("Cannot find menu on store"))
                 .setUpLastUsedStatus(maxCount);
     }
+
+    public boolean hasSameOwner(User other) {
+        return this.user.equals(other);
+    }
 }
