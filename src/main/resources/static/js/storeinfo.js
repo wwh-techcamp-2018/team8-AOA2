@@ -1,5 +1,4 @@
 const previewLoad = (serviceName, ownerName, imgFile, address, phone, description) => {
-
         let reader = new FileReader();
         reader.readAsDataURL(imgFile);
         reader.onload = async () => {
@@ -16,17 +15,19 @@ const previewLoad = (serviceName, ownerName, imgFile, address, phone, descriptio
 
 };
 
-const storeViewLoad = async (serviceName, ownerName, imgPath, address, phone, description) => {
-    $('#info-store-name', $('#previewModal')).innerText = serviceName;
-    $('#info-img').src = imgPath;
-    $('#info-description', $('#previewModal')).innerText = description;
-    $('#info-name', $('#previewModal')).innerText = ownerName;
-    $('#info-address', $('#previewModal')).innerText = address;
-    $('#info-phone', $('#previewModal')).innerText = phone;
-    await loadMap($('#info-map'), $("#info-address").innerText, $("#info-store-name").innerText);
-    const elems = document.querySelectorAll('.parallax');
-    const instances = M.Parallax.init(elems);
-};
+const storeViewLoad = (serviceName, ownerName, imgPath, address, phone, description) => {
+    return new Promise( async (resolve) => {
+        $('#info-store-name', $('#infoModal')).innerText = serviceName;
+        $('#info-img').src = imgPath;
+        $('#info-description', $('#infoModal')).innerText = description;
+        $('#info-name', $('#infoModal')).innerText = ownerName;
+        $('#info-address', $('#infoModal')).innerText = address;
+        $('#info-phone', $('#infoModal')).innerText = phone;
+        await loadMap($('#info-map'), $("#info-address").innerText, $("#info-store-name").innerText);
+        const elems = document.querySelectorAll('.parallax');
+        const instances = M.Parallax.init(elems);
+        resolve(instances);
+    });
 
 // const previewLoad = (serviceName, ownerName, imgFile, address, phone, description) => {
 //     return new Promise( async (resolve, reject) => {

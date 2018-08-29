@@ -50,7 +50,6 @@ class CustomInputValidator {
     constructor() {
         // Text based inputs
         const input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=search], input[type=date], input[type=time], textarea';
-
         const inputArr = Array.from(document.querySelectorAll(input_selector));
         // Add active if form auto complete
         document.addEventListener('change', (function (event) {

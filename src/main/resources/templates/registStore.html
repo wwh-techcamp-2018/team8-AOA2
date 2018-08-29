@@ -67,8 +67,8 @@
                                     <input type="file" name="imageFile">
                                 </div>
                                 <div class="file-path-wrapper">
-                                    <input id="file_path" class="file-path" type="text">
-                                    <!--readonly="readonly"-->
+                                    <input id="file_path" class="file-path" type="text"
+                                           required>
                                     <label for="file_path">첨부파일</label>
                                     <span class="helper-text" data-error="10MB 이하의 이미지파일만 업로드가 가능합니다"
                                           data-success="right">이미지파일 업로드</span>
@@ -84,15 +84,15 @@
                         </div>
                         <div class="input-field col s5 l3 ">
                             <input id="input_address_postcode" name="postCode" class="custom-validate" type="text" placeholder="우편번호"
-                                   readonly="readonly" required>
+                                   readonly required>
                         </div>
                         <div class="input-field col s4 l3">
                             <a class="waves-effect waves-light btn-small" onclick="sample4_execDaumPostcode()">우편번호
                                 찾기</a>
                         </div>
                         <div class="input-field-nonmsg col s12 l10 offset-l2">
-                            <input id="input_address_main" name="address" class="custom-validate" name="address" type="text"
-                                   placeholder="도로명주소" readonly="readonly" data-length="50" required>
+                            <input id="input_address_main" name="address" class="custom-validate" type="text"
+                                   placeholder="도로명주소" readonly data-length="50" required>
                         </div>
                         <div class="input-field col s12 l10 offset-l2">
                             <input class="input_counter custom-validate" id="input_address_sub" name="addressDetail" type="text"
@@ -180,6 +180,11 @@
         const modalElems = $('.modal');
         const modalInstance = M.Modal.init(modalElems);
         $('#previewBtn').addEventListener('click', async (event) => {
+            const fileElem = $('input[type=file]');
+            if(fileElem.files.length !== 1  || fileElem.files[0].size > 10485760){
+                addClass($('#file_path'), 'invalid');
+                return;
+            }
             const serviceName = $('#input_service').value;
             const ownerName = $('#input_owner').value;
             const phone = $('#input_phone1').value + ' - ' + $('#input_phone2').value + ' - ' + $('#input_phone3').value ;
@@ -258,23 +263,18 @@
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
                 $('input[name=postCode]').value = data.zonecode; //5자리 새우편번호 사용
                 $('input[name=address]').value = fullRoadAddr;
-                document.getElementById('sample4_jibunAddress').value = data.jibunAddress;
-
-                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-                if (data.autoRoadAddress) {
-                    //예상되는 도로명 주소에 조합형 주소를 추가한다.
-                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
-                    document.getElementById('guide').innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
-
-                } else if (data.autoJibunAddress) {
-                    var expJibunAddr = data.autoJibunAddress;
-                    document.getElementById('guide').innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
-
-                } else {
-                    document.getElementById('guide').innerHTML = '';
+                if(hasClass($('input[name=postCode]'), 'invalid') || hasClass($('input[name=address]'), 'invalid')){
+                    removeClass($('input[name=postCode]'), 'invalid');
+                    removeClass($('input[name=address]'), 'invalid');
                 }
+                addClass($('input[name=postCode]'), 'valid');
+                addClass($('input[name=address]'), 'valid');
+                return;
             }
-        }).open();
+        }).open({
+            popupName: 'addressPopup',
+            autoClose: true,
+        });
     }
 </script>
 </html>
