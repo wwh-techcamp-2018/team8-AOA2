@@ -42,6 +42,12 @@ public class MenuService {
         store.addMenu(menu);
     }
 
+    @Transactional
+    public void createMenu2(MenuDTOToUpload menuDTO, Store store) {
+        String menuImgUrl = fileStorageService.storeFile(menuDTO.getFile());
+        Menu menu = menuDTO.toDomain(store, menuImgUrl);
+        store.addMenu(menu);
+    }
     public List<MenuOutputDTO> findAllMenuInStore(User user) {
         Store store = storeRepository.findByUser(user).get();
         return store.getUsedMenuOutputDTOList();

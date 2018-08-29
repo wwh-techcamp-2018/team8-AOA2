@@ -1,8 +1,10 @@
 package com.aoa.springwebservice.web;
 
 import com.aoa.springwebservice.domain.Menu;
+import com.aoa.springwebservice.domain.Store;
 import com.aoa.springwebservice.dto.MenuDTOToUpload;
 import com.aoa.springwebservice.dto.MenuOutputDTO;
+import com.aoa.springwebservice.security.AuthorizedStore;
 import com.aoa.springwebservice.service.FileStorageService;
 import com.aoa.springwebservice.service.MenuService;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,12 @@ public class ApiMenuController {
     @PostMapping(path = "/stores/{storeId}/menus")
     public String createMenuWithStoreId(MenuDTOToUpload menuDTO,@PathVariable long storeId){
         menuService.createMenu(menuDTO, storeId);
+        return "/result/success";
+    }
+    @PostMapping(path = "/stores/{storeId}/menus/test")
+    public String createMenuWithStoreId(MenuDTOToUpload menuDTO, @AuthorizedStore Store store){
+        log.debug("menuDTO {}", menuDTO);
+        menuService.createMenu2(menuDTO, store);
         return "/result/success";
     }
 

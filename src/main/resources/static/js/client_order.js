@@ -57,7 +57,7 @@ class OrderItem {
             body: this.constructDTO(),
         });
 
-        //document.location = result.data.url;
+        //document.location = result.url;
         if (this.callback.callbackOnSubmitOrder)
             this.callback.callbackOnSubmitOrder(result);
     };

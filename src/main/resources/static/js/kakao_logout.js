@@ -7,7 +7,7 @@ const serviceSignOut = async (uuid) => {
         },
     });
 
-    document.location = response.data.url;
+    document.location = response.url;
 }
 
 

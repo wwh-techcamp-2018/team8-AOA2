@@ -35,7 +35,7 @@ class OpenReservation {
         const data = this.buildRequestBody();
         const result = await fetchAsync({ url: '/api/stores/' + this.storeId + '/reservations', method: 'post', body: data });
         console.log(result);
-        document.location = result.data.url;
+        document.location = result.url;
     }
     validate() {
         if($All('.collection-item', this.wrapper).length > 0)
