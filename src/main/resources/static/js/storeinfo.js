@@ -13,7 +13,6 @@ const previewLoad = (serviceName, ownerName, imgFile, address, phone, descriptio
         const elems = document.querySelectorAll('.parallax');
         const instances = M.Parallax.init(elems);
     }
-
 };
 
 const resize = (imgEl) => {
