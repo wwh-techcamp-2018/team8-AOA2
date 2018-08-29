@@ -41,7 +41,9 @@
     }
 }
 
-.section {
+.info-section {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0), 0 6px 30px 5px rgba(0, 0, 0, 0.1);
 }
 
