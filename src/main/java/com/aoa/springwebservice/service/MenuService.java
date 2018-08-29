@@ -39,31 +39,24 @@ public class MenuService {
     }
 
     @Transactional
-    public void createMenu(MenuDTOToUpload menuDTO, long storeId) throws IOException {
-        Store store = getStoreByStoreId(storeId);
+    public void createMenu(MenuDTOToUpload menuDTO, Store store) throws IOException {
         String menuImgUrl = s3Uploader.upload(menuDTO.getFile(), "static");
         Menu menu = menuDTO.toDomain(store, menuImgUrl);
         store.addMenu(menu);
+        storeRepository.save(store);
     }
 
-    @Transactional
-    public void createMenu2(MenuDTOToUpload menuDTO, Store store) {
-        String menuImgUrl = fileStorageService.storeFile(menuDTO.getFile());
-        Menu menu = menuDTO.toDomain(store, menuImgUrl);
-        store.addMenu(menu);
-    }
     public List<MenuOutputDTO> findAllMenuInStore(User user) {
         Store store = storeRepository.findByUser(user).get();
         return store.getUsedMenuOutputDTOList();
     }
     //todo cacheable, cacheEvict on reservation registration
-    public List<MenuOutputDTO> getLastUsedMenusInStore(long storeId) {
-        Store store = getStoreByStoreId(storeId);
+    public List<MenuOutputDTO> getLastUsedMenusInStore(Store store) {
         return store.getUsedMenuOutputDTOList();
     }
+
     //todo cacheable, cacheEvict on reservation registration
-    public List<MenuOutputDTO> findAllMenuInStore(long storeId) {
-        Store store = getStoreByStoreId(storeId);
+    public List<MenuOutputDTO> findAllMenuInStore(Store store) {
         return store.getMenuOutputDTOList();
     }
 
