@@ -9,4 +9,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AuthorizedStore {
     boolean required() default true;
+
+    boolean notOpen() default false;
+
+    boolean notClosed() default false;
 }

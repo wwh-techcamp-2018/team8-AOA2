@@ -44,9 +44,9 @@ public class ApiMenuController {
         return menuService.findAllMenuInStore(store);
     }
 
-    @DeleteMapping(path = "/menus/{menuId}")
+    @DeleteMapping(path = "/stores/{storeId}/menus/{menuId}")
     @ResponseStatus(HttpStatus.OK)
-    public Menu deleteMenu(@PathVariable long menuId){
-        return menuService.deleteMenu(menuId);
+    public Menu deleteMenu(@AuthorizedStore Store store, @PathVariable long menuId){
+        return menuService.deleteMenu(store, menuId);
     }
 }

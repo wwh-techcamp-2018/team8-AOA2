@@ -61,10 +61,13 @@ public class MenuService {
     }
 
     @Transactional
-    public Menu deleteMenu(long menuId) {
+    public Menu deleteMenu(Store store, long menuId) {
         Menu menu = menuRepository.findById(menuId).orElseThrow(
                 () -> new EntityNotFoundException("No Search Store By menuId : " + menuId)
         );
+        if(!menu.hasSameStore(store)){
+            throw new RuntimeException("메뉴 삭제 권한이 없습니다");
+        }
         menu.deleteMenu();
         return menu;
     }

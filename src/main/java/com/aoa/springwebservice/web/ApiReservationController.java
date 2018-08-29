@@ -3,8 +3,10 @@ package com.aoa.springwebservice.web;
 import com.aoa.springwebservice.RestResponse;
 import com.aoa.springwebservice.domain.Reservation;
 import com.aoa.springwebservice.domain.ReservationRepository;
+import com.aoa.springwebservice.domain.Store;
 import com.aoa.springwebservice.domain.StoreRepository;
 import com.aoa.springwebservice.dto.ReservationFormDTO;
+import com.aoa.springwebservice.security.AuthorizedStore;
 import com.aoa.springwebservice.service.StoreService;
 import lombok.extern.slf4j.Slf4j;
 import com.aoa.springwebservice.service.ReservationService;
@@ -26,8 +28,8 @@ public class ApiReservationController {
 
 
     @PostMapping("/stores/{storeId}/reservations")
-    public RestResponse<RestResponse.RedirectData> create(@PathVariable long storeId, @RequestBody ReservationFormDTO reservationDTO) {
-        reservationService.createReservation(reservationDTO, storeId);
+    public RestResponse<RestResponse.RedirectData> create(@AuthorizedStore(notOpen = true) Store store, @RequestBody ReservationFormDTO reservationDTO) {
+        reservationService.createReservation(reservationDTO, store);
         return RestResponse.ofRedirectResponse("/result/success", "OK");
     }
 
