@@ -1,6 +1,7 @@
 package com.aoa.springwebservice.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.internal.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,7 +32,7 @@ public class OrderItem {
     private int itemTotalPrice;
 
     @Builder
-    public OrderItem(Order order, Reservation reservation, int itemCount) {
+    public OrderItem(@NotNull Order order,@NotNull Reservation reservation, int itemCount) {
         this.order = order;
         this.reservation = reservation;
         this.itemCount = itemCount;

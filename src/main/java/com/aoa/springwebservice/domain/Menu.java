@@ -31,10 +31,11 @@ public class Menu {
 
     private String description;
 
+    @Column(nullable = false, length = 400)
     private String imageUrl;
 
-
     private boolean deleted;
+
     @Embedded
     private MaxCount maxCount;
 
