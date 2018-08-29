@@ -34,6 +34,12 @@ dependencies {
     compile('org.hibernate:hibernate-java8')
     compile('mysql:mysql-connector-java')
     compile group: 'org.projectlombok', name: 'lombok'
+
+    compile("org.springframework.boot:spring-boot-starter-websocket")
+    compile("org.webjars:webjars-locator-core")
+    compile("org.webjars:sockjs-client:1.1.2")
+    compile("org.webjars:stomp-websocket:2.3.3")
+
     runtime('com.h2database:h2')
     runtime('net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1')
     testCompile('org.springframework.boot:spring-boot-starter-test')

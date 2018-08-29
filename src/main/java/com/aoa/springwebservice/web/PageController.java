@@ -1,9 +1,6 @@
 package com.aoa.springwebservice.web;
 
-import com.aoa.springwebservice.domain.Reservation;
-import com.aoa.springwebservice.domain.Store;
-import com.aoa.springwebservice.domain.StoreRepository;
-import com.aoa.springwebservice.domain.User;
+import com.aoa.springwebservice.domain.*;
 import com.aoa.springwebservice.security.HttpSessionUtils;
 import com.aoa.springwebservice.security.LoginUser;
 import com.aoa.springwebservice.service.OrderService;
@@ -11,10 +8,16 @@ import com.aoa.springwebservice.service.ReservationService;
 import com.aoa.springwebservice.service.StoreService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.broker.SimpleBrokerMessageHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
@@ -93,8 +96,10 @@ public class PageController {
 
     @GetMapping(path = "/owner/reservations", params = "condition")
     public String showReservations(@RequestParam final String condition, @LoginUser User loginUser, Model model) {
-        List<Reservation> reservations = reservationService.getReservationsByCondition(condition, storeService.getStoreByUser(loginUser));
+        Store store = storeService.getStoreByUser(loginUser);
+        List<Reservation> reservations = reservationService.getReservationsByCondition(condition, store);
         model.addAttribute("reservations", reservations);
+        model.addAttribute("store", store);
         model.addAttribute("navTitle", "예약 조회");
         return "/displayReservation";
     }
@@ -133,6 +138,13 @@ public class PageController {
         return "/showOrders";
     }
 
+    @MessageMapping("presentOrders/{storeId}")
+    @SendTo("/topic/stores/{storeId}")
+    public Order orderPresentCondition(@DestinationVariable long storeId, @RequestBody Order order, SimpMessageHeaderAccessor simpMessageHeaderAccessor) {
+        log.debug("storeId : {}", storeId);
+        log.debug("order message : {}", order);
+        return order;
+    }
 
     private String alreadyRegistedStore(User loginUser, Model model) {
         model.addAttribute("ownerUrl", storeService.makeOwnerUrl(loginUser));

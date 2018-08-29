@@ -38,6 +38,8 @@ public class ApiOrderController {
         dto.add("phoneNumber", order.getCustomer().getPhoneNumber());
         dto.add("pickupTime", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(order.getPickupTime()));
         dto.add("orderTotalPrice", order.getOrderTotalPrice());
+        dto.add("orderId", order.getId());
+        dto.add("orderItems", order.getOrderItems());
         return dto;
     }
 

@@ -1,4 +1,4 @@
-package com.aoa.springwebservice;
+package com.aoa.springwebservice.config;
 
 import com.aoa.springwebservice.security.LoginUserHandlerMethodArgumentResolver;
 import org.springframework.context.annotation.Bean;

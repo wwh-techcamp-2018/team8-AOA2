@@ -40,4 +40,8 @@ public class OrderService {
         return orderRepositroy.save(returnOrder);
     }
 
+    public Order getOrder(long orderId) {
+        return orderRepositroy.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order가 없습니다."));
+    }
+
 }

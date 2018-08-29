@@ -296,8 +296,13 @@
             .replace('{content}', content);
     }
 
-
     document.addEventListener('DOMContentLoaded', async () => {
+
+        let socket = new SockJS('/orderCondition');
+        let stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            console.log("소켓 연결 성공", frame);
+        });
 
         const tabInstances = M.Tabs.init($('.tabs'), null);
         const lastTabLi = tabInstances.$tabLinks[tabInstances.$tabLinks.length - 1].closest('.tab');
@@ -344,6 +349,8 @@
                     };
                     $('#result').innerHTML = orderResultHtmlTemplate(tmpParams);
                     loadMap($('#info-map'), $('#addressTxt').innerHTML, $('#storeName').innerHTML);
+                    const sendUrl = "/presentOrders/" + storeId;
+                    stompClient.send(sendUrl, {}, JSON.stringify({orderItems: data.orderItems}));
                 }
             });
         orderItems.registerEvent();
