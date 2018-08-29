@@ -29,13 +29,13 @@
     </div>
     <div class="container">
         <input type="hidden" id="storeId" name="storeId" value="{{store.id}}">
-        <input type="hidden" id="info_service" name="storeId" value="{{store.serviceDescription}}">
-        <input type="hidden" id="info_owner" name="storeId" value="{{store.ownerName}}">
-        <input type="hidden" id="info_phone" name="storeId" value="{{store.phoneNumber}}">
-        <input type="hidden" id="info_imgURL" name="storeId" value="{{store.imgURL}}">
-        <input type="hidden" id="info_address_main" name="storeId" value="{{store.address}}">
-        <input type="hidden" id="info_address_sub" name="storeId" value="{{store.addressDetail}}">
-        <input type="hidden" id="info_description" name="storeId" value="{{store.description}}">
+        <input type="hidden" id="info_service" value="{{store.serviceDescription}}">
+        <input type="hidden" id="info_owner" value="{{store.ownerName}}">
+        <input type="hidden" id="info_phone" value="{{store.phoneNumber}}">
+        <input type="hidden" id="info_imgURL" value="{{store.imgURL}}">
+        <input type="hidden" id="info_address_main" value="{{store.address}}">
+        <input type="hidden" id="info_address_sub" value="{{store.addressDetail}}">
+        <input type="hidden" id="info_description" value="{{store.description}}">
         <div id="process" class="row">
             <div class="col s11 l8">
                 {{#partial "noti"}}
