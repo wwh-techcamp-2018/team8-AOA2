@@ -21,6 +21,7 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    maven { url 'https://repo.spring.io/libs-milestone'}
 }
 
 
@@ -29,6 +30,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-devtools')
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.0.0.RELEASE'
     compile('pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.0')
     compile('org.springframework.security:spring-security-core:5.0.6.RELEASE')
     compile('org.hibernate:hibernate-java8')

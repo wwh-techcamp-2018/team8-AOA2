@@ -40,6 +40,7 @@ public class MenuTest {
         menu = menuRepository.save(menu);
         //assertThat(store.getMenus....(menu.getId()))
         assertThat(menu.getStore()).isEqualTo(store);
+        assertThat(menu.hasSameStore(store)).isTrue();
     }
 
     @Test

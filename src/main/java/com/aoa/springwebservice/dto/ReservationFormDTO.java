@@ -59,7 +59,7 @@ public class ReservationFormDTO {
 //    public List<Reservation> toDomain(Store store){
 //        reservatioDTOs.stream().forEach(x -> {x.toDomain(store);;
 //        return store;
-//        // Service
+//        // service
 //            // store.set...(dto)
 //            // store.addReservations(List<Reservation> ..)
 //            //storeRepository.save()

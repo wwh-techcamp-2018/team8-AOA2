@@ -30,7 +30,7 @@ const getInfo = (authObj) => {
                             uuid : uuid,
                         },
                     });
-                    document.location = response.data.url;
+                    document.location = response.url;
                 })(res.id);
             }
         },
@@ -61,7 +61,7 @@ function kakaoSignUp () {
                     body: formData,
                 });
                 modal.close();
-                document.location = response.data.url;
+                document.location = response.url;
             })();
         }
     });

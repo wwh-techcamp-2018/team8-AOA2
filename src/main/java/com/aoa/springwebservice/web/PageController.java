@@ -66,6 +66,17 @@ public class PageController {
         return "/registStore";
     }
 
+    @GetMapping("/owner/stores/reform")
+    public String updateStore(@LoginUser User loginUser, Model model) {
+        if(!storeService.hasStore(loginUser)) {
+            return "/registMenuSuccess";
+        }
+
+        model.addAttribute("navTitle", "가게정보 등록");
+        model.addAttribute("store", storeService.createStoreDetailInfoDTO(storeService.getStoreByUser(loginUser)));
+        return "/updateStore";
+    }
+
     @GetMapping("/owner/menus/form")
     public String registMenu(@LoginUser User loginUser, Model model) {
         if(!storeService.hasStore(loginUser)) {
@@ -108,6 +119,7 @@ public class PageController {
     public String createOrder(@PathVariable long storeId, Model model){
         //todo store 존재 확인, store isOpen 확인
         Store store = storeService.getStoreById(storeId);
+        if(!store.isOpen()) throw new RuntimeException("진행 중인 예약이 없습니다");
 
         model.addAttribute("store", storeService.createStoreDetailInfoDTO(storeService.getStoreById(storeId)));
         LocalTime now = LocalTime.now();

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -24,6 +25,9 @@ public class MenuService {
     @Autowired
     FileStorageService fileStorageService;
 
+    @Autowired
+    S3Uploader s3Uploader;
+
 
     public void createMenu(MenuDTO menuDTO, User user) {
         log.debug("Menu DTO : {}", menuDTO);
@@ -35,11 +39,11 @@ public class MenuService {
     }
 
     @Transactional
-    public void createMenu(MenuDTOToUpload menuDTO, long storeId) {
-        Store store = getStoreByStoreId(storeId);
-        String menuImgUrl = fileStorageService.storeFile(menuDTO.getFile());
+    public void createMenu(MenuDTOToUpload menuDTO, Store store) throws IOException {
+        String menuImgUrl = s3Uploader.upload(menuDTO.getFile(), "static");
         Menu menu = menuDTO.toDomain(store, menuImgUrl);
         store.addMenu(menu);
+        storeRepository.save(store);
     }
 
     public List<MenuOutputDTO> findAllMenuInStore(User user) {
@@ -47,21 +51,23 @@ public class MenuService {
         return store.getUsedMenuOutputDTOList();
     }
     //todo cacheable, cacheEvict on reservation registration
-    public List<MenuOutputDTO> getLastUsedMenusInStore(long storeId) {
-        Store store = getStoreByStoreId(storeId);
+    public List<MenuOutputDTO> getLastUsedMenusInStore(Store store) {
         return store.getUsedMenuOutputDTOList();
     }
+
     //todo cacheable, cacheEvict on reservation registration
-    public List<MenuOutputDTO> findAllMenuInStore(long storeId) {
-        Store store = getStoreByStoreId(storeId);
+    public List<MenuOutputDTO> findAllMenuInStore(Store store) {
         return store.getMenuOutputDTOList();
     }
 
     @Transactional
-    public Menu deleteMenu(long menuId) {
+    public Menu deleteMenu(Store store, long menuId) {
         Menu menu = menuRepository.findById(menuId).orElseThrow(
                 () -> new EntityNotFoundException("No Search Store By menuId : " + menuId)
         );
+        if(!menu.hasSameStore(store)){
+            throw new RuntimeException("메뉴 삭제 권한이 없습니다");
+        }
         menu.deleteMenu();
         return menu;
     }

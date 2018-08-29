@@ -67,4 +67,7 @@ public class Order{
             this.isPickedup = true;
     }
 
+    public boolean hasSameStore(Store store) {
+        return this.store.equals(store);
+    }
 }

@@ -25,6 +25,13 @@ spring:
 
 logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
+cloud:
+  aws:
+    s3:
+      bucket: aoa2-springboot-webservice-deploy
+    region:
+      static: ap-northeast-2
+
 #for HTTP Encoding UTF-8
 http:
   encoding:
@@ -40,6 +47,7 @@ spring:
 
   datasource:
     url: jdbc:h2:~/team8-aoa;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    initialize: true
 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect

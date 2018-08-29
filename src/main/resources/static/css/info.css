@@ -3,21 +3,7 @@
     height: 80%;
     max-height: 80%;
 }
-@media only screen and (max-width: 1192px) {
-    .modal {
-        width: 65%;
-        height: 80%;
-        max-height: 80%;
-    }
-}
 
-@media only screen and (max-width: 992px) {
-    .modal {
-        width: 80%;
-        height: 80%;
-        max-height: 80%;
-    }
-}
 
 .info-store-name {
     position: fixed;
@@ -55,7 +41,9 @@
     }
 }
 
-.section {
+.info-section {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0), 0 6px 30px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -86,5 +74,29 @@
 }
 
 .parallax-container {
-    height : 700px;
+    width:100%;
+    height:0;
+    padding-bottom: 0;
+}
+
+@media only screen and (max-width: 1192px) {
+    .modal {
+        width: 65%;
+        height: 80%;
+        max-height: 80%;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .modal {
+        width: 80%;
+        height: 80%;
+        max-height: 80%;
+    }
+}
+
+.btn-info {
+    background-color: rgba(0,0,0,0);
+    color: #274c5e;
+    font-size: 10px;
 }

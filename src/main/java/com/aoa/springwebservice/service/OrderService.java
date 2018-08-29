@@ -34,8 +34,11 @@ public class OrderService {
         return orderRepositroy.findByStoreAndPickupTimeAfterOrderByPickupTime(store, lastDay);
     }
 
-    public Order updateIsPickedupStatus(long orderId, Order order) {
+    public Order updateIsPickedupStatus(Store store, long orderId, Order order) {
         Order returnOrder = orderRepositroy.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order가 없습니다."));
+        if(returnOrder.hasSameStore(store)){
+            throw new RuntimeException("주문 상태 변경 권한이 없습니다");
+        }
         returnOrder.setIsPickedupByOrder(order);
         return orderRepositroy.save(returnOrder);
     }

@@ -8,7 +8,7 @@
 {{> link}}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <link href="/css/owner.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-
+<link href="/css/info.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 <style>
     .tabs {
         background-color: transparent;
@@ -29,6 +29,13 @@
     </div>
     <div class="container">
         <input type="hidden" id="storeId" name="storeId" value="{{store.id}}">
+        <input type="hidden" id="info_service" value="{{store.serviceDescription}}">
+        <input type="hidden" id="info_owner" value="{{store.ownerName}}">
+        <input type="hidden" id="info_phone" value="{{store.phoneNumber}}">
+        <input type="hidden" id="info_imgURL" value="{{store.imgURL}}">
+        <input type="hidden" id="info_address_main" value="{{store.address}}">
+        <input type="hidden" id="info_address_sub" value="{{store.addressDetail}}">
+        <input type="hidden" id="info_description" value="{{store.description}}">
         <div id="process" class="row">
             <div class="col s11 l8">
                 {{#partial "noti"}}
@@ -196,7 +203,10 @@
 
         </div>
     </div>
-
+    <div id="infoModal" class="modal">
+        {{>storeInfo}}
+    </div>
+    <input
 </main>
 
 
@@ -254,6 +264,8 @@
         </div>
     </div>
 </script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b61fe85153207d259015754ef56d69ab&libraries=services"></script>
+<script src="/js/storeinfo.js"></script>
 <script type="module">
     import {CustomInputValidator} from '/js/override.js';
     import Ctrls from '/js/ctrl.js'
@@ -385,8 +397,18 @@
         const ctrls = new Ctrls($('.collection'));
         ctrls.registerEvent();
 
-
-
+        const modalElems = $('.modal');
+        const modalInstance = M.Modal.init(modalElems);
+        $('#infoLoadBtn').addEventListener('click', async (event) => {
+            const serviceName = $('#info_service').value;
+            const ownerName = $('#info_owner').value;
+            const phone = $('#info_phone').value ;
+            const imgFile = $('#info_imgURL').value;
+            const address = $('#info_address_main').value + ' ' + $('#info_address_sub').value;
+            const description = $('#info_description').value;
+            await storeViewLoad(serviceName, ownerName, imgFile, address, phone, description);
+            $('.modal').M_Modal.open();
+        });
     });
 
 </script>

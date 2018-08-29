@@ -4,7 +4,7 @@ import com.aoa.springwebservice.exception.FileStorageException;
 import com.aoa.springwebservice.property.FileStorageProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Files;
@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 @Slf4j
-@Service
+@Component
 public class FileStorageService {
     private final Path fileStorageLocation;
 
