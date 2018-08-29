@@ -1,39 +1,42 @@
 const previewLoad = (serviceName, ownerName, imgFile, address, phone, description) => {
-        let reader = new FileReader();
-        reader.readAsDataURL(imgFile);
-        reader.onload = async () => {
-            $('#info-store-name', $('#previewModal')).innerText = serviceName;
-            $('#info-img').src = reader.result;
-            $('#info-description', $('#previewModal')).innerText = description;
-            $('#info-name', $('#previewModal')).innerText = ownerName;
-            $('#info-address', $('#previewModal')).innerText = address;
-            $('#info-phone', $('#previewModal')).innerText = phone;
-            await loadMap($('#info-map'), $("#info-address").innerText, $("#info-store-name").innerText);
-            const elems = document.querySelectorAll('.parallax');
-            const instances = M.Parallax.init(elems);
-        }
+    let reader = new FileReader();
+    reader.readAsDataURL(imgFile);
+    reader.onload = async () => {
+        $('#info-store-name', $('.modal')).innerText = serviceName;
+        $('#info-img').src = reader.result;
+        $('#info-description', $('.modal')).innerText = description;
+        $('#info-name', $('.modal')).innerText = ownerName;
+        $('#info-address', $('.modal')).innerText = address;
+        $('#info-phone', $('.modal')).innerText = phone;
+        resize($('#info-img'));
+        await loadMap($('#info-map'), $("#info-address").innerText, $("#info-store-name").innerText);
+        const elems = document.querySelectorAll('.parallax');
+        const instances = M.Parallax.init(elems);
+    }
 
 };
 
+const resize = (imgEl) => {
+    const width = imgEl.width;
+    const height = imgEl.height;
+    $('.parallax-container').style.paddingBottom = (height * 100) / width + '%';
+};
+
 const storeViewLoad = (serviceName, ownerName, imgPath, address, phone, description) => {
-    return new Promise( async (resolve) => {
-        $('#info-store-name', $('#infoModal')).innerText = serviceName;
+    return new Promise(async (resolve) => {
+        $('#info-store-name', $('.modal')).innerText = serviceName;
         $('#info-img').src = imgPath;
-        $('#info-description', $('#infoModal')).innerText = description;
-        $('#info-name', $('#infoModal')).innerText = ownerName;
-        $('#info-address', $('#infoModal')).innerText = address;
-        $('#info-phone', $('#infoModal')).innerText = phone;
-<<<<<<< Updated upstream
+        $('#info-description', $('.modal')).innerText = description;
+        $('#info-name', $('.modal')).innerText = ownerName;
+        $('#info-address', $('.modal')).innerText = address;
+        $('#info-phone', $('.modal')).innerText = phone;
+        resize($('#info-img'));
         await loadMap($('#info-map'), $("#info-address").innerText, $("#info-store-name").innerText);
-=======
-        const centerGeo = await loadMap();
-        console.log(centerGeo);
->>>>>>> Stashed changes
         const elems = document.querySelectorAll('.parallax');
         const instances = M.Parallax.init(elems);
         resolve(instances);
     });
-
+};
 // const previewLoad = (serviceName, ownerName, imgFile, address, phone, description) => {
 //     return new Promise( async (resolve, reject) => {
 //         const filePath = await convertFile(imgFile);
@@ -69,33 +72,30 @@ const loadMap = (container, address, mapName) => {
         let map = new daum.maps.Map(mapContainer, mapOption);
         map.addControl(new daum.maps.ZoomControl(), daum.maps.ControlPosition.TOPRIGHT);
         map.setMaxLevel(5);
-<<<<<<< Updated upstream
         const addressToGeo = new daum.maps.services.Geocoder();
         addressToGeo.addressSearch(address,//$("#info-address").innerText,
-        function (result, status) {
+            function (result, status) {
 
-            if (status === daum.maps.services.Status.OK) {
+                if (status === daum.maps.services.Status.OK) {
 
-                var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+                    var coords = new daum.maps.LatLng(result[0].y, result[0].x);
 
-                var marker = new daum.maps.Marker({
-                    map: map,
-                    position: coords
-                });
+                    var marker = new daum.maps.Marker({
+                        map: map,
+                        position: coords
+                    });
 
-                // 인포윈도우로 장소에 대한 설명을 표시합니다
-                var name = mapName; //$("#info-store-name").innerText
-                var infowindow = new daum.maps.InfoWindow({
-                    content: '<div style="width:150px;text-align:center;padding:5px 0;">' + name + '</div>'
-                });
-                infowindow.open(map, marker);
-                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-                map.setCenter(coords);
-                resolve(true);
-            }
-        });
-=======
-        resolve();
+                    // 인포윈도우로 장소에 대한 설명을 표시합니다
+                    var name = mapName; //$("#info-store-name").innerText
+                    var infowindow = new daum.maps.InfoWindow({
+                        content: '<div style="width:150px;text-align:center;padding:5px 0;">' + name + '</div>'
+                    });
+                    infowindow.open(map, marker);
+                    // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                    map.setCenter(coords);
+                    resolve(true);
+                }
+            });
         // var name = $("#info-store-name").innerText
         // var infowindow = new daum.maps.InfoWindow({
         //     content: '<div style="width:150px;text-align:center;padding:5px 0;">' + name + '</div>'
@@ -128,6 +128,5 @@ const loadMap = (container, address, mapName) => {
         //         resolve(map.getCenter());
         //     }
         // });
->>>>>>> Stashed changes
     });
 };

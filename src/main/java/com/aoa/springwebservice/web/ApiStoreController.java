@@ -3,6 +3,7 @@ package com.aoa.springwebservice.web;
 import com.aoa.springwebservice.domain.Store;
 import com.aoa.springwebservice.domain.User;
 import com.aoa.springwebservice.dto.StoreInputDTO;
+import com.aoa.springwebservice.dto.StoreUpdateInputDTO;
 import com.aoa.springwebservice.security.AuthorizedStore;
 import com.aoa.springwebservice.security.LoginUser;
 import com.aoa.springwebservice.service.StoreService;
@@ -34,4 +35,13 @@ public class ApiStoreController {
         return "/result/success";
     }
 
+    @PostMapping("/update")
+    public String update(@Valid StoreUpdateInputDTO storeDTO, @LoginUser User loginUser)throws IOException {
+        log.debug("update DTO : {}", storeDTO);
+        if(!storeService.hasStore(loginUser)){
+            return "/owner/stores/form";
+        }
+        Store store = storeService.updateStore(storeDTO, loginUser);
+        return "/result/success";
+    }
 }
