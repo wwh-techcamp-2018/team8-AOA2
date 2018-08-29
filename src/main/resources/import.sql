@@ -24,3 +24,4 @@ insert into order_item (ITEM_COUNT, ITEM_TOTAL_PRICE, ORDER_ID, RESERVATION_ID) 
 insert into order_item (ITEM_COUNT, ITEM_TOTAL_PRICE, ORDER_ID, RESERVATION_ID) values (1, 1000, 1, 2);
 
 insert into order_item (ITEM_COUNT, ITEM_TOTAL_PRICE, ORDER_ID, RESERVATION_ID) values (1, 1000, 2, 1);
+insert into order_item (ITEM_COUNT, ITEM_TOTAL_PRICE, ORDER_ID, RESERVATION_ID) values (1, 1000, 2, 2);
