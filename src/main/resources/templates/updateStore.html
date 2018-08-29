@@ -20,12 +20,12 @@
                 <ul>
                     <li>
                         <div class="input-title col s12 l2">
-                            <label>*필수값</label>
+                            <label>-수정불가-</label>
                             업체명
                         </div>
                         <div class="input-field col s12 l10">
                             <input class="input_counter custom-validate" type="text" id="input_store" name="storeName" type="text"
-                                   data-length="20" data-regex="^[가-힣]*$" required>
+                                   data-length="20" data-regex="^[가-힣]*$" value="{{store.storeName}}" readonly required>
                             <span class="helper-text" data-error="wrong" data-success="right">20자 이하로 적어주십시오</span>
                             <label for="input_store">업체명</label>
                         </div>
@@ -37,19 +37,19 @@
                         </div>
                         <div class="input-field col s12 l10 ">
                             <input class="input_counter custom-validate"  type="text" required id="input_service" name="serviceDescription"
-                                   type="text" data-length="30" required>
+                                   type="text" data-length="30" value="{{store.serviceDescription}}" required>
                             <span class="helper-text" data-error="wrong" data-success="right">30자 이하로 적어주십시오</span>
                             <label for="input_service">서비스명</label>
                         </div>
                     </li>
                     <li>
                         <div class="input-title col s12 l2 ">
-                            <label>*필수값</label>
+                            <label>-수정불가-</label>
                             대표자명
                         </div>
                         <div class="input-field col s12 l10">
                             <input class="input_counter custom-validate" id="input_owner" name="ownerName" type="text"
-                                   data-length="5" data-min-length="2" data-regex="^[가-힣]*$" required>
+                                   data-length="5" data-min-length="2" data-regex="^[가-힣]*$" value="{{store.ownerName}}" readonly required>
                             <span class="helper-text" data-error="wrong" data-success="right">5자 이하로 적어주십시오</span>
                             <label for="input_owner">대표자명</label>
                         </div>
@@ -84,7 +84,7 @@
                         </div>
                         <div class="input-field col s5 l3 ">
                             <input id="input_address_postcode" name="postCode" class="custom-validate" type="text" placeholder="우편번호"
-                                   readonly required>
+                                   value="{{store.postCode}}" readonly required>
                         </div>
                         <div class="input-field col s4 l3">
                             <a class="waves-effect waves-light btn-small" onclick="sample4_execDaumPostcode()">우편번호
@@ -92,11 +92,11 @@
                         </div>
                         <div class="input-field-nonmsg col s12 l10 offset-l2">
                             <input id="input_address_main" name="address" class="custom-validate" type="text"
-                                   placeholder="도로명주소" readonly data-length="50" required>
+                                   placeholder="도로명주소" value="{{store.address}}" readonly data-length="50" required>
                         </div>
                         <div class="input-field col s12 l10 offset-l2">
                             <input class="input_counter custom-validate" id="input_address_sub" name="addressDetail" type="text"
-                                   data-length="20">
+                                   data-length="20" value="{{store.addressDetail}}" >
                             <label for="input_address_sub">상세주소</label>
                             <span class="helper-text" data-error="wrong" data-success="right"> 10자 이하로 적어주십시오</span>
                         </div>
@@ -110,7 +110,7 @@
                             <div class="row">
                                 <div class="input-field col s3 l2">
                                     <input id="input_phone1" name="phoneNumber_1" class="custom-validate" type="text"
-                                           data-length="3" data-regex="^01(?:0|1|[6-9])$" required>
+                                           data-length="3" data-regex="^01(?:0|1|[6-9])$" value="{{store.phoneNumber_1}}" required>
                                     <span class="helper-text" data-error="wrong"
                                           data-success="right">3자 이하로 적어주십시오</span>
                                 </div>
@@ -119,7 +119,7 @@
                                 </div>
                                 <div class="input-field col s3 l2">
                                     <input id="input_phone2" name="phoneNumber_2" class="custom-validate" type="text"
-                                           data-length="4" data-min-length="3" data-regex="^[0-9]*$" required>
+                                           data-length="4" data-min-length="3" data-regex="^[0-9]*$" value="{{store.phoneNumber_2}}" required>
                                     <span class="helper-text" data-error="wrong"
                                           data-success="right" >4자 이하로 적어주십시오</span>
                                 </div>
@@ -128,7 +128,7 @@
                                 </div>
                                 <div class="input-field col s3 l2">
                                     <input id="input_phone3" name="phoneNumber_3" class="custom-validate" type="text"
-                                           data-length="4" data-min-length="4" data-regex="^[0-9]*$" required>
+                                           data-length="4" data-min-length="4" data-regex="^[0-9]*$" value="{{store.phoneNumber_3}}" required>
                                     <span class="helper-text" data-error="wrong"
                                           data-success="right" >4자 이하로 적어주십시오</span>
                                 </div>
@@ -141,7 +141,7 @@
                         </div>
                         <div class="input-field col s12 l10">
                             <textarea id="input_description" name="description"
-                                      class="materialize-textarea input_counter custom-validate" data-length="300"></textarea>
+                                      class="materialize-textarea input_counter custom-validate" data-length="300">{{store.description}}</textarea>
                             <span class="helper-text" data-error="wrong" data-success="right">300자 이하로 적어주십시오</span>
                             <label for="input_description">홍보문구</label>
                         </div>
@@ -173,7 +173,7 @@
         const counter = $All('.input_counter');
         const instances = M.Sidenav.init(elems, {});
         const submitBtn = $('#submitBtn');
-        submitBtn.addEventListener('click', createStore);
+        submitBtn.addEventListener('click', update);
         M.CharacterCounter.init(counter);
         const inputValidator = new CustomInputValidator();
 
@@ -196,7 +196,7 @@
         });
 
     });
-    const createStore = () => {
+    const update = () => {
         if (!validateForm($('form')))
             return;
         let formData = new FormData();
@@ -216,7 +216,7 @@
         formData.append(fileElem.name, file, 'store-' + Date.now() + '-' + file.name);
 
         const xhr = new XMLHttpRequest();
-        xhr.open('POST', '/api/stores', true);
+        xhr.open('UPDATE', '/api/stores', true);
 
         xhr.onload = function (progressEvent) {
             const status = progressEvent.target.status;

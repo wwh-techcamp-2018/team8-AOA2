@@ -63,6 +63,17 @@ public class PageController {
         return "/registStore";
     }
 
+    @GetMapping("/owner/stores/reform")
+    public String updateStore(@LoginUser User loginUser, Model model) {
+        if(!storeService.hasStore(loginUser)) {
+            return "/registMenuSuccess";
+        }
+
+        model.addAttribute("navTitle", "가게정보 등록");
+        model.addAttribute("store", storeService.createStoreDetailInfoDTO(storeService.getStoreByUser(loginUser)));
+        return "/updateStore";
+    }
+
     @GetMapping("/owner/menus/form")
     public String registMenu(@LoginUser User loginUser, Model model) {
         if(!storeService.hasStore(loginUser)) {
