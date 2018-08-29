@@ -103,6 +103,7 @@ public class PageController {
     public String createOrder(@PathVariable long storeId, Model model){
         //todo store 존재 확인, store isOpen 확인
         Store store = storeService.getStoreById(storeId);
+        if(!store.isOpen()) throw new RuntimeException("진행 중인 예약이 없습니다");
 
         model.addAttribute("store", storeService.createStoreDetailInfoDTO(storeService.getStoreById(storeId)));
         LocalTime now = LocalTime.now();

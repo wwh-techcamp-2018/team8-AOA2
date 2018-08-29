@@ -1,12 +1,10 @@
-package com.aoa.springwebservice.Service;
+package com.aoa.springwebservice.service;
 
 import com.aoa.springwebservice.domain.*;
 import com.aoa.springwebservice.dto.OrderFormDTO;
 import com.aoa.springwebservice.dto.OrderItemDTO;
 import com.aoa.springwebservice.dto.ReservationDTO;
 import com.aoa.springwebservice.dto.ReservationFormDTO;
-import com.aoa.springwebservice.service.OrderService;
-import com.aoa.springwebservice.service.ReservationService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -111,7 +109,7 @@ public class OrderServiceTest {
 
         store.deactivate();
 
-        Iterable<Reservation> reservations = reservationService.createReservation(reservationFormDTO, store.getId());
+        Iterable<Reservation> reservations = reservationService.createReservation(reservationFormDTO, store);
 
         List<OrderItemDTO> orderItems = new ArrayList<>();
 

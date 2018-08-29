@@ -122,7 +122,7 @@ public class Store{
 
     @PostPersist @PostUpdate @PostLoad
     public void updateOpenStatus(){
-        if(timeToClose == null || timeToClose.isAfter(LocalDateTime.now())) {
+        if(timeToClose == null || timeToClose.isBefore(LocalDateTime.now())) {
             isOpen = CLOSE;
             return;
         }
@@ -162,5 +162,9 @@ public class Store{
             throw new InvalidStateOnStore("Cannot update menu status on closed store");
         this.menus.stream().filter(x -> x.equals(menu)).findAny().orElseThrow( () -> new InvalidStateOnStore("Cannot find menu on store"))
                 .setUpLastUsedStatus(maxCount);
+    }
+
+    public boolean hasSameOwner(User other) {
+        return this.user.equals(other);
     }
 }

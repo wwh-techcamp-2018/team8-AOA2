@@ -35,7 +35,7 @@ class OpenReservation {
         const data = this.buildRequestBody();
         const result = await fetchAsync({ url: '/api/stores/' + this.storeId + '/reservations', method: 'post', body: data });
         console.log(result);
-        document.location = result.data.url;
+        document.location = result.url;
     }
     validate() {
         if($All('.collection-item', this.wrapper).length > 0)
@@ -94,7 +94,7 @@ class OpenReservation {
                                     <div class='ctrl'>
                                         <div class='ctrl__button ctrl__button--decrement'>&ndash;</div>
                                         <div class='ctrl__counter'>
-                                            <input type="text" class='ctrl__counter-num browser-default' name="maxCount" value="${maxCount}" data-limit-target="input[name=personalMaxCount]"> </input>
+                                            <input type="text" class='ctrl__counter-num browser-default' name="maxCount" value="${maxCount}" data-limit-target="#personalMax_${id}"> </input>
                                         </div>
                                         <div class='ctrl__button ctrl__button--increment'>+</div>
                                     </div>
@@ -106,7 +106,7 @@ class OpenReservation {
                                     <div class='ctrl'>
                                         <div class='ctrl__button ctrl__button--decrement'>&ndash;</div>
                                         <div class='ctrl__counter'>
-                                            <input type="text" class='ctrl__counter-num browser-default' name="personalMaxCount" value="${personalMaxCount}" data-max-value="${maxCount}"> </input>
+                                            <input type="text" class='ctrl__counter-num browser-default' id="personalMax_${id}" name="personalMaxCount" value="${personalMaxCount}" data-max-value="${maxCount}"> </input>
                                         </div>
                                         <div class='ctrl__button ctrl__button--increment'>+</div>
                                     </div>
@@ -238,7 +238,7 @@ class MenuInForm extends Menu {
     };
     async deleteMenu(removeMenuNode) {
         const menu = await fetchAsync({
-            url: "/api/menus/" + removeMenuNode.attributes["data-id"].value,
+            url: "/api/stores/"+this.storeId+"/menus/" + removeMenuNode.attributes["data-id"].value,
             method: "DELETE"
         });
         addClass(removeMenuNode, "off");

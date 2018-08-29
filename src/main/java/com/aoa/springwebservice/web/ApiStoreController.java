@@ -3,6 +3,7 @@ package com.aoa.springwebservice.web;
 import com.aoa.springwebservice.domain.Store;
 import com.aoa.springwebservice.domain.User;
 import com.aoa.springwebservice.dto.StoreInputDTO;
+import com.aoa.springwebservice.security.AuthorizedStore;
 import com.aoa.springwebservice.security.LoginUser;
 import com.aoa.springwebservice.service.StoreService;
 import org.slf4j.Logger;
@@ -32,6 +33,5 @@ public class ApiStoreController {
         Store store = storeService.createStore(storeInputDTO, loginUser);
         return "/result/success";
     }
-
 
 }

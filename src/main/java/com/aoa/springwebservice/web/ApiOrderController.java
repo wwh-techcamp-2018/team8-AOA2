@@ -1,8 +1,10 @@
 package com.aoa.springwebservice.web;
 
 import com.aoa.springwebservice.domain.Order;
+import com.aoa.springwebservice.domain.Store;
 import com.aoa.springwebservice.dto.ExtendableDTO;
 import com.aoa.springwebservice.dto.OrderFormDTO;
+import com.aoa.springwebservice.security.AuthorizedStore;
 import com.aoa.springwebservice.service.OrderService;
 import com.aoa.springwebservice.service.ReservationService;
 import com.aoa.springwebservice.service.StoreService;
@@ -41,10 +43,10 @@ public class ApiOrderController {
         return dto;
     }
 
-    @PostMapping("/orders/{orderId}")
-    public Order updateIsPickedupStatus(@PathVariable long orderId, @RequestBody Order order){
+    @PostMapping("/stores/{storeId}/orders/{orderId}")
+    public Order updateIsPickedupStatus(@AuthorizedStore Store store, @PathVariable long orderId, @RequestBody Order order){
         log.debug("pickedupStatus : {}", order);
-        return orderService.updateIsPickedupStatus(orderId, order);
+        return orderService.updateIsPickedupStatus(store, orderId, order);
     }
   
 }
