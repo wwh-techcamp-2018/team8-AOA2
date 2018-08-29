@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,5 +29,8 @@ public class OrderItemDTO {
                 .reservation(reservation)
                 .itemCount(this.itemCount)
                 .build();
+    }
+    public static OrderItemDTO createOrderItemDTO(@NotNull OrderItem orderItem) {
+        return new OrderItemDTO (orderItem.getReservation().getId(), orderItem.getItemCount());
     }
 }

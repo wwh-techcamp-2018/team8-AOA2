@@ -4,6 +4,8 @@ import com.aoa.springwebservice.domain.Order;
 import com.aoa.springwebservice.domain.Store;
 import com.aoa.springwebservice.dto.ExtendableDTO;
 import com.aoa.springwebservice.dto.OrderFormDTO;
+import com.aoa.springwebservice.dto.OrderItemDTO;
+import com.aoa.springwebservice.dto.OrderOutputDTO;
 import com.aoa.springwebservice.security.AuthorizedStore;
 import com.aoa.springwebservice.service.OrderService;
 import com.aoa.springwebservice.service.ReservationService;
@@ -30,19 +32,19 @@ public class ApiOrderController {
     private OrderService orderService;
 
     @PostMapping("/stores/{storeId}/orders")
-    public Object makePayment(@PathVariable long storeId, @RequestBody OrderFormDTO orderFormDTO) {
+    public OrderOutputDTO makePayment(@PathVariable long storeId, @RequestBody OrderFormDTO orderFormDTO) {
         Order order = orderFormDTO.toDomain(storeService.getStoreById(storeId));
         //todo : parameter 3개...refactor 필요
         order = orderService.createOrder(reservationService.getTodayReservations(storeId), orderFormDTO, order);
         //todo refactor - dto? or domain
-        ExtendableDTO dto = new ExtendableDTO();
-        dto.add("name", order.getCustomer().getName());
-        dto.add("phoneNumber", order.getCustomer().getPhoneNumber());
-        dto.add("pickupTime", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(order.getPickupTime()));
-        dto.add("orderTotalPrice", order.getOrderTotalPrice());
-        dto.add("orderId", order.getId());
-        dto.add("orderItems", order.getOrderItems());
-        return dto;
+//        ExtendableDTO dto = new ExtendableDTO();
+//        dto.add("name", order.getCustomer().getName());
+//        dto.add("phoneNumber", order.getCustomer().getPhoneNumber());
+//        dto.add("pickupTime", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(order.getPickupTime()));
+//        dto.add("orderTotalPrice", order.getOrderTotalPrice());
+//        dto.add("id", order.getId());
+//        dto.add("orderItems", order.getOrderItems());
+        return OrderOutputDTO.createOrderOutputDTO(order);
     }
 
     @PostMapping("/stores/{storeId}/orders/{orderId}")

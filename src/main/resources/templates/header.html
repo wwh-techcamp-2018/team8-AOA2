@@ -32,14 +32,19 @@
             <div class="divider"></div>
             <li class="menu"><a href="/owner/reservations/form">예약 등록</a></li>
             <li class="menu"><a href="/owner/reservations?condition=last">예약정보 조회</a></li>
+            <li class="menu"><a href="/owner/reservations?condition=current">내가 확인해야하는거</a></li>
             <li class="menu"><a href="/owner/orders">예약주문 조회</a></li>
         </ul>
     </ul>
     {{#if store}}
+    <script src="/js/header_toast.js"></script>
     <input type="hidden" id="storeId" name="storeId" value="{{store.id}}"/>
     {{else}}
         {{#if storeId}}
+    <script src="/js/header_toast.js"></script>
     <input type="hidden" id="storeId" name="storeId" value="{{storeId}}"/>
         {{/if}}
+
+
     {{/if}}
 </header>

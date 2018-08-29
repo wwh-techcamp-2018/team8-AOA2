@@ -361,8 +361,12 @@
                     };
                     $('#result').innerHTML = orderResultHtmlTemplate(tmpParams);
                     loadMap($('#info-map'), $('#addressTxt').innerHTML, $('#storeName').innerHTML);
-                    const sendUrl = "/presentOrders/" + storeId;
-                    stompClient.send(sendUrl, {}, JSON.stringify({orderItems: data.orderItems}));
+                    const sendUrl_1 = "/presentOrders/" + storeId;
+
+                    stompClient.send(sendUrl_1, {}, JSON.stringify(data));
+                    const sendUrl_2 = "/toastOrders/" + storeId;
+                    stompClient.send(sendUrl_2, {}, JSON.stringify(data));
+
                 }
             });
         orderItems.registerEvent();
