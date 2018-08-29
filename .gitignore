@@ -25,3 +25,6 @@ uploads/
 
 ### H2 init data ###
 import.sql
+
+### aws configuration ###
+aws.yml

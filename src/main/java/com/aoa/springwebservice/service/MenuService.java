@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -24,6 +25,9 @@ public class MenuService {
     @Autowired
     FileStorageService fileStorageService;
 
+    @Autowired
+    S3Uploader s3Uploader;
+
 
     public void createMenu(MenuDTO menuDTO, User user) {
         log.debug("Menu DTO : {}", menuDTO);
@@ -35,13 +39,19 @@ public class MenuService {
     }
 
     @Transactional
-    public void createMenu(MenuDTOToUpload menuDTO, long storeId) {
+    public void createMenu(MenuDTOToUpload menuDTO, long storeId) throws IOException {
         Store store = getStoreByStoreId(storeId);
-        String menuImgUrl = fileStorageService.storeFile(menuDTO.getFile());
+        String menuImgUrl = s3Uploader.upload(menuDTO.getFile(), "static");
         Menu menu = menuDTO.toDomain(store, menuImgUrl);
         store.addMenu(menu);
     }
 
+    @Transactional
+    public void createMenu2(MenuDTOToUpload menuDTO, Store store) {
+        String menuImgUrl = fileStorageService.storeFile(menuDTO.getFile());
+        Menu menu = menuDTO.toDomain(store, menuImgUrl);
+        store.addMenu(menu);
+    }
     public List<MenuOutputDTO> findAllMenuInStore(User user) {
         Store store = storeRepository.findByUser(user).get();
         return store.getUsedMenuOutputDTOList();

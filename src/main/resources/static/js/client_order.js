@@ -57,7 +57,7 @@ class OrderItem {
             body: this.constructDTO(),
         });
 
-        //document.location = result.data.url;
+        //document.location = result.url;
         if (this.callback.callbackOnSubmitOrder)
             this.callback.callbackOnSubmitOrder(result);
     };
@@ -194,19 +194,19 @@ class Reservation {
                                         <div class="col s12 description-text grey-text">
                                             ${description}
                                         </div>
-                                        <div class="col s8 l9 price-box">
+                                        <div class="col s12 price-box">
                                             <span class="price">${stringPrice}</span>
                                             <span class="won">원</span>
                                         </div>
-                                        <div class="col s12 valign-wrapper">
-                                             <div class="col s8">
-                                                <div class="row"> 
-                                                    <div class="col s6 center"><span class="small grey-text text-darken-2">구매 수량</span></div>
-                                                    <div class="col s6">
+                                        <div class="col s12">
+                                             <div class="col s9">
+                                                <div class="section">
+                                                    <div class="col s3 l5 center"><span class="small grey-text text-darken-2">구매 수량</span></div>
+                                                    <div class="col s5 l7">
                                                         <div class='ctrl'>
                                                             <div class='ctrl__button ctrl__button--decrement'>&ndash;</div>
                                                             <div class='ctrl__counter'>
-                                                                <input type="text" class='ctrl__counter-num browser-default' name="amount" value="1"> </input>
+                                                                <input type="text" class='ctrl__counter-num browser-default' name="amount" value="1" data-max-value="${maxLimit}"> </input>
                                                             </div>
                                                             <div class='ctrl__button ctrl__button--increment'>+</div>
                                                         </div>
@@ -216,8 +216,8 @@ class Reservation {
                                                 </div>
                                               </div>
 
-                                            <div class="col s3 offset-s1">
-                                                <button class="btn waves-effect waves-light" type="button" style="min-width: 100px;">${btnName}</button>
+                                            <div class="col s3">
+                                                <button class="btn btn-action waves-effect waves-light" type="button" style="min-width: 100px;">${btnName}</button>
                                             </div>
                                         </div>
 

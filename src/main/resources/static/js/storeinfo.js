@@ -8,7 +8,7 @@ const previewLoad = (serviceName, ownerName, imgFile, address, phone, descriptio
             $('#info-name', $('#previewModal')).innerText = ownerName;
             $('#info-address', $('#previewModal')).innerText = address;
             $('#info-phone', $('#previewModal')).innerText = phone;
-            await loadMap();
+            await loadMap($('#info-map'), $("#info-address").innerText, $("#info-store-name").innerText);
             const elems = document.querySelectorAll('.parallax');
             const instances = M.Parallax.init(elems);
         }
@@ -23,13 +23,11 @@ const storeViewLoad = (serviceName, ownerName, imgPath, address, phone, descript
         $('#info-name', $('#infoModal')).innerText = ownerName;
         $('#info-address', $('#infoModal')).innerText = address;
         $('#info-phone', $('#infoModal')).innerText = phone;
-        await loadMap();
+        await loadMap($('#info-map'), $("#info-address").innerText, $("#info-store-name").innerText);
         const elems = document.querySelectorAll('.parallax');
         const instances = M.Parallax.init(elems);
         resolve(instances);
     });
-
-};
 
 // const previewLoad = (serviceName, ownerName, imgFile, address, phone, description) => {
 //     return new Promise( async (resolve, reject) => {
@@ -40,7 +38,7 @@ const storeViewLoad = (serviceName, ownerName, imgPath, address, phone, descript
 //         $('#info-name', $('#previewModal')).innerText = ownerName;
 //         $('#info-address', $('#previewModal')).innerText = address;
 //         $('#info-phone', $('#previewModal')).innerText = phone;
-//         await loadMap();
+//         await loadMap($('#info-map'), $("#info-address").innerText);
 //         var elems = document.querySelectorAll('.parallax');
 //         var instances = M.Parallax.init(elems);
 //         resolve(true);
@@ -55,9 +53,9 @@ const storeViewLoad = (serviceName, ownerName, imgPath, address, phone, descript
 //     });
 // };
 
-const loadMap = () => {
+const loadMap = (container, address, mapName) => {
     return new Promise((resolve, reject) => {
-        const mapContainer = $('#info-map');
+        const mapContainer = container; //$('#info-map');
         const mapOption = {
             center: new daum.maps.LatLng(0, 0), // 지도의 중심좌표
             level: 3, // 지도의 확대 레벨
@@ -67,7 +65,8 @@ const loadMap = () => {
         map.addControl(new daum.maps.ZoomControl(), daum.maps.ControlPosition.TOPRIGHT);
         map.setMaxLevel(5);
         const addressToGeo = new daum.maps.services.Geocoder();
-        addressToGeo.addressSearch($("#info-address").innerText, function (result, status) {
+        addressToGeo.addressSearch(address,//$("#info-address").innerText,
+        function (result, status) {
 
             if (status === daum.maps.services.Status.OK) {
 
@@ -79,7 +78,7 @@ const loadMap = () => {
                 });
 
                 // 인포윈도우로 장소에 대한 설명을 표시합니다
-                var name = $("#info-store-name").innerText
+                var name = mapName; //$("#info-store-name").innerText
                 var infowindow = new daum.maps.InfoWindow({
                     content: '<div style="width:150px;text-align:center;padding:5px 0;">' + name + '</div>'
                 });

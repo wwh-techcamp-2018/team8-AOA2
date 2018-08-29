@@ -24,8 +24,13 @@ spring:
       max-request-size: 35MB
 
 logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-file.upload-dir: ./src/main/resources/static/uploads
-base.menuImgUrl-dir: /uploads/
+
+cloud:
+  aws:
+    s3:
+      bucket: aoa2-springboot-webservice-deploy
+    region:
+      static: ap-northeast-2
 
 #for HTTP Encoding UTF-8
 http:
@@ -58,4 +63,7 @@ spring:
 server:
   port: 8080
 
+mayak.url: localhost:8080
+file.upload-dir: ./src/main/resources/static/uploads
+base.menuImgUrl-dir: /uploads/
 ---

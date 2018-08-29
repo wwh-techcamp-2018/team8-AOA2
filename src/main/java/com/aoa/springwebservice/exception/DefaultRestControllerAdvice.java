@@ -1,10 +1,14 @@
 package com.aoa.springwebservice.exception;
 
 
+import com.aoa.springwebservice.RestResponse;
 import com.aoa.springwebservice.response.ApiError;
 import com.aoa.springwebservice.response.ValidationErrorResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -17,15 +21,16 @@ import java.io.IOException;
 import javax.persistence.EntityNotFoundException;
 
 @Slf4j
-@RestControllerAdvice
-@RequestMapping("/api")
+@RestControllerAdvice(annotations = RestController.class)
+@Order(1)
 public class DefaultRestControllerAdvice {
 
     @ExceptionHandler({RuntimeException.class, EntityNotFoundException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String defaultExceptionHandler(RuntimeException exception) {
+    public RestResponse<ApiError> defaultExceptionHandler(RuntimeException exception) {
+        log.debug("RuntimeException {}", exception.getMessage());
         exception.printStackTrace();
-        return exception.getMessage();
+        return RestResponse.ofErrorResponse(HttpStatus.BAD_REQUEST, exception.getMessage(), exception.getMessage());
     }
 
     @ExceptionHandler(FileStorageException.class)

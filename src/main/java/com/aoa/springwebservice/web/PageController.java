@@ -4,6 +4,7 @@ import com.aoa.springwebservice.domain.Reservation;
 import com.aoa.springwebservice.domain.Store;
 import com.aoa.springwebservice.domain.StoreRepository;
 import com.aoa.springwebservice.domain.User;
+import com.aoa.springwebservice.security.HttpSessionUtils;
 import com.aoa.springwebservice.security.LoginUser;
 import com.aoa.springwebservice.service.OrderService;
 import com.aoa.springwebservice.service.ReservationService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -37,18 +39,25 @@ public class PageController {
     private StoreRepository storeRepository;
 
 
+    @GetMapping("/")
+    public String showBySigninStatus(HttpSession session) {
+        if(HttpSessionUtils.isLoginUser(session)) {
+            return "redirect:/owner/stores/form";
+        }
+        return "/signin";
+    }
+
     @GetMapping("/admin")
-    public String show(@LoginUser User loginUser) {
+    public String show(@LoginUser User loginUser, Model model) {
         if (storeService.hasStore(loginUser))
-            return "redirect:/result/success";
+            return alreadyRegistedStore(loginUser, model);
         return "/admin/store/fail";
     }
 
     @GetMapping("/owner/stores/form")
     public String registStore(@LoginUser User loginUser, Model model) {
-        if(storeService.hasStore(loginUser)) {
-            return "/alreadyRegisted";
-        }
+        if(storeService.hasStore(loginUser))
+            return alreadyRegistedStore(loginUser, model);
 
         model.addAttribute("navTitle", "가게정보 등록");
         return "/registStore";
@@ -122,5 +131,11 @@ public class PageController {
         model.addAttribute("lastDay", lastDay);
         model.addAttribute("orders", orderService.selectOrders(store, lastDay.atTime(0,0,0)));
         return "/showOrders";
+    }
+
+
+    private String alreadyRegistedStore(User loginUser, Model model) {
+        model.addAttribute("ownerUrl", storeService.makeOwnerUrl(loginUser));
+        return "/alreadyRegisted";
     }
 }
