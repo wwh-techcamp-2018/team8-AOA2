@@ -16,7 +16,7 @@ class Ctrls {
         this.targetInput = $('.ctrl__counter-num', eventTarget.closest('.ctrl'));
         this.limit.minValue =  Number( this.targetInput.getAttribute('data-min-value') || this.limit.globalMinValue );
         this.limit.maxValue =  Number( this.targetInput.getAttribute('data-max-value') || this.limit.globalMaxValue );
-        this.relatedElem = null;
+        this.relatedElem = null; 
         if(this.targetInput.getAttribute('data-limit-target')){
             this.relatedElem = $(this.targetInput.getAttribute('data-limit-target'));
         }
