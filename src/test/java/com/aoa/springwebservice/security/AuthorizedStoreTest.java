@@ -207,10 +207,9 @@ public class AuthorizedStoreTest {
 
         MvcResult result = this.mockMvc.perform(builder.session(session))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError())
-                //todo exception 수정 - controller advice
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andReturn();
-        assertThat(result.getResolvedException().getClass()).isAssignableFrom(RuntimeException.class);
+        assertThat(result.getResolvedException().getClass()).isAssignableFrom(EntityNotFoundException.class);
 
     }
 }
