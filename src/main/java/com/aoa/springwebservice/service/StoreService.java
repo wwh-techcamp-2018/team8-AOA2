@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import java.io.IOException;
 
 @Service
 public class StoreService {
@@ -21,6 +22,9 @@ public class StoreService {
     @Autowired
     FileStorageService fileStorageService;
 
+    @Autowired
+    S3Uploader s3Uploader;
+
     //private static final String MAYAK_URL = MayakURLProperties;
     private String mayakUrl;
 
@@ -29,13 +33,16 @@ public class StoreService {
         this.mayakUrl = mayakURLProperties.getUrl();
     }
 
-    public Store createStore(StoreInputDTO storeDTO, User user){
+    public Store createStore(StoreInputDTO storeDTO, User user) throws IOException {
         return storeRepository.save(storeDTO.toDomain(saveStoreImg(storeDTO), user));
     }
-    public String saveStoreImg(StoreInputDTO storeDTO) {
-        return fileStorageService.storeFile(storeDTO.getImageFile());
-    }
+//    public String saveStoreImg(StoreInputDTO storeDTO) {
+//        return fileStorageService.storeFile(storeDTO.getImageFile());
+//    }
 
+    public String saveStoreImg(StoreInputDTO storeDTO) throws IOException {
+        return s3Uploader.upload(storeDTO.getImageFile(), "static");
+    }
     public boolean hasStore(User user) {
         return storeRepository.findByUserId(user.getId()).isPresent();
     }
