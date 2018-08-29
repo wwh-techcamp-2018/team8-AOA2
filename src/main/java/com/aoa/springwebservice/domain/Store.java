@@ -122,7 +122,7 @@ public class Store{
 
     @PostPersist @PostUpdate @PostLoad
     public void updateOpenStatus(){
-        if(timeToClose == null || timeToClose.isAfter(LocalDateTime.now())) {
+        if(timeToClose == null || timeToClose.isBefore(LocalDateTime.now())) {
             isOpen = CLOSE;
             return;
         }

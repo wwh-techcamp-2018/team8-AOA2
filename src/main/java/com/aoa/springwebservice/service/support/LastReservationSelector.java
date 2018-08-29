@@ -24,8 +24,7 @@ public class LastReservationSelector implements ReservationSelector{
                 .orElseThrow((() -> new EntityNotFoundException("직전 예약이 없어요.")))
                 .getOpenDate();
 
-        List<Reservation> actualReservations = reservationRepository.findAllByStoreAndOpenDate(store, lastDate);
-        return reservationRepository.findAllByStoreAndOpenDate(store, LocalDate.now());
+        return reservationRepository.findAllByStoreAndOpenDate(store, lastDate);
     }
 
 }

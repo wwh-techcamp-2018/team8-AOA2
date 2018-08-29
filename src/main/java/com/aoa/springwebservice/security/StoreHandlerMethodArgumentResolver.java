@@ -35,8 +35,8 @@ public class StoreHandlerMethodArgumentResolver implements HandlerMethodArgument
         log.debug("storeId {}", storeId);
 
 
-        AuthorizedStore loginUser = parameter.getParameterAnnotation(AuthorizedStore.class);
-        if (!loginUser.required()) {
+        AuthorizedStore authorizedStore = parameter.getParameterAnnotation(AuthorizedStore.class);
+        if (!authorizedStore.required()) {
             return storeService.getStoreById(storeId);
         }
 
@@ -45,7 +45,11 @@ public class StoreHandlerMethodArgumentResolver implements HandlerMethodArgument
 
         if(user == null || !store.hasSameOwner(user))
             throw new RuntimeException("권한이 없는 유저가 가게에 접근하였습니다");
-
+        log.debug("store isOpen {}", store.isOpen());
+        if(authorizedStore.notClosed() && !store.isOpen())
+            throw new RuntimeException("진행 중인 예약이 없습니다");
+        if(authorizedStore.notOpen() && store.isOpen())
+            throw new RuntimeException("이미 진행 중인 예약이 있습니다");
         return store;
     }
 

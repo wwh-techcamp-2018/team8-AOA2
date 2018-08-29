@@ -109,7 +109,7 @@ public class OrderServiceTest {
 
         store.deactivate();
 
-        Iterable<Reservation> reservations = reservationService.createReservation(reservationFormDTO, store.getId());
+        Iterable<Reservation> reservations = reservationService.createReservation(reservationFormDTO, store);
 
         List<OrderItemDTO> orderItems = new ArrayList<>();
 
