@@ -110,9 +110,9 @@
 <script>
     const updatePickedUpStatus = async (card_content) => {
         const isPickedup = $('input[name=isPickedup]', card_content);
-
+        const storeId = $('#storeId').value;
         const picked = await fetchAsync({
-            url: "/api/orders/" + card_content.getAttribute('data-id'),
+            url: "/api/stores/" + storeId + "/orders/" + card_content.getAttribute('data-id'),
             method: "POST",
             body: {"isPickedup": (isPickedup.value == 'true')}
         });

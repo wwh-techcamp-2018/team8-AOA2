@@ -93,7 +93,7 @@ public class ReservationServiceTest {
                 .reservationDTOs(reservationDTOs)
                 .build();
 
-        reservationService.createReservation(reservationFormDTO, storeId);
+        reservationService.createReservation(reservationFormDTO, store);
 
         assertThat(reservationRepository.findAllByStoreId(storeId).size()).isEqualTo(reservationDTOs.size());
     }

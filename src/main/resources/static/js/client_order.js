@@ -136,7 +136,7 @@ class Reservation {
 
     async getOpenReservations() {
         const menuData = await fetchAsync({
-            url: "/api/stores/" + this.storeId + "/reservations",
+            url: "/api/stores/" + this.storeId + "/reservations?conditions=current",
             method: "GET"
         });
         this.renderOpenReservations(menuData);

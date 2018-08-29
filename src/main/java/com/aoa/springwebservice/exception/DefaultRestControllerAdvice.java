@@ -29,31 +29,28 @@ public class DefaultRestControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public RestResponse<ApiError> defaultExceptionHandler(RuntimeException exception) {
         log.debug("RuntimeException {}", exception.getMessage());
-        exception.printStackTrace();
+        //exception.printStackTrace();
         return RestResponse.ofErrorResponse(HttpStatus.BAD_REQUEST, exception.getMessage(), exception.getMessage());
     }
 
     @ExceptionHandler(FileStorageException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String fileStorageExceptionHandler(FileStorageException exception) {
-        return exception.getMessage();
+    public RestResponse<ApiError> fileStorageExceptionHandler(FileStorageException exception) {
+        return RestResponse.ofErrorResponse(HttpStatus.BAD_REQUEST, "FileStorage Exception", exception.getMessage());
     }
 
-    @ExceptionHandler({BindException.class, MethodArgumentNotValidException.class})
+    @ExceptionHandler({BindException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected ValidationErrorResponse handleBindException2(BindException ex, HttpServletRequest request,
-                                                           HttpServletResponse response, @Nullable Object handler) throws IOException {
-        log.debug("handleBindException 2");
-        log.debug("handler {}", handler.getClass());
-
-        return new ValidationErrorResponse(new ApiError("ERROR MSG", ex.getLocalizedMessage()))
+    protected ValidationErrorResponse handleBindException(BindException ex, HttpServletRequest request,
+                                                           HttpServletResponse response, @Nullable Object handler){
+        return new ValidationErrorResponse(new ApiError("BindException", ex.getLocalizedMessage()))
                 .addAllErrors(ex.getBindingResult());
     }
 
     @ExceptionHandler(UnAuthorizedException.class)
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
-    public String unAuthorized(UnAuthorizedException exception) {
+    public RestResponse<ApiError> unAuthorized(UnAuthorizedException exception) {
         log.debug("unAuthorized : {}", exception);
-        return exception.getMessage();
+        return RestResponse.ofErrorResponse(HttpStatus.BAD_REQUEST, exception.getMessage(), exception.getMessage());
     }
 }
