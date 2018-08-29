@@ -167,4 +167,15 @@ public class Store{
     public boolean hasSameOwner(User other) {
         return this.user.equals(other);
     }
+
+    public Store updateStore(Store store) {
+        this.serviceDescription = store.serviceDescription;
+        this.postCode = store.postCode;
+        this.address = store.address;
+        this.addressDetail = store.addressDetail;
+        this.phoneNumber = store.phoneNumber;
+        this.description = store.description;
+        this.imgURL = store.imgURL;
+        return this;
+    }
 }

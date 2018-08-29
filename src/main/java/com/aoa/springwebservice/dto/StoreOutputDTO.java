@@ -55,7 +55,7 @@ public class StoreOutputDTO {
         this.imgURL = imgURL;
         this.id = storeId;
         this.timeToClose = timeToClose.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"));
-
+        phoneNumberParse(phoneNumber);
         this.hourToClose =  timeToClose.toLocalTime().format(DateTimeFormatter.ofPattern("HH"));
         this.minuteToClose = timeToClose.toLocalTime().format(DateTimeFormatter.ofPattern("mm"));
     }
@@ -77,6 +77,17 @@ public class StoreOutputDTO {
                                 )
                 )
                 .build();
+    }
+    private void phoneNumberParse(String phoneNumber) {
+        if(phoneNumber.length() == 11){
+            this.phoneNumber_1 = phoneNumber.substring(0,3);
+            this.phoneNumber_2 = phoneNumber.substring(3,7);
+            this.phoneNumber_3 = phoneNumber.substring(7,11);
+            return;
+        }
+        this.phoneNumber_1 = phoneNumber.substring(0,3);
+        this.phoneNumber_2 = phoneNumber.substring(3,6);
+        this.phoneNumber_3 = phoneNumber.substring(6,10);
     }
 
 

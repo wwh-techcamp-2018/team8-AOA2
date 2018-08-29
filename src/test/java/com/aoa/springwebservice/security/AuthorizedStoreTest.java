@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.io.IOException;
 import javax.persistence.EntityNotFoundException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -131,7 +132,8 @@ public class AuthorizedStoreTest {
         assertThat(createdStore.hasSameOwner(notOwner)).isFalse();
 
     }
-    private void prepareDefaultUser(){
+  
+    private void prepareDefaultUser() throws IOException {
         UserInputDTO userInputDTO = UserInputDTO.builder().email("owner@example.com").name("주인").phoneNumber_1("010").phoneNumber_2("1234").phoneNumber_3("1234").uuid("12345").build();//new User("12345","주인장", "owner@example.com", "01012341234");
         owner = userInputDTO.toEntity();
         owner = userRepository.save(owner);
