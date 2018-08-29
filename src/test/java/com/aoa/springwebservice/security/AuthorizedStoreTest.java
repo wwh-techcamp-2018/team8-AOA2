@@ -48,9 +48,14 @@ public class AuthorizedStoreTest {
     private Store createdStore;
 
     @Autowired
-    private UserService userService;
+    private StoreRepository storeRepository;
+
     @Autowired
-    private StoreService storeService;
+    private UserRepository userRepository;
+//    @Autowired
+//    private UserService userService;
+//    @Autowired
+//    private StoreService storeService;
     private static boolean dataLoaded = false;
     private MockHttpServletRequestBuilder builder;
 
@@ -76,6 +81,7 @@ public class AuthorizedStoreTest {
 //            dataLoaded = true;
 //        }
 
+/*
         UserInputDTO userInputDTO = UserInputDTO.builder().email("owner@example.com").name("주인").phoneNumber_1("010").phoneNumber_2("1234").phoneNumber_3("1234").uuid("12345").build();//new User("12345","주인장", "owner@example.com", "01012341234");
 
         owner = userService.create(userInputDTO);
@@ -94,7 +100,9 @@ public class AuthorizedStoreTest {
                 .imageFile(mockMultipartFile)
                 .build();
         createdStore = storeService.createStore(dto, owner);
-
+*/
+        prepareDefaultUser();
+        prepareDefaultStore(owner);
         session = new MockHttpSession();
         builder = MockMvcRequestBuilders
                 .multipart("/api/stores/"+ createdStore.getId()+"/menus/test")
@@ -108,7 +116,33 @@ public class AuthorizedStoreTest {
         assertThat(createdStore.hasSameOwner(notOwner)).isFalse();
 
     }
+    private void prepareDefaultUser(){
+        UserInputDTO userInputDTO = UserInputDTO.builder().email("owner@example.com").name("주인").phoneNumber_1("010").phoneNumber_2("1234").phoneNumber_3("1234").uuid("12345").build();//new User("12345","주인장", "owner@example.com", "01012341234");
+        owner = userInputDTO.toEntity();
+        owner = userRepository.save(owner);
 
+        userInputDTO.setUuid("1234567");
+        userInputDTO.setEmail("notOwner@example.com");
+        userInputDTO.setName("주인아님");
+        notOwner = userInputDTO.toEntity();
+        notOwner = userRepository.save(notOwner);
+    }
+
+    private void prepareDefaultStore(User user) {
+        createdStore = Store.builder()
+                .user(user)
+                .description("DESC")
+                .imgURL("img")
+                .ownerName("주인")
+                .phoneNumber("1234512345")
+                .postCode("12345")
+                .serviceDescription("create menu 가게관점")
+                .storeName("storeName")
+                .address("ADDRESS")
+                .build();
+        storeRepository.save(createdStore);
+    }
+/*
     public void init(){
         UserInputDTO userInputDTO = UserInputDTO.builder().email("owner@example.com").name("주인").phoneNumber_1("010").phoneNumber_2("1234").phoneNumber_3("1234").uuid("12345").build();//new User("12345","주인장", "owner@example.com", "01012341234");
 
@@ -131,6 +165,7 @@ public class AuthorizedStoreTest {
 
 
     }
+*/
 
     @Test
     public void createMenu_주인권한있음() throws Exception{
