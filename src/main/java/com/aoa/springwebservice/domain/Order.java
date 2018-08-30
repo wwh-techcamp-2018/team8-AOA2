@@ -1,5 +1,6 @@
 package com.aoa.springwebservice.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.*;
 
@@ -10,11 +11,10 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @ToString
 @Table(name = "order_table")
-public class Order {
+public class Order{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

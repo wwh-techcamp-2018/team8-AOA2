@@ -45,4 +45,17 @@
 </main>
 </body>
 {{> footer}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let socket = new SockJS('/orderCondition');
+        let stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            console.log("소켓 연결 성공", frame);
+            const url = "/topic/stores" + $('#storeId').value;
+            stompClient.subscribe(url, function (response) {
+                console.log(JSON.parse(response.body));
+            });
+        });
+    });
+</script>
 </html>
