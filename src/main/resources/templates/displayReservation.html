@@ -12,7 +12,7 @@
 <main>
     <div class="row" id="reservation-container" style="margin:3%">
         <div class="row" id="reservation-date-container" style="font-size:25px; color:grey;">
-            {{reservations.0.openDate}}의 예약
+            {{reservations.0.openDate}}
         </div>
         <div class="row divider"></div>
         <div class="row" id="reservation-list-container">
@@ -34,7 +34,7 @@
                     <div style="margin-left:4%; font-size:25px; color:grey;">
                         <br/>
                         남은 수량 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                        {{availableCount}} / {{menu.maxCount.maxCount}}
+                        {{availableCount}} / {{maxCount.maxCount}}
                     </div>
 
                 </li>
@@ -45,4 +45,17 @@
 </main>
 </body>
 {{> footer}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let socket = new SockJS('/orderCondition');
+        let stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            console.log("소켓 연결 성공", frame);
+            const url = "/topic/stores" + $('#storeId').value;
+            stompClient.subscribe(url, function (response) {
+                console.log(JSON.parse(response.body));
+            });
+        });
+    });
+</script>
 </html>

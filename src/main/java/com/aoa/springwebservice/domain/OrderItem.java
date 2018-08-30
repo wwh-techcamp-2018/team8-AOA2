@@ -5,18 +5,21 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @ToString
 public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne(optional = false)
     @ToString.Exclude
@@ -31,7 +34,7 @@ public class OrderItem {
     private int itemTotalPrice;
 
     @Builder
-    public OrderItem(Order order, Reservation reservation, int itemCount) {
+    public OrderItem(@NotNull Order order, @NotNull Reservation reservation, int itemCount) {
         this.order = order;
         this.reservation = reservation;
         this.itemCount = itemCount;

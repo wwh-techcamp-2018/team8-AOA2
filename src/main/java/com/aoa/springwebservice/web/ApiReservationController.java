@@ -30,7 +30,8 @@ public class ApiReservationController {
     @PostMapping("/stores/{storeId}/reservations")
     public RestResponse<RestResponse.RedirectData> create(@AuthorizedStore(notOpen = true) Store store, @RequestBody ReservationFormDTO reservationDTO) {
         reservationService.createReservation(reservationDTO, store);
-        return RestResponse.ofRedirectResponse("/result/success", "OK");
+        //return "/result/successㄱ"
+        return RestResponse.ofRedirectResponse("/owner/reservations/?condition=current", "OK");
     }
 
     @GetMapping(value = "/stores/{storeId}/reservations", params = "conditions")

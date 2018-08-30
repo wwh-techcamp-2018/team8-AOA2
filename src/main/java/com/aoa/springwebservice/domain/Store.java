@@ -37,7 +37,7 @@ public class Store{
     @Column(nullable = false, length = 10)
     private String ownerName;
 
-    @Column(nullable = true, length = 300)
+    @Column(nullable = false, length = 400)
     private String imgURL;
 
     @Column(nullable = false, length = 5)
@@ -145,10 +145,9 @@ public class Store{
         this.menus.stream().forEach(e -> menuDTOs.add(MenuOutputDTO.createUsedMenuOutputDTO(e)));
         return menuDTOs;
     }
+
     public List<MenuOutputDTO> getUsedMenuOutputDTOList(){
         List<MenuOutputDTO> menuDTOs = new ArrayList<>();
-        log.debug(" IsLastUsed Size{} ", this.menus.stream().filter(Menu::isLastUsed).collect(Collectors.toList()).size());
-        log.debug(" IsLastUsed Size{} ", this.menus.stream().filter(x -> x.isLastUsed()).collect(Collectors.toList()).size());
         this.menus.stream().filter(Menu::isLastUsed).forEach(e -> menuDTOs.add(MenuOutputDTO.createUsedMenuOutputDTO(e)));
         return menuDTOs;
     }

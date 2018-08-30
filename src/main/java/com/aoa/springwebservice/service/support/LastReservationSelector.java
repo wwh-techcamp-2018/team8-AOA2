@@ -20,7 +20,7 @@ public class LastReservationSelector implements ReservationSelector{
     public List<Reservation> select(Store store) {
         //todo Exception 날리기 + Refactoring
         LocalDate lastDate = reservationRepository
-                .findFirstByStoreAndOpenDateBeforeOrderByOpenDateDesc(store, LocalDate.now())
+                .findFirstByStoreAndOpenDateBeforeOrderByOpenDateDesc(store, store.getTimeToClose().toLocalDate().minusDays(1))
                 .orElseThrow((() -> new EntityNotFoundException("직전 예약이 없어요.")))
                 .getOpenDate();
 

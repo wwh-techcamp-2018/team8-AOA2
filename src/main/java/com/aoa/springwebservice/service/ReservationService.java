@@ -60,7 +60,7 @@ public class ReservationService {
 
     public LocalDate getLastDay(Store store) {
         return reservationRepository
-                .findFirstByStoreAndOpenDateBeforeOrderByOpenDateDesc(store, LocalDate.now())
+                .findFirstByStoreAndOpenDateBeforeOrderByOpenDateDesc(store, store.getTimeToClose().toLocalDate().minusDays(1))
                 .orElseThrow(() -> new EntityNotFoundException("Last Day가 존재하지 않는다."))
                 .getOpenDate();
     }

@@ -21,7 +21,7 @@ public class Menu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -31,10 +31,11 @@ public class Menu {
 
     private String description;
 
+    @Column(nullable = false, length = 400)
     private String imageUrl;
 
-
     private boolean deleted;
+
     @Embedded
     private MaxCount maxCount;
 
