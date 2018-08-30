@@ -10,7 +10,7 @@
     <!--</nav>-->
 
     <ul class="sidenav sidenav-fixed" id="mobile-demo">
-        <li class="title" class="flow-text">나의 가게</li>
+        <li class="title" class="flow-text">Mayack <span class="title-img"></span> </li>
         <ul>
             <li class="subtitle">가게정보</li>
             <div class="divider"></div>
@@ -35,6 +35,12 @@
             <button id="logoutBtn" class="waves-effect waves-light btn-small col s2 offset-s5 signout-btn" type="button">로그아웃</button>
         </div>
     </ul>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" data-target="mobile-demo" class="btn-floating btn-large waves-effect waves-light sidenav-trigger nav-btn"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+
     {{#if store}}
     <input type="hidden" id="storeId" name="storeId" value="{{store.id}}"/>
     {{else}}

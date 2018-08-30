@@ -67,12 +67,28 @@
 }
 
 .error-background {
-    background-color: #F0A1BF;
+    background-color: #faf7f2;
     height: 1000px;
     width: 100%;
 }
 
 .card-panel {
+    width:600px;
+    height:400px;
     margin-top: 200px;
+    background-image: url("/images/card-img.png");
     display: inline-block;
+    background-size: 100%;
+}
+
+.card-content {
+    padding-right: 35%;
+    font-size: 20px;
+    color: white;
+}
+
+.card-title {
+    padding-right: 35%;
+    font-size: 35px;
+    color: white;
 }

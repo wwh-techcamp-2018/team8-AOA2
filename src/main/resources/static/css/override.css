@@ -38,7 +38,7 @@ nav ul a {
 .btn, .btn-large, .btn-small {
     text-decoration: none;
     color: #fff;
-    background-color: #274c5e; /*change*/
+    background-color: #2f343a; /*change*/
     text-align: center;
     letter-spacing: .5px;
     -webkit-transition: background-color .2s ease-out;
@@ -319,3 +319,4 @@ textarea.materialize-textarea.valid:focus, .select-wrapper.valid > input.select-
 .signout-btn:focus{
     background-color: #FEA1BF;
 }
+
