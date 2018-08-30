@@ -34,10 +34,14 @@
         </ul>
     </ul>
     {{#if store}}
+    <script src="/js/header_toast.js"></script>
     <input type="hidden" id="storeId" name="storeId" value="{{store.id}}"/>
     {{else}}
         {{#if storeId}}
+    <script src="/js/header_toast.js"></script>
     <input type="hidden" id="storeId" name="storeId" value="{{storeId}}"/>
         {{/if}}
+
+
     {{/if}}
 </header>
