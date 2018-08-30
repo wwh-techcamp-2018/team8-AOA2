@@ -114,7 +114,7 @@ public class OrderServiceTest {
 //        List<OrderItemDTO> orderItems = new ArrayList<>();
 //
 //        for (Reservation reservation : reservations) {
-//            orderItems.add(new OrderItemDTO(reservation.getId(), 1));
+//            orderItems.add(OrderItemDTO.builder().reservationId(reservation.getId()).itemCount(1).build());
 //            log.debug("orderItemsID : {}", reservation.getId());
 //        }
 //

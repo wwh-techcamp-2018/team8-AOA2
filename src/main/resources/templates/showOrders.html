@@ -8,102 +8,249 @@
 <link href="/css/owner.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 <body>
 {{> header}}
+
+<style>
+
+/*——————————————
+TimeLine CSS
+———————————————*/
+
+/* Timeline */
+
+.timeline {
+  border-left: 8px solid #42A5F5;
+  border-bottom-right-radius: 2px;
+  border-top-right-radius: 2px;
+  //box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  color: #333;
+  margin: 50px auto;
+  letter-spacing: 0.5px;
+  position: relative;
+  line-height: 1.4em;
+  padding: 20px;
+  list-style: none;
+  text-align: left;
+}
+
+.timeline h1,
+.timeline h2,
+.timeline h3 {
+  font-size: 1.4em;
+}
+
+.timeline .event {
+  border-bottom: 1px solid rgba(160, 160, 160, 0.2);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.timeline .event:last-of-type {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border: none;
+}
+
+.timeline .event:before,
+.timeline .event:after {
+  position: absolute;
+  display: block;
+  top: 0;
+}
+
+.timeline .event:before {
+  left: -177.5px;
+  color: #212121;
+  content: attr(data-date);
+  text-align: right;
+  /*  font-weight: 100;*/
+
+  font-size: 16px;
+  min-width: 120px;
+}
+
+.timeline .event:after {
+  box-shadow: 0 0 0 8px #42A5F5;
+  left: -30px;
+  background: #212121;
+  border-radius: 50%;
+  height: 11px;
+  width: 11px;
+  content: "";
+  top: 5px;
+}
+
+.card.no-border{
+}
+/**/
+/*——————————————
+Responsive Stuff
+———————————————*/
+
+@media (max-width: 945px) {
+  .timeline .event::before {
+    left: 0.5px;
+    top: 20px;
+    min-width: 0;
+    font-size: 13px;
+  }
+  .timeline h3 {
+    font-size: 16px;
+  }
+  .timeline p {
+    padding-top: 20px;
+  }
+  section.lab h3.card-title {
+    padding: 5px;
+    font-size: 16px
+  }
+}
+
+@media (max-width: 768px) {
+  .timeline .event::before {
+    left: 0.5px;
+    top: 20px;
+    min-width: 0;
+    font-size: 13px;
+  }
+  .timeline .event:nth-child(1)::before,
+  .timeline .event:nth-child(3)::before,
+  .timeline .event:nth-child(5)::before {
+    top: 38px;
+  }
+  .timeline h3 {
+    font-size: 16px;
+  }
+  .timeline p {
+    padding-top: 20px;
+  }
+}
+/*——————————————
+others
+———————————————*/
+
+a.portfolio-link {
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+}
+</style>
 <main>
     <div class="container">
         <div class="row">
             <div class="section">
                 <h5><span>{{pickupDate}}</span>일 예약 오픈</h5>
+                <input id="pickupDate" type="hidden" value="{{pickupDate}}">
             </div>
             <div class="divider"></div>
         </div>
-        <div id="show-order-collections">
-            {{#orders}}
-            <div class="card order-collection">
-                {{#if isPickedup}}
-                <div class="black-wrapper">
-                    <span class="card-title activator white-text">수령완료</span>
-                    <p class ="margin-top-80">
-                        <button class="btn return-btn waves-effect waves-light" type="button" style="min-width: 100px;">
-                            되돌리기
-                        </button>
-                    </p>
-                </div>
-                <div class="card-content off" data-id="{{id}}">
-                    <input type="hidden" name="isPickedup" value="true"/>
-                    <span class="card-title activator grey-text text-darken-4">
-                        수령인: {{customer.name}}
-                        <i class="material-icons right">more_vert</i></span>
-                    <div class="col s9">
-                        <div class="col s12 description-text grey-text">
-                            <label>전화번호 : </label>
-                            {{customer.phoneNumber}}
-                        </div>
-                        <div class="col s12 description-text grey-text">
-                            <label>테이크아웃 시간 : </label>
-                            {{pickupTime}}
-                        </div>
-                    </div>
-                    <p class ="margin-top-80">
-                        <button class="btn accept-btn waves-effect waves-light" type="button" style="min-width: 100px;">
-                            수령하기
-                        </button>
-                    </p>
-                </div>
-                {{else}}
-                <div class="black-wrapper off">
-                    <span class="card-title activator white-text">수령완료</span>
-                    <p class ="margin-top-80">
-                        <button class="btn return-btn waves-effect waves-light" type="button" style="min-width: 100px;">
-                            되돌리기
-                        </button>
-                    </p>
-                </div>
-                <div class="card-content" data-id="{{id}}">
-                    <input type="hidden" name="isPickedup" value="false"/>
-                    <span class="card-title activator grey-text text-darken-4">수령인: {{customer.name}}<i
-                            class="material-icons right">more_vert</i></span>
-                    <div class="col s9">
-                        <div class="col s12 description-text grey-text">
-                            <label>전화번호 : </label>
-                            {{customer.phoneNumber}}
-                        </div>
-                        <div class="col s12 description-text grey-text">
-                            <label>테이크아웃 시간 : </label>
-                            {{pickupTime}}
-                        </div>
-                    </div>
-                    <p>
-                        <button class="btn accept-btn waves-effect waves-light" type="button" style="min-width: 100px;">
-                            수령하기
-                        </button>
-                    </p>
-                </div>
-                {{/if}}
-                <div class="card-reveal">
+
+        <div class="main-container">
+            <section id="timeline" class="timeline-outer">
+                <div id="content">
+                    <div class="row" id="show-order-collections">
+                        <div class="col s12 m12 l12">
+                           <ul id="timeline-parent" class="timeline">
+
+                                <li class="event" data-date="2015/Present">
+                                    {{#orders}}
+                                    <div class="card order-collection">
+                                        {{#if isPickedup}}
+                                        <div class="black-wrapper">
+                                            <span class="card-title activator white-text">수령완료</span>
+                                            <p >
+                                                <button class="btn return-btn waves-effect waves-light" type="button" style="min-width: 100px;">
+                                                    되돌리기
+                                                </button>
+                                            </p>
+                                        </div>
+                                        <div class="card-content off" data-id="{{id}}" data-pickup-hour="">
+                                            <input type="hidden" name="isPickedup" value="true"/>
+                                            <span class="card-title activator grey-text text-darken-4">
+                                            수령인: {{customer.name}}
+                                            <i class="material-icons right">more_vert</i></span>
+                                            <div class="col s9">
+                                                <div class="col s12  grey-text">
+                                                    <label>전화번호 : </label>
+                                                    {{customer.phoneNumber}}
+                                                </div>
+                                                <div class="col s12  grey-text">
+                                                    <label>테이크아웃 시간 : </label>
+                                                    {{pickupTime}}
+                                                </div>
+                                            </div>
+                                            <p >
+                                                <button class="btn accept-btn waves-effect waves-light" type="button" style="min-width: 100px;">
+                                                    수령하기
+                                                </button>
+                                            </p>
+                                        </div>
+                                        {{else}}
+                                        <div class="black-wrapper off">
+                                            <span class="card-title activator white-text">수령완료</span>
+                                            <p >
+                                                <button class="btn return-btn waves-effect waves-light" type="button" style="min-width: 100px;">
+                                                    되돌리기
+                                                </button>
+                                            </p>
+                                        </div>
+                                        <div class="card-content" data-id="{{id}}">
+                                            <input type="hidden" name="isPickedup" value="false"/>
+                                            <span class="card-title activator grey-text text-darken-4">수령인: {{customer.name}}<i
+                                                    class="material-icons right">more_vert</i></span>
+                                            <div class="col s9">
+                                                <div class="col s12  grey-text">
+                                                    <label>전화번호 : </label>
+                                                    {{customer.phoneNumber}}
+                                                </div>
+                                                <div class="col s12  grey-text">
+                                                    <label>테이크아웃 시간 : </label>
+                                                    {{pickupTime}}
+                                                </div>
+                                            </div>
+                                            <p>
+                                                <button class="btn accept-btn waves-effect waves-light" type="button" style="min-width: 100px;">
+                                                    수령하기
+                                                </button>
+                                            </p>
+                                        </div>
+                                        {{/if}}
+                                        <div class="card-reveal">
                     <span class="card-title grey-text text-darken-4">주문목록<i
                             class="material-icons right">close</i></span>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Menu Name</th>
-                            <th>Item Count</th>
-                            <th>Total Price</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {{#orderItems}}
-                        <tr>
-                            <td>{{reservation.menu.name}}</td>
-                            <td>{{itemCount}}</td>
-                            <td>{{itemTotalPrice}}</td>
-                        </tr>
-                        {{/orderItems}}
-                        </tbody>
-                    </table>
+                                            <table>
+                                                <thead>
+                                                <tr>
+                                                    <th>Menu Name</th>
+                                                    <th>Item Count</th>
+                                                    <th>Total Price</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {{#orderItems}}
+                                                <tr>
+                                                    <td>{{reservation.menu.name}}</td>
+                                                    <td>{{itemCount}}</td>
+                                                    <td>{{itemTotalPrice}}</td>
+                                                </tr>
+                                                {{/orderItems}}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    {{/orders}}
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            {{/orders}}
+            </section>
+            <a class="portfolio-link" target "_blank" href="http://www.erpik.com"><h6>www.erpik.com</h6></a>
+            <br/>
         </div>
+
+
     </div>
 </main>
 </body>
@@ -121,6 +268,7 @@
         isPickedup.value = picked.isPickedup;
 
     }
+
 
     document.addEventListener('DOMContentLoaded', function () {
 
@@ -145,10 +293,8 @@
     });
 
 
-</script>
-<script type="module">
-
 
 </script>
+<script src="/js/owner_orders_show.js"></script>
 {{> clientFooter}}
 </html>

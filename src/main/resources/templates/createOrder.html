@@ -384,7 +384,7 @@
         //todo duplicated -- 중복 제거, 모듈로 분리
         const defaultTime = $('.flat-timepicker').getAttribute('data-default-value');
         const maxTime = $('.flat-timepicker').getAttribute('data-max-date');
-        const minTime = $('.flat-timepicker').getAttribute('data-min-date');
+        //const minTime = $('.flat-timepicker').getAttribute('data-min-date');
         flatpickr('.flat-timepicker',
             {
                 enableTime: true,
@@ -394,7 +394,7 @@
                 defaultDate: defaultTime,
                 minuteIncrement: '30',
                 maxDate: maxTime,
-                minDate: minTime,
+                //minDate: minTime,
                 disableMobile: 'true',
             });
 
