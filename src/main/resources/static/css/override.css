@@ -38,7 +38,7 @@ nav ul a {
 .btn, .btn-large, .btn-small {
     text-decoration: none;
     color: #fff;
-    background-color: #274c5e; /*change*/
+    background-color: #2f343a; /*change*/
     text-align: center;
     letter-spacing: .5px;
     -webkit-transition: background-color .2s ease-out;
@@ -275,7 +275,8 @@ textarea.materialize-textarea.valid:focus, .select-wrapper.valid > input.select-
 }
 
 
-.collection .collection-item.avatar :not(.circle-clipper) img.rounded{
+.collection .collection-item.avatar:not(.circle-clipper) > .circle, .collection .collection-item.avatar :not(.circle-clipper) > .rounded{
+
      position: absolute;
      max-width: 100%;
      width: 120px;
@@ -294,7 +295,31 @@ textarea.materialize-textarea.valid:focus, .select-wrapper.valid > input.select-
  }
 
 .sidenav li > a:hover {
+    margin: 0 5px 0 5px;
     background-color: #2f343a;
 }
 
+.signout-btn-box {
+    padding: 0 80px;
+    padding-top: 200px;
+}
+
+.signout-btn {
+    margin: auto;
+    margin-top: 30px;
+    border-color: #faf7f2;
+    background-color: #fe7676;
+    color: #faf7f2;
+    border: 1px;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.signout-btn:hover{
+    background-color: #fea5bf;
+}
+
+.signout-btn:focus{
+    background-color: #FEA1BF;
+}
 
