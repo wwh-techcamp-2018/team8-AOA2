@@ -192,15 +192,17 @@
             const phone = $('#input_phone1').value + ' - ' + $('#input_phone2').value + ' - ' + $('#input_phone3').value ;
             const address = $('#input_address_main').value + ' ' + $('#input_address_sub').value;
             const description = $('#input_description').value;
-            const imgUrl = $('#img_url').src;
+            const oldImgUrl = $('#img_url').src;
+            const newImgUrl = $('#info-img').src;
             if(fileElem.files.length === 1) {
-                const imgFile = $('input[type=file]').files[0];
-                await previewLoad(serviceName, ownerName, imgFile, address, phone, description);
+                $('.modal').M_Modal.open();
+                await storeViewLoad(serviceName, ownerName, newImgUrl, address, phone, description);
             } else {
-                await storeViewLoad(serviceName, ownerName, imgUrl, address, phone, description);
+                $('.modal').M_Modal.open();
+                await storeViewLoad(serviceName, ownerName, oldImgUrl, address, phone, description);
             }
 
-            $('.modal').M_Modal.open();
+            // $('.modal').M_Modal.open();
         });
 
     });

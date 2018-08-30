@@ -399,6 +399,8 @@
 
         const modalElems = $('.modal');
         const modalInstance = M.Modal.init(modalElems);
+        $('#info-img').src = $('#info_imgURL');
+        resize($('#info-img'));
         $('#infoLoadBtn').addEventListener('click', async (event) => {
             const serviceName = $('#info_service').value;
             const ownerName = $('#info_owner').value;
@@ -406,13 +408,12 @@
             const imgFile = $('#info_imgURL').value;
             const address = $('#info_address_main').value + ' ' + $('#info_address_sub').value;
             const description = $('#info_description').value;
-            await storeViewLoad(serviceName, ownerName, imgFile, address, phone, description);
             $('.modal').M_Modal.open();
+            await storeViewLoad(serviceName, ownerName, imgFile, address, phone, description);
         });
     });
 
 </script>
-<script src="/js/storeInfo.js"></script>
 {{>clientFooter}}
 
 </html>
