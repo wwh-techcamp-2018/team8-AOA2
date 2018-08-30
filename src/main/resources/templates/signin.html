@@ -4,6 +4,60 @@
 <head>
     <meta charset="UTF-8">
     <title>로그인</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-image: url('/images/signin_bg.jpg');
+        }
+
+        .signin_container{
+            position:absolute;
+            width: auto;
+            height:auto;
+            top: calc(50% - 240px);
+            left: calc(40% - 190px);
+            border-radius:15px 15px 15px 15px;
+        }
+        .signin_c1{
+            box-shadow:0 0 10px grey;
+            background-color:white;
+            width:300px;
+            height:500px;
+            display:inline-block;
+            border-radius:15px 15px 15px 15px;
+        }
+
+        .signin_c11{
+            background-image:url('/images/macaron_signin_container.jpg');
+            background-size:300px 400px;
+            background-repeat: no-repeat;
+            background-color:white;
+            width:300px;
+            height:400px;
+            display:inline-block;
+            position:absolute;
+            z-index:4;
+        }
+
+        .mainhead{
+            color:white;
+            font-size:40px;
+            text-align:center;
+            margin-top:30px;
+        }
+        .mainp{
+            color:white;
+            font-size:15px;
+            text-align:center;
+            margin-top:260px;
+        }
+        #kakao-login-btn {
+            margin-top: 395px;
+            margin-left: -4%;
+        }
+    </style>
 </head>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -13,14 +67,19 @@
 
 
 <body>
-<div class="container">
-    <img class="responsive-img center-block main_logo" src="/images/logo.png"/>
-    <h5 class="indigo-text center">Please, login into your account</h5>
-    <div class="row">
-        <div class="z-depth-1 grey lighten-4 col s4 offset-s4 btn_container">
-            <div class="center-block">
-                <div class="col s10 offset-s1">
-                    <img id="kakao-login-btn" src="/images/kakao_account_login_btn_medium_narrow.png" alt="s">
+<div class="container" style="margin-top: 400px">
+    <div class="signin_container">
+        <div class="signin_c1">
+            <div class="signin_c11">
+                <h1 class="mainhead">MAYAK</h1>
+                <p class="mainp">Just click the buttons below to
+                    Kakao SignIn & SignUp</p>
+            </div>
+            <div class="col s4 offset-s4 btn_container">
+                <div class="center-block">
+                    <div class="col s10 offset-s1">
+                        <img id="kakao-login-btn" src="/images/kakao_account_login_btn_medium_narrow.png">
+                    </div>
                 </div>
             </div>
         </div>
