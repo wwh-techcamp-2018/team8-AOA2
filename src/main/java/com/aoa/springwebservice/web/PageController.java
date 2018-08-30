@@ -69,7 +69,7 @@ public class PageController {
             return "/registMenuSuccess";
         }
 
-        model.addAttribute("navTitle", "가게정보 등록");
+        model.addAttribute("navTitle", "가게정보 수정");
         model.addAttribute("store", storeService.createStoreDetailInfoDTO(storeService.getStoreByUser(loginUser)));
         return "/updateStore";
     }
@@ -142,10 +142,10 @@ public class PageController {
 //        LocalDate lastDay = reservationService.getLastDay(storeService.getStoreByUser(loginUser));
 //        log.debug("last day : {}", lastDay);
 //        log.debug("orders : {}", orderService.selectOrders(store, lastDay.atTime(0,0,0)));
-
         LocalDate pickUpDate = store.getTimeToClose().toLocalDate().plusDays(1); // + 1
         model.addAttribute("pickUpDate", pickUpDate);
         model.addAttribute("orders", orderService.selectOrders(store, pickUpDate.atTime(0,0,0)));
+
         return "/showOrders";
     }
 

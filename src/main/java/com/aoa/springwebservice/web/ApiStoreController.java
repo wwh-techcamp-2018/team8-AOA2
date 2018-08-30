@@ -32,7 +32,7 @@ public class ApiStoreController {
             return "/owner/stores/form";
         }
         Store store = storeService.createStore(storeInputDTO, loginUser);
-        return "/result/success";
+        return "/owner/stores/reform";
     }
 
     @PostMapping("/update")
@@ -42,6 +42,6 @@ public class ApiStoreController {
             return "/owner/stores/form";
         }
         Store store = storeService.updateStore(storeDTO, loginUser);
-        return "/result/success";
+        return "/owner/stores/reform";
     }
 }
