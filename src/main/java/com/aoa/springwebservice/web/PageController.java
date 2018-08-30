@@ -142,7 +142,10 @@ public class PageController {
 //        LocalDate lastDay = reservationService.getLastDay(storeService.getStoreByUser(loginUser));
 //        log.debug("last day : {}", lastDay);
 //        log.debug("orders : {}", orderService.selectOrders(store, lastDay.atTime(0,0,0)));
-        LocalDate pickUpDate = store.getTimeToClose().toLocalDate().plusDays(1); // + 1
+
+        if(!store.isOpen()) throw new RuntimeException("현재 진행 중인 예약이 없습니다.");
+
+        LocalDate pickUpDate = store.getTimeToClose().toLocalDate(); // + 1
         model.addAttribute("pickUpDate", pickUpDate);
         model.addAttribute("orders", orderService.selectOrders(store, pickUpDate.atTime(0,0,0)));
 
