@@ -4,7 +4,16 @@ header, main, footer {
     height: 100%;
     height: calc(100% + 60px);
     height: -moz-calc(100%);
-    margin-top:-15px;
+}
+
+body {
+    background-color: #faf7f2;
+}
+
+main {
+    height: 100vh;
+    padding-top: 20px;
+    /*margin-top:-15px;*/
 }
 
 @media only screen and (max-width: 992px) {
@@ -13,3 +22,36 @@ header, main, footer {
     }
 }
 
+.title-img {
+    background-image: url("/images/mayack.png");
+    background-size: 100%;
+    height: 70px;
+    width: 70px;
+}
+
+.nav-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 100;
+    background-color: #fe7676;
+
+}
+
+.nav-btn:hover {
+    background-color: #fe4646;
+
+}
+
+.nav-btn:focus {
+    background-color: #fe4646;
+
+}
+
+
+nav {
+    position: absolute;
+    bottom: 0;
+    background-color: rgba(0,0,0,0);
+    box-shadow: none;
+}

@@ -52,7 +52,7 @@ public class PageController {
     public String show(@LoginUser User loginUser, Model model) {
         if (storeService.hasStore(loginUser))
             return alreadyRegistedStore(loginUser, model);
-        return "/admin/store/fail";
+        return "/registStore";
     }
 
     @GetMapping("/owner/stores/form")

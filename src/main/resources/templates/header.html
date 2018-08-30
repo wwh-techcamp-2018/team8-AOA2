@@ -10,10 +10,12 @@
     <!--</nav>-->
 
     <ul class="sidenav sidenav-fixed" id="mobile-demo">
+
         <li class="center title flow-text" style="margin: 15px 0 10px 0;">
             <img style="margin-top: 15px;width: 80px;" src="/images/macaron-1.png">
-            <br>MaYac
+            <br>MaYack
         </li>
+        
         <ul>
             <li class="subtitle">가게정보</li>
             <div class="divider"></div>
@@ -34,7 +36,16 @@
             <li class="menu"><a href="/owner/reservations?condition=current" class="menu">현재 예약정보 조회</a></li>
             <li class="menu"><a href="/owner/orders" class="menu">예약주문 조회</a></li>
         </ul>
+        <div class="signout-btn-box">
+            <button id="logoutBtn" class="waves-effect waves-light btn-small col s2 offset-s5 signout-btn" type="button">로그아웃</button>
+        </div>
     </ul>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" data-target="mobile-demo" class="btn-floating btn-large waves-effect waves-light sidenav-trigger nav-btn"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+
     {{#if store}}
     <input type="hidden" id="storeId" name="storeId" value="{{store.id}}"/>
     {{else}}

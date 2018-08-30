@@ -6,8 +6,5 @@ document.addEventListener('DOMContentLoaded', function () {
         kakaoLogout();
     });
 
-    $('#unregisterBtn').addEventListener('click', (event) => {
-        kakaoUnlink();
-    });
 
 });
