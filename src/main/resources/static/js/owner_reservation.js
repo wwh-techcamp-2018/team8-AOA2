@@ -74,20 +74,20 @@ class OpenReservation {
         const stringPrice = numberToLocaleString(price);
         return `<li class="collection-item" >
         <input type="hidden" name="menuId" min="0" max="100" value="${id}" />
-        <div class="valign-wrapper">
+        <div class="row valign-wrapper">
             <div class="col s3 img-box">
                 <img class="responsive-img" src="${imgUrl}">
                             </div>
-                <div class="col s9">
+                <div class="col s7 menu-info">
                     <div class="col s12 title-box">
                         ${name}
                     </div>
                     <div class="col s12 description-text grey-text">
                         ${description}
                     </div>
-                    <div class="col s12 valign-wrapper">
-                        <div class="col s8 center">
-                            <div class="row">
+                    <div class="col s12 center ctrl-box">
+                        <div class>
+                            <div class="col s12 ctrl-wrapper">
                                 <div class="col s7 center"><span class="small grey-text text-darken-2"> 최대 수량 </strong></div>
     
                                 <div class="col s5">
@@ -100,7 +100,7 @@ class OpenReservation {
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="col s12 ctrl-wrapper">
                                 <div class="col s7"><span class="small grey-text text-darken-2">  인당 최대 예약가능 수량 </strong></div>
                                 <div class="col s5">
                                     <div class='ctrl'>
@@ -116,7 +116,7 @@ class OpenReservation {
                             </div>
     
                         <div class="col s3 offset-s1">
-                            <button class="btn waves-effect waves-light" type="button" style="min-width: 100px;">${btnName}</button>
+                            <button class="btn btn-action waves-effect waves-light" type="button" style="min-width: 100px;">${btnName}</button>
                         </div>
                     </div>
                 </div>
@@ -162,11 +162,11 @@ class Menu {
         const stringPrice = numberToLocaleString(price);
         const disabled = lastUsed ? 'disabled' : '';
         return `<li class="collection-item" data-id="${id}" data-max-count="${maxCount}" data-person-max-count="${personalMaxCount}" >
-                    <div class="valign-wrapper">
+                    <div class="row valign-wrapper">
                         <div class="col s3 img-box">
                             <img class="responsive-img" src="${imgUrl}">
                         </div>
-                        <div class="col s9">
+                        <div class="col s7 menu-info">
                             <div class="col s12 title-box">
                                 ${name}
                             </div>
@@ -212,7 +212,7 @@ class MenuInModal extends Menu {
 
     addBtnTemplate({ lastUsed }) {
         const disabled = lastUsed ? 'disabled' : '';
-        return `<button class="col s4 l3  btn waves-effect waves-light" ${disabled}
+        return `<button class="btn btn-action waves-effect waves-light" ${disabled}
                 type="button">추가하기
             </button>`;
     };
@@ -247,7 +247,7 @@ class MenuInForm extends Menu {
         }, 500);
     }
     deleteBtnTemplate() {
-        return `<button class="col s4 l3  btn waves-effect waves-light"
+        return `<button class="btn btn-action waves-effect waves-light"
                 type="button">삭제하기
             </button>`;
     };
