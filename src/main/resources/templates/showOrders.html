@@ -59,7 +59,8 @@ TimeLine CSS
 }
 
 .timeline .event:before {
-  left: -177.5px;
+  top: -30px;
+  left: 20px;
   color: #212121;
   content: attr(data-date);
   text-align: right;
@@ -71,13 +72,14 @@ TimeLine CSS
 
 .timeline .event:after {
   box-shadow: 0 0 0 8px #42A5F5;
-  left: -30px;
+  top: -25px;
+  left: 10px;
   background: #212121;
   border-radius: 50%;
   height: 11px;
   width: 11px;
   content: "";
-  top: 5px;
+
 }
 
 .card.no-border{
@@ -134,6 +136,7 @@ a.portfolio-link {
   display: block;
   text-align: center;
 }
+
 </style>
 <main>
     <div class="container">
@@ -144,105 +147,106 @@ a.portfolio-link {
             </div>
             <div class="divider"></div>
         </div>
-
-        <div class="main-container">
             <section id="timeline" class="timeline-outer">
-                <div id="content">
-                    <div class="row" id="show-order-collections">
-                        <div class="col s12 m12 l12">
-                           <ul id="timeline-parent" class="timeline">
 
-                                <li class="event" data-date="2015/Present">
-                                    {{#orders}}
-                                    <div class="card order-collection">
-                                        {{#if isPickedup}}
-                                        <div class="black-wrapper">
-                                            <span class="card-title activator white-text">수령완료</span>
-                                            <p >
-                                                <button class="btn return-btn waves-effect waves-light" type="button" style="min-width: 100px;">
-                                                    되돌리기
-                                                </button>
-                                            </p>
-                                        </div>
-                                        <div class="card-content off" data-id="{{id}}" data-pickup-hour="">
-                                            <input type="hidden" name="isPickedup" value="true"/>
-                                            <span class="card-title activator grey-text text-darken-4">
+                <div class="row" id="show-order-collections">
+                    <div class="col s12 m12 l12">
+                        <ul id="timeline-parent" class="timeline">
+
+                            <li class="event" data-date="2015/Present">
+                                {{#orders}}
+                                <div class="card order-collection">
+                                    {{#if isPickedup}}
+                                    <div class="black-wrapper">
+                                        <span class="card-title activator white-text">수령완료</span>
+                                        <p>
+                                            <button class="btn return-btn waves-effect waves-light" type="button"
+                                                    style="min-width: 100px;">
+                                                되돌리기
+                                            </button>
+                                        </p>
+                                    </div>
+                                    <div class="card-content off" data-id="{{id}}" data-pickup-hour="">
+                                        <input type="hidden" name="isPickedup" value="true"/>
+                                        <span class="card-title activator grey-text text-darken-4">
                                             수령인: {{customer.name}}
                                             <i class="material-icons right">more_vert</i></span>
-                                            <div class="col s9">
-                                                <div class="col s12  grey-text">
-                                                    <label>전화번호 : </label>
-                                                    {{customer.phoneNumber}}
-                                                </div>
-                                                <div class="col s12  grey-text">
-                                                    <label>테이크아웃 시간 : </label>
-                                                    {{pickupTime}}
-                                                </div>
+                                        <div class="col s9">
+                                            <div class="col s12  grey-text">
+                                                <label>전화번호 : </label>
+                                                {{customer.phoneNumber}}
                                             </div>
-                                            <p >
-                                                <button class="btn accept-btn waves-effect waves-light" type="button" style="min-width: 100px;">
-                                                    수령하기
-                                                </button>
-                                            </p>
-                                        </div>
-                                        {{else}}
-                                        <div class="black-wrapper off">
-                                            <span class="card-title activator white-text">수령완료</span>
-                                            <p >
-                                                <button class="btn return-btn waves-effect waves-light" type="button" style="min-width: 100px;">
-                                                    되돌리기
-                                                </button>
-                                            </p>
-                                        </div>
-                                        <div class="card-content" data-id="{{id}}">
-                                            <input type="hidden" name="isPickedup" value="false"/>
-                                            <span class="card-title activator grey-text text-darken-4">수령인: {{customer.name}}<i
-                                                    class="material-icons right">more_vert</i></span>
-                                            <div class="col s9">
-                                                <div class="col s12  grey-text">
-                                                    <label>전화번호 : </label>
-                                                    {{customer.phoneNumber}}
-                                                </div>
-                                                <div class="col s12  grey-text">
-                                                    <label>테이크아웃 시간 : </label>
-                                                    {{pickupTime}}
-                                                </div>
+                                            <div class="col s12  grey-text">
+                                                <label>테이크아웃 시간 : </label>
+                                                {{pickupTime}}
                                             </div>
-                                            <p>
-                                                <button class="btn accept-btn waves-effect waves-light" type="button" style="min-width: 100px;">
-                                                    수령하기
-                                                </button>
-                                            </p>
                                         </div>
-                                        {{/if}}
-                                        <div class="card-reveal">
+                                        <p>
+                                            <button class="btn accept-btn waves-effect waves-light" type="button"
+                                                    style="min-width: 100px;">
+                                                수령하기
+                                            </button>
+                                        </p>
+                                    </div>
+                                    {{else}}
+                                    <div class="black-wrapper off">
+                                        <span class="card-title activator white-text">수령완료</span>
+                                        <p>
+                                            <button class="btn return-btn waves-effect waves-light" type="button"
+                                                    style="min-width: 100px;">
+                                                되돌리기
+                                            </button>
+                                        </p>
+                                    </div>
+                                    <div class="card-content" data-id="{{id}}">
+                                        <input type="hidden" name="isPickedup" value="false"/>
+                                        <span class="card-title activator grey-text text-darken-4">수령인: {{customer.name}}<i
+                                                class="material-icons right">more_vert</i></span>
+                                        <div class="col s9">
+                                            <div class="col s12  grey-text">
+                                                <label>전화번호 : </label>
+                                                {{customer.phoneNumber}}
+                                            </div>
+                                            <div class="col s12  grey-text">
+                                                <label>테이크아웃 시간 : </label>
+                                                {{pickupTime}}
+                                            </div>
+                                        </div>
+                                        <p>
+                                            <button class="btn accept-btn waves-effect waves-light" type="button"
+                                                    style="min-width: 100px;">
+                                                수령하기
+                                            </button>
+                                        </p>
+                                    </div>
+                                    {{/if}}
+                                    <div class="card-reveal">
                     <span class="card-title grey-text text-darken-4">주문목록<i
                             class="material-icons right">close</i></span>
-                                            <table>
-                                                <thead>
-                                                <tr>
-                                                    <th>Menu Name</th>
-                                                    <th>Item Count</th>
-                                                    <th>Total Price</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                {{#orderItems}}
-                                                <tr>
-                                                    <td>{{reservation.menu.name}}</td>
-                                                    <td>{{itemCount}}</td>
-                                                    <td>{{itemTotalPrice}}</td>
-                                                </tr>
-                                                {{/orderItems}}
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                        <table>
+                                            <thead>
+                                            <tr>
+                                                <th>Menu Name</th>
+                                                <th>Item Count</th>
+                                                <th>Total Price</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {{#orderItems}}
+                                            <tr>
+                                                <td>{{reservation.menu.name}}</td>
+                                                <td>{{itemCount}}</td>
+                                                <td>{{itemTotalPrice}}</td>
+                                            </tr>
+                                            {{/orderItems}}
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    {{/orders}}
-                                </li>
+                                </div>
+                                {{/orders}}
+                            </li>
 
-                            </ul>
-                        </div>
+                        </ul>
                     </div>
                 </div>
             </section>
@@ -250,8 +254,6 @@ a.portfolio-link {
             <br/>
         </div>
 
-
-    </div>
 </main>
 </body>
 <script>
@@ -291,6 +293,7 @@ a.portfolio-link {
         });
 
     });
+
 
 
 
