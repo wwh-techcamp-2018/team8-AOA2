@@ -29,8 +29,8 @@
                 <div class="col s12">
                     <span class="input-title">판매 URL</span>
                     <div class="input-field col s6">
-                        <i class="material-icons prefix">mode_edit</i>
-                        <input id="icon_prefix" type="text" value="{{ownerUrl}}" disabled>
+                        <i class="material-icons prefix" id="content_copy_icon">content_copy</i>
+                        <input id="content_copy" type="text" value="{{ownerUrl}}" disabled>
                     </div>
                 </div>
             </div>
@@ -40,4 +40,15 @@
 </body>
 {{> footer}}
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        $('#content_copy_icon').addEventListener('click', (event) => {
+            var copyElem = $('#content_copy');
+            copyElem.removeAttribute('disabled');
+            copyElem.select();
+            document.execCommand('copy');
+            copyElem.setAttribute('disabled', 'disabled');
+        });
+    });
+</script>
 </html>

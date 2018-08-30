@@ -30,7 +30,8 @@ public class ApiMenuController {
     @PostMapping(path = "/stores/{storeId}/menus")
     public String createMenuWithStoreId(MenuDTOToUpload menuDTO,  @AuthorizedStore Store store) throws IOException {
         menuService.createMenu(menuDTO, store);
-        return "/result/success";
+        return "/owner/menus";
+        //return "/result/success";
     }
 
     @GetMapping(path ="/stores/{storeId}/menus")
