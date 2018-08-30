@@ -163,11 +163,11 @@
                                 <div class="col s6 center">
                                     <span id="tomorrow"></span>
                                 </div>
-                                <div class="col s4 ">
+                                <div class="col s4 input-field">
                                     <input name="pickupTime" type="text" name="timeToClose" class="flat-timepicker"
-                                           placeholder="{{timeToClose}}"
+                                           placeholder="{{defaultTime}}"
                                            data-default-value="{{defaultTime}}"
-                                           data-min-date="{{defaultTime}}" data-max-date="{{store.timeToClose}}"
+                                           data-max-date="{{store.timeToClose}}"
                                            data-hour="{{store.hourToClose}}" data-minute="{{store.minuteToClose}}">
                                 </div>
                                 <div class="col s1"></div>
@@ -385,16 +385,16 @@
         const defaultTime = $('.flat-timepicker').getAttribute('data-default-value');
         const maxTime = $('.flat-timepicker').getAttribute('data-max-date');
         //const minTime = $('.flat-timepicker').getAttribute('data-min-date');
-        flatpickr('.flat-timepicker',
+       flatpickr('.flat-timepicker',
             {
                 enableTime: true,
                 noCalendar: true,
                 dateFormat: 'H:i',
                 time_24hr: true,
-                defaultDate: defaultTime,
+                defaultDate: '08:00',
+                //minDate: defaultTime,
                 minuteIncrement: '30',
                 maxDate: maxTime,
-                //minDate: minTime,
                 disableMobile: 'true',
             });
 

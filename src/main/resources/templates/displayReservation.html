@@ -10,9 +10,9 @@
 <body>
 {{> header}}
 <main>
-    <div class="row" id="reservation-container" style="margin:3%">
-        <div class="row" id="reservation-date-container" style="font-size:25px; color:grey;">
-            픽업 예정 {{pickUpDate}} 일의 예약 주문 상황
+    <div class="container">
+        <div class="row" style="font-size:25px; color:grey;">
+            예약 주문 상황 ( 픽업 예정일 : {{pickUpDate}} )
         </div>
         <div class="row divider"></div>
         <div class="row" id="reservation-list-container">
@@ -20,26 +20,26 @@
             {{#reservations}}
                 <li data-id="{{id}}"class="collection-item avatar" >
                     <div class="row">
-                        <img src="{{menu.imageUrl}}" alt="" class="circle" style="width:120px; height:120px; border-radius:10%">
+                        <img src="{{menu.imageUrl}}" alt="이미지" class="rounded">
                         <span class="title" style="margin-left:4%; font-size:35px; font-weight:bold;">
-                        <i class="material-icons" style="color: black; font-size:40px">
+                        <i class="material-icons small">
                             {{#if menu.deleted}}
                             delete_forever
                             {{else}}
                             event_available
                             {{/if}}
                         </i>
-                        &nbsp&nbsp
                         {{menu.name}}
+                        <i class="off sold-out material-icons small materialize-red-text text-darken-1">remove_circle_outline</i>
+
                     </div>
                     </span>
                     <div style="margin-left:4%; font-size:25px; color:grey;">
-                        <br/>
-                        남은 수량 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                        <span class="availableCount"> {{availableCount}} </span> / {{maxCount.maxCount}}
-                        <div class="row">
+                        남은 수량
+                        <span class="availableCount" style="margin-left: 15px;"> {{availableCount}} </span> / {{maxCount.maxCount}}
+                        <div class="row" style="margin-top: 10px;">
                             <i class="off sold-out material-icons small materialize-red-text text-darken-1">remove_circle_outline</i>
-                            <div class="progress">
+                            <div class="progress progress col s10">
                                 <div class="determinate" data-available-count="{{availableCount}}" data-max-count="{{menu.maxCount.maxCount}}" style="width: 100%"></div>
                             </div>
                             </div>
