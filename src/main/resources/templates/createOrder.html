@@ -19,7 +19,7 @@
 {{>clientHeader}}
 <main>
     <div class="row">
-        <div class="col s12">
+        <div class="col s12 white">
             <ul class="tabs">
                 <li class="tab col s3"><a href="#order">메뉴 선택</a></li>
                 <li class="tab col s3"><a href="#payment">주문 진행</a></li>
@@ -36,7 +36,9 @@
         <input type="hidden" id="info_address_main" value="{{store.address}}">
         <input type="hidden" id="info_address_sub" value="{{store.addressDetail}}">
         <input type="hidden" id="info_description" value="{{store.description}}">
-        <div id="process" class="row">
+        <h5>주문 하기 </h5>
+        <div class="divider"></div>
+        <div id="process" class="section row">
             <div class="col s11 l8">
                 {{#partial "noti"}}
                 예약 가능 정보를 불러오는 중입니다.
@@ -165,8 +167,8 @@
                                 </div>
                                 <div class="col s4 input-field">
                                     <input name="pickupTime" type="text" name="timeToClose" class="flat-timepicker"
-                                           placeholder="{{defaultTime}}"
-                                           data-default-value="{{defaultTime}}"
+                                           placeholder="{{store.timeToClose}}"
+                                           data-default-value="{{store.timeToClose}}"
                                            data-max-date="{{store.timeToClose}}"
                                            data-hour="{{store.hourToClose}}" data-minute="{{store.minuteToClose}}">
                                 </div>
@@ -382,7 +384,7 @@
         $('#tomorrow').innerHTML = tomorrow ;
 
         //todo duplicated -- 중복 제거, 모듈로 분리
-        const defaultTime = $('.flat-timepicker').getAttribute('data-default-value');
+        //const defaultTime = $('.flat-timepicker').getAttribute('data-default-value');
         const maxTime = $('.flat-timepicker').getAttribute('data-max-date');
         //const minTime = $('.flat-timepicker').getAttribute('data-min-date');
        flatpickr('.flat-timepicker',
@@ -391,9 +393,9 @@
                 noCalendar: true,
                 dateFormat: 'H:i',
                 time_24hr: true,
-                defaultDate: '08:00',
-                //minDate: defaultTime,
+                defaultDate: maxTime,
                 minuteIncrement: '30',
+                minDate: '00:00',
                 maxDate: maxTime,
                 disableMobile: 'true',
             });
