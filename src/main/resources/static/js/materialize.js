@@ -3888,7 +3888,7 @@ $jscomp.polyfill = function (e, r, p, m) {
         var percentScrolled = (windowBottom - top)  / (containerHeight + windowHeight);
         var parallax = (parallaxDist * percentScrolled * 6) - (parallaxDist * 3);
 
-        this.$img[0].style.transform = "translate3D(-50%, " + parallax + "px, 0)";
+        this.$img[0].style.transform = "translate3D(0, " + parallax + "px, 0)";
         // if (!this._enabled) {
         //   this.$img[0].style.transform = '';
         // } else if (bottom > scrollTop && top < scrollTop + windowHeight) {
@@ -7135,6 +7135,17 @@ $jscomp.polyfill = function (e, r, p, m) {
       }
       if(hasClass(path_input[0], 'invalid')){
           removeClass(path_input[0], 'invalid');
+          return;
+      }
+      if(document.querySelector('#info-img') && document.querySelector('.parallax-container') && files.length === 1){
+          let reader = new FileReader();
+          reader.readAsDataURL(files[0]);
+          reader.onload = () => {
+              document.querySelector('#info-img').src = reader.result;
+              const width = document.querySelector('#info-img').width;
+              const height = document.querySelector('#info-img').height;
+              document.querySelector('.parallax-container').style.paddingBottom = (height * 100) / width + '%';
+          }
       }
       path_input[0].value = file_names.join(', ');
       path_input.trigger('change');
