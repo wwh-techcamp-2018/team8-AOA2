@@ -17,7 +17,7 @@ import javax.persistence.EntityNotFoundException;
 public class DefaultControllerAdvice {
 
     private static final String DEFAULT_LOGIN_ERROR_PAGE_URI = "/forbidden";
-    private static final String DEFAULT_ERROR_PAGE_URI = "/defaultErrorPage";
+    private static final String DEFAULT_ERROR_PAGE_URI = "/fail";
     private static final String ATTRIBUTE_NAME_FOR_ERROR_MESSAGE = "errorMessage";
 
     @ExceptionHandler(UnAuthorizedException.class)

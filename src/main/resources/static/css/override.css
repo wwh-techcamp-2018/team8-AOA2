@@ -172,7 +172,7 @@ nav ul a {
 
 .sidenav {
     position: fixed;
-    width: 300px;
+    width: 250px;
     left: 0;
     top: 0;
     margin: 0;
@@ -182,7 +182,7 @@ nav ul a {
     height: calc(100% + 60px);
     height: -moz-calc(100%);
     padding-bottom: 60px;
-    background-color: #dae9f4; /*change*/
+    background-color: #fe7676; /*change*/
     z-index: 999;
     overflow-y: auto;
     will-change: transform;
@@ -204,6 +204,7 @@ nav ul a {
 
 .sidenav .divider {
     margin: 2px 20px 5px 20px; /*change*/
+    background-color: #faf7f2;
 }
 
 .sidenav .title { /*change*/
@@ -211,16 +212,20 @@ nav ul a {
     font-weight: bold; /*change*/
     text-align: center; /*change*/
     margin: 15px 0 30px 0; /*change*/
+    color: #faf7f2;
 }
 
 .sidenav .subtitle { /*change*/
     font-size: 22px; /*change*/
     font-weight: 500; /*change*/
     margin: 0px 0px 0px 20px; /*change*/
+    color: #faf7f2;
 }
 
 .sidenav .menu {
     font-size: 16px; /*change*/
+    color: #faf7f2;
+    font-weight: 400;
 }
 
 input:not([type]):focus.valid ~ label,
@@ -286,3 +291,7 @@ textarea.materialize-textarea.valid:focus, .select-wrapper.valid > input.select-
      padding-left: 140px;
      position: relative;
  }
+
+.sidenav li > a:hover {
+    background-color: #2f343a;
+}
