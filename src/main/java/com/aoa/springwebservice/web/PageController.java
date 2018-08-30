@@ -66,7 +66,7 @@ public class PageController {
     @GetMapping("/owner/stores/reform")
     public String updateStore(@LoginUser User loginUser, Model model) {
         if(!storeService.hasStore(loginUser)) {
-            return "/registMenuSuccess";
+            return "/registStore";
         }
 
         model.addAttribute("navTitle", "가게정보 수정");
