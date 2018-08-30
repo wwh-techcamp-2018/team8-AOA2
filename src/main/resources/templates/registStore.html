@@ -188,11 +188,12 @@
             const serviceName = $('#input_service').value;
             const ownerName = $('#input_owner').value;
             const phone = $('#input_phone1').value + ' - ' + $('#input_phone2').value + ' - ' + $('#input_phone3').value ;
-            const imgFile = $('input[type=file]').files[0];
+            // const imgFile = $('input[type=file]').files[0];
             const address = $('#input_address_main').value + ' ' + $('#input_address_sub').value;
             const description = $('#input_description').value;
-            await previewLoad(serviceName, ownerName, imgFile, address, phone, description);
+            const imgUrl = $('#info-img').src;
             $('.modal').M_Modal.open();
+            storeViewLoad(serviceName, ownerName, imgUrl, address, phone, description);
         });
 
     });

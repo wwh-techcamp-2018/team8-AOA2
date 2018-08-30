@@ -42,8 +42,8 @@
 }
 
 .info-section {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
     box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0), 0 6px 30px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -54,6 +54,9 @@
 }
 
 .info-map {
+    width: 80%;
+    height: 400px;
+    max-width: 700px;
     position: relative;
     margin: auto;
     margin-bottom: 200px;
@@ -62,14 +65,14 @@
 .parallax-container .parallax img {
     opacity: 1;
     position: absolute;
-    left: 50%;
+    left: 0;
     bottom: 0;
     min-width: 100%;
     min-height: 100%;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
-    -webkit-transform: translateX(-50%);
-    transform: translateX(-50%);
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
     width: 100%;
 }
 

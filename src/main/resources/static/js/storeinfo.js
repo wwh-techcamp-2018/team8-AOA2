@@ -1,4 +1,4 @@
-const previewLoad = (serviceName, ownerName, imgFile, address, phone, description) => {
+const previewLoad = (serviceName, ownerName, imgFile, address, phone, description, ) => {
     let reader = new FileReader();
     reader.readAsDataURL(imgFile);
     reader.onload = async () => {
@@ -9,9 +9,10 @@ const previewLoad = (serviceName, ownerName, imgFile, address, phone, descriptio
         $('#info-address', $('.modal')).innerText = address;
         $('#info-phone', $('.modal')).innerText = phone;
         resize($('#info-img'));
-        await loadMap($('#info-map'), $("#info-address").innerText, $("#info-store-name").innerText);
+        await loadMap($('#info-map'), address, serviceName);
         const elems = document.querySelectorAll('.parallax');
         const instances = M.Parallax.init(elems);
+        $('#info-img').style.transform = "translate3D(0, 0px, 0)";
     }
 };
 
@@ -30,9 +31,10 @@ const storeViewLoad = (serviceName, ownerName, imgPath, address, phone, descript
         $('#info-address', $('.modal')).innerText = address;
         $('#info-phone', $('.modal')).innerText = phone;
         resize($('#info-img'));
-        await loadMap($('#info-map'), $("#info-address").innerText, $("#info-store-name").innerText);
+        await loadMap($('#info-map'), address, serviceName);
         const elems = document.querySelectorAll('.parallax');
         const instances = M.Parallax.init(elems);
+        $('#info-img').style.transform = "translate3D(0, 0px, 0)";
         resolve(instances);
     });
 };
@@ -68,7 +70,7 @@ const loadMap = (container, address, mapName) => {
             level: 3, // 지도의 확대 레벨
             scrollwheel: false
         };
-        let map = new daum.maps.Map(mapContainer, mapOption);
+        let map = new daum.maps.Map(mapContainer, mapOption); //첫 세엘리먼트
         map.addControl(new daum.maps.ZoomControl(), daum.maps.ControlPosition.TOPRIGHT);
         map.setMaxLevel(5);
         const addressToGeo = new daum.maps.services.Geocoder();
@@ -92,6 +94,8 @@ const loadMap = (container, address, mapName) => {
                     infowindow.open(map, marker);
                     // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
                     map.setCenter(coords);
+
+                    map.relayout();
                     resolve(true);
                 }
             });
