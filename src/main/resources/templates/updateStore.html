@@ -26,7 +26,7 @@
                         <div class="input-field col s12 l10">
                             <input class="input_counter custom-validate" type="text" id="input_store" name="storeName" type="text"
                                    data-length="20" data-regex="^[가-힣]*$" value="{{store.storeName}}" readonly required>
-                            <span class="helper-text" data-error="wrong" data-success="right">20자 이하로 적어주십시오</span>
+                            <span class="helper-text" data-error="영어, 공백, 숫자 외 한글로만 입력" data-success="right">20자 이하로 적어주십시오</span>
                             <label for="input_store">업체명</label>
                         </div>
                     </li>
@@ -50,7 +50,7 @@
                         <div class="input-field col s12 l10">
                             <input class="input_counter custom-validate" id="input_owner" name="ownerName" type="text"
                                    data-length="5" data-min-length="2" data-regex="^[가-힣]*$" value="{{store.ownerName}}" readonly required>
-                            <span class="helper-text" data-error="wrong" data-success="right">5자 이하로 적어주십시오</span>
+                            <span class="helper-text" data-error="영어, 공백, 숫자 외 한글로만 입력" data-success="right">5자 이하로 적어주십시오</span>
                             <label for="input_owner">대표자명</label>
                         </div>
                     </li>
