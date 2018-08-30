@@ -274,7 +274,6 @@ textarea.materialize-textarea.valid:focus, .select-wrapper.valid > input.select-
     box-shadow: 0 1px 0 0 #26a69a;
 }
 
-//menu 
 .collection .collection-item.avatar:not(.circle-clipper) > .circle, .collection .collection-item.avatar :not(.circle-clipper) > .rounded{
      position: absolute;
      width: 120px;
@@ -293,5 +292,30 @@ textarea.materialize-textarea.valid:focus, .select-wrapper.valid > input.select-
  }
 
 .sidenav li > a:hover {
+    margin: 0 5px 0 5px;
     background-color: #2f343a;
+}
+
+.signout-btn-box {
+    padding: 0 80px;
+    padding-top: 200px;
+}
+
+.signout-btn {
+    margin: auto;
+    margin-top: 30px;
+    border-color: #faf7f2;
+    background-color: #fe7676;
+    color: #faf7f2;
+    border: 1px;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.signout-btn:hover{
+    background-color: #fea5bf;
+}
+
+.signout-btn:focus{
+    background-color: #FEA1BF;
 }

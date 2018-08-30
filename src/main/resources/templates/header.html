@@ -31,6 +31,9 @@
             <li class="menu"><a href="/owner/reservations?condition=current" class="menu">현재 예약정보 조회</a></li>
             <li class="menu"><a href="/owner/orders" class="menu">예약주문 조회</a></li>
         </ul>
+        <div class="signout-btn-box">
+            <button id="logoutBtn" class="waves-effect waves-light btn-small col s2 offset-s5 signout-btn" type="button">로그아웃</button>
+        </div>
     </ul>
     {{#if store}}
     <input type="hidden" id="storeId" name="storeId" value="{{store.id}}"/>
