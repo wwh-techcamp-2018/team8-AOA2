@@ -6,6 +6,7 @@ import com.aoa.springwebservice.domain.User;
 import com.aoa.springwebservice.dto.StoreInputDTO;
 import com.aoa.springwebservice.dto.StoreOutputDTO;
 import com.aoa.springwebservice.dto.StoreUpdateInputDTO;
+import com.aoa.springwebservice.exception.CustomerOrderException;
 import com.aoa.springwebservice.property.MayakURLProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,7 +65,7 @@ public class StoreService {
     }
 
     public Store getStoreById(long id) {
-        return storeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("주문할 가게가 등록되지 않았습니다"));
+        return storeRepository.findById(id).orElseThrow(() -> new CustomerOrderException("주문할 가게가 등록되지 않았습니다"));
     }
 
     public String makeOwnerUrl(User loginUser) {
