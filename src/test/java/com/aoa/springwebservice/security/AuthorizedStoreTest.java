@@ -39,7 +39,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("local")
+@ActiveProfiles("dev")
 @AutoConfigureMockMvc
 @Slf4j
 public class AuthorizedStoreTest {
@@ -211,7 +211,7 @@ public class AuthorizedStoreTest {
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andReturn();
-        assertThat(result.getResolvedException().getClass()).isAssignableFrom(EntityNotFoundException.class);
+        assertThat(result.getResolvedException().getClass()).isAssignableFrom(CustomerOrderException.class);
 
     }
 }
