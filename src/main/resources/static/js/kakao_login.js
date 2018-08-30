@@ -31,7 +31,6 @@ function loginWithKakao() {
     // 로그인 창을 띄웁니다.
     Kakao.Auth.loginForm({
         success: function(authObj) {
-            console.log(authObj);
             Kakao.API.request({
                 url: '/v2/user/me',
                 success: function(res) {
@@ -58,7 +57,6 @@ function checkSignUp(res) {
 
     } else {
         (async (uuid) => {
-            console.log(uuid);
             const response = await fetchAsync({
                 url : '/api/users/signin',
                 method : 'POST',
