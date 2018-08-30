@@ -66,7 +66,7 @@ public class PageController {
     @GetMapping("/owner/stores/reform")
     public String updateStore(@LoginUser User loginUser, Model model) {
         if(!storeService.hasStore(loginUser)) {
-            return "/registStore";
+            return "redirect:/owner/stores/form";
         }
 
         model.addAttribute("navTitle", "가게정보 수정");
@@ -145,9 +145,10 @@ public class PageController {
 
         if(!store.isOpen()) throw new RuntimeException("현재 진행 중인 예약이 없습니다.");
 
-        LocalDate pickUpDate = store.getTimeToClose().toLocalDate(); // + 1
-        model.addAttribute("pickUpDate", pickUpDate);
-        model.addAttribute("orders", orderService.selectOrders(store, pickUpDate.atTime(0,0,0)));
+        LocalDate pickupDate = store.getTimeToClose().toLocalDate(); // + 1
+        model.addAttribute("pickupDate", pickupDate);
+        model.addAttribute("store", storeService.getStoreByUser(loginUser));
+        model.addAttribute("orders", orderService.selectOrders(store, pickupDate.atTime(0,0,0)));
 
         return "/showOrders";
     }

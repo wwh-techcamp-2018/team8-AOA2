@@ -15,7 +15,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -52,5 +55,13 @@ public class ApiOrderController {
         log.debug("pickedupStatus : {}", order);
         return orderService.updateIsPickedupStatus(store, orderId, order);
     }
-  
+
+    @GetMapping(value = "/stores/{storeId}/orders", params="pickupDate")
+    public List<OrderOutputDTO> getCurrentOrders(@AuthorizedStore Store store, @RequestParam String pickupDate) {
+//        LocalDate pickUpDate = store.getTimeToClose().toLocalDate().plusDays(1); // + 1
+        return orderService.selectOrders(store, LocalDate.parse(pickupDate).atTime(0, 0, 0))
+                .stream()
+                .map(order -> OrderOutputDTO.createOrderOutputDTO(order))
+                .collect(Collectors.toList());
+    }
 }

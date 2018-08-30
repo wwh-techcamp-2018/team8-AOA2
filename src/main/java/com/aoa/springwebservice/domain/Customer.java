@@ -1,6 +1,8 @@
 package com.aoa.springwebservice.domain;
 
 
+import com.aoa.springwebservice.converter.NumberConverter;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,5 +24,9 @@ public class Customer {
     public Customer(String name, String phoneNumber) {
         this.name = name;
         this.phoneNumber = phoneNumber;
+    }
+    @JsonGetter("phoneNumber")
+    public String getFormattedPhoneNumber(){
+        return NumberConverter.formatPhoneNumber(phoneNumber);
     }
 }

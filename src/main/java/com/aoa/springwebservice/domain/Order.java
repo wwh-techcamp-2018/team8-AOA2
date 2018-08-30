@@ -72,9 +72,4 @@ public class Order{
     public boolean hasSameStore(Store store) {
         return this.store.equals(store);
     }
-
-    @JsonGetter("pickupTime")
-    public String getFormattedPickupTime(){
-        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(pickupTime);
-    }
 }
