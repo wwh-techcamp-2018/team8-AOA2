@@ -12,25 +12,24 @@
 </style>
 <body>
 {{> header}}
+<link href="/css/error.css" type="text/css" rel="stylesheet"/>
 <main>
-    <div class="col s12 m8 offset-m2 l6 offset-l3">
-        <div class="card-panel grey lighten-5 z-depth-1">
-            <div class="row valign-wrapper">
-                <div class="col s2">
-                    <img src="/images/goal.png" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
-                </div>
-                <div class="col s10">
-                    <span class="black-text">
+    <div class="error-background">
+        <div class="row">
+            <div class="col s8 l6 offset-s2 offset-l3">
+                <div class="card-panel" style="width:600px;">
+                    <span class="card-title">Error!</span>
+                    <p class="card-content">
                         이미 등록된 가게입니다!
-                    </span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col s12">
-                    <span class="input-title">판매 URL</span>
-                    <div class="input-field col s6">
-                        <i class="material-icons prefix" id="content_copy_icon">content_copy</i>
-                        <input id="content_copy" type="text" value="{{ownerUrl}}" disabled>
+                    </p>
+                    <div class="row">
+                        <div class="col s12" style="margin-top: 100px;">
+                            <span class="input-title">판매 URL</span>
+                            <div class="input-field" >
+                                <i class="material-icons prefix" id="content_copy_icon">content_copy</i>
+                                <input id="content_copy" type="text" value="{{ownerUrl}}" disabled>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

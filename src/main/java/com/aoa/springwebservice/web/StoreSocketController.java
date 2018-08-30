@@ -2,7 +2,9 @@ package com.aoa.springwebservice.web;
 
 import com.aoa.springwebservice.domain.Order;
 import com.aoa.springwebservice.dto.OrderOutputDTO;
+import com.aoa.springwebservice.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -14,7 +16,7 @@ import javax.servlet.http.HttpSession;
 
 @Slf4j
 @Controller
-public class StoreSocket {
+public class StoreSocketController {
     @MessageMapping("presentOrders/{storeId}")
     @SendTo("/topic/stores/orders/{storeId}")
     public OrderOutputDTO updateRealTimeOrder(@DestinationVariable long storeId, @RequestBody OrderOutputDTO order, SimpMessageHeaderAccessor simpMessageHeaderAccessor) {
