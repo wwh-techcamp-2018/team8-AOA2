@@ -72,7 +72,7 @@ public class PageController {
             return "/registMenuSuccess";
         }
 
-        model.addAttribute("navTitle", "가게정보 등록");
+        model.addAttribute("navTitle", "가게정보 수정");
         model.addAttribute("store", storeService.createStoreDetailInfoDTO(storeService.getStoreByUser(loginUser)));
         return "/updateStore";
     }
