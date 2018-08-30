@@ -38,7 +38,7 @@
                         남은 수량 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                         <span class="availableCount"> {{availableCount}} </span> / {{maxCount.maxCount}}
                         <div class="row">
-                            <i class="material-icons small materialize-red-text text-darken-1">remove_circle_outline</i>
+                            <i class="off sold-out material-icons small materialize-red-text text-darken-1">remove_circle_outline</i>
                             <div class="progress">
                                 <div class="determinate" data-available-count="{{availableCount}}" data-max-count="{{menu.maxCount.maxCount}}" style="width: 100%"></div>
                             </div>
@@ -52,46 +52,7 @@
     </div>
 </main>
 </body>
+<script src="/js/owner_reservation_display.js"></script>
 {{> footer}}
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        $All('.determinate').forEach( e => {
-            const newVal = (e.getAttribute('data-available-count') / e.getAttribute('data-max-count')) * 100;
-            e.style.width = newVal+'%';
-            });
-        let socket = new SockJS('/orderCondition');
-        let stompClient = Stomp.over(socket);
-        stompClient.connect({}, function (frame) {
-            console.log("소켓 연결 성공", frame);
-            const url = "/topic/stores/orders/" + $('#storeId').value;
-            stompClient.subscribe(url, function (response) {
-                console.log(JSON.parse(response.body));
-                const {orderItems} = JSON.parse(response.body);
-                updateCurrentReservations(orderItems);
-            });
-        });
-    });
 
-    const renderReservation = ({reservationId, itemCount}) => {
-        const target = $('.collection-item[data-id="'+reservationId+'"]');
-        if(!target){
-            M.toast({html: '데이터 정합성을 위해 페이지를 리로드 합니다'})
-            setTimeout( location.reload(), 2000);
-            return;
-        }
-        const countTarget = $('.availableCount', target);
-        const updatedValue = Number( countTarget.innerHTML ) - itemCount;
-        countTarget.innerHTML = updatedValue;
-
-        addClass( countTarget, 'opacity-hidden');
-        setTimeout(() => removeClass(countTarget, 'opacity-hidden'), 1000);
-
-        if( updatedValue == 0 )
-        addClass( countTarget, 'materialize-red-text');
-        addClass( countTarget, 'text-darken-1');
-        };
-    const updateCurrentReservations = (orderItems) => {
-        orderItems.forEach((e) => renderReservation(e));
-    };
-</script>
 </html>

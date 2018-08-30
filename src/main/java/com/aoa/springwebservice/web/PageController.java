@@ -147,6 +147,7 @@ public class PageController {
 
         LocalDate pickUpDate = store.getTimeToClose().toLocalDate(); // + 1
         model.addAttribute("pickUpDate", pickUpDate);
+        model.addAttribute("store", storeService.getStoreByUser(loginUser));
         model.addAttribute("orders", orderService.selectOrders(store, pickUpDate.atTime(0,0,0)));
 
         return "/showOrders";

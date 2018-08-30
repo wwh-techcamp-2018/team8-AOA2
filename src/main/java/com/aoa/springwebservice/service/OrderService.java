@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 @Slf4j
 @Service
@@ -30,7 +31,7 @@ public class OrderService {
         return orderRepositroy.save(order);
     }
 
-    public Iterable<Order> selectOrders(Store store, LocalDateTime lastDay) {
+    public List<Order> selectOrders(Store store, LocalDateTime lastDay) {
         return orderRepositroy.findByStoreAndPickupTimeAfterOrderByPickupTime(store, lastDay);
     }
 
