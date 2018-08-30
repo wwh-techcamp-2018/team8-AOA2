@@ -68,6 +68,6 @@ public class StoreRepositoryTest {
         log.debug("targetDateTime : {}", targetDateTime);
         log.debug("now DateTime : {}", LocalDateTime.now());
         log.debug("isOpen : {}", store.isOpen());
-        assertThat(store.isOpen()).isFalse();
+        assertThat(store.isOpen()).isTrue();
     }
 }
