@@ -37,7 +37,7 @@ public class OrderService {
 
     public Order updateIsPickedupStatus(Store store, long orderId, Order order) {
         Order returnOrder = orderRepositroy.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order가 없습니다."));
-        if(returnOrder.hasSameStore(store)){
+        if(!returnOrder.hasSameStore(store)){
             throw new RuntimeException("주문 상태 변경 권한이 없습니다");
         }
         returnOrder.setIsPickedupByOrder(order);
