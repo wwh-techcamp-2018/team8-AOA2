@@ -299,6 +299,10 @@ textarea.materialize-textarea.valid:focus, .select-wrapper.valid > input.select-
     background-color: #2f343a;
 }
 
+.progress .determinate {
+    background-color: #fe7676;
+}
+
 .signout-btn-box {
     padding: 0 80px;
     padding-top: 200px;
@@ -323,3 +327,14 @@ textarea.materialize-textarea.valid:focus, .select-wrapper.valid > input.select-
     background-color: #FEA1BF;
 }
 
+.progress {
+    height: 15px;
+    background-color: #d1d1d1;
+    border-radius: 5px;
+    margin: 0.5rem 0 1rem 0;
+    overflow: hidden;
+}
+.material-icons{
+    display: inline-flex;
+    vertical-align: top;
+}

@@ -76,7 +76,7 @@ class OpenReservation {
         <input type="hidden" name="menuId" min="0" max="100" value="${id}" />
         <div class="row valign-wrapper">
             <div class="col s3 img-box">
-                <img class="responsive-img" src="${imgUrl}">
+                <img src="${imgUrl}">
                             </div>
                 <div class="col s7 menu-info">
                     <div class="col s12 title-box">
@@ -164,7 +164,7 @@ class Menu {
         return `<li class="collection-item" data-id="${id}" data-max-count="${maxCount}" data-person-max-count="${personalMaxCount}" >
                     <div class="row valign-wrapper">
                         <div class="col s3 img-box">
-                            <img class="responsive-img" src="${imgUrl}">
+                            <img src="${imgUrl}">
                         </div>
                         <div class="col s7 menu-info">
                             <div class="col s12 title-box">

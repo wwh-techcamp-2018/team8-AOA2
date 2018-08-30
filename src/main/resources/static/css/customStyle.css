@@ -7,6 +7,9 @@
     position: relative;
 }
 
+.collection{
+border-style: none;
+}
 .collection .collection-item .btn-action{
         right: 0px;
         position: absolute;
@@ -52,4 +55,16 @@
 .wrapped-box{
     background-color: #ffffffb8;
     border-radius: 10px;
+}
+.txt1{
+ font-size:28px;
+ line-height:24px;
+}
+.txt2{
+ font-size:36px;
+ line-height:24px;
+}
+.txt3{
+ font-size:21px;
+ line-height:24px;
 }

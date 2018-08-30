@@ -9,6 +9,7 @@
         position: relative;
         z-index: 999;
 
+
     }
     #sidebar-body * {
         font-size : 12px;
@@ -156,4 +157,17 @@
 .padded{
     margin-top: 1em;
     margin-bottom: 1em;
+}
+
+nav{
+    background-color: #fe7676
+}
+nav .brand-logo {
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    color: #faf7f2;
+}
+body{
+ background-color : #faf7f2;
 }
