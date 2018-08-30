@@ -145,10 +145,10 @@ public class PageController {
 
         if(!store.isOpen()) throw new RuntimeException("현재 진행 중인 예약이 없습니다.");
 
-        LocalDate pickUpDate = store.getTimeToClose().toLocalDate(); // + 1
-        model.addAttribute("pickUpDate", pickUpDate);
+        LocalDate pickupDate = store.getTimeToClose().toLocalDate(); // + 1
+        model.addAttribute("pickupDate", pickupDate);
         model.addAttribute("store", storeService.getStoreByUser(loginUser));
-        model.addAttribute("orders", orderService.selectOrders(store, pickUpDate.atTime(0,0,0)));
+        model.addAttribute("orders", orderService.selectOrders(store, pickupDate.atTime(0,0,0)));
 
         return "/showOrders";
     }
