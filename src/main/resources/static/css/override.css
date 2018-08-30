@@ -274,9 +274,10 @@ textarea.materialize-textarea.valid:focus, .select-wrapper.valid > input.select-
     box-shadow: 0 1px 0 0 #26a69a;
 }
 
-//menu 
-.collection .collection-item.avatar:not(.circle-clipper) > .circle, .collection .collection-item.avatar :not(.circle-clipper) > .rounded{
+
+.collection .collection-item.avatar :not(.circle-clipper) img.rounded{
      position: absolute;
+     max-width: 100%;
      width: 120px;
      height: 120px;
      border-radius: 10%;
@@ -295,3 +296,5 @@ textarea.materialize-textarea.valid:focus, .select-wrapper.valid > input.select-
 .sidenav li > a:hover {
     background-color: #2f343a;
 }
+
+
