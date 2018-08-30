@@ -1,6 +1,7 @@
 package com.aoa.springwebservice.interceptor;
 
 import com.aoa.springwebservice.security.HttpSessionUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
@@ -14,7 +15,6 @@ public class HttpHandshakeInterceptor implements HandshakeInterceptor {
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
                                    Map attributes) throws Exception {
         if (request instanceof ServletServerHttpRequest) {
-
             ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
             HttpSession session = servletRequest.getServletRequest().getSession();
             if (session != null) {
