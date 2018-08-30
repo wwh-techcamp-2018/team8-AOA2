@@ -34,7 +34,7 @@ public class ReservationFormDTO {
     }
 
     public LocalDateTime generateTimeToClose() {
-        LocalDateTime timeToClose = LocalDate.now().atTime(hourToClose, minuteToClose);
+        LocalDateTime timeToClose = LocalDate.now().plusDays(1).atTime(hourToClose, minuteToClose);
         return timeToClose;
     }
 

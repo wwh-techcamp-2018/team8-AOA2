@@ -29,6 +29,4 @@ public class ReservationDTO {
                 .openDate(LocalDate.now())
                 .build();
     }
-
-//hint    ReservationFormDTO.toDomain();
 }
