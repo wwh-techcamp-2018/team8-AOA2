@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const newVal = (e.getAttribute('data-available-count') / e.getAttribute('data-max-count')) * 100;
         e.style.width = newVal+'%';
         });
+
     let socket = new SockJS('/orderCondition');
     let stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
