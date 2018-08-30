@@ -4,8 +4,9 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public interface OrderRepository extends CrudRepository<Order, Long> {
-    Iterable<Order> findByStoreAndPickupTimeAfterOrderByPickupTime(Store store, LocalDateTime lastDay);
+    List<Order> findByStoreAndPickupTimeAfterOrderByPickupTime(Store store, LocalDateTime lastDay);
 }

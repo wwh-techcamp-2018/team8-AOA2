@@ -21,6 +21,7 @@ const fetchAsync = async ({url, method, body}) => {
         credentials: 'same-origin'
     });
     if(!res.ok){
+
         return;
     }
     //todo : 나중에 FIX

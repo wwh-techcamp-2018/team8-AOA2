@@ -122,10 +122,14 @@
 
 .black-wrapper {
     background-color: #000000;
-    opacity: 0.5;
+    opacity: 0.9;
     padding: 24px;
     border-radius: 0px 0px 2px 2px;
-    height: 203px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 1;
 }
 
 .margin-top-80 {
