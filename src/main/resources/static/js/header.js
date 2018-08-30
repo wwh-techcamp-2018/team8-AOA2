@@ -9,4 +9,5 @@ document.addEventListener('DOMContentLoaded', function () {
     $('#unregisterBtn').addEventListener('click', (event) => {
         kakaoUnlink();
     });
+
 });

@@ -1,11 +1,13 @@
 package com.aoa.springwebservice.domain;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,5 +71,10 @@ public class Order{
 
     public boolean hasSameStore(Store store) {
         return this.store.equals(store);
+    }
+
+    @JsonGetter("pickupTime")
+    public String getFormattedPickupTime(){
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(pickupTime);
     }
 }

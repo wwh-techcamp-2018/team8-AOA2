@@ -38,9 +38,6 @@ public class PageController {
     @Autowired
     private OrderService orderService;
 
-    @Autowired
-    private StoreRepository storeRepository;
-
 
     @GetMapping("/")
     public String showBySigninStatus(HttpSession session) {
@@ -99,8 +96,8 @@ public class PageController {
 
         model.addAttribute("store", storeService.createStoreDetailInfoDTO(store));
         model.addAttribute("navTitle", "예약 등록");
-        LocalTime now = LocalTime.now();
-        model.addAttribute("defaultTime", LocalTime.of(now.getHour(), ((now.getMinute()/ 30)) * 30).plusMinutes(30));
+//        LocalTime now = LocalTime.now();
+//        model.addAttribute("defaultTime", LocalTime.of(now.getHour(), ((now.getMinute()/ 30)) * 30).plusMinutes(30));
 
         return "/openReservation";
     }
@@ -110,6 +107,7 @@ public class PageController {
         Store store = storeService.getStoreByUser(loginUser);
         List<Reservation> reservations = reservationService.getReservationsByCondition(condition, store);
         model.addAttribute("reservations", reservations);
+        model.addAttribute("pickUpDate", store.getTimeToClose().toLocalDate().plusDays(1));
         model.addAttribute("store", store);
         model.addAttribute("navTitle", "예약 조회");
         return "/displayReservation";
@@ -140,26 +138,20 @@ public class PageController {
     @GetMapping("/owner/orders")
     public String openOrders(Model model, @LoginUser User loginUser) {
         Store store = storeService.getStoreByUser(loginUser);
-//        log.debug("store check {} ", store);
+        log.debug("store check {} ", store);
 //        LocalDate lastDay = reservationService.getLastDay(storeService.getStoreByUser(loginUser));
 //        log.debug("last day : {}", lastDay);
 //        log.debug("orders : {}", orderService.selectOrders(store, lastDay.atTime(0,0,0)));
 
         if(!store.isOpen()) throw new RuntimeException("현재 진행 중인 예약이 없습니다.");
 
-        LocalDate lastDay = store.getTimeToClose().toLocalDate();
-        model.addAttribute("lastDay", lastDay);
-        model.addAttribute("orders", orderService.selectOrders(store, lastDay.atTime(0,0,0)));
+        LocalDate pickUpDate = store.getTimeToClose().toLocalDate(); // + 1
+        model.addAttribute("pickUpDate", pickUpDate);
+        model.addAttribute("orders", orderService.selectOrders(store, pickUpDate.atTime(0,0,0)));
+
         return "/showOrders";
     }
 
-    @MessageMapping("presentOrders/{storeId}")
-    @SendTo("/topic/stores/{storeId}")
-    public Order orderPresentCondition(@DestinationVariable long storeId, @RequestBody Order order, SimpMessageHeaderAccessor simpMessageHeaderAccessor) {
-        log.debug("storeId : {}", storeId);
-        log.debug("order message : {}", order);
-        return order;
-    }
 
     private String alreadyRegistedStore(User loginUser, Model model) {
         model.addAttribute("ownerUrl", storeService.makeOwnerUrl(loginUser));

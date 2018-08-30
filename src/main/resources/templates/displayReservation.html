@@ -12,15 +12,16 @@
 <main>
     <div class="row" id="reservation-container" style="margin:3%">
         <div class="row" id="reservation-date-container" style="font-size:25px; color:grey;">
-            {{reservations.0.openDate}}
+            픽업 예정 {{pickUpDate}} 일의 예약 주문 상황
         </div>
         <div class="row divider"></div>
         <div class="row" id="reservation-list-container">
             <ul class="collection">
             {{#reservations}}
-                <li class="collection-item avatar" style="height:140px; padding-left:140px;">
-                    <img src="{{menu.imageUrl}}" alt="" class="circle" style="width:120px; height:120px; border-radius:10%">
-                    <span class="title" style="margin-left:4%; font-size:35px; font-weight:bold;">
+                <li data-id="{{id}}"class="collection-item avatar" >
+                    <div class="row">
+                        <img src="{{menu.imageUrl}}" alt="" class="circle" style="width:120px; height:120px; border-radius:10%">
+                        <span class="title" style="margin-left:4%; font-size:35px; font-weight:bold;">
                         <i class="material-icons" style="color: black; font-size:40px">
                             {{#if menu.deleted}}
                             delete_forever
@@ -30,11 +31,18 @@
                         </i>
                         &nbsp&nbsp
                         {{menu.name}}
+                    </div>
                     </span>
                     <div style="margin-left:4%; font-size:25px; color:grey;">
                         <br/>
                         남은 수량 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                        {{availableCount}} / {{maxCount.maxCount}}
+                        <span class="availableCount"> {{availableCount}} </span> / {{maxCount.maxCount}}
+                        <div class="row">
+                            <i class="material-icons small materialize-red-text text-darken-1">remove_circle_outline</i>
+                            <div class="progress">
+                                <div class="determinate" data-available-count="{{availableCount}}" data-max-count="{{menu.maxCount.maxCount}}" style="width: 100%"></div>
+                            </div>
+                            </div>
                     </div>
 
                 </li>
@@ -47,15 +55,43 @@
 {{> footer}}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        $All('.determinate').forEach( e => {
+            const newVal = (e.getAttribute('data-available-count') / e.getAttribute('data-max-count')) * 100;
+            e.style.width = newVal+'%';
+            });
         let socket = new SockJS('/orderCondition');
         let stompClient = Stomp.over(socket);
         stompClient.connect({}, function (frame) {
             console.log("소켓 연결 성공", frame);
-            const url = "/topic/stores" + $('#storeId').value;
+            const url = "/topic/stores/orders/" + $('#storeId').value;
             stompClient.subscribe(url, function (response) {
                 console.log(JSON.parse(response.body));
+                const {orderItems} = JSON.parse(response.body);
+                updateCurrentReservations(orderItems);
             });
         });
     });
+
+    const renderReservation = ({reservationId, itemCount}) => {
+        const target = $('.collection-item[data-id="'+reservationId+'"]');
+        if(!target){
+            M.toast({html: '데이터 정합성을 위해 페이지를 리로드 합니다'})
+            setTimeout( location.reload(), 2000);
+            return;
+        }
+        const countTarget = $('.availableCount', target);
+        const updatedValue = Number( countTarget.innerHTML ) - itemCount;
+        countTarget.innerHTML = updatedValue;
+
+        addClass( countTarget, 'opacity-hidden');
+        setTimeout(() => removeClass(countTarget, 'opacity-hidden'), 1000);
+
+        if( updatedValue == 0 )
+        addClass( countTarget, 'materialize-red-text');
+        addClass( countTarget, 'text-darken-1');
+        };
+    const updateCurrentReservations = (orderItems) => {
+        orderItems.forEach((e) => renderReservation(e));
+    };
 </script>
 </html>
