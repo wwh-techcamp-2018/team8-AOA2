@@ -365,9 +365,11 @@
                     loadMap($('#info-map'), $('#addressTxt').innerHTML, $('#storeName').innerHTML);
                     const sendUrl_1 = "/presentOrders/" + storeId;
 
-                    stompClient.send(sendUrl_1, {}, JSON.stringify(data));
+                    //stompClient.send(sendUrl_1, {}, JSON.stringify(data));
+                    stompClient.send(sendUrl_1, {}, data.id);
                     const sendUrl_2 = "/toastOrders/" + storeId;
-                    stompClient.send(sendUrl_2, {}, JSON.stringify(data));
+                    //stompClient.send(sendUrl_2, {}, JSON.stringify(data));
+                    stompClient.send(sendUrl_2, {}, data.id);
 
                 }
             });
