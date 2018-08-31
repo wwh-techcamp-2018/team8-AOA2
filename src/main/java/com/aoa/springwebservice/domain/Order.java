@@ -42,7 +42,7 @@ public class Order{
     private Boolean isPickedup;
 
     //Todo :: OrderBy
-    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     //Todo :: 다른 상태 있는지 고려해야함. 미수령/수령이 아니라 취소나 수령대기나 등등등
