@@ -17,9 +17,11 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 @Controller
 public class StoreSocketController {
+    @Autowired OrderService orderService;
+    /* op 1
     @MessageMapping("presentOrders/{storeId}")
     @SendTo("/topic/stores/orders/{storeId}")
-    public OrderOutputDTO updateRealTimeOrder(@DestinationVariable long storeId, @RequestBody OrderOutputDTO order, SimpMessageHeaderAccessor simpMessageHeaderAccessor) {
+    public OrderOutputDTO updateRealTimeOrder(@DestinationVariable long storeId, OrderOutputDTO order, SimpMessageHeaderAccessor simpMessageHeaderAccessor) {
         log.debug("storeId : {}", storeId);
         log.debug("order message : {}", order);
         //todo DTO 분리 또는 ExtendableDTO 사용
@@ -28,10 +30,29 @@ public class StoreSocketController {
 
     @MessageMapping("toastOrders/{storeId}")
     @SendTo("/topic/stores/toasts/{storeId}")
-    public OrderOutputDTO toastOrderInfo(@DestinationVariable long storeId, @RequestBody OrderOutputDTO order, SimpMessageHeaderAccessor simpMessageHeaderAccessor) {
+    public OrderOutputDTO toastOrderInfo(@DestinationVariable long storeId, OrderOutputDTO order, SimpMessageHeaderAccessor simpMessageHeaderAccessor) {
         log.debug("storeId : {}", storeId);
         log.debug("order message : {}", order);
         return order;
     }
+    */
 
+
+    @MessageMapping("presentOrders/{storeId}")
+    @SendTo("/topic/stores/orders/{storeId}")
+    public OrderOutputDTO updateRealTimeOrder(@DestinationVariable Long storeId, Long orderId, SimpMessageHeaderAccessor simpMessageHeaderAccessor) {
+        log.debug("storeId : {}", storeId);
+        log.debug("orderId : {}", orderId);
+        log.debug("order {} ", orderService.getOrder(orderId));
+        return OrderOutputDTO.createOrderOutputDTO(orderService.getOrder(orderId));
+    }
+
+    @MessageMapping("toastOrders/{storeId}")
+    @SendTo("/topic/stores/toasts/{storeId}")
+    public OrderOutputDTO toastOrderInfo(@DestinationVariable Long storeId, Long orderId, SimpMessageHeaderAccessor simpMessageHeaderAccessor) {
+        log.debug("storeId : {}", storeId);
+        log.debug("orderId : {}", orderId);
+        log.debug("order {} ", orderService.getOrder(orderId));
+        return OrderOutputDTO.createOrderOutputDTO(orderService.getOrder(orderId));
+    }
 }
