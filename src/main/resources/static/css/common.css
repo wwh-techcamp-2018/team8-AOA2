@@ -56,6 +56,7 @@ main {
 
 
 nav {
+    width: 10% !important;
     position: fixed;
     bottom: 0;
     background-color: rgba(0,0,0,0);
