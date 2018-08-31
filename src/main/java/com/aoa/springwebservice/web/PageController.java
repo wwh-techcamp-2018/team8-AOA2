@@ -78,7 +78,7 @@ public class PageController {
     @GetMapping("/owner/menus/form")
     public String registMenu(@LoginUser User loginUser, Model model) {
         if(!storeService.hasStore(loginUser)) {
-            return "/fail";
+            throw new RuntimeException("가게 등록부터 해주세요.");
         }
         model.addAttribute("store", storeService.createStoreDetailInfoDTO(storeService.getStoreByUser(loginUser)));
         model.addAttribute("navTitle", "메뉴 등록");
@@ -90,7 +90,7 @@ public class PageController {
         
         //todo store 존재 확인, store isOpen 확인 --> 중복 로직 처리 어떻게?
         if(!storeService.hasStore(loginUser)) {
-            return "/fail";
+            throw new RuntimeException("가게 등록부터 해주세요.");
         }
         Store store = storeService.getStoreByUser(loginUser);
         if(store.isOpen()) throw new RuntimeException("이미 진행 중인 예약이 존재합니다.");
@@ -129,7 +129,7 @@ public class PageController {
     @GetMapping("/owner/menus")
     public String showMenus(@LoginUser User user,  Model model) {
         if(!storeService.hasStore(user)) {
-            return "/fail";
+            throw new RuntimeException("가게 등록부터 해주세요.");
         }
         model.addAttribute("store", storeService.getStoreByUser(user));
         model.addAttribute("navTitle", "메뉴 조회");
