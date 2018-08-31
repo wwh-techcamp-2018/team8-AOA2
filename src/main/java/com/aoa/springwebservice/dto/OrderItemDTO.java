@@ -18,15 +18,15 @@ public class OrderItemDTO {
 
     private int itemTotalPrice;
     private long id;
-    private Reservation reservation;
+    private String menuName;
 
     @Builder
-    public OrderItemDTO(long reservationId, int itemCount, int itemTotalPrice, long id, Reservation reservation) {
+    public OrderItemDTO(long reservationId, int itemCount, int itemTotalPrice, long id, String menuName) {
         this.reservationId = reservationId;
         this.itemCount = itemCount;
         this.itemTotalPrice = itemTotalPrice;
         this.id = id;
-        this.reservation = reservation;
+        this.menuName = menuName;
     }
 
     public OrderItem toDomain(Order order, Reservation reservation) {
@@ -37,6 +37,9 @@ public class OrderItemDTO {
                 .build();
     }
     public static OrderItemDTO createOrderItemDTO(@NotNull OrderItem orderItem) {
-        return new OrderItemDTO (orderItem.getReservation().getId(), orderItem.getItemCount(), orderItem.getItemTotalPrice(), orderItem.getId(), orderItem.getReservation());
+        Reservation reservation = orderItem.getReservation();
+
+        return new OrderItemDTO (reservation.getId(), orderItem.getItemCount(), orderItem.getItemTotalPrice(), orderItem.getId(),reservation.getMenu().getName());
     }
+
 }

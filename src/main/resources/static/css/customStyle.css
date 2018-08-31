@@ -1,0 +1,70 @@
+
+.collection .collection-item{
+    -webkit-box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.52);
+    -moz-box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.52);
+    box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.52);
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.collection{
+border-style: none;
+}
+.collection .collection-item .btn-action{
+        right: 0px;
+        position: absolute;
+        top: 0px;
+        min-width: 120px;
+        height: 100%;
+        transition:min-width 0.2s ease;
+        background-color: #2f343a
+}
+.collection .collection-item .btn-action:hover{
+        min-width: 180px;
+        transition:min-width 0.2s ease;
+}
+
+.collection .collection-item .ctrl-box{
+      background-color: grey;
+      padding-top: 0.5rem;
+      margin-top:0.5rem;
+      background-color: #2f343a0f;
+      border-radius: 10px;
+}
+.collection .collection-item .ctrl-wrapper{
+      padding-bottom: 10px;
+}
+
+.valign-wrapper .menu-info{
+       margin-right: 120px;
+}
+
+.img-box{
+    max-height: 140px;
+    max-width: 140px;
+    overflow: hidden;
+}
+.img-box > img{
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.btn{
+    background-color: #2f343a;
+}
+.wrapped-box{
+    background-color: #ffffffb8;
+    border-radius: 10px;
+}
+.txt1{
+ font-size:28px;
+ line-height:24px;
+}
+.txt2{
+ font-size:36px;
+ line-height:24px;
+}
+.txt3{
+ font-size:21px;
+ line-height:24px;
+}

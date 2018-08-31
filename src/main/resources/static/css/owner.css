@@ -44,7 +44,7 @@
     font-weight: bold;
 }
 
-.collection .collection-item.off {
+.modal .collection .collection-item.off {
     opacity: 0;
     background-color: #fff;
     line-height: 1.5rem;
@@ -55,7 +55,7 @@
     transition: opacity 0.5s;
 }
 
-.collection .collection-item {
+.modal .collection .collection-item {
     opacity: 1;
     background-color: #fff;
     line-height: 1.5rem;
@@ -66,7 +66,7 @@
     transition: opacity 0.5s;
 }
 
-.collection .collection-item:first-child {
+.modal .collection .collection-item:first-child {
     border-top: none;
 }
 

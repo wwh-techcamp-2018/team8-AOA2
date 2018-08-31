@@ -43,7 +43,7 @@ const initialRenderOrders = (orders) => {
 
 const timeEventHtmlTmp = (dataTime, orders)=>  (`<li class="event" data-date="${dataTime}"> ${orders} </li>`);
 
-const orderDisplayHtmlTmp = ({ id, orderItems, name, phoneNumber, pickedup, pickupTime, orderTotalPrice, reservation }) => {
+const orderDisplayHtmlTmp = ({ id, orderItems, name, phoneNumber, pickedup, pickupTime, orderTotalPrice, menuName }) => {
     const orderItemsHtml = orderItems.reduce((accum, cur) => {
         return accum + orderItemsHtmlTmp(cur);
     }, '');
@@ -101,10 +101,10 @@ const orderDisplayHtmlTmp = ({ id, orderItems, name, phoneNumber, pickedup, pick
 
 
 
-const orderItemsHtmlTmp = ({ reservation, itemCount, itemTotalPrice }) =>
+const orderItemsHtmlTmp = ({ menuName, itemCount, itemTotalPrice }) =>
     (
         `<tr>
-        <td>${reservation.menu.name}</td>
+        <td>${menuName}</td>
         <td>${itemCount}</td>
         <td>${itemTotalPrice}</td>
     </tr>`

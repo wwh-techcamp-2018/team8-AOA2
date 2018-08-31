@@ -15,6 +15,7 @@ function kakaoLogout() {
     Kakao.API.request({
         url: '/v1/user/logout',
         success: (res) => {
+            console.log(res);
             serviceSignOut(res.id);
         },
         fail: (res) => {

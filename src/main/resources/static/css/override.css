@@ -38,7 +38,7 @@ nav ul a {
 .btn, .btn-large, .btn-small {
     text-decoration: none;
     color: #fff;
-    background-color: #274c5e; /*change*/
+    background-color: #2f343a; /*change*/
     text-align: center;
     letter-spacing: .5px;
     -webkit-transition: background-color .2s ease-out;
@@ -172,7 +172,7 @@ nav ul a {
 
 .sidenav {
     position: fixed;
-    width: 300px;
+    width: 250px;
     left: 0;
     top: 0;
     margin: 0;
@@ -182,7 +182,7 @@ nav ul a {
     height: calc(100% + 60px);
     height: -moz-calc(100%);
     padding-bottom: 60px;
-    background-color: #dae9f4; /*change*/
+    background-color: #fe7676; /*change*/
     z-index: 999;
     overflow-y: auto;
     will-change: transform;
@@ -204,6 +204,7 @@ nav ul a {
 
 .sidenav .divider {
     margin: 2px 20px 5px 20px; /*change*/
+    background-color: #faf7f2;
 }
 
 .sidenav .title { /*change*/
@@ -211,16 +212,20 @@ nav ul a {
     font-weight: bold; /*change*/
     text-align: center; /*change*/
     margin: 15px 0 30px 0; /*change*/
+    color: #faf7f2;
 }
 
 .sidenav .subtitle { /*change*/
     font-size: 22px; /*change*/
     font-weight: 500; /*change*/
     margin: 0px 0px 0px 20px; /*change*/
+    color: #faf7f2;
 }
 
 .sidenav .menu {
     font-size: 16px; /*change*/
+    color: #faf7f2;
+    font-weight: 400;
 }
 
 input:not([type]):focus.valid ~ label,
@@ -269,3 +274,67 @@ textarea.materialize-textarea.valid:focus, .select-wrapper.valid > input.select-
     box-shadow: 0 1px 0 0 #26a69a;
 }
 
+
+.collection .collection-item.avatar:not(.circle-clipper) > .circle, .collection .collection-item.avatar :not(.circle-clipper) > .rounded{
+
+     position: absolute;
+     max-width: 100%;
+     width: 120px;
+     height: 120px;
+     border-radius: 10%;
+     overflow: hidden;
+     left: 15px;
+     display: inline-block;
+     vertical-align: middle;
+ }
+
+.collection .collection-item.avatar {
+     min-height: 84px;
+     padding-left: 140px;
+     position: relative;
+ }
+
+.sidenav li > a:hover {
+    margin: 0 5px 0 5px;
+    background-color: #2f343a;
+}
+
+.progress .determinate {
+    background-color: #fe7676;
+}
+
+.signout-btn-box {
+    padding: 0 80px;
+    padding-top: 200px;
+}
+
+.signout-btn {
+    margin: auto;
+    margin-top: 30px;
+    border-color: #faf7f2;
+    background-color: #fe7676;
+    color: #faf7f2;
+    border: 1px;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.signout-btn:hover{
+    background-color: #fea5bf;
+}
+
+.signout-btn:focus{
+    background-color: #FEA1BF;
+}
+
+.progress {
+    height: 15px;
+    background-color: #d1d1d1;
+    border-radius: 5px;
+    margin: 0.5rem 0 1rem 0;
+    overflow: hidden;
+}
+.material-icons{
+    display: inline-flex;
+    vertical-align: top;
+}

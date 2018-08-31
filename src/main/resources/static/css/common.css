@@ -1,5 +1,19 @@
 header, main, footer {
-    padding-left: 300px;
+    padding-left: 250px;
+    background-color: #faf7f2;
+    height: 100%;
+    height: calc(100% + 60px);
+    height: -moz-calc(100%);
+}
+
+body {
+    background-color: #faf7f2;
+}
+
+main {
+    height: 100vh;
+    padding-top: 20px;
+    /*margin-top:-15px;*/
 }
 
 @media only screen and (max-width: 992px) {
@@ -8,3 +22,43 @@ header, main, footer {
     }
 }
 
+.title-img {
+    background-image: url("/images/mayack.png");
+    background-size: 100%;
+    height: 70px;
+    width: 70px;
+}
+
+.nav-btn {
+    position: absolute;
+    bottom: 50px;
+    left: 20px;
+    z-index: 100;
+    background-color: #fe7676;
+    width: 80px !important;
+    height: 80px !important;
+}
+
+.nav-btn i {
+    line-height: 80px !important;
+    font-size: 40px !important;
+}
+
+.nav-btn:hover {
+    background-color: #fe4646;
+
+}
+
+.nav-btn:focus {
+    background-color: #fe4646;
+
+}
+
+
+nav {
+    position: fixed;
+    bottom: 0;
+    background-color: rgba(0,0,0,0);
+    box-shadow: none;
+    z-index: 995;
+}
