@@ -50,8 +50,9 @@ main {
 
 
 nav {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     background-color: rgba(0,0,0,0);
     box-shadow: none;
+    z-index: 995;
 }
