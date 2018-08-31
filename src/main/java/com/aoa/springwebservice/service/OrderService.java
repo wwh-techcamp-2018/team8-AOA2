@@ -2,6 +2,7 @@ package com.aoa.springwebservice.service;
 
 import com.aoa.springwebservice.domain.*;
 import com.aoa.springwebservice.dto.OrderFormDTO;
+import com.aoa.springwebservice.exception.CustomerOrderException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,7 @@ public class OrderService {
     }
 
     public List<Order> selectOrders(Store store, LocalDateTime lastDay) {
+        if(!store.isOpen()) throw new CustomerOrderException("진행 중인 예약이 없습니다");
         return orderRepositroy.findByStoreAndPickupTimeAfterOrderByPickupTime(store, lastDay);
     }
 
